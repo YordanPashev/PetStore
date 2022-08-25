@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetStore.Data;
 
@@ -11,9 +12,10 @@ using PetStore.Data;
 namespace PetStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220825092417_InitialSetUp")]
+    partial class InitialSetUp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -412,7 +414,7 @@ namespace PetStore.Data.Migrations
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -433,6 +435,8 @@ namespace PetStore.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("IsDeleted");
 
@@ -731,9 +735,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("ClientCardId")
-                        .IsUnique()
-                        .HasFilter("[ClientCardId] IS NOT NULL");
+                    b.HasIndex("ClientCardId");
 
                     b.HasDiscriminator().HasValue("Client");
                 });
@@ -823,6 +825,17 @@ namespace PetStore.Data.Migrations
                 {
                     b.HasOne("PetStore.Data.Models.Client", "Client")
                         .WithMany("PaymentCards")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("PetStore.Data.Models.ClientCard", b =>
+                {
+                    b.HasOne("PetStore.Data.Models.Client", "Client")
+                        .WithMany()
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -925,8 +938,8 @@ namespace PetStore.Data.Migrations
                         .HasForeignKey("AddressId");
 
                     b.HasOne("PetStore.Data.Models.ClientCard", "ClientCard")
-                        .WithOne("Client")
-                        .HasForeignKey("PetStore.Data.Models.Client", "ClientCardId");
+                        .WithMany()
+                        .HasForeignKey("ClientCardId");
 
                     b.Navigation("Address");
 
@@ -952,11 +965,6 @@ namespace PetStore.Data.Migrations
                     b.Navigation("Pets");
 
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.ClientCard", b =>
-                {
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Store", b =>

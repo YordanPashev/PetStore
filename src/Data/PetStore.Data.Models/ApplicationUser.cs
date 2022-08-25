@@ -1,4 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
+﻿// ReSharper disable RedundantNameQualifier
 namespace PetStore.Data.Models
 {
     using System;

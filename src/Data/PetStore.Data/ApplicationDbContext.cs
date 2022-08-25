@@ -26,6 +26,24 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Pet> Pets { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Store> Stores { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
+
+        public DbSet<CardInfo> PaymentCards { get; set; }
+
+        public DbSet<ClientCard> ClientCards { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Service> Services { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -56,9 +74,16 @@
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
 
+            builder.Entity<Client>()
+                .HasOne(c => c.ClientCard)
+                .WithOne(cc => cc.Client)
+                .HasForeignKey<Client>(c => c.ClientCardId); 
+
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
-                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType) &&
+                       et.BaseType == null);
+
             foreach (var deletableEntityType in deletableEntityTypes)
             {
                 var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
