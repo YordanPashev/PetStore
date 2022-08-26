@@ -3,8 +3,9 @@
     using AutoMapper;
 
     using PetStore.Data.Models;
+    using PetStore.Services.Mapping;
 
-    public class ProductDetailsVieModels
+    public class ProductDetailsVieModels : IMapFrom<Product>, IHaveCustomMappings
     {
         public string Name { get; set; }
 

@@ -19,6 +19,9 @@
             => this.productRepo.AllAsNoTracking().Include(p => p.Category);
 
         public async Task<Product> GetById(string id)
-            => await this.productRepo.AllAsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            => await this.productRepo
+                    .AllAsNoTracking()
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(p => p.Id == id);
     }
 }

@@ -24,7 +24,7 @@
         <th>
             Name
         </th>
-        <th>
+        <th style="text-align:end">
             Price
         </th>
         <th></th>
@@ -37,19 +37,16 @@
             <td>
                 @Html.DisplayFor(modelItem => product.Name)
             </td>
-            <td>
+            <td style="text-align:end">
                 @Html.DisplayFor(modelItem => product.Price)
             </td>
-            <td>
+            <td style="text-align:end">
                 <a class="btn btn-info" asp-action="Details" asp-route-id="@product.Id">Details</a> 
                 @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <a class="btn btn-dark" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@product.Id">Delete</a>
                 }
-            </td>
-            <td hidden>
-                @product.CategoryName
             </td>
         </tr>
     }
