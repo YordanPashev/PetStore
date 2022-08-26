@@ -1,10 +1,10 @@
 ﻿namespace PetStore.Web.Areas.Administration.Controllers
 {
-    using PetStore.Common;
-    using PetStore.Web.Controllers;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using PetStore.Common;
+    using PetStore.Web.Controllers;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]

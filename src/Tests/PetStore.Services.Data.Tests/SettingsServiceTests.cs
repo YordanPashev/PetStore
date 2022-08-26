@@ -4,15 +4,13 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
+    using Moq;
+
     using PetStore.Data;
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Data.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using Moq;
-
     using Xunit;
 
     public class SettingsServiceTests

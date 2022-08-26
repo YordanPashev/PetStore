@@ -3,10 +3,10 @@
     using System;
     using System.Linq;
 
+    using Microsoft.EntityFrameworkCore;
+
     using PetStore.Data.Common.Models;
     using PetStore.Data.Common.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
         where TEntity : class, IDeletableEntity

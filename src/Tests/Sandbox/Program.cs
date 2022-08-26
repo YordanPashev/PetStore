@@ -5,6 +5,12 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+
     using PetStore.Data;
     using PetStore.Data.Common;
     using PetStore.Data.Common.Repositories;
@@ -13,13 +19,6 @@
     using PetStore.Data.Seeding;
     using PetStore.Services.Data;
     using PetStore.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     public static class Program
     {

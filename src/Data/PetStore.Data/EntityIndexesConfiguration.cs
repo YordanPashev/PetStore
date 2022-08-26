@@ -2,9 +2,9 @@
 {
     using System.Linq;
 
-    using PetStore.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+
+    using PetStore.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

@@ -1,10 +1,11 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
 
+    using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Products;
@@ -27,6 +28,21 @@
             {
                 AllProducts = allProducts.To<ListAllProductsViewModel>().ToArray(),
             };
+
+            return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            Product product = await this.productsService.GetById(id);
+            if (product == null)
+            {
+                this.RedirectToAction("Error", "Home");
+            }
+
+            ProductDetailsVieModels viewModel =
+                AutoMapperConfig.MapperInstance.Map<ProductDetailsVieModels>(product);
 
             return this.View(viewModel);
         }

@@ -1,7 +1,6 @@
 ﻿#nullable disable
 namespace PetStore.Data.Migrations
 {
-
     using Microsoft.EntityFrameworkCore.Migrations;
 
     public partial class AddingImageUrlToProductAndPetEntities : Migration
@@ -13,14 +12,14 @@ namespace PetStore.Data.Migrations
                 table: "Products",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "ImageUrl",
                 table: "Pets",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

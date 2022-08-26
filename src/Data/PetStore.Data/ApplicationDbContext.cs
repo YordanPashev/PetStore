@@ -6,11 +6,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using PetStore.Data.Common.Models;
-    using PetStore.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+
+    using PetStore.Data.Common.Models;
+    using PetStore.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -77,7 +77,7 @@
             builder.Entity<Client>()
                 .HasOne(c => c.ClientCard)
                 .WithOne(cc => cc.Client)
-                .HasForeignKey<Client>(c => c.ClientCardId); 
+                .HasForeignKey<Client>(c => c.ClientCardId);
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
