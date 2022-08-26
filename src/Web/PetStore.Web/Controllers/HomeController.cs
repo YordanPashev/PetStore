@@ -2,9 +2,9 @@
 {
     using System.Diagnostics;
 
-    using PetStore.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+
+    using PetStore.Web.ViewModels;
 
     public class HomeController : BaseController
     {

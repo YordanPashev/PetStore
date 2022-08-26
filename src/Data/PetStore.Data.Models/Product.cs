@@ -25,6 +25,9 @@ namespace PetStore.Data.Models
 
         public decimal Price { get; set; }
 
+        [Required]
+        public string ImageUrl { get; set; }
+
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 

@@ -1,0 +1,57 @@
+﻿@using PetStore.Common
+@model PetStore.Web.ViewModels.Products.AllProductsViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h1>All Products</h1>
+
+        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <p>
+                <a class="btn btn-info" asp-action="Create">Create New</a>
+            </p>
+        }
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model.AllProducts) 
+    {
+        <tr name="trData">
+            <td>
+                @Html.DisplayFor(modelItem => product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.Price)
+            </td>
+            <td>
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@product.Id">Details</a> 
+                @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <a class="btn btn-dark" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+                }
+            </td>
+            <td hidden>
+                @product.CategoryName
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
