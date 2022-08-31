@@ -12,8 +12,11 @@
                 <div> <h6 class="mt-4 text-black-50">@Model.Description</h6></div>
             <div>Price: $@Math.Round(Model.Price, 2)</div>
             <div><a class="btn btn-success" asp-action="">Purchase</a> </div>
-            <div style="text-align:right"> <a class="btn btn-dark" asp-action="Products">Back</a></div>
-          </div>
+             <br/>
+             <br/>
+            <div> <a class="btn btn-dark"  style="float: left" asp-action="Products">All products</a>
+            <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">@Model.CategoryName Products</a> 
+       </div>
        </div>
     </div>
 <div/>

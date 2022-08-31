@@ -15,6 +15,8 @@
 
         public string CategoryName { get; set; }
 
+        public Category Category { get; set; }
+
         public string ImageUrl { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
