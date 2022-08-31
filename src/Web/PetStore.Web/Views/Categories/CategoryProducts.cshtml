@@ -1,5 +1,5 @@
 ﻿@using PetStore.Common
-@model PetStore.Web.ViewModels.Products.AllProductsViewModel
+@model PetStore.Web.ViewModels.Categories.CategoryViewModel
 
 @{
     ViewData["Title"] = "Products";
@@ -22,12 +22,7 @@
     <thead>
     <tr>
         <th>
-        </th>
-        <th>
             Name
-        </th>
-        <th style="text-align:end">
-            Category Name
         </th>
         <th style="text-align:end">
             Price
@@ -35,23 +30,17 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var product in Model.AllProducts) 
+    @foreach (var product in Model.Products) 
     {
         <tr name="trData">
-            
-            <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60">
-                </td>
             <td>
                 @Html.DisplayFor(modelItem => product.Name)
             </td>
             <td style="text-align:end">
-                @Html.DisplayFor(modelItem => product.CategoryName)
+                @Html.DisplayFor(modelItem => product.Price)
             </td>
             <td style="text-align:end">
-                @Html.DisplayFor(modelItem => product.Price) $
-            </td>
-            <td style="text-align:end">
-                <a class="btn btn-info" asp-action="Details" asp-route-id="@product.Id">Details</a> 
+                <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a> 
                 @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <a class="btn btn-dark" asp-action="Edit" asp-route-id="@product.Id">Edit</a>

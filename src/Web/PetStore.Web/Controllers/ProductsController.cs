@@ -24,12 +24,12 @@
         {
             IQueryable allProducts = this.productsService.GetAllProducts();
 
-            AllProductsViewModel viewModel = new AllProductsViewModel()
+            AllProductsViewModel products = new AllProductsViewModel()
             {
-                AllProducts = allProducts.To<ListAllProductsViewModel>().ToArray(),
+                AllProducts = allProducts.To<ProductViewModel>().ToArray(),
             };
 
-            return this.View(viewModel);
+            return this.View(products);
         }
 
         [HttpGet]
@@ -41,10 +41,10 @@
                 this.RedirectToAction("Error", "Home");
             }
 
-            ProductDetailsVieModels viewModel =
+            ProductDetailsVieModels productDetails =
                 AutoMapperConfig.MapperInstance.Map<ProductDetailsVieModels>(product);
 
-            return this.View(viewModel);
+            return this.View(productDetails);
         }
     }
 }

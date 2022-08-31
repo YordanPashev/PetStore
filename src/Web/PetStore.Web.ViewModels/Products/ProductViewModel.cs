@@ -3,7 +3,7 @@
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;
 
-    public class ListAllProductsViewModel : IMapFrom<Product>
+    public class ProductViewModel : IMapFrom<Product>
     {
         public string Id { get; set; }
 

@@ -45,4 +45,11 @@
     <ProjectReference Include="..\PetStore.Web.Infrastructure\PetStore.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\PetStore.Web.ViewModels\PetStore.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Categories\Categories.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
