@@ -21,6 +21,12 @@
            await this.productRepo.SaveChangesAsync();
         }
 
+        public async Task DeleteProduct(Product product)
+        {
+            this.productRepo.Delete(product);
+            await this.productRepo.SaveChangesAsync();
+        }
+
         public IQueryable<Product> GetAllProducts()
             => this.productRepo.AllAsNoTracking().Include(p => p.Category);
 

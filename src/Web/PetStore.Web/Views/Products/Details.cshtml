@@ -1,7 +1,7 @@
-﻿@model PetStore.Web.ViewModels.Products.ProductDetailsVieModels
+﻿@model PetStore.Web.ViewModels.Products.ProductDetailsViewModels
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = $"{Model.Name}";
 }
 
 <h3 style="text-align:left">Category: @Model.CategoryName</h3>

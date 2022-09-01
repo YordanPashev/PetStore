@@ -46,8 +46,7 @@
                 this.RedirectToAction("Error", "Home");
             }
 
-            ProductDetailsVieModels productDetails =
-                AutoMapperConfig.MapperInstance.Map<ProductDetailsVieModels>(product);
+            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
 
             return this.View(productDetails);
         }
@@ -81,12 +80,29 @@
             Product product = AutoMapperConfig.MapperInstance.Map<Product>(model);
             await this.productsService.AddProduct(product);
 
-            return this.RedirectToAction("SuccessfullyAddedItem", "Products", new RouteValueDictionary(model));
+            return this.RedirectToAction("SuccessfullyAddedProduct", "Products", new RouteValueDictionary(model));
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyAddedItem(ProductInputModel model)
+        public IActionResult SuccessfullyAddedProduct(ProductInputModel model)
+        {
+            return this.View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Product product = await this.productsService.GetById(id);
+            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
+            await this.productsService.DeleteProduct(product);
+            return this.RedirectToAction("SuccessfullyDeletedProduct", "Products", new RouteValueDictionary(productDetails));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult SuccessfullyDeletedProduct(ProductDetailsViewModels model)
         {
             return this.View(model);
         }

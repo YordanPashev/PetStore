@@ -12,5 +12,7 @@
         Task<Product> GetById(string id);
 
         Task AddProduct(Product product);
+
+        Task DeleteProduct(Product product);
     }
 }
