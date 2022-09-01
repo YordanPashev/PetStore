@@ -10,5 +10,7 @@
         IQueryable<Product> GetAllProducts();
 
         Task<Product> GetById(string id);
+
+        Task AddProduct(Product product);
     }
 }

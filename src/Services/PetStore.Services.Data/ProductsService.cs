@@ -15,6 +15,12 @@
         public ProductsService(IDeletableEntityRepository<Product> productRepo)
             => this.productRepo = productRepo;
 
+        public async Task AddProduct(Product product)
+        {
+           await this.productRepo.AddAsync(product);
+           await this.productRepo.SaveChangesAsync();
+        }
+
         public IQueryable<Product> GetAllProducts()
             => this.productRepo.AllAsNoTracking().Include(p => p.Category);
 

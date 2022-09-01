@@ -10,11 +10,11 @@
         <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
             <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400">
                 <div> <h6 class="mt-4 text-black-50">@Model.Description</h6></div>
-            <div>Price: $@Math.Round(Model.Price, 2)</div>
+            <div>Price: @Math.Round(Model.Price, 2) $</div>
             <div><a class="btn btn-success" asp-action="">Purchase</a> </div>
              <br/>
              <br/>
-            <div> <a class="btn btn-dark"  style="float: left" asp-action="Products">All Products</a>
+            <div> <a class="btn btn-dark" style="float: left" asp-action="Products">All Products</a>
             <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">@Model.CategoryName Products</a> 
        </div>
        </div>
