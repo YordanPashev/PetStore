@@ -2,7 +2,7 @@
 @model PetStore.Web.ViewModels.Products.AllProductsViewModel
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "All";
 }
 
 <div class="row">
@@ -31,7 +31,6 @@
     @foreach (var product in Model.AllProducts) 
     {
         <tr name="trData">
-            
             <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60">
                 </td>
             <td>
@@ -54,14 +53,13 @@
         </tr>
     }
     </tbody>
-    <tr></tr>
 </table>
 
-    <p>
-        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <p style="text-align:center">
-                <a class="btn btn-success" asp-action="Create">Add new product</a>
-            </p>
-        }
-    </p>
+<p>
+   @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+   {
+       <p style="text-align:center">
+           <a class="btn btn-success" asp-action="Create">Add new product</a>
+       </p>
+   }
+</p>

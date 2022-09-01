@@ -24,7 +24,5 @@
 
         [Required(ErrorMessage = ProductValidationConstants.DescriptionIsRequired)]
         public string Description { get; set; }
-
-        public DateTime CreatedOn => DateTime.UtcNow;
     }
 }

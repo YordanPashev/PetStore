@@ -1,4 +1,4 @@
-﻿namespace PetStore.Web.ViewModels.Product
+﻿namespace PetStore.Web.ViewModels.Products
 {
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;

@@ -1,4 +1,5 @@
-﻿@model ICollection<PetStore.Web.ViewModels.Product.ListCategoriesOnProductCreateViewModel>
+﻿@using PetStore.Data.Models.Common
+@model ICollection<PetStore.Web.ViewModels.Products.ListCategoriesOnProductCreateViewModel>
 
 @{
     ViewData["Title"] = "Product-Create";
@@ -14,11 +15,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
-                <input id="Name" name="Name" class="form-control" type="text" required="true"/>
+                <input id="Name" name="Name" class="form-control" type="text" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength"/>
             </div>
             <div class="form-group">
                 <label for="Price" class="control-label">Price</label>
-                <input id="Price" name="Price" class="form-control" type="number" min="0"/>
+                <input id="Price" name="Price" class="form-control" type="number" step="any" min="0" max="1000000"/>
             </div>
             <div class="form-group">
                 <label for="ImageURL" class="control-label">ImageURL</label>
@@ -38,8 +39,8 @@
                 </select>
             </div>
             <div class="form-group mt-3">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="All" class="btn btn-light">Back</a>
+                <input type="submit" style="float:left" value="Create" class="btn btn-primary" />
+                <a asp-action="Products" style="float:right" class="btn btn-dark">Back</a>
             </div>
         </form>
     </div>

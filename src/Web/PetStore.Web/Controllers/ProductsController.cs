@@ -6,12 +6,11 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.AspNetCore.Routing;
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
-    using PetStore.Web.ViewModels.Product;
     using PetStore.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
@@ -69,20 +68,27 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("Create", "Product");
+                return this.RedirectToAction("Create", "Products");
             }
 
             Category cateogry = await this.categoriesService.GetById(model.CategoryId);
 
             if (cateogry == null)
             {
-                return this.RedirectToAction("Create", "Product");
+                return this.RedirectToAction("Create", "Products");
             }
 
             Product product = AutoMapperConfig.MapperInstance.Map<Product>(model);
             await this.productsService.AddProduct(product);
 
-            return this.View("SuccessfullyAddedItem", model.Name);
+            return this.RedirectToAction("SuccessfullyAddedItem", "Products", new RouteValueDictionary(model));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult SuccessfullyAddedItem(ProductInputModel model)
+        {
+            return this.View(model);
         }
     }
 }
