@@ -20,7 +20,8 @@
 </table>
 <br/>
 <div class="d-grid gap-2 col-6 mx-auto">
-  <a class="btn btn-danger" asp-action="SuccessfullyDeletedProduct" asp-route-id="@Model.Id">Yes, delete product</a>
+  <a class="btn btn-success" asp-action="SuccessfullyDeletedProduct" asp-route-id="@Model.Id">Yes, delete product</a>
   <a class="btn btn-secondary" asp-action="AllProducts">No, back to All products</a>
+  <a class="btn btn-primary" asp-controller="Categories" asp-action="Categories">Categories</a>
 </div>
 

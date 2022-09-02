@@ -3,9 +3,9 @@ namespace PetStore.Data.Models
 {
     using System;
 
-    using PetStore.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+
+    using PetStore.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

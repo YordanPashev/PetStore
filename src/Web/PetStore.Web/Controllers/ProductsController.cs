@@ -31,7 +31,7 @@
 
             AllProductsViewModel products = new AllProductsViewModel()
             {
-                AllProducts = allProducts.To<ProductViewModel>().ToArray(),
+                AllProducts = allProducts.To<ProductModel>().ToArray(),
             };
 
             return this.View(products);
@@ -56,8 +56,7 @@
         public IActionResult Create()
         {
             ICollection<ListCategoriesOnProductCreateViewModel> allCategories =
-                this.categoriesService.GetAllCategories().To<ListCategoriesOnProductCreateViewModel>().ToArray();
-
+                this.categoriesService.GetAllCategoriesNoTracking().To<ListCategoriesOnProductCreateViewModel>().ToArray();
             return this.View(allCategories);
         }
 
@@ -77,9 +76,11 @@
                 return this.RedirectToAction("Create", "Products");
             }
 
+            Category category = await this.categoriesService.GetById(model.CategoryId);
             Product product = AutoMapperConfig.MapperInstance.Map<Product>(model);
             await this.productsService.AddProduct(product);
 
+            model.CategoryName = category.Name;
             return this.RedirectToAction("SuccessfullyAddedProduct", "Products", new RouteValueDictionary(model));
         }
 
@@ -103,7 +104,6 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> SuccessfullyDeletedProduct(string id)
         {
-
             Product product = await this.productsService.GetById(id);
 
             if (product == null)
@@ -115,6 +115,54 @@
             await this.productsService.DeleteProduct(product);
 
             return this.View(productDetails);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Edit(string id)
+        {
+            ICollection<ListCategoriesOnProductCreateViewModel> allCategories =
+                this.categoriesService.GetAllCategoriesNoTracking().To<ListCategoriesOnProductCreateViewModel>().ToArray();
+            Product product = await this.productsService.GetByIdForEdit(id);
+            ProductModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductModel>(product);
+
+            ProductEditModel model = new ProductEditModel()
+            {
+                Product = productDetails,
+                Categories = allCategories,
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> SuccessfullyEditedProduct(ProductModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
+            }
+
+            Category category = await this.categoriesService.GetById(model.CategoryId);
+
+            if (category == null)
+            {
+                return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
+            }
+
+            Product product = await this.productsService.GetByIdForEdit(model.Id);
+
+            product.Name = model.Name;
+            product.Price = model.Price;
+            product.Description = model.Description;
+            product.ImageUrl = model.ImageUrl;
+            product.CategoryId = model.CategoryId;
+            product.Category = category;
+
+            model.Category = category;
+            await this.productsService.UpdateProduct(product);
+            return this.View(model);
         }
     }
 }

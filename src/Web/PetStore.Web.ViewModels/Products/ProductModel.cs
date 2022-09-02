@@ -1,14 +1,15 @@
 ﻿namespace PetStore.Web.ViewModels.Products
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
     using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class ProductInputModel : IMapTo<Product>
+    public class ProductModel : IMapFrom<Product>
     {
+        public string Id { get; set; }
+
         [Required(ErrorMessage = ProductValidationConstants.NameIsRequired)]
         [MinLength(ProductValidationConstants.NameMinLength, ErrorMessage = ProductValidationConstants.NameMinLengthMessage)]
         [MaxLength(ProductValidationConstants.NameMaxLength, ErrorMessage = ProductValidationConstants.NameMaxLengthMessage)]
@@ -25,6 +26,6 @@
 
         public int CategoryId { get; set; }
 
-        public string CategoryName { get; set; }
+        public Category Category { get; set; }
     }
 }

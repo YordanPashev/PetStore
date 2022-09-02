@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -23,11 +24,11 @@
         [HttpGet]
         public IActionResult Categories()
         {
-            IQueryable allProducts = this.categoriesService.GetAllCategories();
+            IQueryable<Category> allCategories = this.categoriesService.GetAllCategoriesNoTracking();
 
             AllCategoriesViewModel categories = new AllCategoriesViewModel()
             {
-                AllCategories = allProducts.To<CategoryViewModel>().ToArray(),
+                AllCategories = allCategories.To<CategoryViewModel>().ToArray(),
             };
 
             return this.View(categories);

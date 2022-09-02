@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -16,9 +17,18 @@
             => this.categoriesRepo = productRepo;
 
         public IQueryable<Category> GetAllCategories()
-            => this.categoriesRepo.AllAsNoTracking().Include(c => c.Products);
+            => this.categoriesRepo.All().Include(c => c.Products);
+
+        public IQueryable<Category> GetAllCategoriesNoTracking()
+    => this.categoriesRepo.AllAsNoTracking().Include(c => c.Products);
 
         public async Task<Category> GetById(int id)
+            => await this.categoriesRepo
+                    .All()
+                    .Include(c => c.Products)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
+        public async Task<Category> GetByIdNoTracking(int id)
             => await this.categoriesRepo
                     .AllAsNoTracking()
                     .Include(c => c.Products)

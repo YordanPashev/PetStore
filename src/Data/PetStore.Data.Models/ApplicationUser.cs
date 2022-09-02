@@ -4,9 +4,9 @@ namespace PetStore.Data.Models
     using System;
     using System.Collections.Generic;
 
-    using PetStore.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+
+    using PetStore.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {

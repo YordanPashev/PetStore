@@ -11,7 +11,11 @@
 
         Task<Product> GetById(string id);
 
+        Task<Product> GetByIdForEdit(string id);
+
         Task AddProduct(Product product);
+
+        Task UpdateProduct(Product product);
 
         Task DeleteProduct(Product product);
     }

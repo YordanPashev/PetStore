@@ -1,0 +1,62 @@
+﻿@using PetStore.Data.Models.Common
+@model PetStore.Web.ViewModels.Products.ProductEditModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h1 style="text-align: center">Edit</h1>
+
+<h4 style="text-align: center">Product: @Model.Product.Name</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="SuccessfullyEditedProduct">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Id" class="control-label">Id</label>
+                <input id="Id" name="Id" class="form-control" type="text" value="@Model.Product.Id" readonly/>
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input id="Name" name="Name" class="form-control" type="text" value="@Model.Product.Name" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength"/>
+            </div>
+            <div class="form-group">
+                <label for="Price" class="control-label">Price</label>
+                <input id="Price" name="Price" class="form-control" value="@Model.Product.Price" type="number" step="any" min="0" max="1000000"/>
+            </div>
+            <div class="form-group">
+                <label for="ImageURL" class="control-label">ImageURL</label>
+                <input id="ImageURL" name="ImageURL" class="form-control" type="text" value="@Model.Product.ImageUrl"/>
+            </div>
+             <div class="form-group">
+                <label for="Description" class="control-label">Description</label>
+                <input id="Description" name="Description" class="form-control" type="text" value="@Model.Product.Description"/>
+            </div>
+            <div class="form-group">
+                <label for="CategoryId" class="control-label">Category: "@Model.Product.Category.Name"</label>
+                <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+                    @{string productCategory = @Model.Categories.FirstOrDefault(c => c.Name == Model.Product.Category.Name).Name;
+                    <option value="@productCategory">@productCategory</option>}
+                    @foreach (var categories in Model.Categories)
+                    {
+                        @if(categories.Name == Model.Product.Category.Name)
+                        {
+                            continue;
+                        }
+                        <option value="@categories.Id">@categories.Name</option>
+                    }
+                </select>
+            </div>
+            <br/>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <input type="submit" style="float:left" value="Edit" class="btn btn-danger"/>
+                <a asp-action="AllProducts" style="float:right" class="btn btn-dark">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

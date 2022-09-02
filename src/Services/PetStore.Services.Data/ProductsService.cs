@@ -35,5 +35,14 @@
                     .AllAsNoTracking()
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
+
+        public async Task<Product> GetByIdForEdit(string id)
+            => await this.productRepo
+                    .All()
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+        public async Task UpdateProduct(Product product)
+            => await this.productRepo.SaveChangesAsync();
     }
 }

@@ -10,5 +10,9 @@
         IQueryable<Category> GetAllCategories();
 
         Task<Category> GetById(int id);
+
+        IQueryable<Category> GetAllCategoriesNoTracking();
+
+        Task<Category> GetByIdNoTracking(int id);
     }
 }
