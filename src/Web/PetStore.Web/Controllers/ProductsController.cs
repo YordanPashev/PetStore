@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Web.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -153,6 +154,11 @@
 
             Product product = await this.productsService.GetByIdForEdit(model.Id);
 
+            if (!this.IsProductEdited(model, product, category))
+            {
+                return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
+            }
+
             product.Name = model.Name;
             product.Price = model.Price;
             product.Description = model.Description;
@@ -163,6 +169,18 @@
             model.Category = category;
             await this.productsService.UpdateProduct(product);
             return this.View(model);
+        }
+
+        private bool IsProductEdited(ProductModel model, Product product, Category category)
+        {
+            if (product.Name == model.Name && product.Price == model.Price &&
+                product.Description == model.Description && product.ImageUrl == model.ImageUrl &&
+                product.CategoryId == model.CategoryId && product.Category == category)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
