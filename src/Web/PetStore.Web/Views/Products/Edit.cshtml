@@ -36,8 +36,8 @@
             <div class="form-group">
                 <label for="CategoryId" class="control-label">Category: "@Model.Product.Category.Name"</label>
                 <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
-                    @{string productCategory = @Model.Categories.FirstOrDefault(c => c.Name == Model.Product.Category.Name).Name;
-                    <option value="@productCategory">@productCategory</option>}
+                    @{var productCategory = @Model.Categories.FirstOrDefault(c => c.Name == Model.Product.Category.Name);
+                    <option value="@productCategory.Id">@productCategory</option>}
                     @foreach (var categories in Model.Categories)
                     {
                         @if(categories.Name == Model.Product.Category.Name)
@@ -50,8 +50,10 @@
             </div>
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto">
-                <input type="submit" style="float:left" value="Edit" class="btn btn-danger"/>
-                <a asp-action="AllProducts" style="float:right" class="btn btn-dark">Back</a>
+                <input type="submit" value="Edit" class="btn btn-danger"/>
+                <a asp-action="AllProducts" class="btn btn-dark">All Products</a>
+                <a asp-controller="Categories "asp-action="Categories" class="btn btn-primary">Categories</a>
+
             </div>
         </form>
     </div>
