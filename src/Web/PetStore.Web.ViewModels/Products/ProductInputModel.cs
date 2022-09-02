@@ -17,7 +17,7 @@
         [Range(ProductValidationConstants.PriceMinValue, ProductValidationConstants.PriceMaxValue)]
         public decimal Price { get; set; }
 
-        [Required]
+        [RegularExpression(ProductValidationConstants.UrlRegex, ErrorMessage = ProductValidationConstants.InvalidUrlMessage)]
         public string ImageURL { get; set; }
 
         public int CategoryId { get; set; }

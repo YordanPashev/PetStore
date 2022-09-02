@@ -1,17 +1,16 @@
-﻿@model PetStore.Web.ViewModels.Products.ProductDetailsViewModels
+﻿@model PetStore.Web.ViewModels.Products.ProductDetailsModels
 
 @{
     ViewData["Title"] = "Successfully Deleted Product";
 }
 
 <h1 style="text-align:center"> 
-    @User.Identity.Name removed product:<br/>
-    "@Model.Name"<br/>
-    from PetStore
+    @User.Identity.Name removed product<br/>
+    "@Model.Name"
 </h1>
 <br/>
 <div class="d-grid gap-2 col-6 mx-auto">
   <a class="btn btn-success" asp-action="Create">Create product</a>
-  <a class="btn btn-primary" asp-action="Products">All products</a>
+  <a class="btn btn-primary" asp-action="AllProducts">All products</a>
 </div>
 

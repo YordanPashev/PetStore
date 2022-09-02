@@ -31,7 +31,7 @@
     @foreach (var product in Model.AllProducts) 
     {
         <tr name="trData">
-            <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60">
+            <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60" alt="No image">
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => product.Name)

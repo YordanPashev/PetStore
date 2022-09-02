@@ -25,7 +25,7 @@
         }
 
         [HttpGet]
-        public IActionResult Products()
+        public IActionResult AllProducts()
         {
             IQueryable allProducts = this.productsService.GetAllProducts();
 
@@ -46,7 +46,7 @@
                 this.RedirectToAction("Error", "Home");
             }
 
-            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
+            ProductDetailsModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsModels>(product);
 
             return this.View(productDetails);
         }
@@ -95,16 +95,26 @@
         public async Task<IActionResult> Delete(string id)
         {
             Product product = await this.productsService.GetById(id);
-            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
-            await this.productsService.DeleteProduct(product);
-            return this.RedirectToAction("SuccessfullyDeletedProduct", "Products", new RouteValueDictionary(productDetails));
+            ProductDetailsModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsModels>(product);
+            return this.View(productDetails);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyDeletedProduct(ProductDetailsViewModels model)
+        public async Task<IActionResult> SuccessfullyDeletedProduct(string id)
         {
-            return this.View(model);
+
+            Product product = await this.productsService.GetById(id);
+
+            if (product == null)
+            {
+                return this.RedirectToAction("AllProducts", "Products");
+            }
+
+            ProductDetailsModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsModels>(product);
+            await this.productsService.DeleteProduct(product);
+
+            return this.View(productDetails);
         }
     }
 }
