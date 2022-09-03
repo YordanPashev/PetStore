@@ -12,9 +12,13 @@
         public const int NameMinLength = 2;
         public const int NameMaxLength = 70;
 
+        public const int DescriptionMinLength = 10;
+
         public const double PriceMinValue = 0;
         public const double PriceMaxValue = 1_000_000;
 
         public const string UrlRegex = @"^(https://)(.)+";
+        public const string UrlRegexForView = "^(https://)(.)+";
+
     }
 }

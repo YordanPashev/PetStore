@@ -15,19 +15,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
-                <input id="Name" name="Name" class="form-control" type="text" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength"/>
+                <input id="Name" name="Name" placeholder="Product Name..." class="form-control" type="text" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength"/>
             </div>
             <div class="form-group">
                 <label for="Price" class="control-label">Price</label>
-                <input id="Price" name="Price" class="form-control" type="number" step="any" min="0" max="1000000"/>
+                <input id="Price" name="Price" placeholder="0.00" class="form-control" type="number" step="any" min="0" max="1000000"/>
             </div>
             <div class="form-group">
                 <label for="ImageURL" class="control-label">ImageURL</label>
-                <input id="ImageURL" name="ImageURL" class="form-control" type="text"/>
+                <input id="ImageURL" name="ImageURL" placeholder="ImageURL..." pattern="@ProductValidationConstants.UrlRegexForView" title="Include https://" class="form-control" type="text"/>
             </div>
              <div class="form-group">
                 <label for="Description" class="control-label">Description</label>
-                <input id="Description" name="Description" class="form-control" type="text"/>
+                <input id="Description" name="Description" placeholder="Description..." class="form-control" type="text" minlength="@ProductValidationConstants.DescriptionMinLength">
             </div>
             <div class="form-group">
                 <label for="CategoryId" class="control-label">Category</label>

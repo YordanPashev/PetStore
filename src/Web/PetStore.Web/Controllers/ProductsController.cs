@@ -28,7 +28,7 @@
         [HttpGet]
         public IActionResult AllProducts()
         {
-            IQueryable<Product> allProducts = this.productsService.GetAllProducts();
+            IQueryable<Product> allProducts = this.productsService.GetAllProducts().OrderBy(c => c.Name);
 
             AllProductsViewModel products = new AllProductsViewModel()
             {

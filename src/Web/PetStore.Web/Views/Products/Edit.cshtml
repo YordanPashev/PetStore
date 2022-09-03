@@ -31,7 +31,7 @@
             </div>
              <div class="form-group">
                 <label for="Description" class="control-label">Description</label>
-                <input id="Description" name="Description" class="form-control" type="text" value="@Model.Product.Description"/>
+                <input id="Description" name="Description" class="form-control" type="text" value="@Model.Product.Description" minlength="@ProductValidationConstants.DescriptionMinLength"/>
             </div>
             <div class="form-group">
                 <label for="CategoryId" class="control-label">Category: "@Model.Product.Category.Name"</label>
