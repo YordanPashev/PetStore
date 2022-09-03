@@ -190,8 +190,8 @@
             product.Category = category;
 
             model.CategoryName = category.Name;
-            await this.productsService.UpdateProductAsync(product);
 
+            await this.productsService.UpdateProductAsync(product);
             return this.RedirectToAction("SuccessfullyEditedProduct", "Products", new RouteValueDictionary(model));
         }
 
