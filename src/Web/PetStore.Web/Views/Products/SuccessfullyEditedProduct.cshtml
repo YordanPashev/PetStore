@@ -1,4 +1,4 @@
-﻿@model PetStore.Web.ViewModels.Products.ProductViewModel
+﻿@model PetStore.Web.ViewModels.Products.ProductEditViewModel
 
 @{
     ViewData["Title"] = "Successfully Edited Product";
@@ -17,7 +17,7 @@
             <div>Price: @Math.Round(Model.Price, 2) $</div>       
              <br/>
              <br/>
-            <div><a class="btn btn-dark" asp-action="AllProducts">Back to all Products</a> </div>
+            <input class="btn btn-dark" value="Back" onclick="windows.history.go(-2)">
        </div>
        </div>
     </div>

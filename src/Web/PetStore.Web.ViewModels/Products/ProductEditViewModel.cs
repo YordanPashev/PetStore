@@ -6,7 +6,7 @@
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class ProductViewModel : IMapFrom<Product>
+    public class ProductEditViewModel : IMapFrom<Product>
     {
         public string Id { get; set; }
 

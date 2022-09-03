@@ -32,7 +32,7 @@
 
             AllProductsViewModel products = new AllProductsViewModel()
             {
-                AllProducts = allProducts.To<ProductViewModel>().ToArray(),
+                AllProducts = allProducts.To<ProductEditViewModel>().ToArray(),
             };
 
             return this.View(products);
@@ -125,9 +125,9 @@
             ICollection<ListCategoriesOnProductCreateViewModel> allCategories =
                 this.categoriesService.GetAllCategoriesNoTracking().To<ListCategoriesOnProductCreateViewModel>().ToArray();
             Product product = await this.productsService.GetByIdForEdit(id);
-            ProductViewModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductViewModel>(product);
+            ProductEditViewModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductEditViewModel>(product);
 
-            EditProductViewModel model = new EditProductViewModel()
+            EditProductAndAllCategoriesViewModel model = new EditProductAndAllCategoriesViewModel()
             {
                 Product = productDetails,
                 Categories = allCategories,
@@ -138,7 +138,7 @@
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> SuccessfullyEditedProduct(ProductViewModel model)
+        public async Task<IActionResult> SuccessfullyEditedProduct(ProductEditViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -171,7 +171,7 @@
             return this.View(model);
         }
 
-        private bool IsProductEdited(ProductViewModel model, Product product, Category category)
+        private bool IsProductEdited(ProductEditViewModel model, Product product, Category category)
         {
             if (product.Name == model.Name && product.Price == model.Price &&
                 product.Description == model.Description && product.ImageUrl == model.ImageUrl &&
