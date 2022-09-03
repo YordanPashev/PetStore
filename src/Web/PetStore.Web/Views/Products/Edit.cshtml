@@ -1,5 +1,5 @@
 ﻿@using PetStore.Data.Models.Common
-@model PetStore.Web.ViewModels.Products.ProductEditModel
+@model PetStore.Web.ViewModels.Products.EditProductViewModel
 
 @{
     ViewData["Title"] = "Edit Product";
@@ -51,9 +51,7 @@
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto">
                 <input type="submit" value="Edit" class="btn btn-danger"/>
-                <a asp-action="AllProducts" class="btn btn-dark">All Products</a>
-                <a asp-controller="Categories "asp-action="Categories" class="btn btn-primary">Categories</a>
-
+                <input class="btn btn-dark" value="Back" onclick="history.back()">
             </div>
         </form>
     </div>

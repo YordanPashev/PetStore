@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class ProductEditModel
+    public class EditProductViewModel
     {
-        public ProductModel Product { get; set; }
+        public ProductViewModel Product { get; set; }
 
         public ICollection<ListCategoriesOnProductCreateViewModel> Categories { get; set; }
     }

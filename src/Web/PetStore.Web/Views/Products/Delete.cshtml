@@ -1,4 +1,4 @@
-﻿@model PetStore.Web.ViewModels.Products.ProductDetailsModels
+﻿@model PetStore.Web.ViewModels.Products.ProductDetailsViewModels
 
 @{
     ViewData["Title"] = "Detel Product";
@@ -10,7 +10,6 @@
 <h5 style="text-align:center"><strong>Price:</strong> @Model.Price $</h5>
 <h5 style="text-align:center"><strong>Description:</strong> @Model.Description</h5>
 
-
 <p class="d-flex justify-content-center container mt-3">
         <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
             <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="300" alt="No image">
@@ -21,7 +20,6 @@
 <br/>
 <div class="d-grid gap-2 col-6 mx-auto">
   <a class="btn btn-success" asp-action="SuccessfullyDeletedProduct" asp-route-id="@Model.Id">Yes, delete product</a>
-  <a class="btn btn-secondary" asp-action="AllProducts">No, back to All products</a>
-  <a asp-controller="Categories" asp-action="Categories" class="btn btn-primary">Categories</a>
+  <input class="btn btn-dark" value="Back" onclick="history.back()">
 </div>
 

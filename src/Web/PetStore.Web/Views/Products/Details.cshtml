@@ -1,5 +1,5 @@
 ﻿@using PetStore.Common
-@model PetStore.Web.ViewModels.Products.ProductDetailsModels
+@model PetStore.Web.ViewModels.Products.ProductDetailsViewModels
 
 @{
     ViewData["Title"] = $"{Model.Name}";
@@ -17,12 +17,9 @@
              <br/>
             <div> <a class="btn btn-dark" style="float: left" asp-action="AllProducts">All Products</a>
             <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName Products</a> 
-       </div>
-       </div>
-    </div>
-<div/>
-<div/>
-<div/>
+                </div>   
+            </div>
+        </div>
 <p/>
 <p>
    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
