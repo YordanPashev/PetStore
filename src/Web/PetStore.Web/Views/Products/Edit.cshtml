@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4 mx-auto">
-        <form asp-action="SuccessfullyEditedProduct">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label for="Id" class="control-label">Id</label>
@@ -34,13 +34,13 @@
                 <input id="Description" name="Description" class="form-control" type="text" value="@Model.Product.Description" minlength="@ProductValidationConstants.DescriptionMinLength"  maxlength="@ProductValidationConstants.DescriptionMaxLength"/>
             </div>
             <div class="form-group">
-                <label for="CategoryId" class="control-label">Category: "@Model.Product.Category.Name"</label>
+                <label for="CategoryId" class="control-label">Category: "@Model.Product.CategoryName"</label>
                 <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
-                    @{var productCategory = @Model.Categories.FirstOrDefault(c => c.Name == Model.Product.Category.Name);
-                    <option value="@productCategory.Id">@productCategory</option>}
+                    @{var productCategory = @Model.Categories.FirstOrDefault(c => c.Name == Model.Product.CategoryName);
+                    <option value="@productCategory.Id">@productCategory.Name</option>}
                     @foreach (var categories in Model.Categories)
                     {
-                        @if(categories.Name == Model.Product.Category.Name)
+                        @if(categories.Name == Model.Product.CategoryName)
                         {
                             continue;
                         }

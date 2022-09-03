@@ -2,11 +2,13 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
+
     using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class ProductEditViewModel : IMapFrom<Product>
+    public class ProductEditViewModel : IMapFrom<Product>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -28,6 +30,12 @@
 
         public int CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public string CategoryName { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Product, ProductDetailsViewModels>()
+                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name));
+        }
     }
 }

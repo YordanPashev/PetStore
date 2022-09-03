@@ -3,11 +3,13 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
+
     using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class ProductInputViewModel : IMapTo<Product>
+    public class ProductInputViewModel : IMapTo<Product>, IHaveCustomMappings
     {
         [Required(ErrorMessage = ProductValidationConstants.NameIsRequired)]
         [MinLength(ProductValidationConstants.NameMinLength, ErrorMessage = ProductValidationConstants.NameMinLengthMessage)]
@@ -28,5 +30,11 @@
         public int CategoryId { get; set; }
 
         public string CategoryName { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Product, ProductDetailsViewModels>()
+                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name));
+        }
     }
 }

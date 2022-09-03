@@ -52,11 +52,10 @@
 <div>
       <input class="btn btn-dark" style="float:right" value="Back" onclick="history.back()">
 </div>
-<p>
-   @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-   {
-       <p style="text-align:center">
-           <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add new product</a>
-       </p>
-   }
-</p>
+
+@if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <p style="text-align:center">
+        <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add new product</a>
+    </p>
+}
