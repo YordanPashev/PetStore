@@ -21,6 +21,8 @@
         public string ImageUrl { get; set; }
 
         [Required(ErrorMessage = ProductValidationConstants.DescriptionIsRequired)]
+        [MinLength(ProductValidationConstants.DescriptionMinLength)]
+        [MaxLength(ProductValidationConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
         public int CategoryId { get; set; }

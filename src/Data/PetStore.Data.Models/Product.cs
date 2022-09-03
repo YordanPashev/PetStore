@@ -28,6 +28,7 @@ namespace PetStore.Data.Models
         [Required]
         public string ImageUrl { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         [ForeignKey(nameof(Category))]
