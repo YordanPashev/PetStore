@@ -20,15 +20,15 @@
             => this.categoriesRepo.All().Include(c => c.Products);
 
         public IQueryable<Category> GetAllCategoriesNoTracking()
-    => this.categoriesRepo.AllAsNoTracking().Include(c => c.Products);
+            => this.categoriesRepo.AllAsNoTracking().Include(c => c.Products);
 
-        public async Task<Category> GetById(int id)
+        public async Task<Category> GetByIdAsync(int id)
             => await this.categoriesRepo
                     .All()
                     .Include(c => c.Products)
                     .FirstOrDefaultAsync(c => c.Id == id);
 
-        public async Task<Category> GetByIdNoTracking(int id)
+        public async Task<Category> GetByIdNoTrackingAsync(int id)
             => await this.categoriesRepo
                     .AllAsNoTracking()
                     .Include(c => c.Products)

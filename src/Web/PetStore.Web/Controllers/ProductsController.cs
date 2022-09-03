@@ -28,7 +28,7 @@
         [HttpGet]
         public IActionResult AllProducts()
         {
-            IQueryable allProducts = this.productsService.GetAllProducts();
+            IQueryable<Product> allProducts = this.productsService.GetAllProducts();
 
             AllProductsViewModel products = new AllProductsViewModel()
             {
@@ -41,7 +41,7 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            Product product = await this.productsService.GetById(id);
+            Product product = await this.productsService.GetByIdAsync(id);
             if (product == null)
             {
                 this.RedirectToAction("Error", "Home");
@@ -70,16 +70,16 @@
                 return this.RedirectToAction("Create", "Products");
             }
 
-            Category cateogry = await this.categoriesService.GetById(model.CategoryId);
+            Category cateogry = await this.categoriesService.GetByIdAsync(model.CategoryId);
 
             if (cateogry == null)
             {
                 return this.RedirectToAction("Create", "Products");
             }
 
-            Category category = await this.categoriesService.GetById(model.CategoryId);
+            Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
             Product product = AutoMapperConfig.MapperInstance.Map<Product>(model);
-            await this.productsService.AddProduct(product);
+            await this.productsService.AddProductAsync(product);
 
             model.CategoryName = category.Name;
             return this.RedirectToAction("SuccessfullyAddedProduct", "Products", new RouteValueDictionary(model));
@@ -96,7 +96,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Delete(string id)
         {
-            Product product = await this.productsService.GetById(id);
+            Product product = await this.productsService.GetByIdAsync(id);
             ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
             return this.View(productDetails);
         }
@@ -105,7 +105,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> SuccessfullyDeletedProduct(string id)
         {
-            Product product = await this.productsService.GetById(id);
+            Product product = await this.productsService.GetByIdAsync(id);
 
             if (product == null)
             {
@@ -113,7 +113,7 @@
             }
 
             ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
-            await this.productsService.DeleteProduct(product);
+            await this.productsService.DeleteProductAsync(product);
 
             return this.View(productDetails);
         }
@@ -124,7 +124,7 @@
         {
             ICollection<ListCategoriesOnProductCreateViewModel> allCategories =
                 this.categoriesService.GetAllCategoriesNoTracking().To<ListCategoriesOnProductCreateViewModel>().ToArray();
-            Product product = await this.productsService.GetByIdForEdit(id);
+            Product product = await this.productsService.GetByIdForEditAsync(id);
             ProductEditViewModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductEditViewModel>(product);
 
             EditProductAndAllCategoriesViewModel model = new EditProductAndAllCategoriesViewModel()
@@ -145,14 +145,14 @@
                 return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
             }
 
-            Category category = await this.categoriesService.GetById(model.CategoryId);
+            Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
 
             if (category == null)
             {
                 return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
             }
 
-            Product product = await this.productsService.GetByIdForEdit(model.Id);
+            Product product = await this.productsService.GetByIdForEditAsync(model.Id);
 
             if (!this.IsProductEdited(model, product, category))
             {
@@ -167,7 +167,7 @@
             product.Category = category;
 
             model.Category = category;
-            await this.productsService.UpdateProduct(product);
+            await this.productsService.UpdateProductAsync(product);
             return this.View(model);
         }
 

@@ -37,7 +37,7 @@
         [HttpGet]
         public async Task<IActionResult> CategoryProducts(int id)
         {
-            Category product = await this.categoriesService.GetById(id);
+            Category product = await this.categoriesService.GetByIdAsync(id);
             if (product == null)
             {
                 this.RedirectToAction("Error", "Home");

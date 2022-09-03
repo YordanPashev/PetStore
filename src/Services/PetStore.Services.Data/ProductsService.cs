@@ -15,13 +15,13 @@
         public ProductsService(IDeletableEntityRepository<Product> productRepo)
             => this.productRepo = productRepo;
 
-        public async Task AddProduct(Product product)
+        public async Task AddProductAsync(Product product)
         {
            await this.productRepo.AddAsync(product);
            await this.productRepo.SaveChangesAsync();
         }
 
-        public async Task DeleteProduct(Product product)
+        public async Task DeleteProductAsync(Product product)
         {
             this.productRepo.Delete(product);
             await this.productRepo.SaveChangesAsync();
@@ -30,19 +30,19 @@
         public IQueryable<Product> GetAllProducts()
             => this.productRepo.AllAsNoTracking().Include(p => p.Category);
 
-        public async Task<Product> GetById(string id)
+        public async Task<Product> GetByIdAsync(string id)
             => await this.productRepo
                     .AllAsNoTracking()
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Product> GetByIdForEdit(string id)
+        public async Task<Product> GetByIdForEditAsync(string id)
             => await this.productRepo
                     .All()
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task UpdateProduct(Product product)
+        public async Task UpdateProductAsync(Product product)
             => await this.productRepo.SaveChangesAsync();
     }
 }

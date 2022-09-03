@@ -9,14 +9,14 @@
     {
         IQueryable<Product> GetAllProducts();
 
-        Task<Product> GetById(string id);
+        Task<Product> GetByIdAsync(string id);
 
-        Task<Product> GetByIdForEdit(string id);
+        Task<Product> GetByIdForEditAsync(string id);
 
-        Task AddProduct(Product product);
+        Task AddProductAsync(Product product);
 
-        Task UpdateProduct(Product product);
+        Task UpdateProductAsync(Product product);
 
-        Task DeleteProduct(Product product);
+        Task DeleteProductAsync(Product product);
     }
 }
