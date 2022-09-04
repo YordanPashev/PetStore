@@ -1,0 +1,51 @@
+﻿@using PetStore.Common
+@model PetStore.Web.ViewModels.Categories.CategoryViewModel
+
+@{
+    ViewData["Title"] = $"Deleted {@Model.Name} Products";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h1>Deleted @Model.Name</h1>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+        </th>
+        <th>
+            Name
+        </th>
+        <th style="text-align:end">
+            Price
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model.Products) 
+    {
+        <tr name="trData">
+             <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60">
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.Name)
+            </td>
+            <td style="text-align:end">
+                @Html.DisplayFor(modelItem => product.Price) $
+            </td>
+            <td style="text-align:end">
+                <a class="btn btn-info" asp-controller="Products" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a>
+                <a class="btn btn-success" asp-action="" asp-route-id="@product.Id">Undelete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p style="text-align:center">
+         <input class="btn btn-dark" value="Back" onclick="history.back()">
+</p>
+
