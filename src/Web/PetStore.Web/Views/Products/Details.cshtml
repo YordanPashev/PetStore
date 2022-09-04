@@ -1,6 +1,6 @@
 ﻿@using PetStore.Common
 @using PetStore.Data.Models.Common
-@model PetStore.Web.ViewModels.Products.ProductDetailsViewModels
+@model PetStore.Web.ViewModels.Products.ProductDetailsViewModel
 
 @{
     ViewData["Title"] = $"{Model.Name}";
@@ -16,9 +16,10 @@
             <div><a class="btn btn-success" asp-action="">Purchase</a> </div>
              <br/>
              <br/>
-            <div> <a class="btn btn-dark" style="float: left" asp-action="AllProducts">All Products</a>
+            <div> 
+            <a class="btn btn-dark" style="float: left" asp-action="AllProducts">All Products</a>
             <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName Products</a> 
-                </div>  
+            </div>  
              <br/>
              <br/>
               @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -42,7 +43,5 @@
                    </div>
               </p>
               }
-            </div>
-        </div>
 <p/>
 

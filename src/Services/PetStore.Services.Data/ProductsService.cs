@@ -30,12 +30,14 @@
 
         public IQueryable<Product> GetAllProducts()
             => this.productRepo.AllAsNoTracking()
-                    .Include(p => p.Category);
+                    .Include(p => p.Category)
+                    .OrderBy(p => p.Name);
 
         public IQueryable<Product> GetDeletedProducts()
             => this.productRepo.AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)
-                    .Where(p => p.IsDeleted == true);
+                    .Where(p => p.IsDeleted == true)
+                    .OrderBy(p => p.Name);
 
         public async Task<Product> GetByIdAsync(string id)
             => await this.productRepo

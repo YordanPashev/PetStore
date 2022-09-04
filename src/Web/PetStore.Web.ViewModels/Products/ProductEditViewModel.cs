@@ -34,7 +34,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Product, ProductDetailsViewModels>()
+            configuration.CreateMap<Product, ProductDetailsViewModel>()
                 .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name));
         }
     }

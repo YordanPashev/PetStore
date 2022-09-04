@@ -26,27 +26,25 @@
         {
             IQueryable<Category> allCategories = this.categoriesService.GetAllCategoriesNoTracking();
 
-            AllCategoriesViewModel categories = new AllCategoriesViewModel()
+            AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
             {
-                AllCategories = allCategories.To<CategoryViewModel>().ToArray(),
+                AllCategories = allCategories.To<CategoryViewModel>().ToList(),
             };
 
-            return this.View(categories);
+            return this.View(categoriesModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> CategoryProducts(int id)
         {
-            Category product = await this.categoriesService.GetByIdAsync(id);
-            if (product == null)
+            Category category = await this.categoriesService.GetByIdNoTrackingAsync(id);
+            if (category == null)
             {
                 this.RedirectToAction("Error", "Home");
             }
 
-            CategoryViewModel categoryProducts =
-                AutoMapperConfig.MapperInstance.Map<CategoryViewModel>(product);
-
-            return this.View(categoryProducts);
+            CategoryViewModel categoryModel = AutoMapperConfig.MapperInstance.Map<CategoryViewModel>(category);
+            return this.View(categoryModel);
         }
     }
 }

@@ -17,21 +17,25 @@
             => this.categoriesRepo = productRepo;
 
         public IQueryable<Category> GetAllCategories()
-            => this.categoriesRepo.All().Include(c => c.Products);
+            => this.categoriesRepo
+                     .All().Include(c => c.Products.OrderBy(p => p.Name)).
+                     OrderBy(c => c.Name);
 
         public IQueryable<Category> GetAllCategoriesNoTracking()
-            => this.categoriesRepo.AllAsNoTracking().Include(c => c.Products);
+            => this.categoriesRepo.AllAsNoTracking()
+                     .Include(c => c.Products.OrderBy(p => p.Name))
+                     .OrderBy(c => c.Name);
 
         public async Task<Category> GetByIdAsync(int id)
             => await this.categoriesRepo
                     .All()
-                    .Include(c => c.Products)
+                    .Include(c => c.Products.OrderBy(p => p.Name))
                     .FirstOrDefaultAsync(c => c.Id == id);
 
         public async Task<Category> GetByIdNoTrackingAsync(int id)
             => await this.categoriesRepo
                     .AllAsNoTracking()
-                    .Include(c => c.Products)
+                    .Include(c => c.Products.OrderBy(p => p.Name))
                     .FirstOrDefaultAsync(c => c.Id == id);
     }
 }

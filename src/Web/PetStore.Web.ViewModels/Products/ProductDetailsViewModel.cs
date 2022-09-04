@@ -7,7 +7,7 @@
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;
 
-    public class ProductDetailsViewModels : IMapFrom<Product>, IHaveCustomMappings
+    public class ProductDetailsViewModel : IMapFrom<Product>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -31,7 +31,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Product, ProductDetailsViewModels>()
+            configuration.CreateMap<Product, ProductDetailsViewModel>()
                 .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name))
                 .ForMember(d => d.CreatedOn, mo => mo.MapFrom(s => s.CreatedOn))
                 .ForMember(d => d.ModifiedOn, mo => mo.MapFrom(s => s.ModifiedOn))

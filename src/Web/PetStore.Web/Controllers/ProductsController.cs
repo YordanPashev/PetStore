@@ -28,8 +28,7 @@
         public IActionResult AllProducts()
         {
             IQueryable<Product> allProducts = this.productsService
-                .GetAllProducts()
-                .OrderBy(c => c.Name);
+                .GetAllProducts();
 
             if (allProducts == null)
             {
@@ -38,7 +37,7 @@
 
             ListOfProductsViewModel allProductsModel = new ListOfProductsViewModel()
             {
-                AllProducts = allProducts.To<ProductDetailsViewModels>().ToArray(),
+                AllProducts = allProducts.To<ProductDetailsViewModel>().ToArray(),
             };
 
             return this.View(allProductsModel);
@@ -49,8 +48,7 @@
         public IActionResult DeletedProducts()
         {
             IQueryable<Product> allProducts = this.productsService
-                .GetDeletedProducts()
-                .OrderBy(c => c.Name);
+                .GetDeletedProducts();
 
             if (allProducts == null)
             {
@@ -59,7 +57,7 @@
 
             ListOfProductsViewModel deletedProductsModel = new ListOfProductsViewModel()
             {
-                AllProducts = allProducts.To<ProductDetailsViewModels>().ToArray(),
+                AllProducts = allProducts.To<ProductDetailsViewModel>().ToArray(),
             };
 
             return this.View(deletedProductsModel);
@@ -74,7 +72,7 @@
                 return this.RedirectToAction("NoProductFound", "Products");
             }
 
-            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
+            ProductDetailsViewModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModel>(product);
             return this.View(productDetails);
         }
 
@@ -87,7 +85,7 @@
                 return this.RedirectToAction("NoProductFound", "Products");
             }
 
-            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
+            ProductDetailsViewModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModel>(product);
             return this.View(productDetails);
         }
 
@@ -100,7 +98,9 @@
         public IActionResult Create()
         {
             ICollection<ListCategoriesOnProductCreateViewModel> allCategories =
-                this.categoriesService.GetAllCategoriesNoTracking().To<ListCategoriesOnProductCreateViewModel>().ToArray();
+                this.categoriesService.GetAllCategoriesNoTracking()
+                                .To<ListCategoriesOnProductCreateViewModel>()
+                                .ToArray();
 
             if (allCategories == null)
             {
@@ -151,7 +151,7 @@
                 return this.RedirectToAction("NoProductFound", "Products");
             }
 
-            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
+            ProductDetailsViewModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModel>(product);
             return this.View(productDetails);
         }
 
@@ -166,7 +166,7 @@
                 return this.RedirectToAction("AllProducts", "Products");
             }
 
-            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
+            ProductDetailsViewModel productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModel>(product);
             await this.productsService.DeleteProductAsync(product);
 
             return this.View(productDetails);
