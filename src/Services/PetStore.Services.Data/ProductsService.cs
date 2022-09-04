@@ -7,6 +7,7 @@
 
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
+    using PetStore.Web.ViewModels.Products;
 
     public class ProductsService : IProductsService
     {
@@ -42,7 +43,17 @@
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task UpdateProductAsync(Product product)
-            => await this.productRepo.SaveChangesAsync();
+        public async Task UpdateProductAsync(Product product, ProductEditViewModel model, Category category)
+        {
+            product.Name = model.Name;
+            product.Price = model.Price;
+            product.Description = model.Description;
+            product.ImageUrl = model.ImageUrl;
+            product.CategoryId = model.CategoryId;
+            product.Category = category;
+
+            model.CategoryName = category.Name;
+            await this.productRepo.SaveChangesAsync();
+        }
     }
 }

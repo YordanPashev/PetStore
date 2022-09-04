@@ -48,12 +48,16 @@
             Product product = await this.productsService.GetByIdAsync(id);
             if (product == null)
             {
-                this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NoProductFound", "Products");
             }
 
             ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
             return this.View(productDetails);
         }
+
+        [HttpGet]
+        public IActionResult NoProductFound()
+            => this.View();
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -182,16 +186,7 @@
                 return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
             }
 
-            product.Name = model.Name;
-            product.Price = model.Price;
-            product.Description = model.Description;
-            product.ImageUrl = model.ImageUrl;
-            product.CategoryId = model.CategoryId;
-            product.Category = category;
-
-            model.CategoryName = category.Name;
-
-            await this.productsService.UpdateProductAsync(product);
+            await this.productsService.UpdateProductAsync(product, model, category);
             return this.RedirectToAction("SuccessfullyEditedProduct", "Products", new RouteValueDictionary(model));
         }
 

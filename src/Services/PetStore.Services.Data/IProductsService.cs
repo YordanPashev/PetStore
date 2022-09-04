@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using PetStore.Data.Models;
+    using PetStore.Web.ViewModels.Products;
 
     public interface IProductsService
     {
@@ -15,7 +16,7 @@
 
         Task AddProductAsync(Product product);
 
-        Task UpdateProductAsync(Product product);
+        Task UpdateProductAsync(Product product, ProductEditViewModel model, Category category);
 
         Task DeleteProductAsync(Product product);
     }
