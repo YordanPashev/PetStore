@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -28,18 +27,55 @@
         [HttpGet]
         public IActionResult AllProducts()
         {
-            IQueryable<Product> allProducts = this.productsService.GetAllProducts().OrderBy(c => c.Name);
+            IQueryable<Product> allProducts = this.productsService
+                .GetAllProducts()
+                .OrderBy(c => c.Name);
+
             if (allProducts == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NoProductFound", "Products");
             }
 
-            AllProductsViewModel products = new AllProductsViewModel()
+            ListOfProductsViewModel allProductsModel = new ListOfProductsViewModel()
             {
                 AllProducts = allProducts.To<ProductDetailsViewModels>().ToArray(),
             };
 
-            return this.View(products);
+            return this.View(allProductsModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult DeletedProducts()
+        {
+            IQueryable<Product> allProducts = this.productsService
+                .GetDeletedProducts()
+                .OrderBy(c => c.Name);
+
+            if (allProducts == null)
+            {
+                return this.RedirectToAction("NoProductFound", "Products");
+            }
+
+            ListOfProductsViewModel deletedProductsModel = new ListOfProductsViewModel()
+            {
+                AllProducts = allProducts.To<ProductDetailsViewModels>().ToArray(),
+            };
+
+            return this.View(deletedProductsModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeletedProductDetails(string id)
+        {
+            Product product = await this.productsService.GetDeletedProductsByIdAsync(id);
+            if (product == null)
+            {
+                return this.RedirectToAction("NoProductFound", "Products");
+            }
+
+            ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
+            return this.View(productDetails);
         }
 
         [HttpGet]
@@ -112,7 +148,7 @@
 
             if (product == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NoProductFound", "Products");
             }
 
             ProductDetailsViewModels productDetails = AutoMapperConfig.MapperInstance.Map<ProductDetailsViewModels>(product);
@@ -144,7 +180,12 @@
                 this.categoriesService.GetAllCategoriesNoTracking().To<ListCategoriesOnProductCreateViewModel>().ToArray();
             Product product = await this.productsService.GetByIdForEditAsync(id);
 
-            if (allCategories == null || product == null)
+            if (product == null)
+            {
+                return this.RedirectToAction("NoProductFound", "Products");
+            }
+
+            if (allCategories == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
@@ -178,7 +219,7 @@
             Product product = await this.productsService.GetByIdForEditAsync(model.Id);
             if (product == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NoProductFound", "Products");
             }
 
             if (!this.IsProductEdited(model, product, category))
@@ -186,7 +227,8 @@
                 return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
             }
 
-            await this.productsService.UpdateProductAsync(product, model, category);
+            await this.productsService.UpdateProductAsync(product, model);
+            model.CategoryName = category.Name;
             return this.RedirectToAction("SuccessfullyEditedProduct", "Products", new RouteValueDictionary(model));
         }
 

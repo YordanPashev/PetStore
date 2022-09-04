@@ -29,7 +29,13 @@
         }
 
         public IQueryable<Product> GetAllProducts()
-            => this.productRepo.AllAsNoTracking().Include(p => p.Category);
+            => this.productRepo.AllAsNoTracking()
+                    .Include(p => p.Category);
+
+        public IQueryable<Product> GetDeletedProducts()
+            => this.productRepo.AllAsNoTrackingWithDeleted()
+                    .Include(p => p.Category)
+                    .Where(p => p.IsDeleted == true);
 
         public async Task<Product> GetByIdAsync(string id)
             => await this.productRepo
@@ -43,16 +49,20 @@
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task UpdateProductAsync(Product product, ProductEditViewModel model, Category category)
+        public async Task<Product> GetDeletedProductsByIdAsync(string id)
+            => await this.productRepo
+                    .AllAsNoTrackingWithDeleted()
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+        public async Task UpdateProductAsync(Product product, ProductEditViewModel model)
         {
             product.Name = model.Name;
             product.Price = model.Price;
             product.Description = model.Description;
             product.ImageUrl = model.ImageUrl;
             product.CategoryId = model.CategoryId;
-            product.Category = category;
 
-            model.CategoryName = category.Name;
             await this.productRepo.SaveChangesAsync();
         }
     }

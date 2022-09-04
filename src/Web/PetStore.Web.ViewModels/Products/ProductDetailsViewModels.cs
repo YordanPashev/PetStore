@@ -1,5 +1,7 @@
 ﻿namespace PetStore.Web.ViewModels.Products
 {
+    using System;
+
     using AutoMapper;
 
     using PetStore.Data.Models;
@@ -21,10 +23,19 @@
 
         public Category Category { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductDetailsViewModels>()
-                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name));
+                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name))
+                .ForMember(d => d.CreatedOn, mo => mo.MapFrom(s => s.CreatedOn))
+                .ForMember(d => d.ModifiedOn, mo => mo.MapFrom(s => s.ModifiedOn))
+                .ForMember(d => d.DeletedOn, mo => mo.MapFrom(s => s.DeletedOn));
         }
     }
 }

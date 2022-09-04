@@ -13,31 +13,18 @@
             <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image">
                 <div> <h6 class="mt-4 text-black-50">@Model.Description</h6></div>
             <div>Price: @Math.Round(Model.Price, 2) $</div>
-            <div><a class="btn btn-success" asp-action="">Purchase</a> </div>
              <br/>
-             <br/>
-            <div> <a class="btn btn-dark" style="float: left" asp-action="AllProducts">All Products</a>
-            <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName Products</a> 
-                </div>  
-             <br/>
-             <br/>
+             <br/> 
               @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
               {
               <p style="text-align:center">
                   Created on @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
-                  @if(Model.ModifiedOn != null)
-                  {                  
-                      <p>Last changes was made on @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p><br/>
-                  }
-                  @if(Model.DeletedOn != null)
-                  {
-                      <p> Deleted on @Model.DeletedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p><br/>
-                  }
+                  Last changes was made on @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
+                  Deleted on @Model.DeletedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
               </p>
               <p>
                   <div class="d-grid gap-2 col-6 mx-auto">
-                       <a class="btn btn-secondary" asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                       <a class="btn btn-danger" asp-controller="Products" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                       <a class="btn btn-success" asp-action="" asp-route-id="@Model.Id">Undelete</a>
                        <input class="btn btn-dark" value="Back" onclick="history.back()">
                    </div>
               </p>

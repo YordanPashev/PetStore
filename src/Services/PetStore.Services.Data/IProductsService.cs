@@ -10,13 +10,17 @@
     {
         IQueryable<Product> GetAllProducts();
 
+        IQueryable<Product> GetDeletedProducts();
+
         Task<Product> GetByIdAsync(string id);
+
+        Task<Product> GetDeletedProductsByIdAsync(string id);
 
         Task<Product> GetByIdForEditAsync(string id);
 
         Task AddProductAsync(Product product);
 
-        Task UpdateProductAsync(Product product, ProductEditViewModel model, Category category);
+        Task UpdateProductAsync(Product product, ProductEditViewModel model);
 
         Task DeleteProductAsync(Product product);
     }
