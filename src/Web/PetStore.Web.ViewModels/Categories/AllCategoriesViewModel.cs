@@ -4,6 +4,6 @@
 
     public class AllCategoriesViewModel
     {
-        public ICollection<CategoryViewModel> AllCategories { get; set; }
+        public ICollection<CategoryProdutsViewModel> AllCategories { get; set; }
     }
 }

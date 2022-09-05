@@ -3,7 +3,7 @@
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;
 
-    public class ListCategoriesOnProductCreateViewModel : IMapFrom<Category>
+    public class CategoryShortInfoViewModel : IMapFrom<Category>
     {
         public int Id { get; set; }
 

@@ -33,7 +33,7 @@
 
             AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
             {
-                AllCategories = allCategories.To<CategoryViewModel>().ToList(),
+                AllCategories = allCategories.To<CategoryProdutsViewModel>().ToList(),
             };
 
             return this.View(categoriesModel);
@@ -48,7 +48,7 @@
                 return this.RedirectToAction("NoCategoryFound", "Categories");
             }
 
-            CategoryViewModel categoryModel = AutoMapperConfig.MapperInstance.Map<CategoryViewModel>(category);
+            CategoryProdutsViewModel categoryModel = AutoMapperConfig.MapperInstance.Map<CategoryProdutsViewModel>(category);
             return this.View(categoryModel);
         }
 
@@ -61,7 +61,7 @@
                 return this.RedirectToAction("NoCategoryFound", "Categories");
             }
 
-            CategoryViewModel deletedcategoryProductsModel = AutoMapperConfig.MapperInstance.Map<CategoryViewModel>(category);
+            CategoryProdutsViewModel deletedcategoryProductsModel = AutoMapperConfig.MapperInstance.Map<CategoryProdutsViewModel>(category);
             return this.View(deletedcategoryProductsModel);
         }
 

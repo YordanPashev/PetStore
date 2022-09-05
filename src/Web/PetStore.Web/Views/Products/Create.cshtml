@@ -1,10 +1,15 @@
 ﻿@using PetStore.Data.Models.Common
-@model ICollection<PetStore.Web.ViewModels.Products.ListCategoriesOnProductCreateViewModel>
+@model PetStore.Web.ViewModels.Products.CreateProductViewModel
 
 @{
     ViewData["Title"] = "Create Product";
 }
-
+@{
+    if(Model.ProducErrorMessage != null)
+    {
+        <h1 style="text-align:center; color:red">@Model.ProducErrorMessage</h1>     
+    }
+}
 <h1 style="text-align: center">Create</h1>
 
 <h4 style="text-align: center">Product</h4>
@@ -32,7 +37,7 @@
             <div class="form-group">
                 <label for="CategoryId" class="control-label">Category</label>
                 <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
-                    @foreach (var catInfo in Model)
+                    @foreach (var catInfo in Model.CategoriesIfo)
                     {
                         <option value="@catInfo.Id">@catInfo.Name</option>
                     }

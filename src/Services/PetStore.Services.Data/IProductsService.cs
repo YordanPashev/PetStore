@@ -20,7 +20,7 @@
 
         Task AddProductAsync(Product product);
 
-        Task UpdateProductAsync(Product product, ProductEditViewModel model);
+        Task UpdateProductAsync(Product product, ProductViewModel model);
 
         Task DeleteProductAsync(Product product);
     }

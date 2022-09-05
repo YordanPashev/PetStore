@@ -2,7 +2,7 @@
 {
     public static class ProductValidationConstants
     {
-        //Message
+        // Error Messages
         public const string NameIsRequired = "Product name is required!";
         public const string NameMinLengthMessage = "The name can not be less than 2 characters";
         public const string NameMaxLengthMessage = "The name can not be more than 70 characters long";

@@ -57,7 +57,7 @@
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task UpdateProductAsync(Product product, ProductEditViewModel model)
+        public async Task UpdateProductAsync(Product product, ProductViewModel model)
         {
             product.Name = model.Name;
             product.Price = model.Price;
