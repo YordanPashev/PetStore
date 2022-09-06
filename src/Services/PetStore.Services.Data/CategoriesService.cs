@@ -16,6 +16,12 @@
         public CategoriesService(IDeletableEntityRepository<Category> productRepo)
             => this.categoriesRepo = productRepo;
 
+        public async Task<Category> GetByIdAsync(int id)
+            => await this.categoriesRepo
+                    .All()
+                    .Include(c => c.Products.OrderBy(p => p.Name))
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
         public IQueryable<Category> GetAllCategories()
             => this.categoriesRepo
                      .All().Include(c => c.Products.OrderBy(p => p.Name)).
@@ -29,12 +35,6 @@
         public async Task<Category> GetAllDeletedCategoryProductsByIdAsync(int id)
             => await this.categoriesRepo.AllAsNoTrackingWithDeleted()
                     .Include(c => c.Products.Where(p => p.IsDeleted == true).OrderBy(p => p.Name))
-                    .FirstOrDefaultAsync(c => c.Id == id);
-
-        public async Task<Category> GetByIdAsync(int id)
-            => await this.categoriesRepo
-                    .All()
-                    .Include(c => c.Products.OrderBy(p => p.Name))
                     .FirstOrDefaultAsync(c => c.Id == id);
 
         public async Task<Category> GetByIdNoTrackingAsync(int id)
