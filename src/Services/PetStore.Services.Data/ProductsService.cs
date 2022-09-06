@@ -33,7 +33,7 @@
                     .Include(p => p.Category)
                     .OrderBy(p => p.Name);
 
-        public IQueryable<Product> GetDeletedProducts()
+        public IQueryable<Product> GetDeletedProductsNoTracking()
             => this.productRepo.AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)
                     .Where(p => p.IsDeleted == true)
@@ -51,11 +51,17 @@
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Product> GetDeletedProductsByIdAsync(string id)
+        public async Task<Product> GetDeletedProductsByIdAsyncNoTracking(string id)
             => await this.productRepo
                     .AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
+
+        public async Task<Product> GetDeletedProductsByIdAsync(string id)
+           => await this.productRepo
+                   .AllWithDeleted()
+                   .Include(p => p.Category)
+                   .FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task UpdateProductAsync(Product product, ProductViewModel model)
         {
@@ -65,6 +71,13 @@
             product.ImageUrl = model.ImageUrl;
             product.CategoryId = model.CategoryId;
 
+            await this.productRepo.SaveChangesAsync();
+        }
+
+        public async Task UndeleteAsync(Product product)
+        {
+            product.DeletedOn = null;
+            product.IsDeleted = false;
             await this.productRepo.SaveChangesAsync();
         }
     }

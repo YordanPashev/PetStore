@@ -10,11 +10,15 @@
     {
         Task AddProductAsync(Product product);
 
+        Task DeleteProductAsync(Product product);
+
         IQueryable<Product> GetAllProducts();
 
-        IQueryable<Product> GetDeletedProducts();
+        IQueryable<Product> GetDeletedProductsNoTracking();
 
         Task<Product> GetByIdAsync(string id);
+
+        Task<Product> GetDeletedProductsByIdAsyncNoTracking(string id);
 
         Task<Product> GetDeletedProductsByIdAsync(string id);
 
@@ -22,6 +26,6 @@
 
         Task UpdateProductAsync(Product product, ProductViewModel model);
 
-        Task DeleteProductAsync(Product product);
+        Task UndeleteAsync(Product product);
     }
 }

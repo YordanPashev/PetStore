@@ -72,9 +72,45 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult Create(string errorMessage)
+        {
+            ICollection<CategoryShortInfoViewModel> allCategoriesInfo =
+                this.categoriesService.GetAllCategoriesNoTracking()
+                                        .To<CategoryShortInfoViewModel>()
+                                        .ToArray();
+            CreateProductViewModel createProductModel = new CreateProductViewModel()
+            {
+                CategoriesIfo = allCategoriesInfo,
+                ProducErrorMessage = errorMessage,
+            };
+
+            if (createProductModel == null)
+            {
+                return this.RedirectToAction("NoCategoryFound", "Categories");
+            }
+
+            return this.View(createProductModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Product product = await this.productsService.GetByIdAsync(id);
+            if (product == null)
+            {
+                return this.RedirectToAction("NoProductFound", "Products");
+            }
+
+            DetailsProductViewModel deletedProductModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            return this.View(deletedProductModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult DeletedProducts()
         {
-            IQueryable<Product> allProducts = this.productsService.GetDeletedProducts();
+            IQueryable<Product> allProducts = this.productsService.GetDeletedProductsNoTracking();
             if (allProducts == null)
             {
                 return this.RedirectToAction("NoProductFound", "Products");
@@ -91,14 +127,14 @@
         [HttpGet]
         public async Task<IActionResult> DeletedProductDetails(string id)
         {
-            Product product = await this.productsService.GetDeletedProductsByIdAsync(id);
+            Product product = await this.productsService.GetDeletedProductsByIdAsyncNoTracking(id);
             if (product == null)
             {
                 return this.RedirectToAction("NoProductFound", "Products");
             }
 
-            DetailsProductViewModel productDetails = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.View(productDetails);
+            DetailsProductViewModel deletedProductModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            return this.View(deletedProductModel);
         }
 
         [HttpGet]
@@ -110,8 +146,8 @@
                 return this.RedirectToAction("NoProductFound", "Products");
             }
 
-            DetailsProductViewModel productDetails = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.View(productDetails);
+            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            return this.View(productDetailsModel);
         }
 
         [HttpGet]
@@ -133,13 +169,13 @@
 
             ProductViewModel productModel = AutoMapperConfig.MapperInstance.Map<ProductViewModel>(product);
 
-            EditProductViewModel model = new EditProductViewModel()
+            EditProductViewModel edinPorudctModel = new EditProductViewModel()
             {
                 Product = productModel,
                 Categories = allCategories,
             };
 
-            return this.View(model);
+            return this.View(edinPorudctModel);
         }
 
         [HttpPost]
@@ -169,45 +205,9 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Create(string errorMessage)
-        {
-            ICollection<CategoryShortInfoViewModel> allCategoriesInfo =
-                this.categoriesService.GetAllCategoriesNoTracking()
-                                        .To<CategoryShortInfoViewModel>()
-                                        .ToArray();
-            CreateProductViewModel productCreateModel = new CreateProductViewModel()
-            {
-                CategoriesIfo = allCategoriesInfo,
-                ProducErrorMessage = errorMessage,
-            };
-
-            if (productCreateModel == null)
-            {
-                return this.RedirectToAction("NoCategoryFound", "Categories");
-            }
-
-            return this.View(productCreateModel);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult SuccessfullyAddedProduct(InputProductViewModel model)
         {
             return this.View(model);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Delete(string id)
-        {
-            Product product = await this.productsService.GetByIdAsync(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
-
-            DetailsProductViewModel productDetails = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.View(productDetails);
         }
 
         [HttpGet]
@@ -220,15 +220,45 @@
                 return this.RedirectToAction("AllProducts", "Products");
             }
 
-            DetailsProductViewModel productDetails = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
             await this.productsService.DeleteProductAsync(product);
 
-            return this.View(productDetails);
+            return this.View(productDetailsModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> SuccessfullyUndeletedProduct(string id)
+        {
+            Product product = await this.productsService.GetDeletedProductsByIdAsync(id);
+            if (product == null)
+            {
+                return this.RedirectToAction("AllProducts", "Products");
+            }
+
+            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            await this.productsService.UndeleteAsync(product);
+
+            return this.View(productDetailsModel);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult SuccessfullyEditedProduct(ProductViewModel model) => this.View(model);
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Undelete(string id)
+        {
+            Product product = await this.productsService.GetDeletedProductsByIdAsyncNoTracking(id);
+            if (product == null)
+            {
+                return this.RedirectToAction("NoProductFound", "Products");
+            }
+
+            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            return this.View(productDetailsModel);
+        }
 
         private bool IsProductEdited(ProductViewModel model, Product product, Category category)
         {
