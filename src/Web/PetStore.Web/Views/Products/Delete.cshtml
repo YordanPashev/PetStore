@@ -5,13 +5,12 @@
 }
 
 <h2 style="text-align:center">Are you sure you want to delete this product?</h2>
-<h5 style="text-align:center"><strong>Name:</strong> @Model.Name</h5>
-<h5 style="text-align:center"><strong>Category:</strong> @Model.CategoryName</h5>
-<h5 style="text-align:center"><strong>Price:</strong> @Model.Price $</h5>
-<h5 style="text-align:center"><strong>Description:</strong> @Model.Description</h5>
-
 <p class="d-flex justify-content-center container mt-3">
         <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
+            <h5 style="text-align:center"><strong>Name:</strong> @Model.Name</h5>
+            <h5 style="text-align:center"><strong>Category:</strong> @Model.CategoryName</h5>
+            <h5 style="text-align:center"><strong>Price:</strong> @Model.Price $</h5>
+            <h5 style="text-align:center"><strong>Description:</strong> @Model.Description</h5>
             <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="300" alt="No image">
        </div>
     </div>

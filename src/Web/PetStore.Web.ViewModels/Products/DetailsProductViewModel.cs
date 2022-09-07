@@ -32,10 +32,7 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, DetailsProductViewModel>()
-                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name))
-                .ForMember(d => d.CreatedOn, mo => mo.MapFrom(s => s.CreatedOn))
-                .ForMember(d => d.ModifiedOn, mo => mo.MapFrom(s => s.ModifiedOn))
-                .ForMember(d => d.DeletedOn, mo => mo.MapFrom(s => s.DeletedOn));
+                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name));
         }
     }
 }
