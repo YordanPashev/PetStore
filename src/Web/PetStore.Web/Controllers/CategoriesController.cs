@@ -66,7 +66,6 @@
         }
 
         [HttpGet]
-        public IActionResult NoCategoryFound()
-            => this.View();
+        public IActionResult NoCategoryFound() => this.View();
     }
 }

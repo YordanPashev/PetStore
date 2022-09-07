@@ -43,33 +43,6 @@
             return this.View(allProductsModel);
         }
 
-        [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Create(InputProductViewModel model)
-        {
-            Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
-            if (!this.ModelState.IsValid)
-            {
-                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.InvalidData });
-            }
-
-            if (category == null)
-            {
-                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.CategoryNotFound });
-            }
-
-            if (this.IsProductExistingInDb(model, this.productsService))
-            {
-                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.ProductAlreadyExistInDb });
-            }
-
-            Product product = AutoMapperConfig.MapperInstance.Map<Product>(model);
-            await this.productsService.AddProductAsync(product);
-            model.CategoryName = category.Name;
-
-            return this.RedirectToAction("SuccessfullyAddedProduct", "Products", new RouteValueDictionary(model));
-        }
-
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Create(string errorMessage)
@@ -81,7 +54,7 @@
             CreateProductViewModel createProductModel = new CreateProductViewModel()
             {
                 CategoriesIfo = allCategoriesInfo,
-                ProducErrorMessage = errorMessage,
+                ErrorMessage = errorMessage,
             };
 
             if (createProductModel == null)
@@ -90,6 +63,33 @@
             }
 
             return this.View(createProductModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Create(InputProductViewModel model)
+        {
+            Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
+            if (!this.TryValidateModel(model, nameof(InputProductViewModel)))
+            {
+                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.InvalidData });
+            }
+
+            if (category == null)
+            {
+                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.CategoryNotFound });
+            }
+
+            if (this.productsService.IsProductExistingInDb(model, this.productsService))
+            {
+                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.ProductAlreadyExistInDb });
+            }
+
+            Product product = AutoMapperConfig.MapperInstance.Map<Product>(model);
+            await this.productsService.AddProductAsync(product);
+            model.CategoryName = category.Name;
+
+            return this.RedirectToAction("SuccessfullyAddedProduct", "Products", new RouteValueDictionary(model));
         }
 
         [HttpGet]
@@ -152,7 +152,7 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string id, string errorMessage)
         {
             ICollection<CategoryShortInfoViewModel> allCategories =
                 this.categoriesService.GetAllCategoriesNoTracking().To<CategoryShortInfoViewModel>().ToArray();
@@ -164,7 +164,7 @@
 
             if (allCategories == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NoCategoryFound", "Products");
             }
 
             ProductViewModel productModel = AutoMapperConfig.MapperInstance.Map<ProductViewModel>(product);
@@ -173,6 +173,7 @@
             {
                 Product = productModel,
                 Categories = allCategories,
+                ErrorMessage = errorMessage,
             };
 
             return this.View(edinPorudctModel);
@@ -184,19 +185,19 @@
         {
             Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
             Product product = await this.productsService.GetByIdForEditAsync(model.Id);
-            if (!this.ModelState.IsValid || category == null ||
-                !this.IsProductEdited(model, product, category))
+            if (!this.TryValidateModel(model, nameof(ProductViewModel)) ||
+                category == null || product == null)
             {
-                return this.RedirectToAction("Edit", "Products", new RouteValueDictionary(model));
+                return this.RedirectToAction("Edit", "Products", new { modelId = model.Id, errorMessage = ValidationMessages.InvalidData });
             }
 
-            if (product == null)
+            if (!this.productsService.IsProductEdited(model, product))
             {
-                return this.RedirectToAction("NoProductFound", "Products");
+                return this.RedirectToAction("Edit", "Products", new { modelId = model.Id, errorMessage = ValidationMessages.NothingWasEdited });
             }
 
-            await this.productsService.UpdateProductAsync(product, model);
             model.CategoryName = category.Name;
+            await this.productsService.UpdateProductAsync(product, model);
             return this.RedirectToAction("SuccessfullyEditedProduct", "Products", new RouteValueDictionary(model));
         }
 
@@ -259,21 +260,5 @@
             DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
             return this.View(productDetailsModel);
         }
-
-        private bool IsProductEdited(ProductViewModel model, Product product, Category category)
-        {
-            if (product.Name == model.Name && product.Price == model.Price &&
-                product.Description == model.Description && product.ImageUrl == model.ImageUrl &&
-                product.CategoryId == model.CategoryId && product.Category == category)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool IsProductExistingInDb(InputProductViewModel model, IProductsService productsService)
-            => this.productsService.GetAllProducts().Any(p => p.Name == model.Name &&
-                                                         p.CategoryId == model.CategoryId);
     }
 }

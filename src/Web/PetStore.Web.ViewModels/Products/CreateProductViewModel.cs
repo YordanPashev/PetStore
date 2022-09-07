@@ -6,6 +6,6 @@
     {
         public ICollection<CategoryShortInfoViewModel> CategoriesIfo { get; set; }
 
-        public string ProducErrorMessage { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

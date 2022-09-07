@@ -6,7 +6,12 @@
 }
 
 <h1 style="text-align: center">Edit</h1>
-
+@{
+    if (@Model.ErrorMessage != null)
+    {
+        <h1 style="text-align:center; color:red">@Model.ErrorMessage</h1>
+    }
+}
 <h4 style="text-align: center">Product: @Model.Product.Name</h4>
 <hr />
 <div class="row">
@@ -51,6 +56,7 @@
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto">
                 <input type="submit" value="Edit" class="btn btn-success"/>
+                    <a class="btn btn-danger" asp-action="SuccessfullyDeletedProduct" asp-route-id="@Model.Product.Id">Delete</a>
                 <input class="btn btn-dark" value="Back" onclick="history.back()">
             </div>
         </form>

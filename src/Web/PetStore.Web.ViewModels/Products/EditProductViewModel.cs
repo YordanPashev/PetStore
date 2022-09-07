@@ -7,5 +7,7 @@
         public ProductViewModel Product { get; set; }
 
         public ICollection<CategoryShortInfoViewModel> Categories { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }
