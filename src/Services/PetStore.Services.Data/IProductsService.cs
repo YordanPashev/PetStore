@@ -26,7 +26,7 @@
 
         bool IsProductEdited(ProductViewModel model, Product product);
 
-        bool IsProductExistingInDb(InputProductViewModel model, IProductsService productsService);
+        bool IsProductExistingInDb(string productName);
 
         Task UpdateProductAsync(Product product, ProductViewModel model);
 

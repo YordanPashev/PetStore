@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@
 
         public async Task AddProductAsync(Product product)
         {
+           product.Price = Math.Round(product.Price, 2);
            await this.productRepo.AddAsync(product);
            await this.productRepo.SaveChangesAsync();
         }
@@ -74,14 +76,13 @@
             return true;
         }
 
-        public bool IsProductExistingInDb(InputProductViewModel model, IProductsService productsService)
-            => this.productRepo.AllAsNoTracking().Any(p => p.Name == model.Name &&
-                                                         p.CategoryId == model.CategoryId);
+        public bool IsProductExistingInDb(string productName)
+            => this.productRepo.AllAsNoTracking().Any(p => p.Name == productName);
 
         public async Task UpdateProductAsync(Product product, ProductViewModel model)
         {
             product.Name = model.Name;
-            product.Price = model.Price;
+            product.Price = Math.Round(model.Price, 2);
             product.Description = model.Description;
             product.ImageUrl = model.ImageUrl;
             product.CategoryId = model.CategoryId;

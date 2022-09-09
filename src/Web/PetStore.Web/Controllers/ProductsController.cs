@@ -45,7 +45,7 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Create(string errorMessage)
+        public IActionResult Create(string errorMessage = null)
         {
             ICollection<CategoryShortInfoViewModel> allCategoriesInfo =
                 this.categoriesService.GetAllCategoriesNoTracking()
@@ -80,7 +80,7 @@
                 return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.CategoryNotFound });
             }
 
-            if (this.productsService.IsProductExistingInDb(model, this.productsService))
+            if (this.productsService.IsProductExistingInDb(model.Name))
             {
                 return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.ProductAlreadyExistInDb });
             }
@@ -152,7 +152,7 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(string id, string errorMessage)
+        public async Task<IActionResult> Edit(string id, string errorMessage = null)
         {
             ICollection<CategoryShortInfoViewModel> allCategories =
                 this.categoriesService.GetAllCategoriesNoTracking().To<CategoryShortInfoViewModel>().ToArray();

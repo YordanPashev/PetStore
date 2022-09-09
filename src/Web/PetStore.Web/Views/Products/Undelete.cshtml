@@ -5,18 +5,16 @@
 }
 
 <h2 style="text-align:center">Are you sure you want to return this product back to the shop?</h2>
-<p class="d-flex justify-content-center container mt-3">
+<div class="d-flex justify-content-center container mt-3">
         <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
             <h5 style="text-align:center"><strong>Name:</strong> @Model.Name</h5>
             <h5 style="text-align:center"><strong>Category:</strong> @Model.CategoryName</h5>
             <h5 style="text-align:center"><strong>Price:</strong> @Model.Price $</h5>
             <h5 style="text-align:center"><strong>Description:</strong> @Model.Description</h5>
-            <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="300" alt="No image">
-       </div>
-    </div>
-<div/>
-</p>
-<br/>
+            <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="300" alt="No image"></div>
+        </div>
+</div>
+<br />
 <div class="d-grid gap-2 col-6 mx-auto">
   <a class="btn btn-success" asp-action="SuccessfullyUnDeletedProduct" asp-route-id="@Model.Id">Yes, undelete product</a>
   <input class="btn btn-dark" value="No, go back" onclick="history.back()">

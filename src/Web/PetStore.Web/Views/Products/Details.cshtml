@@ -8,39 +8,42 @@
 
 <h3 style="text-align:left">Category: @Model.CategoryName</h3>
 <h1 style="text-align:center">@Model.Name</h1>
-<p class="d-flex justify-content-center container mt-3">
-        <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
-            <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image">
-                <div> <h6 class="mt-4 text-black-50">@Model.Description</h6></div>
-            <div>Price: @Math.Round(Model.Price, 2) $</div>
-            <div><a class="btn btn-success" asp-action="">Purchase</a> </div>
-                <br/>
-                <br/>
-            <div> 
+<div class="d-flex justify-content-center container mt-3">
+    <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
+        <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image"></div>
+            <div style="text-align:center"> <h6 class="mt-4 text-black-50">@Model.Description</h6></div>
+        <div style="text-align:center">Price: @Math.Round(Model.Price, 2) $</div>
+        <div style="text-align:center"><a class="btn btn-success"  asp-action="">Purchase</a> </div>
+            <br/>
+            <br/>
+        <div> 
             <a class="btn btn-dark" style="float: left" asp-action="AllProducts">All Products</a>
             <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName Products</a> 
-                </div>  
-            </div> 
-             <br/>
-             <br/>
-         </div> 
-               @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-               {
-                    <p style="text-align:center">
-                       Created on @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
-                       @if(Model.ModifiedOn != null)
-                       {                  
-                           <p>Last changes was made on @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p><br/>
-                       }
-                    </p>
-                    <p>
-                      <div class="d-grid gap-2 col-6 mx-auto">
-                           <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                           <a class="btn btn-danger"asp-action="SuccessfullyDeletedProduct" asp-route-id="@Model.Id">Delete</a>
-                           <input class="btn btn-dark" value="Back" onclick="history.back()">
-                      </div>
-                    </p>
-               }
-        </div> 
-</p>
+        </div>  
+    </div> 
+</div>
+<div>
+@if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <p class="d-flex justify-content-center container mt-3">
+        <div class="card p-3 bg-white">
+              <i class="fa fa-apple"></i>
+        <div style="text-align:center">
+        <h3><string>Administration settings</string></h3><br/>
+        Created on @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
+        @if(Model.ModifiedOn != null)
+        {                  
+            <p style="text-align:center">Last changes was made on @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
+        }
+        <br/>
+        </div>
+            <p class="d-grid gap-2 col-6 mx-auto">
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                <a class="btn btn-danger"asp-action="SuccessfullyDeletedProduct" asp-route-id="@Model.Id">Delete</a>
+                <input class="btn btn-dark" value="Back" onclick="history.back()">
+            </p>
+        </div>   
+     </p>
+}  
+</div>
 
