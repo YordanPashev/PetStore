@@ -16,6 +16,12 @@
         public CategoriesService(IDeletableEntityRepository<Category> productRepo)
             => this.categoriesRepo = productRepo;
 
+        public async Task AddCategoryAsync(Category category)
+        {
+            await this.categoriesRepo.AddAsync(category);
+            await this.categoriesRepo.SaveChangesAsync();
+        }
+
         public async Task<Category> GetByIdAsync(int id)
             => await this.categoriesRepo
                     .All()
@@ -42,5 +48,8 @@
                     .AllAsNoTracking()
                     .Include(c => c.Products.OrderBy(p => p.Name))
                     .FirstOrDefaultAsync(c => c.Id == id);
+
+        public bool IsCategoryExistingInDb(string name)
+            => this.categoriesRepo.AllAsNoTracking().Any(c => c.Name == name);
     }
 }

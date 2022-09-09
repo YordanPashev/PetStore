@@ -14,6 +14,8 @@
 
         public string Name { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public virtual ICollection<DetailsProductViewModel> Products { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

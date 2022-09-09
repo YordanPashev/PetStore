@@ -4,11 +4,15 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
 
+    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
+    using PetStore.Web.Controllers.Common;
     using PetStore.Web.ViewModels.Categories;
     using PetStore.Web.ViewModels.Products;
 
@@ -19,6 +23,33 @@
         public CategoriesController(ICategoriesService categoriesService)
         {
             this.categoriesService = categoriesService;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult Create(string errorMessage = null)
+        {
+           return this.View("Create", errorMessage);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Create(InputCategoryViewModel model)
+        {
+            if (!this.TryValidateModel(model, nameof(InputCategoryViewModel)))
+            {
+                return this.RedirectToAction("Create", "Categories", new { errorMessage = ValidationMessages.InvalidData });
+            }
+
+            if (this.categoriesService.IsCategoryExistingInDb(model.Name))
+            {
+                return this.RedirectToAction("Create", "Categories", new { errorMessage = ValidationMessages.CategoryAlreadyExistInDb });
+            }
+
+            Category category = AutoMapperConfig.MapperInstance.Map<Category>(model);
+            await this.categoriesService.AddCategoryAsync(category);
+
+            return this.RedirectToAction("SuccessfullyAddedCategory", "Categories", new RouteValueDictionary(model));
         }
 
         [HttpGet]
@@ -67,5 +98,8 @@
 
         [HttpGet]
         public IActionResult NoCategoryFound() => this.View();
+
+        [HttpGet]
+        public IActionResult SuccessfullyAddedCategory(InputCategoryViewModel model) => this.View(model);
     }
 }

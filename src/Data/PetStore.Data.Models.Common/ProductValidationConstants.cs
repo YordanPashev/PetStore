@@ -9,6 +9,7 @@
         public const string DescriptionIsRequired = "Description is required!";
         public const string InvalidUrlMessage = "The image URL is not valid!";
 
+        // Constrains
         public const int NameMinLength = 2;
         public const int NameMaxLength = 70;
 

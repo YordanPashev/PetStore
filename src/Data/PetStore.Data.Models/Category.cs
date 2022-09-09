@@ -10,7 +10,6 @@
     {
         public Category()
         {
-            this.Pets = new HashSet<Pet>();
             this.Products = new HashSet<Product>();
         }
 
@@ -18,7 +17,8 @@
         [MaxLength(CategoryValidationConstants.NameMaxLength)]
         public string Name { get; set; }
 
-        public virtual ICollection<Pet> Pets { get; set; }
+        [Required]
+        public string ImageURL { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

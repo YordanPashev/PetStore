@@ -24,11 +24,11 @@
             </div>
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
-                <input id="Name" name="Name" class="form-control" type="text" value="@Model.Product.Name" minlength="@ProductValidationConstants.NameMinLength" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength"/>
+                <input id="Name" name="Name" class="form-control" type="text" value="@Model.Product.Name" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength"/>
             </div>
             <div class="form-group">
                 <label for="Price" class="control-label">Price</label>
-                <input id="Price" name="Price" class="form-control" value="@Model.Product.Price" type="number" step="0.01" min="0.01" max="1000000"/>
+                <input id="Price" name="Price" class="form-control" value="@Model.Product.Price" type="number" step=".01" min="0.01" max="1000000"/>
             </div>
             <div class="form-group">
                 <label for="ImageURL" class="control-label">ImageURL</label>
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label for="Description" class="control-label">Description</label>
-                <input id="Description" name="Description" class="form-control" type="text" value="@Model.Product.Description" minlength="@ProductValidationConstants.DescriptionMinLength" maxlength="@ProductValidationConstants.DescriptionMaxLength"/>
+                <input id="Description" name="Description" class="form-control" type="text" value="@Model.Product.Description" minlength="@ProductValidationConstants.DescriptionMinLength"  maxlength="@ProductValidationConstants.DescriptionMaxLength"/>
             </div>
             <div class="form-group">
                 <label for="CategoryId" class="control-label">Category</label>

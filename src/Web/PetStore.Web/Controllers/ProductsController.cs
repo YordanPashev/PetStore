@@ -167,9 +167,9 @@
                 return this.RedirectToAction("NoCategoryFound", "Products");
             }
 
-            ProductViewModel productModel = AutoMapperConfig.MapperInstance.Map<ProductViewModel>(product);
+            EditProductInfoViewModel productModel = AutoMapperConfig.MapperInstance.Map<EditProductInfoViewModel>(product);
 
-            EditProductViewModel edinPorudctModel = new EditProductViewModel()
+            EditFullInfoViewModel edinPorudctModel = new EditFullInfoViewModel()
             {
                 Product = productModel,
                 Categories = allCategories,
@@ -181,11 +181,11 @@
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(ProductViewModel model)
+        public async Task<IActionResult> Edit(EditProductInfoViewModel model)
         {
             Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
             Product product = await this.productsService.GetByIdForEditAsync(model.Id);
-            if (!this.TryValidateModel(model, nameof(ProductViewModel)) ||
+            if (!this.TryValidateModel(model, nameof(EditProductInfoViewModel)) ||
                 category == null || product == null)
             {
                 return this.RedirectToAction("Edit", "Products", new { modelId = model.Id, errorMessage = ValidationMessages.InvalidData });
@@ -206,10 +206,7 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyAddedProduct(InputProductViewModel model)
-        {
-            return this.View(model);
-        }
+        public IActionResult SuccessfullyAddedProduct(InputProductViewModel model) => this.View(model);
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -245,7 +242,7 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyEditedProduct(ProductViewModel model) => this.View(model);
+        public IActionResult SuccessfullyEditedProduct(EditProductInfoViewModel model) => this.View(model);
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]

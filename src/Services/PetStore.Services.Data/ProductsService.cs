@@ -65,7 +65,7 @@
                    .Include(p => p.Category)
                    .FirstOrDefaultAsync(p => p.Id == id);
 
-        public bool IsProductEdited(ProductViewModel model, Product product)
+        public bool IsProductEdited(EditProductInfoViewModel model, Product product)
         {
             if (product.Name == model.Name && product.Price == model.Price && product.Description == model.Description
                 && product.ImageUrl == model.ImageUrl && product.CategoryId == model.CategoryId)
@@ -79,7 +79,7 @@
         public bool IsProductExistingInDb(string productName)
             => this.productRepo.AllAsNoTracking().Any(p => p.Name == productName);
 
-        public async Task UpdateProductAsync(Product product, ProductViewModel model)
+        public async Task UpdateProductAsync(Product product, EditProductInfoViewModel model)
         {
             product.Name = model.Name;
             product.Price = Math.Round(model.Price, 2);

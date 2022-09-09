@@ -7,6 +7,7 @@ namespace PetStore.Data.Models
 
     using PetStore.Data.Common.Models;
     using PetStore.Data.Models.Common;
+    using PetStore.Data.Models.Enums;
 
     public class Pet : BaseDeletableModel<string>
     {
@@ -28,15 +29,14 @@ namespace PetStore.Data.Models
         [Required]
         public string ImageUrl { get; set; }
 
-        [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
+        [Required]
+        public PetType Type { get; set; }
 
-        public virtual Category Category { get; set; }
+        [Required]
+        [ForeignKey(nameof(Client))]
+        public string OwnerId { get; set; }
 
-        [ForeignKey(nameof(Owner))]
-        public string ClientId { get; set; }
-
-        public virtual Client Owner { get; set; }
+        public virtual Client Client { get; set; }
 
         [Required]
         [ForeignKey(nameof(Store))]

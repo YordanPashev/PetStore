@@ -24,11 +24,11 @@
 
         Task<Product> GetByIdForEditAsync(string id);
 
-        bool IsProductEdited(ProductViewModel model, Product product);
+        bool IsProductEdited(EditProductInfoViewModel model, Product product);
 
         bool IsProductExistingInDb(string productName);
 
-        Task UpdateProductAsync(Product product, ProductViewModel model);
+        Task UpdateProductAsync(Product product, EditProductInfoViewModel model);
 
         Task UndeleteAsync(Product product);
     }

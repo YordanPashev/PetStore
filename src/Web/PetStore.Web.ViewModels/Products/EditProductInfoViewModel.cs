@@ -8,7 +8,7 @@
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class ProductViewModel : IMapFrom<Product>, IHaveCustomMappings
+    public class EditProductInfoViewModel : IMapFrom<Product>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -21,7 +21,7 @@
         public decimal Price { get; set; }
 
         [Required]
-        [RegularExpression(ProductValidationConstants.UrlRegexForView, ErrorMessage = ProductValidationConstants.InvalidUrlMessage)]
+        [RegularExpression(ProductValidationConstants.UrlRegex, ErrorMessage = ProductValidationConstants.InvalidUrlMessage)]
         public string ImageUrl { get; set; }
 
         [Required(ErrorMessage = ProductValidationConstants.DescriptionIsRequired)]

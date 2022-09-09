@@ -15,6 +15,8 @@
     <thead>
     <tr>
         <th>
+        </th>
+        <th>
             Name
         </th>
         <th style="text-align:end">
@@ -23,28 +25,29 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var categories in Model.AllCategories) 
+    @foreach (var category in Model.AllCategories) 
     {
         <tr name="trData">
+           <td class="about-product text-center mt-2"><img src="@category.ImageUrl" width="60" alt="No image">
+                </td>
             <td>
-                @Html.DisplayFor(modelItem => categories.Name)
+                @Html.DisplayFor(modelItem => category.Name)
             </td>
             <td style="text-align:end">
-                @Html.DisplayFor(modelItem => categories.Products.Count)
+                @Html.DisplayFor(modelItem => category.Products.Count)
             </td>
             <td style="text-align:end">
-                <a class="btn btn-info" asp-action="CategoryProducts" asp-route-id="@categories.Id">Products</a> 
+                <a class="btn btn-info" asp-action="CategoryProducts" asp-route-id="@category.Id">Products</a> 
                 @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    <a class="btn btn-dark" asp-action="Edit" asp-route-id="@categories.Id">Edit</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@categories.Id">Delete</a>
+                    <a class="btn btn-dark" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@category.Id">Delete</a>
                 }
             </td>
         </tr>
     }
     </tbody>
 </table>
-
 <p>
    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
    {

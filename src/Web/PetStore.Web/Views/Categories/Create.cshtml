@@ -1,0 +1,38 @@
+﻿@using PetStore.Data.Models.Common
+@model string
+@{
+    ViewData["Title"] = "Create Category";
+}
+@{
+    if(Model != null)
+    {
+        <h1 style="text-align:center; color:red">@Model</h1>     
+    }
+}
+<h1 style="text-align: center">Create</h1>
+<h4 style="text-align: center">Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input id="Name" name="Name" placeholder="Product Name..." class="form-control" type="text" minlength="@CategoryValidationConstants.NameMinLength" maxlength="@CategoryValidationConstants.NameMaxLength"/>
+            </div>
+            <div class="form-group">
+                <label for="ImageURL" class="control-label">ImageURL</label>
+                <input id="ImageURL" name="ImageURL" placeholder="ImageURL..." pattern="@CategoryValidationConstants.UrlRegexForView" title="Include https://" class="form-control" type="text"/>
+            </div>
+            <br/>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <input type="submit" value="Create" class="btn btn-success"/>
+                <input class="btn btn-dark" value="Back" onclick="history.back()">
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

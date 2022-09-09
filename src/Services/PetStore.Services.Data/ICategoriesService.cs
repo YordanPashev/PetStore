@@ -7,6 +7,8 @@
 
     public interface ICategoriesService
     {
+        Task AddCategoryAsync(Category category);
+
         IQueryable<Category> GetAllCategories();
 
         Task<Category> GetByIdAsync(int id);
@@ -16,5 +18,7 @@
         Task<Category> GetAllDeletedCategoryProductsByIdAsync(int id);
 
         Task<Category> GetByIdNoTrackingAsync(int id);
+
+        bool IsCategoryExistingInDb(string name);
     }
 }

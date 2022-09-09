@@ -2,8 +2,8 @@
 {
     public enum DeliveryType
     {
-        OnSite = 0,
-        CourierExpress = 1,
-        PostExpress = 2,
+        OnSite = 1,
+        CourierExpress = 2,
+        PostExpress = 3,
     }
 }
