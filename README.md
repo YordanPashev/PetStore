@@ -13,4 +13,7 @@ PetStore is a simple online Shop for Pets and Pet Toys.
 # License
 This project is licensed under the Apache License 2.0 - see the [LICENSE.txt](https://github.com/YordanPashev/PetStore/blob/main/LICENSE) file for details
 
+
+
+
 ![](https://img.shields.io/static/v1?label=Status&message=In%20Progress&color=red&style=plastic&logo=visual-studio)
