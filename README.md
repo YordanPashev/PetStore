@@ -1,5 +1,5 @@
 # PetStore :dog:
-PetStore is a simple online Shop for Pets nad Pet Toys.
+PetStore is a simple online Shop for Pets and Pet Toys.
 
 # Technology Frame
 - [EF Core](https://github.com/dotnet/efcore)
