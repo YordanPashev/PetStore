@@ -13,83 +13,41 @@
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
     using PetStore.Web.Controllers.Common;
+    using PetStore.Web.Infrastructures;
     using PetStore.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categoriesService;
+        private readonly ProductsControllerExtension controllerExtension;
 
         public ProductsController(IProductsService productService, ICategoriesService categoriesService)
         {
             this.productsService = productService;
             this.categoriesService = categoriesService;
+            this.controllerExtension = new ProductsControllerExtension(productService, categoriesService);
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             IQueryable<Product> allProducts = this.productsService.GetAllProducts();
-            if (allProducts == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
-
-            AllProductsViewModel allProductsModel = new AllProductsViewModel()
-            {
-                AllProducts = allProducts.To<DetailsProductViewModel>().ToArray(),
-            };
-
-            return this.View(allProductsModel);
+            return this.controllerExtension.ViewOrNoProductsFound(allProducts);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Create(string errorMessage = null)
+        public IActionResult Create(CreateProductViewModel createProductModel = null)
         {
-            ICollection<CategoryShortInfoViewModel> allCategoriesInfo =
-                this.categoriesService.GetAllCategoriesNoTracking()
-                                        .To<CategoryShortInfoViewModel>()
-                                        .ToArray();
-            CreateProductViewModel createProductModel = new CreateProductViewModel()
-            {
-                CategoriesIfo = allCategoriesInfo,
-                ErrorMessage = errorMessage,
-            };
-
-            if (createProductModel == null)
-            {
-                return this.RedirectToAction("NoCategoryFound", "Categories");
-            }
-
-            return this.View(createProductModel);
+            return this.controllerExtension.ViewOrNoGategoryFound(createProductModel);
         }
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Create(InputProductViewModel model)
+        public async Task<IActionResult> TryToCreate(CreateProductViewModel userInputModel)
         {
-            Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
-            if (!this.TryValidateModel(model, nameof(InputProductViewModel)))
-            {
-                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.InvalidData });
-            }
-
-            if (category == null)
-            {
-                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.CategoryNotFound });
-            }
-
-            if (this.productsService.IsProductExistingInDb(model.Name))
-            {
-                return this.RedirectToAction("Create", "Products", new { errorMessage = ValidationMessages.ProductAlreadyExistInDb });
-            }
-
-            Product product = AutoMapperConfig.MapperInstance.Map<Product>(model);
-            await this.productsService.AddProductAsync(product);
-            model.CategoryName = category.Name;
-
-            return this.RedirectToAction("SuccessfullyAddedProduct", "Products", new RouteValueDictionary(model));
+            return await this.controllerExtension.SuccessfulyAddedProdcutOrInvalidData(userInputModel);
         }
 
         [HttpGet]
@@ -206,7 +164,7 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyAddedProduct(InputProductViewModel model) => this.View(model);
+        public IActionResult SuccessfullyAddedProduct(CreateProductViewModel model) => this.View(model);
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
