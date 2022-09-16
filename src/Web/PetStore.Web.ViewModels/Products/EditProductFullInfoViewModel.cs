@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class EditFullInfoViewModel
+    public class EditProductFullInfoViewModel
     {
         public EditProductInfoViewModel Product { get; set; }
 

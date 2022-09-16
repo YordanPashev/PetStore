@@ -27,7 +27,7 @@
         }
 
         [HttpGet]
-        public IActionResult AllProducts()
+        public IActionResult Index()
         {
             IQueryable<Product> allProducts = this.productsService.GetAllProducts();
             if (allProducts == null)
@@ -169,7 +169,7 @@
 
             EditProductInfoViewModel productModel = AutoMapperConfig.MapperInstance.Map<EditProductInfoViewModel>(product);
 
-            EditFullInfoViewModel edinPorudctModel = new EditFullInfoViewModel()
+            EditProductFullInfoViewModel edinPorudctModel = new EditProductFullInfoViewModel()
             {
                 Product = productModel,
                 Categories = allCategories,

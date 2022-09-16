@@ -53,7 +53,7 @@
         }
 
         [HttpGet]
-        public IActionResult Categories()
+        public IActionResult Index()
         {
             IQueryable<Category> allCategories = this.categoriesService.GetAllCategoriesNoTracking();
 
