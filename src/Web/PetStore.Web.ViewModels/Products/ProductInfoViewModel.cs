@@ -1,14 +1,17 @@
 ﻿namespace PetStore.Web.ViewModels.Products
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using AutoMapper;
 
     using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class CreateProductViewModel : IMapTo<Product>
+    public class ProductInfoViewModel : IMapFrom<Product>, IMapTo<Product>, IHaveCustomMappings
     {
+        public string Id { get; set; }
+
         [Required(ErrorMessage = ProductValidationConstants.NameIsRequired)]
         [MinLength(ProductValidationConstants.NameMinLength, ErrorMessage = ProductValidationConstants.NameMinLengthMessage)]
         [MaxLength(ProductValidationConstants.NameMaxLength, ErrorMessage = ProductValidationConstants.NameMaxLengthMessage)]
@@ -31,8 +34,12 @@
 
         public string CategoryName { get; set; }
 
-        public ICollection<CategoryShortInfoViewModel> CategoriesIfo { get; set; }
-
         public string ErrorMessage { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Product, DetailsProductViewModel>()
+                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name));
+        }
     }
 }

@@ -4,6 +4,6 @@
 
     public class AllProductsViewModel
     {
-       public ICollection<DetailsProductViewModel> AllProducts { get; set; }
+       public ICollection<DetailsProductViewModel> ListOfProducts { get; set; }
     }
 }

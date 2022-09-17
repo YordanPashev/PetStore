@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -17,64 +16,73 @@
     public class ProductsControllerExtension : BaseController
     {
         private readonly IProductsService productsService;
-        private readonly ICategoriesService categoriesService;
 
-        public ProductsControllerExtension(IProductsService productService, ICategoriesService categoriesService)
+        public ProductsControllerExtension(IProductsService productService)
         {
             this.productsService = productService;
-            this.categoriesService = categoriesService;
         }
 
-        public IActionResult ViewOrNoProductsFound(IQueryable<Product> allProducts)
+        public async Task<IActionResult> SuccessfulOperationOrInvalidData(ProductInfoViewModel userInputModel, string actionName, Product product = null)
         {
-            if (allProducts == null)
+            if (!this.IsModelValid(userInputModel) || userInputModel.CategoryId < 0 || userInputModel == null)
+            {
+                userInputModel.ErrorMessage = GlobalConstants.InvalidDataErrorMessage;
+                return this.RedirectToAction(actionName, "Products", userInputModel);
+            }
+
+            if (actionName == "Create")
+            {
+                product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
+                product.Id = Guid.NewGuid().ToString();
+                await this.productsService.AddProductAsync(product);
+                return this.RedirectToAction("SuccessfullyAddedProduct", "Products", userInputModel);
+            }
+
+            if (actionName == "Edit")
+            {
+                await this.productsService.UpdateProductAsync(userInputModel, product);
+                return this.RedirectToAction("SuccessfullyEditedProduct", "Products", userInputModel);
+            }
+
+            return this.RedirectToAction(actionName, "Products", userInputModel);
+        }
+
+        public async Task<ActionResult> ViewOrRedirectToAllProducts(Product product, string action)
+        {
+            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            if (product != null && action == "delete")
+            {
+                await this.productsService.DeleteAsync(product);
+                return this.View(productDetailsModel);
+            }
+
+            if (product != null && action == "undelete")
+            {
+                await this.productsService.UndeleteAsync(product);
+                return this.View(productDetailsModel);
+            }
+
+            return this.RedirectToAction("AllProducts", "Products");
+        }
+
+        public IActionResult ViewOrNoProductsFound(object allProductsModel)
+        {
+            if (allProductsModel == null)
             {
                 return this.RedirectToAction("NoProductFound", "Products");
             }
 
-            AllProductsViewModel allProductsModel = new AllProductsViewModel()
-            {
-                AllProducts = allProducts.To<DetailsProductViewModel>().ToArray(),
-            };
-
             return this.View(allProductsModel);
         }
 
-        public IActionResult ViewOrNoGategoryFound(CreateProductViewModel createProductModel, ICollection<CategoryShortInfoViewModel> allCategoriesInfo)
+        public IActionResult ViewOrNoGategoryFound(ProductWithAllCategoriesViewModel createProductModel)
         {
-            if (allCategoriesInfo == null)
+            if (createProductModel.Categories == null)
             {
                 return this.RedirectToAction("NoCategoryFound", "Categories");
             }
 
-            createProductModel.CategoriesIfo = allCategoriesInfo;
             return this.View(createProductModel);
-        }
-
-        public async Task<IActionResult> SuccessfulyAddedProdcutOrInvalidData(CreateProductViewModel userInputModel)
-        {
-            if (!this.IsModelValid(userInputModel))
-            {
-                userInputModel.ErrorMessage = GlobalConstants.InvalidDataErrorMessage;
-                return this.RedirectToAction("Create", "Products", userInputModel);
-            }
-
-            if (this.productsService.IsProductExistingInDb(userInputModel.Name))
-            {
-                userInputModel.ErrorMessage = GlobalConstants.ProductAlreadyExistInDbErrorMessage;
-                return this.RedirectToAction("Create", "Products", userInputModel);
-            }
-
-            userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
-            if (userInputModel.CategoryId < 0)
-            {
-                userInputModel.ErrorMessage = GlobalConstants.CategoryNotFoundErrorMessage;
-                return this.RedirectToAction("Create", "Products", userInputModel);
-            }
-
-            Product product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
-            await this.productsService.AddProductAsync(product);
-            return this.RedirectToAction("SuccessfullyAddedProduct", "Products", userInputModel);
         }
 
         private bool IsModelValid(object model)

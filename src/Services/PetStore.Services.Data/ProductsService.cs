@@ -24,7 +24,7 @@
            await this.productRepo.SaveChangesAsync();
         }
 
-        public async Task DeleteProductAsync(Product product)
+        public async Task DeleteAsync(Product product)
         {
             this.productRepo.Delete(product);
             await this.productRepo.SaveChangesAsync();
@@ -53,19 +53,19 @@
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Product> GetDeletedProductsByIdAsyncNoTracking(string id)
+        public async Task<Product> GetDeletedProductByIdAsyncNoTracking(string id)
             => await this.productRepo
                     .AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Product> GetDeletedProductsByIdAsync(string id)
+        public async Task<Product> GetDeletedProductByIdAsync(string id)
            => await this.productRepo
                    .AllWithDeleted()
                    .Include(p => p.Category)
                    .FirstOrDefaultAsync(p => p.Id == id);
 
-        public bool IsProductEdited(EditProductInfoViewModel model, Product product)
+        public bool IsProductEdited(ProductInfoViewModel model, Product product)
         {
             if (product.Name == model.Name && product.Price == model.Price && product.Description == model.Description
                 && product.ImageUrl == model.ImageUrl && product.CategoryId == model.CategoryId)
@@ -79,7 +79,7 @@
         public bool IsProductExistingInDb(string productName)
             => this.productRepo.AllAsNoTracking().Any(p => p.Name == productName);
 
-        public async Task UpdateProductAsync(Product product, EditProductInfoViewModel model)
+        public async Task UpdateProductAsync(ProductInfoViewModel model, Product product)
         {
             product.Name = model.Name;
             product.Price = Math.Round(model.Price, 2);

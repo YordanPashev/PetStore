@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class EditProductFullInfoViewModel
+    public class ProductWithAllCategoriesViewModel
     {
-        public EditProductInfoViewModel Product { get; set; }
+        public ProductInfoViewModel ProductInfo { get; set; }
 
         public ICollection<CategoryShortInfoViewModel> Categories { get; set; }
-
-        public string ErrorMessage { get; set; }
     }
 }

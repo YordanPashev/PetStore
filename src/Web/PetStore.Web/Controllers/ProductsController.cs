@@ -26,32 +26,49 @@
         {
             this.productsService = productService;
             this.categoriesService = categoriesService;
-            this.controllerExtension = new ProductsControllerExtension(productService, categoriesService);
+            this.controllerExtension = new ProductsControllerExtension(productService);
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            IQueryable<Product> allProducts = this.productsService.GetAllProducts();
-            return this.controllerExtension.ViewOrNoProductsFound(allProducts);
+            AllProductsViewModel productsShortInfoModel = new AllProductsViewModel()
+            {
+                ListOfProducts = this.productsService.GetAllProducts().To<DetailsProductViewModel>().ToArray(),
+            };
+
+            return this.controllerExtension.ViewOrNoProductsFound(productsShortInfoModel);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Create(CreateProductViewModel createProductModel = null)
+        public IActionResult Create(ProductInfoViewModel userInputModel = null)
         {
-            ICollection<CategoryShortInfoViewModel> allCategoriesInfo = this.categoriesService.GetAllCategoriesNoTracking()
-                                                                                              .To<CategoryShortInfoViewModel>()
-                                                                                              .ToArray();
+            ProductWithAllCategoriesViewModel createProductModel = new ProductWithAllCategoriesViewModel()
+            {
+                ProductInfo = userInputModel,
+                Categories = this.categoriesService.GetAllCategoriesNoTracking()
+                                                   .To<CategoryShortInfoViewModel>()
+                                                   .ToArray(),
+            };
 
-            return this.controllerExtension.ViewOrNoGategoryFound(createProductModel, allCategoriesInfo);
+            return this.controllerExtension.ViewOrNoGategoryFound(createProductModel);
         }
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> TryToCreate(CreateProductViewModel userInputModel)
+        public async Task<IActionResult> TryToCreate(ProductInfoViewModel userInputModel)
         {
-            return await this.controllerExtension.SuccessfulyAddedProdcutOrInvalidData(userInputModel);
+            string action = "Create";
+            userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
+
+            if (this.productsService.IsProductExistingInDb(userInputModel.Name))
+            {
+                userInputModel.ErrorMessage = GlobalConstants.ProductAlreadyExistInDbErrorMessage;
+                return this.RedirectToAction(action, "Products", userInputModel);
+            }
+
+            return await this.controllerExtension.SuccessfulOperationOrInvalidData(userInputModel, action);
         }
 
         [HttpGet]
@@ -59,108 +76,70 @@
         public async Task<IActionResult> Delete(string id)
         {
             Product product = await this.productsService.GetByIdAsync(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
-
             DetailsProductViewModel deletedProductModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.View(deletedProductModel);
+
+            return this.controllerExtension.ViewOrNoProductsFound(deletedProductModel);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult DeletedProducts()
         {
-            IQueryable<Product> allProducts = this.productsService.GetDeletedProductsNoTracking();
-            if (allProducts == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
-
             AllProductsViewModel deletedProductsModel = new AllProductsViewModel()
             {
-                AllProducts = allProducts.To<DetailsProductViewModel>().ToArray(),
+                ListOfProducts = this.productsService.GetDeletedProductsNoTracking().To<DetailsProductViewModel>().ToArray(),
             };
 
-            return this.View(deletedProductsModel);
+            return this.controllerExtension.ViewOrNoProductsFound(deletedProductsModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> DeletedProductDetails(string id)
         {
-            Product product = await this.productsService.GetDeletedProductsByIdAsyncNoTracking(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
-
+            Product product = await this.productsService.GetDeletedProductByIdAsyncNoTracking(id);
             DetailsProductViewModel deletedProductModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.View(deletedProductModel);
+
+            return this.controllerExtension.ViewOrNoProductsFound(deletedProductModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
             Product product = await this.productsService.GetByIdAsync(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
-
             DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.View(productDetailsModel);
+
+            return this.controllerExtension.ViewOrNoProductsFound(productDetailsModel);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(string id, string errorMessage = null)
+        public async Task<IActionResult> Edit(string id, string errorMessage)
         {
-            ICollection<CategoryShortInfoViewModel> allCategories =
-                this.categoriesService.GetAllCategoriesNoTracking().To<CategoryShortInfoViewModel>().ToArray();
             Product product = await this.productsService.GetByIdForEditAsync(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
 
-            if (allCategories == null)
+            ProductWithAllCategoriesViewModel editPorudctModel = new ProductWithAllCategoriesViewModel()
             {
-                return this.RedirectToAction("NoCategoryFound", "Products");
-            }
-
-            EditProductInfoViewModel productModel = AutoMapperConfig.MapperInstance.Map<EditProductInfoViewModel>(product);
-
-            EditProductFullInfoViewModel edinPorudctModel = new EditProductFullInfoViewModel()
-            {
-                Product = productModel,
-                Categories = allCategories,
-                ErrorMessage = errorMessage,
+                ProductInfo = AutoMapperConfig.MapperInstance.Map<ProductInfoViewModel>(product),
+                Categories = this.categoriesService.GetAllCategoriesNoTracking().To<CategoryShortInfoViewModel>().ToArray(),
             };
-
-            return this.View(edinPorudctModel);
+            editPorudctModel.ProductInfo.ErrorMessage = errorMessage;
+            return this.View(editPorudctModel);
         }
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(EditProductInfoViewModel model)
+        public async Task<IActionResult> Edit(ProductInfoViewModel userInputModel)
         {
-            Category category = await this.categoriesService.GetByIdAsync(model.CategoryId);
-            Product product = await this.productsService.GetByIdForEditAsync(model.Id);
-            if (!this.TryValidateModel(model, nameof(EditProductInfoViewModel)) ||
-                category == null || product == null)
+            string action = "Edit";
+            userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
+            Product product = await this.productsService.GetByIdForEditAsync(userInputModel.Id);
+
+            if (!this.productsService.IsProductEdited(userInputModel, product))
             {
-                return this.RedirectToAction("Edit", "Products", new { modelId = model.Id, errorMessage = ValidationMessages.InvalidData });
+                return this.RedirectToAction("Edit", "Products", new { modelId = userInputModel.Id, errorMessage = ValidationMessages.NothingWasEdited });
             }
 
-            if (!this.productsService.IsProductEdited(model, product))
-            {
-                return this.RedirectToAction("Edit", "Products", new { modelId = model.Id, errorMessage = ValidationMessages.NothingWasEdited });
-            }
-
-            model.CategoryName = category.Name;
-            await this.productsService.UpdateProductAsync(product, model);
-            return this.RedirectToAction("SuccessfullyEditedProduct", "Products", new RouteValueDictionary(model));
+            return await this.controllerExtension.SuccessfulOperationOrInvalidData(userInputModel, action, product);
         }
 
         [HttpGet]
@@ -168,56 +147,40 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyAddedProduct(CreateProductViewModel model) => this.View(model);
+        public IActionResult SuccessfullyAddedProduct(ProductInfoViewModel model) => this.View(model);
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> SuccessfullyDeletedProduct(string id)
         {
+            string action = "delete";
             Product product = await this.productsService.GetByIdAsync(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("AllProducts", "Products");
-            }
 
-            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            await this.productsService.DeleteProductAsync(product);
-
-            return this.View(productDetailsModel);
+            return await this.controllerExtension.ViewOrRedirectToAllProducts(product, action);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> SuccessfullyUndeletedProduct(string id)
         {
-            Product product = await this.productsService.GetDeletedProductsByIdAsync(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("AllProducts", "Products");
-            }
+            string action = "undelete";
+            Product product = await this.productsService.GetDeletedProductByIdAsync(id);
 
-            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            await this.productsService.UndeleteAsync(product);
-
-            return this.View(productDetailsModel);
+            return await this.controllerExtension.ViewOrRedirectToAllProducts(product, action);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyEditedProduct(EditProductInfoViewModel model) => this.View(model);
+        public IActionResult SuccessfullyEditedProduct(ProductInfoViewModel model) => this.View(model);
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Undelete(string id)
         {
-            Product product = await this.productsService.GetDeletedProductsByIdAsyncNoTracking(id);
-            if (product == null)
-            {
-                return this.RedirectToAction("NoProductFound", "Products");
-            }
-
+            Product product = await this.productsService.GetDeletedProductByIdAsyncNoTracking(id);
             DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.View(productDetailsModel);
+
+            return this.controllerExtension.ViewOrNoProductsFound(productDetailsModel);
         }
     }
 }
