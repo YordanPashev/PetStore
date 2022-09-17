@@ -54,11 +54,11 @@
                 }
             }
             <div class="form-group">
-                <label for="CategoryId" class="control-label">Category</label>
-                <select id="CategoryId" name="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+                <label for="CategoryName" class="control-label">Category</label>
+                <select id="CategoryId" name="CategoryName" class="form-control" asp-items="ViewBag.CategoryName">
                     @foreach (var catInfo in Model.CategoriesIfo)
                     {
-                        <option value="@catInfo.Id">@catInfo.Name</option>
+                        <option value="@catInfo.Name">@catInfo.Name</option>
                     }
                 </select>
             </div>

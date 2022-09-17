@@ -40,7 +40,11 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Create(CreateProductViewModel createProductModel = null)
         {
-            return this.controllerExtension.ViewOrNoGategoryFound(createProductModel);
+            ICollection<CategoryShortInfoViewModel> allCategoriesInfo = this.categoriesService.GetAllCategoriesNoTracking()
+                                                                                              .To<CategoryShortInfoViewModel>()
+                                                                                              .ToArray();
+
+            return this.controllerExtension.ViewOrNoGategoryFound(createProductModel, allCategoriesInfo);
         }
 
         [HttpPost]

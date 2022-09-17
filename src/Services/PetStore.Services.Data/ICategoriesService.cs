@@ -19,6 +19,8 @@
 
         Task<Category> GetByIdNoTrackingAsync(int id);
 
+        Task<int> GetIdByNameNoTrackingAsync(string name);
+
         bool IsCategoryExistingInDb(string name);
     }
 }

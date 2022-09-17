@@ -3,13 +3,11 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using AutoMapper;
-
     using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class CreateProductViewModel : IMapTo<Product>, IHaveCustomMappings
+    public class CreateProductViewModel : IMapTo<Product>
     {
         [Required(ErrorMessage = ProductValidationConstants.NameIsRequired)]
         [MinLength(ProductValidationConstants.NameMinLength, ErrorMessage = ProductValidationConstants.NameMinLengthMessage)]
@@ -36,11 +34,5 @@
         public ICollection<CategoryShortInfoViewModel> CategoriesIfo { get; set; }
 
         public string ErrorMessage { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Product, DetailsProductViewModel>()
-                .ForMember(d => d.CategoryName, mo => mo.MapFrom(s => s.Category.Name));
-        }
     }
 }
