@@ -1,11 +1,12 @@
-﻿@model PetStore.Web.ViewModels.Products.ProductInfoViewModel
+﻿@using PetStore.Common
+@model PetStore.Web.ViewModels.Products.ProductInfoViewModel
 
 @{
-    ViewData["Title"] = "Successfully Added New Product";
+    ViewData["Title"] = "Successfully Operation Result";
 }
 
 <h1 style="text-align:center"> 
-    @User.Identity.Name added new product<br/>
+    @ViewBag.Message<br/>
 </h1>
 <hr />
 <h1 style="text-align:center">@Model.Name</h1>
@@ -21,7 +22,12 @@
 <div/>
 <br />
 <div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-success" asp-action="Create">Create product</a>
-    <input class="btn btn-dark" value="Back" onclick="history.go(-2); return false;">
+    @{if(ViewBag.Message = GlobalConstants.SuccessfullyAddProductMessage)
+        {
+        <a class="btn btn-success" asp-action="Create">Create product</a>
+        }
+    }
+    <a class="btn btn-info" style="float: left" asp-action="AllProducts">All Products</a>
+    <a class="btn btn-success" style="float: right" asp-controller="Categories" asp-action="Index">Categories</a>    
 </div>
 

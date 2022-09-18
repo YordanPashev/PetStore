@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -12,9 +11,7 @@
     using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
-    using PetStore.Web.Controllers.Common;
     using PetStore.Web.ViewModels.Categories;
-    using PetStore.Web.ViewModels.Products;
 
     public class CategoriesController : BaseController
     {
@@ -38,12 +35,12 @@
         {
             if (!this.TryValidateModel(model, nameof(InputCategoryViewModel)))
             {
-                return this.RedirectToAction("Create", "Categories", new { errorMessage = ValidationMessages.InvalidData });
+                return this.RedirectToAction("Create", "Categories", new { errorMessage = GlobalConstants.InvalidDataErrorMessage });
             }
 
             if (this.categoriesService.IsCategoryExistingInDb(model.Name))
             {
-                return this.RedirectToAction("Create", "Categories", new { errorMessage = ValidationMessages.CategoryAlreadyExistInDb });
+                return this.RedirectToAction("Create", "Categories", new { errorMessage = GlobalConstants.CategoryAlreadyExistInDbErrorMessage });
             }
 
             Category category = AutoMapperConfig.MapperInstance.Map<Category>(model);
@@ -59,7 +56,7 @@
 
             if (allCategories == null)
             {
-                return this.RedirectToAction("NoCategoryFound", "Categories");
+                return this.View("NoCategoryFound");
             }
 
             AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
@@ -76,7 +73,7 @@
             Category category = await this.categoriesService.GetByIdNoTrackingAsync(id);
             if (category == null)
             {
-                return this.RedirectToAction("NoCategoryFound", "Categories");
+                return this.View("NoCategoryFound");
             }
 
             CategoryProdutsViewModel categoryModel = AutoMapperConfig.MapperInstance.Map<CategoryProdutsViewModel>(category);
@@ -89,15 +86,12 @@
             Category category = await this.categoriesService.GetAllDeletedCategoryProductsByIdAsync(id);
             if (category == null)
             {
-                return this.RedirectToAction("NoCategoryFound", "Categories");
+                return this.View("NoCategoryFound");
             }
 
             CategoryProdutsViewModel deletedcategoryProductsModel = AutoMapperConfig.MapperInstance.Map<CategoryProdutsViewModel>(category);
             return this.View(deletedcategoryProductsModel);
         }
-
-        [HttpGet]
-        public IActionResult NoCategoryFound() => this.View();
 
         [HttpGet]
         public IActionResult SuccessfullyAddedCategory(InputCategoryViewModel model) => this.View(model);

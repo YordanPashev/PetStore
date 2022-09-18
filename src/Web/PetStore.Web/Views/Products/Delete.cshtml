@@ -1,4 +1,5 @@
-﻿@model PetStore.Web.ViewModels.Products.DetailsProductViewModel
+﻿@using PetStore.Common
+@model PetStore.Web.ViewModels.Products.DetailsProductViewModel
 
 @{
     ViewData["Title"] = "Detel Product";
@@ -17,7 +18,7 @@
 </div>
 <br/>
 <div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-success" asp-action="SuccessfullyDeletedProduct" asp-route-id="@Model.Id">Yes, delete product</a>
+    <a class="btn btn-success" asp-action="TryToDeleteProduct" asp-route-id="@Model.Id">Yes, delete product</a>
     <input class="btn btn-dark" value="No, go back" onclick="history.back()">
 </div>
 

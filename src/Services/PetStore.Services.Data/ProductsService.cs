@@ -77,7 +77,9 @@
         }
 
         public bool IsProductExistingInDb(string productName)
-            => this.productRepo.AllAsNoTracking().Any(p => p.Name == productName);
+            => this.productRepo
+                   .AllAsNoTracking()
+                   .Any(p => p.Name == productName);
 
         public async Task UpdateProductAsync(ProductInfoViewModel model, Product product)
         {

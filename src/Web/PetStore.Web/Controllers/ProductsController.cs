@@ -1,18 +1,15 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Routing;
 
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
-    using PetStore.Web.Controllers.Common;
     using PetStore.Web.Infrastructures;
     using PetStore.Web.ViewModels.Products;
 
@@ -62,13 +59,7 @@
             string action = "Create";
             userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
 
-            if (this.productsService.IsProductExistingInDb(userInputModel.Name))
-            {
-                userInputModel.ErrorMessage = GlobalConstants.ProductAlreadyExistInDbErrorMessage;
-                return this.RedirectToAction(action, "Products", userInputModel);
-            }
-
-            return await this.controllerExtension.SuccessfulOperationOrInvalidData(userInputModel, action);
+            return await this.controllerExtension.SuccessfullOperationOrInvalidData(userInputModel, action);
         }
 
         [HttpGet]
@@ -116,13 +107,13 @@
         public async Task<IActionResult> Edit(string id, string errorMessage)
         {
             Product product = await this.productsService.GetByIdForEditAsync(id);
-
             ProductWithAllCategoriesViewModel editPorudctModel = new ProductWithAllCategoriesViewModel()
             {
                 ProductInfo = AutoMapperConfig.MapperInstance.Map<ProductInfoViewModel>(product),
                 Categories = this.categoriesService.GetAllCategoriesNoTracking().To<CategoryShortInfoViewModel>().ToArray(),
             };
             editPorudctModel.ProductInfo.ErrorMessage = errorMessage;
+
             return this.View(editPorudctModel);
         }
 
@@ -134,16 +125,8 @@
             userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
             Product product = await this.productsService.GetByIdForEditAsync(userInputModel.Id);
 
-            if (!this.productsService.IsProductEdited(userInputModel, product))
-            {
-                return this.RedirectToAction("Edit", "Products", new { modelId = userInputModel.Id, errorMessage = ValidationMessages.NothingWasEdited });
-            }
-
-            return await this.controllerExtension.SuccessfulOperationOrInvalidData(userInputModel, action, product);
+            return await this.controllerExtension.SuccessfullOperationOrInvalidData(userInputModel, action, product);
         }
-
-        [HttpGet]
-        public IActionResult NoProductFound() => this.View();
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -151,22 +134,26 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> SuccessfullyDeletedProduct(string id)
+        public IActionResult SuccessfullOperationTextMessage() => this.View();
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> TryToDeleteProduct(string id)
         {
             string action = "delete";
             Product product = await this.productsService.GetByIdAsync(id);
 
-            return await this.controllerExtension.ViewOrRedirectToAllProducts(product, action);
+            return await this.controllerExtension.ViewOrNoProductFound(product, action);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> SuccessfullyUndeletedProduct(string id)
+        public async Task<IActionResult> TryToUndeleteProduct(string id)
         {
             string action = "undelete";
             Product product = await this.productsService.GetDeletedProductByIdAsync(id);
 
-            return await this.controllerExtension.ViewOrRedirectToAllProducts(product, action);
+            return await this.controllerExtension.ViewOrNoProductFound(product, action);
         }
 
         [HttpGet]
