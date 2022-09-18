@@ -2,7 +2,7 @@
 @model PetStore.Web.ViewModels.Products.ProductInfoViewModel
 
 @{
-    ViewData["Title"] = "Successfull Product Operation Result";
+    ViewData["Title"] = "Successfully Operation Result";
 }
 
 <h1 style="text-align:center"> 
@@ -22,11 +22,12 @@
 <div/>
 <br />
 <div class="d-grid gap-2 col-6 mx-auto">
-    @{if(ViewBag.Message == GlobalConstants.SuccessfullyAddProductMessage)
+    @{if(ViewBag.Message = GlobalConstants.SuccessfullyAddProductMessage)
         {
         <a class="btn btn-success" asp-action="Create">Create product</a>
         }
     }
-    <a class="btn btn-info" style="float: left" asp-action="Index">All Products</a>
+    <a class="btn btn-info" style="float: left" asp-action="AllProducts">All Products</a>
     <a class="btn btn-success" style="float: right" asp-controller="Categories" asp-action="Index">Categories</a>    
 </div>
+

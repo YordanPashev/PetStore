@@ -107,6 +107,13 @@
         public async Task<IActionResult> Edit(string id, string errorMessage)
         {
             Product product = await this.productsService.GetByIdForEditAsync(id);
+
+            // TODO Check if there is a need to stop tracking product
+            if (product == null)
+            {
+                return this.View("NoProductFound");
+            }
+
             ProductWithAllCategoriesViewModel editPorudctModel = new ProductWithAllCategoriesViewModel()
             {
                 ProductInfo = AutoMapperConfig.MapperInstance.Map<ProductInfoViewModel>(product),
@@ -119,7 +126,7 @@
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(ProductInfoViewModel userInputModel)
+        public async Task<IActionResult> TryToEdit(ProductInfoViewModel userInputModel)
         {
             string action = "Edit";
             userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
@@ -127,14 +134,6 @@
 
             return await this.controllerExtension.SuccessfullOperationOrInvalidData(userInputModel, action, product);
         }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyAddedProduct(ProductInfoViewModel model) => this.View(model);
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullOperationTextMessage() => this.View();
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -155,10 +154,6 @@
 
             return await this.controllerExtension.ViewOrNoProductFound(product, action);
         }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullyEditedProduct(ProductInfoViewModel model) => this.View(model);
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]

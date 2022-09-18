@@ -34,45 +34,42 @@
                 if (this.productsService.IsProductExistingInDb(userInputModel.Name))
                 {
                     userInputModel.ErrorMessage = GlobalConstants.ProductAlreadyExistInDbErrorMessage;
-                    return this.View(actionName, userInputModel);
+                    return this.RedirectToAction(actionName, userInputModel);
                 }
 
                 product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
                 product.Id = Guid.NewGuid().ToString();
                 await this.productsService.AddProductAsync(product);
-                return this.RedirectToAction("SuccessfullyAddedProduct", "Products", userInputModel);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyAddProductMessage;
+                return this.View("SuccessfullOperationWithProductDetails", userInputModel);
             }
 
             if (actionName == "Edit")
             {
-                if (await this.productsService.GetByIdAsync(userInputModel.Id) == null)
-                {
-                    return this.View("NoProductFound");
-                }
-
                 if (!this.productsService.IsProductEdited(userInputModel, product))
                 {
                     return this.RedirectToAction(actionName, new { modelId = userInputModel.Id, errorMessage = GlobalConstants.NothingWasEditedErrorMessage });
                 }
 
                 await this.productsService.UpdateProductAsync(userInputModel, product);
-                return this.RedirectToAction("SuccessfullyEditedProduct", "Products", userInputModel);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyEditProductMessage;
+                return this.View("SuccessfullOperationWithProductDetails", userInputModel);
             }
 
-            return this.View(actionName, userInputModel);
+            return this.View("NoProductFound");
         }
 
         public async Task<IActionResult> ViewOrNoProductFound(Product product, string action)
         {
             DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            if (product != null && action == "delete")
+            if (product != null && action == "Delete")
             {
                 await this.productsService.DeleteAsync(product);
                 this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
                 return this.RedirectToAction("SuccessfullOperationTextMessage");
             }
 
-            if (product != null && action == "undelete")
+            if (product != null && action == "Undelete")
             {
                 await this.productsService.UndeleteAsync(product);
                 this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteProductMessage;
@@ -96,7 +93,7 @@
         {
             if (createProductModel.Categories == null)
             {
-                return this.View("NoCategoryFound", "Categories");
+                return this.View("NoCategoryFound");
             }
 
             return this.View(createProductModel);
@@ -108,10 +105,10 @@
 
             if (actionName == "Edit")
             {
-                return this.RedirectToAction(actionName, "Products", new { id = userInputModel.Id, errorMessage = userInputModel.ErrorMessage });
+                return this.RedirectToAction(actionName, new { id = userInputModel.Id, errorMessage = userInputModel.ErrorMessage });
             }
 
-            return this.View(actionName, userInputModel);
+            return this.RedirectToAction(actionName, userInputModel);
         }
 
         private bool IsInputModelValid(ProductInfoViewModel userInputModel)
