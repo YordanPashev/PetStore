@@ -139,7 +139,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> TryToDeleteProduct(string id)
         {
-            string action = "delete";
+            string action = "Delete";
             Product product = await this.productsService.GetByIdAsync(id);
 
             return await this.controllerExtension.ViewOrNoProductFound(product, action);
@@ -149,7 +149,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> TryToUndeleteProduct(string id)
         {
-            string action = "undelete";
+            string action = "Undelete";
             Product product = await this.productsService.GetDeletedProductByIdAsync(id);
 
             return await this.controllerExtension.ViewOrNoProductFound(product, action);

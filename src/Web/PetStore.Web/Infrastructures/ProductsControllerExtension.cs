@@ -66,14 +66,14 @@
             {
                 await this.productsService.DeleteAsync(product);
                 this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
-                return this.RedirectToAction("SuccessfullOperationTextMessage");
+                return this.View("SuccessfullOperationTextMessage");
             }
 
             if (product != null && action == "Undelete")
             {
                 await this.productsService.UndeleteAsync(product);
                 this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteProductMessage;
-                return this.RedirectToAction("SuccessfullOperationTextMessage");
+                return this.View("SuccessfullOperationTextMessage");
             }
 
             return this.View("NoProductFound");
