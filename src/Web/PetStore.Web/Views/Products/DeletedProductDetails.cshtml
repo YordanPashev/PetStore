@@ -13,7 +13,6 @@
             <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image">
                 <div> <h6 class="mt-4 text-black-50">@Model.Description</h6></div>
             <div>Price: @Math.Round(Model.Price, 2) $</div>
-                <br/>
                 <br/> 
                      @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                      {

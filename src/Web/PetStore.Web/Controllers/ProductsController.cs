@@ -31,7 +31,7 @@
         {
             AllProductsViewModel productsShortInfoModel = new AllProductsViewModel()
             {
-                ListOfProducts = this.productsService.GetAllProducts().To<DetailsProductViewModel>().ToArray(),
+                ListOfProducts = this.productsService.GetAllProducts().To<ProductShortInfoViewModel>().ToArray(),
             };
 
             return this.controllerExtension.ViewOrNoProductsFound(productsShortInfoModel);
@@ -78,7 +78,7 @@
         {
             AllProductsViewModel deletedProductsModel = new AllProductsViewModel()
             {
-                ListOfProducts = this.productsService.GetDeletedProductsNoTracking().To<DetailsProductViewModel>().ToArray(),
+                ListOfProducts = this.productsService.GetDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray(),
             };
 
             return this.controllerExtension.ViewOrNoProductsFound(deletedProductsModel);
