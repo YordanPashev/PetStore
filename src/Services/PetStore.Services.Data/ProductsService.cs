@@ -38,7 +38,7 @@
         public IQueryable<Product> GetDeletedProductsNoTracking()
             => this.productRepo.AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)
-                    .Where(p => p.IsDeleted == true)
+                    .Where(p => p.IsDeleted)
                     .OrderBy(p => p.Name);
 
         public async Task<Product> GetByIdAsync(string id)
@@ -56,12 +56,14 @@
         public async Task<Product> GetDeletedProductByIdAsyncNoTracking(string id)
             => await this.productRepo
                     .AllAsNoTrackingWithDeleted()
+                    .Where(p => p.IsDeleted)
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task<Product> GetDeletedProductByIdAsync(string id)
            => await this.productRepo
                    .AllWithDeleted()
+                   .Where(p => p.IsDeleted)
                    .Include(p => p.Category)
                    .FirstOrDefaultAsync(p => p.Id == id);
 
