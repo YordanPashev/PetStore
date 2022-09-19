@@ -48,7 +48,7 @@
             {
                 if (!this.productsService.IsProductEdited(userInputModel, product))
                 {
-                    return this.RedirectToAction(actionName, new { modelId = userInputModel.Id, errorMessage = GlobalConstants.NothingWasEditedErrorMessage });
+                    return this.RedirectToAction(actionName, new { id = userInputModel.Id, errorMessage = GlobalConstants.NothingWasEditedErrorMessage });
                 }
 
                 await this.productsService.UpdateProductAsync(userInputModel, product);

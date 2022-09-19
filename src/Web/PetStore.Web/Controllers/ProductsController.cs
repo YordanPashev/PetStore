@@ -108,7 +108,6 @@
         {
             Product product = await this.productsService.GetByIdForEditAsync(id);
 
-            // TODO Check if there is a need to stop tracking product
             if (product == null)
             {
                 return this.View("NoProductFound");
