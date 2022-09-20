@@ -34,8 +34,6 @@
 
         public string CategoryName { get; set; }
 
-        public string ErrorMessage { get; set; }
-
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, DetailsProductViewModel>()

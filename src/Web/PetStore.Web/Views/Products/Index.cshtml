@@ -46,7 +46,7 @@
                 @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <a class="btn btn-dark" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+                    <a class="btn btn-danger" asp-action="DeleteConfirmation" asp-route-id="@product.Id">Delete</a>
                 }
             </td>
         </tr>

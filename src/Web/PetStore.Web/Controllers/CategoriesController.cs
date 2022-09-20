@@ -26,7 +26,8 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Create(string errorMessage = null)
         {
-           return this.View("Create", errorMessage);
+            this.ViewBag.ErrorMessage = errorMessage;
+            return this.View("Create");
         }
 
         [HttpPost]

@@ -5,7 +5,9 @@
 @{
     ViewData["Title"] = $"{Model.Name}";
 }
-
+<h1 style="text-align:center"> 
+    @Model.UserMessage<br/>
+</h1>
 <h3 style="text-align:left">Category: @Model.CategoryName</h3>
 <h1 style="text-align:center">@Model.Name</h1>
 <div class="d-flex justify-content-center container mt-3">
@@ -41,7 +43,7 @@
         </div>
             <p class="d-grid gap-2 col-6 mx-auto">
                 <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                <a class="btn btn-danger"asp-action="TryToDeleteProduct" asp-route-id="@Model.Id">Delete</a>
+                <a class="btn btn-danger" asp-action="DeleteResult" asp-route-id="@Model.Id">Delete product</a>
                 <input class="btn btn-dark" value="Back" onclick="history.back()">
             </p>
         </div>   

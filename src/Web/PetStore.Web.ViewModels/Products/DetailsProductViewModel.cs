@@ -29,6 +29,8 @@
 
         public DateTime? DeletedOn { get; set; }
 
+        public string UserMessage { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, DetailsProductViewModel>()

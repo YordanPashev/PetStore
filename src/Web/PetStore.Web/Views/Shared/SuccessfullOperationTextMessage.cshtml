@@ -1,7 +1,6 @@
 ﻿@{   
-    ViewData["Title"] = "Successfully Operation Message";
+    ViewData["Title"] = "Successfull Operation Message";
 }
-<meta http-equiv="refresh" content="4; url=@Url.Action("Index", "Products")"/>
 
 <h1 style="text-align:center"> 
     @ViewBag.Message<br/>
@@ -10,5 +9,6 @@
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-info" style="float: left" asp-controller="Products" asp-action="Index">All Products</a>
     <a class="btn btn-success" style="float: right" asp-controller="Categories" asp-action="Index">Categories</a>      
+    <input class="btn btn-dark" value="Back" onclick="history.go(-2); return false;">
 </div>
 

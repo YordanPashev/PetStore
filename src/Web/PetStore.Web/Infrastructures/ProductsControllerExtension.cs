@@ -23,7 +23,7 @@
             this.productsService = productService;
         }
 
-        public async Task<IActionResult> SuccessfullOperationOrInvalidData(ProductInfoViewModel userInputModel, string actionName, Product product = null)
+        public async Task<IActionResult> ProcessAndRedirectOrInvalidData(ProductInfoViewModel userInputModel, string actionName, Product product = null)
         {
             if (!this.IsInputModelValid(userInputModel))
             {
@@ -34,27 +34,24 @@
             {
                 if (this.productsService.IsProductExistingInDb(userInputModel.Name))
                 {
-                    userInputModel.ErrorMessage = GlobalConstants.ProductAlreadyExistInDbErrorMessage;
-                    return this.RedirectToAction(actionName, userInputModel);
+                    return this.RedirectToAction(actionName, new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
                 }
 
                 product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
                 product.Id = Guid.NewGuid().ToString();
                 await this.productsService.AddProductAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyAddProductMessage;
-                return this.View("SuccessfullOperationWithProductDetails", userInputModel);
+                return this.RedirectToAction("Details", new { id = product.Id, message = GlobalConstants.SuccessfullyAddProductMessage });
             }
 
             if (actionName == "Edit")
             {
                 if (!this.productsService.IsProductEdited(userInputModel, product))
                 {
-                    return this.RedirectToAction(actionName, new { id = userInputModel.Id, errorMessage = GlobalConstants.NothingWasEditedErrorMessage });
+                    return this.RedirectToAction(actionName, new { id = userInputModel.Id });
                 }
 
                 await this.productsService.UpdateProductAsync(userInputModel, product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyEditProductMessage;
-                return this.View("SuccessfullOperationWithProductDetails", userInputModel);
+                return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
             }
 
             return this.View("NoProductFound");
@@ -66,18 +63,16 @@
             if (product != null && action == "Delete")
             {
                 await this.productsService.DeleteAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
-                return this.View("SuccessfullOperationTextMessage");
+                return this.RedirectToAction("SuccessfullOperationTextMessage", new { message = GlobalConstants.SuccessfullyDeleteProductMessage });
             }
 
             if (product != null && action == "Undelete")
             {
                 await this.productsService.UndeleteAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteProductMessage;
-                return this.View("SuccessfullOperationTextMessage");
+                return this.RedirectToAction("SuccessfullOperationTextMessage", new { message = GlobalConstants.SuccessfullyUndeleteProductMessage });
             }
 
-            return this.View("NoProductFound");
+            return this.RedirectToAction("Index");
         }
 
         public IActionResult ViewOrNoProductsFound(object allProductsModel)
@@ -102,14 +97,12 @@
 
         private IActionResult ReturnUserErrorMessage(ProductInfoViewModel userInputModel, string actionName)
         {
-            userInputModel.ErrorMessage = GlobalConstants.InvalidDataErrorMessage;
-
             if (actionName == "Edit")
             {
-                return this.RedirectToAction(actionName, new { id = userInputModel.Id, errorMessage = userInputModel.ErrorMessage });
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, errorMessage = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return this.RedirectToAction(actionName, userInputModel);
+            return this.RedirectToAction("Create", userInputModel);
         }
 
         private bool IsInputModelValid(ProductInfoViewModel userInputModel)

@@ -14,14 +14,12 @@
 
         public const string InvalidDataErrorMessage = "Invalid data.";
 
-        public const string NothingWasEditedErrorMessage = "No changes were made.";
-
         public const string SuccessfullyDeleteProductMessage = $"The product has been removed from the Shop.";
 
         public const string SuccessfullyUndeleteProductMessage = $"The product is now available.";
 
-        public const string SuccessfullyAddProductMessage = $"New product has been add:";
+        public const string SuccessfullyAddProductMessage = $"A new product has been add to the shop:";
 
-        public const string SuccessfullyEditProductMessage = $"The product has been edited:";
+        public const string SuccessfullyEditProductMessage = $"Edited result:";
     }
 }
