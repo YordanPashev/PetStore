@@ -56,10 +56,13 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Create(ProductInfoViewModel userInputModel)
         {
-            string action = "Create";
             userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
+            if (!this.ModelState.IsValid || userInputModel.CategoryId < 0)
+            {
+                return this.RedirectToAction("Create", new { message = GlobalConstants.InvalidDataErrorMessage });
+            }
 
-            return await this.controllerExtension.ProcessAndRedirectOrInvalidData(userInputModel, action);
+            return await this.controllerExtension.CreateAndRedirectOrReturnInvalidInputMessage(userInputModel);
         }
 
         [HttpGet]
@@ -68,7 +71,6 @@
         {
             Product product = await this.productsService.GetByIdAsync(id);
             DetailsProductViewModel deletedProductModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-
             return this.controllerExtension.ViewOrNoProductsFound(deletedProductModel);
         }
 
@@ -108,7 +110,6 @@
         {
             Product product = await this.productsService.GetByIdAsync(id);
             DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-
             if (message != null && product != null)
             {
                 productDetailsModel.UserMessage = message;
@@ -122,7 +123,6 @@
         public async Task<IActionResult> Edit(string id, string message = null)
         {
             Product product = await this.productsService.GetByIdForEditAsync(id);
-
             if (product == null)
             {
                 return this.View("NoProductFound");
@@ -142,11 +142,15 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(ProductInfoViewModel userInputModel)
         {
-            string action = "Edit";
             userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
             Product product = await this.productsService.GetByIdForEditAsync(userInputModel.Id);
 
-            return await this.controllerExtension.ProcessAndRedirectOrInvalidData(userInputModel, action, product);
+            if (!this.ModelState.IsValid || product == null || userInputModel?.CategoryId < 0)
+            {
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
+            }
+
+            return await this.controllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, product);
         }
 
         [HttpGet]

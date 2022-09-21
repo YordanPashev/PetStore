@@ -23,38 +23,29 @@
             this.productsService = productService;
         }
 
-        public async Task<IActionResult> ProcessAndRedirectOrInvalidData(ProductInfoViewModel userInputModel, string actionName, Product product = null)
+        public async Task<IActionResult> CreateAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel)
         {
-            if (!this.IsInputModelValid(userInputModel))
+            if (this.productsService.IsProductExistingInDb(userInputModel.Name))
             {
-                return this.ReturnUserErrorMessage(userInputModel, actionName);
+                return this.RedirectToAction("Create", new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
             }
 
-            if (actionName == "Create")
-            {
-                if (this.productsService.IsProductExistingInDb(userInputModel.Name))
-                {
-                    return this.RedirectToAction(actionName, new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
-                }
+            Product product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
+            product.Id = Guid.NewGuid().ToString();
+            await this.productsService.AddProductAsync(product);
 
-                product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
-                product.Id = Guid.NewGuid().ToString();
-                await this.productsService.AddProductAsync(product);
-                return this.RedirectToAction("Details", new { id = product.Id, message = GlobalConstants.SuccessfullyAddProductMessage });
+            return this.RedirectToAction("Details", new { id = product.Id, message = GlobalConstants.SuccessfullyAddProductMessage });
+        }
+
+        public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel, Product product = null)
+        {
+            if (!this.productsService.IsProductEdited(userInputModel, product))
+            {
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
             }
 
-            if (actionName == "Edit")
-            {
-                if (!this.productsService.IsProductEdited(userInputModel, product))
-                {
-                    return this.RedirectToAction(actionName, new { id = userInputModel.Id });
-                }
-
-                await this.productsService.UpdateProductAsync(userInputModel, product);
-                return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
-            }
-
-            return this.View("NoProductFound");
+            await this.productsService.UpdateProductAsync(userInputModel, product);
+            return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }
 
         public async Task<IActionResult> ViewOrNoProductFound(Product product, string action)
@@ -99,22 +90,9 @@
         {
             if (actionName == "Edit")
             {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, errorMessage = GlobalConstants.InvalidDataErrorMessage });
             }
 
             return this.RedirectToAction("Create", userInputModel);
-        }
-
-        private bool IsInputModelValid(ProductInfoViewModel userInputModel)
-            => this.IsModelValid(userInputModel) && userInputModel.CategoryId > 0 &&
-               userInputModel != null;
-
-        private bool IsModelValid(object model)
-        {
-            var validator = new System.ComponentModel.DataAnnotations.ValidationContext(model);
-            var validationRes = new List<ValidationResult>();
-            var result = Validator.TryValidateObject(model, validator, validationRes, true);
-            return result;
         }
     }
 }
