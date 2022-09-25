@@ -2,8 +2,9 @@
 PetStore is a simple online Shop for Pets and Pet Toys.
 
 # Technology Frame
+- [ASP.NET Core](https://github.com/dotnet/aspnetcore)
 - [EF Core](https://github.com/dotnet/efcore)
-- [ASP.NET Core Razor Pages](https://github.com/dotnet/aspnetcore)
+- [Razor View Engine](https://github.com/Antaris/RazorEngine)
 - [HTML5](https://github.com/dotnet/aspnetcore)
 - [CSS](https://github.com/css)
 
