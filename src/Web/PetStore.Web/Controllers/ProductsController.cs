@@ -30,24 +30,12 @@
         [HttpGet]
         public IActionResult Index(string search)
         {
-            ProductShortInfoViewModel[] products = this.productsService.GetAllProducts()
-                                                   .To<ProductShortInfoViewModel>()
-                                                   .ToArray();
-            AllProductsViewModel productsShortInfoModel = new AllProductsViewModel()
+            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
-                ListOfProducts = products,
+                ListOfProducts = this.productsService.GetAllProductsInSale().To<ProductShortInfoViewModel>().ToArray(),
             };
 
-            if (!string.IsNullOrEmpty(search))
-            {
-                productsShortInfoModel = new AllProductsViewModel()
-                {
-                    ListOfProducts = products.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToArray(),
-                    SearchQuery = search,
-                };
-            }
-
-            return this.controllerExtension.ViewOrNoProductsFound(productsShortInfoModel);
+            return this.controllerExtension.ViewOrNoProductsFound(productsShortInfoModel, search);
         }
 
         [HttpGet]
@@ -99,14 +87,14 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult DeletedProducts()
+        public IActionResult DeletedProducts(string search)
         {
-            AllProductsViewModel deletedProductsModel = new AllProductsViewModel()
+            ListOfProductsViewModel deletedProductsModel = new ListOfProductsViewModel()
             {
                 ListOfProducts = this.productsService.GetDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray(),
             };
 
-            return this.controllerExtension.ViewOrNoProductsFound(deletedProductsModel);
+            return this.controllerExtension.ViewOrNoProductsFound(deletedProductsModel, search);
         }
 
         [HttpGet]

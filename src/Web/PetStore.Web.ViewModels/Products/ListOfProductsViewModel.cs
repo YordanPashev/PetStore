@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class AllProductsViewModel
+    public class ListOfProductsViewModel
     {
        public ICollection<ProductShortInfoViewModel> ListOfProducts { get; set; }
 

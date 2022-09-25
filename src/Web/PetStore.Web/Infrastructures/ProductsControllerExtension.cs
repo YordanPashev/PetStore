@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -31,7 +31,7 @@
             }
 
             Product product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
-            product.Id = Guid.NewGuid().ToString();
+            product.Id = this.GenerateId();
             await this.productsService.AddProductAsync(product);
 
             return this.RedirectToAction("Details", new { id = product.Id, message = GlobalConstants.SuccessfullyAddProductMessage });
@@ -76,6 +76,25 @@
             return this.View(allProductsModel);
         }
 
+        public IActionResult ViewOrNoProductsFound(ListOfProductsViewModel allProductsModel, string search)
+        {
+            if (allProductsModel == null)
+            {
+                return this.View("NoProductFound");
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                allProductsModel = new ListOfProductsViewModel()
+                {
+                    ListOfProducts = this.GetAllMatchingProducts(allProductsModel.ListOfProducts, search),
+                    SearchQuery = search,
+                };
+            }
+
+            return this.View(allProductsModel);
+        }
+
         public IActionResult ViewOrNoGategoryFound(ProductWithAllCategoriesViewModel createProductModel)
         {
             if (createProductModel.Categories == null)
@@ -86,13 +105,10 @@
             return this.View(createProductModel);
         }
 
-        private IActionResult ReturnUserErrorMessage(ProductInfoViewModel userInputModel, string actionName)
-        {
-            if (actionName == "Edit")
-            {
-            }
+        private string GenerateId()
+            => Guid.NewGuid().ToString();
 
-            return this.RedirectToAction("Create", userInputModel);
-        }
+        private ICollection<ProductShortInfoViewModel> GetAllMatchingProducts(ICollection<ProductShortInfoViewModel> allProducts, string search)
+            => allProducts.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToArray();
     }
 }

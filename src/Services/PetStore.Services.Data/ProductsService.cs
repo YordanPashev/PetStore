@@ -30,7 +30,7 @@
             await this.productRepo.SaveChangesAsync();
         }
 
-        public IQueryable<Product> GetAllProducts()
+        public IQueryable<Product> GetAllProductsInSale()
             => this.productRepo.AllAsNoTracking()
                     .Include(p => p.Category)
                     .OrderBy(p => p.Name);

@@ -12,7 +12,7 @@
 
         Task DeleteAsync(Product product);
 
-        IQueryable<Product> GetAllProducts();
+        IQueryable<Product> GetAllProductsInSale();
 
         IQueryable<Product> GetDeletedProductsNoTracking();
 

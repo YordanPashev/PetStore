@@ -1,13 +1,30 @@
 ﻿@using PetStore.Common
-@model PetStore.Web.ViewModels.Products.AllProductsViewModel
+@model PetStore.Web.ViewModels.Products.ListOfProductsViewModel
 
 @{
     ViewData["Title"] = "Deleted Products";
 }
 
 <div class="row">
-    <div class="col-md-4">
-        <h1>Deleted Products</h1>
+    <h1 style="text-align: center">Deleted Products</h1>
+    <div class="col-md-4 justify-content-end" style="float: left">
+        <form method="get" asp-controller="Products" asp-action="DeletedProducts">
+            <div class="input-group">
+                @if (Model.SearchQuery == null)
+                {
+                    <input type="text" id="search" name="search" class="form-control" placeholder="Search...">
+                }
+                else
+                {
+                    <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
+                }
+                <div class="input-group-btn">
+                    <button class="btn btn-success m-auto" type="submit">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form> 
     </div>
 </div>
 <table class="table">
