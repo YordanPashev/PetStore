@@ -5,9 +5,13 @@
 @{
     ViewData["Title"] = $"{Model.Name}";
 }
-<h1 style="text-align:center"> 
-    @Model.UserMessage<br/>
-</h1>
+@if (Model.UserMessage != null)
+{
+    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
+        <i>@Model.UserMessage</i>
+    </h1>   
+    <br/>
+}
 <h3 style="text-align:left">Category: @Model.CategoryName</h3>
 <h1 style="text-align:center">@Model.Name</h1>
 <div class="d-flex justify-content-center container mt-3">

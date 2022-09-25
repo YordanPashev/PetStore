@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -27,12 +28,24 @@
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
+            ProductShortInfoViewModel[] products = this.productsService.GetAllProducts()
+                                                   .To<ProductShortInfoViewModel>()
+                                                   .ToArray();
             AllProductsViewModel productsShortInfoModel = new AllProductsViewModel()
             {
-                ListOfProducts = this.productsService.GetAllProducts().To<ProductShortInfoViewModel>().ToArray(),
+                ListOfProducts = products,
             };
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                productsShortInfoModel = new AllProductsViewModel()
+                {
+                    ListOfProducts = products.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToArray(),
+                    SearchQuery = search,
+                };
+            }
 
             return this.controllerExtension.ViewOrNoProductsFound(productsShortInfoModel);
         }
