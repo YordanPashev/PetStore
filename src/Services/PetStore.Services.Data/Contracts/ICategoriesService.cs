@@ -15,7 +15,7 @@
 
         IQueryable<Category> GetAllCategoriesNoTracking();
 
-        Task<Category> GetAllDeletedCategoryProductsByIdAsync(int id);
+        Task<Category> GetCategoryWithDeletedProductsByIdAsync(string name);
 
         Task<Category> GetByIdNoTrackingAsync(int id);
 

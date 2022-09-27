@@ -66,14 +66,16 @@
             return this.RedirectToAction("Index");
         }
 
-        public IActionResult ViewOrNoProductsFound(object allProductsModel)
+        public IActionResult ViewOrNoProductsFound(Product product)
         {
-            if (allProductsModel == null)
+            if (product == null)
             {
                 return this.View("NoProductFound");
             }
 
-            return this.View(allProductsModel);
+            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+
+            return this.View(productDetailsModel);
         }
 
         public IActionResult ViewOrNoProductsFound(ListOfProductsViewModel allProductsModel, string search)

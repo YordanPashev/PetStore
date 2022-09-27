@@ -25,5 +25,9 @@
         public const string SuccessfullyAddProductMessage = $"A new product has been add to the shop:";
 
         public const string SuccessfullyEditProductMessage = $"Edited result:";
+
+        public const string ProductStatusInStock = "InStock";
+
+        public const string ProductStatusDeleted = "Deleted";
     }
 }

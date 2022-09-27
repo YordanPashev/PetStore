@@ -11,15 +11,19 @@
     using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
+    using PetStore.Web.Infrastructures;
     using PetStore.Web.ViewModels.Categories;
+    using PetStore.Web.ViewModels.Products;
 
     public class CategoriesController : BaseController
     {
         private readonly ICategoriesService categoriesService;
+        private readonly CategoriesControllerExtension categoryControllerExtension;
 
         public CategoriesController(ICategoriesService categoriesService)
         {
             this.categoriesService = categoriesService;
+            this.categoryControllerExtension = new CategoriesControllerExtension();
         }
 
         [HttpGet]
@@ -105,27 +109,20 @@
         [HttpGet]
         public async Task<IActionResult> CategoryProducts(int id)
         {
+            string productStatus = GlobalConstants.ProductStatusInStock;
             Category category = await this.categoriesService.GetByIdNoTrackingAsync(id);
-            if (category == null)
-            {
-                return this.View("NoCategoryFound");
-            }
 
-            CategoryProdutsViewModel categoryModel = AutoMapperConfig.MapperInstance.Map<CategoryProdutsViewModel>(category);
-            return this.View(categoryModel);
+            return this.categoryControllerExtension.RedirectOrNotFound(category, productStatus);
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeletedCategoryPorducts(int id)
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> DeletedCategoryPorducts(string name)
         {
-            Category category = await this.categoriesService.GetAllDeletedCategoryProductsByIdAsync(id);
-            if (category == null)
-            {
-                return this.View("NoCategoryFound");
-            }
+            string productStatus = GlobalConstants.ProductStatusDeleted;
+            Category category = await this.categoriesService.GetCategoryWithDeletedProductsByIdAsync(name);
 
-            CategoryProdutsViewModel deletedcategoryProductsModel = AutoMapperConfig.MapperInstance.Map<CategoryProdutsViewModel>(category);
-            return this.View(deletedcategoryProductsModel);
+            return this.categoryControllerExtension.RedirectOrNotFound(category, productStatus);
         }
 
         [HttpGet]

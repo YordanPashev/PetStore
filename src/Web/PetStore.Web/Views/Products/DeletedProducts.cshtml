@@ -6,26 +6,33 @@
 }
 
 <div class="row">
-    <h1 style="text-align: center">Deleted Products</h1>
-    <div class="col-md-4 justify-content-end" style="float: left">
-        <form method="get" asp-controller="Products" asp-action="DeletedProducts">
-            <div class="input-group">
-                @if (Model.SearchQuery == null)
-                {
-                    <input type="text" id="search" name="search" class="form-control" placeholder="Search...">
-                }
-                else
-                {
-                    <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
-                }
-                <div class="input-group-btn">
-                    <button class="btn btn-success m-auto" type="submit">
-                        Search
-                    </button>
+    @if (ViewBag.CategoryName == null)
+    {
+        <h1 style="text-align: center">Deleted Products</h1>
+        <div class="col-md-4 justify-content-end" style="float: left">
+            <form method="get" asp-controller="Products" asp-action="DeletedProducts">
+                <div class="input-group">
+                    @if (Model.SearchQuery == null)
+                    {
+                        <input type="text" id="search" name="search" class="form-control" placeholder="Search...">
+                    }
+                    else
+                    {
+                        <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
+                    }
+                    <div class="input-group-btn">
+                        <button class="btn btn-success m-auto" type="submit">
+                            Search
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form> 
-    </div>
+            </form> 
+        </div>
+    }
+    else
+    {
+        <h1 style="text-align: center">Deleted @ViewBag.CategoryName</h1>
+    }
 </div>
 <table class="table table-striped">
     <thead>
@@ -59,8 +66,8 @@
                 @Html.DisplayFor(modelItem => product.Price) $
             </td>
             <td style="text-align:end">
-                <a class="btn btn-info" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a> 
-                <a class="btn btn-success" asp-action="UndeleteConfirmation" asp-route-id="@product.Id">Undelete</a>
+                <a class="btn btn-info" asp-controller="Products" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a> 
+                <a class="btn btn-success" asp-controller="Products" asp-action="UndeleteConfirmation" asp-route-id="@product.Id">Undelete</a>
             </td>
         </tr>
     }

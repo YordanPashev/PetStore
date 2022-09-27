@@ -18,13 +18,13 @@
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categoriesService;
-        private readonly ProductsControllerExtension controllerExtension;
+        private readonly ProductsControllerExtension productsControllerExtension;
 
         public ProductsController(IProductsService productService, ICategoriesService categoriesService)
         {
             this.productsService = productService;
             this.categoriesService = categoriesService;
-            this.controllerExtension = new ProductsControllerExtension(productService);
+            this.productsControllerExtension = new ProductsControllerExtension(productService);
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@
                 ListOfProducts = this.productsService.GetAllProductsInSale().To<ProductShortInfoViewModel>().ToArray(),
             };
 
-            return this.controllerExtension.ViewOrNoProductsFound(productsShortInfoModel, search);
+            return this.productsControllerExtension.ViewOrNoProductsFound(productsShortInfoModel, search);
         }
 
         [HttpGet]
@@ -50,7 +50,7 @@
                 UserMessage = message,
             };
 
-            return this.controllerExtension.ViewOrNoGategoryFound(createProductModel);
+            return this.productsControllerExtension.ViewOrNoGategoryFound(createProductModel);
         }
 
         [HttpPost]
@@ -63,7 +63,7 @@
                 return this.RedirectToAction("Create", new { message = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return await this.controllerExtension.CreateAndRedirectOrReturnInvalidInputMessage(userInputModel);
+            return await this.productsControllerExtension.CreateAndRedirectOrReturnInvalidInputMessage(userInputModel);
         }
 
         [HttpGet]
@@ -71,8 +71,7 @@
         public async Task<IActionResult> DeleteConfirmation(string id)
         {
             Product product = await this.productsService.GetByIdAsync(id);
-            DetailsProductViewModel deletedProductModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            return this.controllerExtension.ViewOrNoProductsFound(deletedProductModel);
+            return this.productsControllerExtension.ViewOrNoProductsFound(product);
         }
 
         [HttpGet]
@@ -82,7 +81,7 @@
             string action = "Delete";
             Product product = await this.productsService.GetByIdAsync(id);
 
-            return await this.controllerExtension.ViewOrNoProductFound(product, action);
+            return await this.productsControllerExtension.ViewOrNoProductFound(product, action);
         }
 
         [HttpGet]
@@ -94,29 +93,29 @@
                 ListOfProducts = this.productsService.GetDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray(),
             };
 
-            return this.controllerExtension.ViewOrNoProductsFound(deletedProductsModel, search);
+            return this.productsControllerExtension.ViewOrNoProductsFound(deletedProductsModel, search);
         }
 
         [HttpGet]
         public async Task<IActionResult> DeletedProductDetails(string id)
         {
             Product product = await this.productsService.GetDeletedProductByIdAsyncNoTracking(id);
-            DetailsProductViewModel deletedProductModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-
-            return this.controllerExtension.ViewOrNoProductsFound(deletedProductModel);
+            return this.productsControllerExtension.ViewOrNoProductsFound(product);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(string id, string message = null)
         {
             Product product = await this.productsService.GetByIdAsync(id);
-            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            if (message != null && product != null)
+
+            if (product == null)
             {
-                productDetailsModel.UserMessage = message;
+                return this.View("NoProductFound");
             }
 
-            return this.controllerExtension.ViewOrNoProductsFound(productDetailsModel);
+            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
+            productDetailsModel.UserMessage = message;
+            return this.View(productDetailsModel);
         }
 
         [HttpGet]
@@ -151,7 +150,7 @@
                 return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return await this.controllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, product);
+            return await this.productsControllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, product);
         }
 
         [HttpGet]
@@ -159,9 +158,7 @@
         public async Task<IActionResult> UndeleteConfirmation(string id)
         {
             Product product = await this.productsService.GetDeletedProductByIdAsyncNoTracking(id);
-            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-
-            return this.controllerExtension.ViewOrNoProductsFound(productDetailsModel);
+            return this.productsControllerExtension.ViewOrNoProductsFound(product);
         }
 
         [HttpGet]
@@ -171,7 +168,7 @@
             string action = "Undelete";
             Product product = await this.productsService.GetDeletedProductByIdAsync(id);
 
-            return await this.controllerExtension.ViewOrNoProductFound(product, action);
+            return await this.productsControllerExtension.ViewOrNoProductFound(product, action);
         }
 
         [HttpGet]

@@ -6,12 +6,10 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
         <h1 style="text-align: center">Categories</h1>
-    </div>
 </div>
-
-<table class="table table-striped">
+<br/>
+<table class="table table-hover">
     <thead>
     <tr>
         <th>
@@ -27,7 +25,7 @@
     <tbody>
     @foreach (var category in Model.AllCategories) 
     {
-        <tr name="trData">
+        <tr name="trData" onclick="location.href='@Url.Action("CategoryProducts", "Categories", new { category.Id })'">
            <td class="about-product text-center mt-2"><img src="@category.ImageUrl" width="60" alt="No image">
                 </td>
             <td>

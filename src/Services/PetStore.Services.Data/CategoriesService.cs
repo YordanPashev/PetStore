@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -38,10 +37,10 @@
                      .Include(c => c.Products.OrderBy(p => p.Name))
                      .OrderBy(c => c.Name);
 
-        public async Task<Category> GetAllDeletedCategoryProductsByIdAsync(int id)
+        public async Task<Category> GetCategoryWithDeletedProductsByIdAsync(string name)
             => await this.categoriesRepo.AllAsNoTrackingWithDeleted()
                     .Include(c => c.Products.Where(p => p.IsDeleted == true).OrderBy(p => p.Name))
-                    .FirstOrDefaultAsync(c => c.Id == id);
+                    .FirstOrDefaultAsync(c => c.Name == name);
 
         public async Task<Category> GetByIdNoTrackingAsync(int id)
             => await this.categoriesRepo
