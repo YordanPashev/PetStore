@@ -12,7 +12,7 @@
     {
         public string Id { get; set; }
 
-        [Required(ErrorMessage = ProductValidationConstants.NameIsRequired)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = ProductValidationConstants.NameIsRequired)]
         [MinLength(ProductValidationConstants.NameMinLength, ErrorMessage = ProductValidationConstants.NameMinLengthMessage)]
         [MaxLength(ProductValidationConstants.NameMaxLength, ErrorMessage = ProductValidationConstants.NameMaxLengthMessage)]
         public string Name { get; set; }
@@ -21,11 +21,11 @@
         [Range(ProductValidationConstants.PriceMinValue, ProductValidationConstants.PriceMaxValue)]
         public decimal Price { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [RegularExpression(ProductValidationConstants.UrlRegex, ErrorMessage = ProductValidationConstants.InvalidUrlMessage)]
         public string ImageUrl { get; set; }
 
-        [Required(ErrorMessage = ProductValidationConstants.DescriptionIsRequired)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = ProductValidationConstants.DescriptionIsRequired)]
         [MinLength(ProductValidationConstants.DescriptionMinLength)]
         [MaxLength(ProductValidationConstants.DescriptionMaxLength)]
         public string Description { get; set; }

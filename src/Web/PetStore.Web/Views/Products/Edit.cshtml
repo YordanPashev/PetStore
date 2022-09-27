@@ -1,4 +1,5 @@
-﻿@using PetStore.Data.Models.Common
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
 @model PetStore.Web.ViewModels.Products.ProductWithAllCategoriesViewModel
 
 @{
@@ -27,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label for="ImageURL" class="control-label">ImageURL</label>
-                <input id="ImageURL" name="ImageURL" pattern="@ProductValidationConstants.UrlRegexForView" title="Include https://" class="form-control" type="text" value="@Model.ProductInfo.ImageUrl" required/>
+                <input id="ImageURL" name="ImageURL" pattern="@ProductValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" value="@Model.ProductInfo.ImageUrl" required/>
             </div>
             <div class="form-group">
                 <label for="Description" class="control-label">Description</label>

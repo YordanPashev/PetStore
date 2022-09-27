@@ -14,6 +14,8 @@
 
         public const string InvalidDataErrorMessage = "Invalid data.";
 
+        public const string InvalidUrlUserMessage = "Include https://";
+
         public const string EditMessage = "Please make your changes.";
 
         public const string SuccessfullyDeleteProductMessage = $"The product has been removed from the Shop.";

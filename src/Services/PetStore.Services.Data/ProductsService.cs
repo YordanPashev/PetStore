@@ -61,16 +61,16 @@
                     .FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task<Product> GetDeletedProductByIdAsync(string id)
-           => await this.productRepo
-                   .AllWithDeleted()
-                   .Where(p => p.IsDeleted)
-                   .Include(p => p.Category)
-                   .FirstOrDefaultAsync(p => p.Id == id);
+            => await this.productRepo
+                    .AllWithDeleted()
+                    .Where(p => p.IsDeleted)
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(p => p.Id == id);
 
         public bool IsProductEdited(ProductInfoViewModel model, Product product)
         {
-            if (product.Name == model.Name && product.Price == model.Price && product.Description == model.Description
-                && product.ImageUrl == model.ImageUrl && product.CategoryId == model.CategoryId)
+            if (product.Name == model.Name && product.Price == model.Price && product.Description == model.Description &&
+                product.ImageUrl == model.ImageUrl && product.CategoryId == model.CategoryId)
             {
                 return false;
             }

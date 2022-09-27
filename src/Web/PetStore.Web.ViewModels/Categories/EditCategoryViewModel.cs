@@ -6,14 +6,16 @@
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class InputCategoryViewModel : IMapTo<Category>
+    public class EditCategoryViewModel : IMapTo<Category>
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = CategoryValidationConstants.NameIsRequired)]
+        [Required]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = CategoryValidationConstants.NameIsRequired)]
         [MinLength(CategoryValidationConstants.NameMinLength)]
         [MaxLength(CategoryValidationConstants.NameMaxLength)]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
         [RegularExpression(CategoryValidationConstants.UrlRegex, ErrorMessage = CategoryValidationConstants.InvalidUrlMessage)]
         public string ImageUrl { get; set; }
     }

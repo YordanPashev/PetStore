@@ -23,6 +23,58 @@
         }
 
         [HttpGet]
+        public IActionResult Index()
+        {
+            IQueryable<Category> allCategories = this.categoriesService.GetAllCategoriesNoTracking();
+
+            if (allCategories == null)
+            {
+                return this.View("NoCategoryFound");
+            }
+
+            AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
+            {
+                AllCategories = allCategories.To<CategoryProdutsViewModel>().ToList(),
+            };
+
+            return this.View(categoriesModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Edit(int id, string message = null)
+        {
+            Category category = await this.categoriesService.GetByIdAsync(id);
+            if (category == null)
+            {
+                return this.View("NoCategoryFound");
+            }
+
+            EditCategoryViewModel model = AutoMapperConfig.MapperInstance.Map<EditCategoryViewModel>(category);
+            this.ViewBag.UserMessage = message;
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Edit(CategoryProdutsViewModel model)
+        {
+            Category category = await this.categoriesService.GetByIdAsync(model.Id);
+
+            if (!this.ModelState.IsValid || category == null)
+            {
+                return this.RedirectToAction("Edit", new { id = model.Id, message = GlobalConstants.InvalidDataErrorMessage });
+            }
+
+            return this.View();
+            //if (!categoriesService.IsProducEdited(model))
+            //{
+
+            //}
+        }
+
+        [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Create(string errorMessage = null)
         {
@@ -48,24 +100,6 @@
             await this.categoriesService.AddCategoryAsync(category);
 
             return this.RedirectToAction("SuccessfullyAddedCategory", "Categories", new RouteValueDictionary(model));
-        }
-
-        [HttpGet]
-        public IActionResult Index()
-        {
-            IQueryable<Category> allCategories = this.categoriesService.GetAllCategoriesNoTracking();
-
-            if (allCategories == null)
-            {
-                return this.View("NoCategoryFound");
-            }
-
-            AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
-            {
-                AllCategories = allCategories.To<CategoryProdutsViewModel>().ToList(),
-            };
-
-            return this.View(categoriesModel);
         }
 
         [HttpGet]
