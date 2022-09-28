@@ -2,7 +2,7 @@
 @model PetStore.Web.ViewModels.Products.ListOfProductsViewModel
 
 @{
-    ViewData["Title"] = "All Products";
+    ViewData["Title"] = "Products";
 }
 
 <div class="row">
@@ -14,7 +14,7 @@
             <div class="input-group">
                 @if (Model.SearchQuery == null)
                 {
-                    <input type="text" id="search" name="search" class="form-control" placeholder="Search...">
+                    <input type="text" id="search" name="search" class="form-control" placeholder="Search product...">
                 }
                 else
                 {
@@ -31,40 +31,30 @@
     }
     else
     {
-        <h1 style="text-align: center">@ViewBag.CategoryName</h1>
+        <h1 class="about-product text-left mt-2">
+            <img src="@ViewBag.CategoryImageURL" alt="@ViewBag.CategoryName" style="width:120px; height:100px; border:2px solid; border-radius: 5px">
+            @ViewBag.CategoryName
+        </h1>     
     }
 </div>
-<table class="table table-hover">
+<table class="table table-hover ">
     <thead>
-    <tr>
-        <th>
-        </th>
-        <th>
-            Name
-        </th>
-        <th style="text-align:end">
-            Category Name
-        </th>
-        <th style="text-align:end">
-            Price
-        </th>
-    </tr>
+        <tr>
+            <th style="text-align:center">Product</th>
+            <th></th>
+            <th style="text-align:end">Category</th>
+            <th style="text-align:end">Price</th>
+            <th style="text-align:end">Get Details</th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var product in Model.ListOfProducts) 
     {
        <tr name="trData" onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'">
-            <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60" alt="@product.Name">
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => product.Name)
-            </td>
-            <td style="text-align:end">
-                @Html.DisplayFor(modelItem => product.CategoryName)
-            </td>
-            <td style="text-align:end">
-                @Html.DisplayFor(modelItem => product.Price) $
-            </td>
+            <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60" alt="@product.Name"></td>
+            <td>@Html.DisplayFor(modelItem => product.Name)</td>
+            <td style="text-align:end">@Html.DisplayFor(modelItem => product.CategoryName)</td>
+            <td style="text-align:end">@Html.DisplayFor(modelItem => product.Price) $</td>
             <td style="text-align:end">
                 <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a> 
                 @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -84,12 +74,11 @@
         <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add new product</a>
             @if (ViewBag.CategoryName == null)
             {
-            <a class="btn btn-secondary" asp-controller="Products" asp-action="DeletedProducts">All Deleted products</a>            
+                <a class="btn btn-secondary" asp-controller="Products" asp-action="DeletedProducts">All Deleted products</a>            
             }
             else
             {
-              <a class="btn btn-secondary" asp-controller="Categories" asp-action="DeletedCategoryPorducts" asp-route-name="@ViewBag.CategoryName">Deleted @ViewBag.CategoryName</a>   
+                <a class="btn btn-secondary" asp-controller="Categories" asp-action="DeletedCategoryPorducts" asp-route-name="@ViewBag.CategoryName">Deleted @ViewBag.CategoryName</a>   
             }
-
         }     
 </p>

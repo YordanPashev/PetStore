@@ -6,7 +6,7 @@
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class EditCategoryViewModel : IMapTo<Category>
+    public class EditCategoryViewModel : IMapFrom<Category>
     {
         [Required]
         public int Id { get; set; }
@@ -17,6 +17,6 @@
         public string Name { get; set; }
 
         [RegularExpression(CategoryValidationConstants.UrlRegex, ErrorMessage = CategoryValidationConstants.InvalidUrlMessage)]
-        public string ImageUrl { get; set; }
+        public string ImageURL { get; set; }
     }
 }

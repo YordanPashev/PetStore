@@ -13,7 +13,6 @@
     using PetStore.Services.Mapping;
     using PetStore.Web.Infrastructures;
     using PetStore.Web.ViewModels.Categories;
-    using PetStore.Web.ViewModels.Products;
 
     public class CategoriesController : BaseController
     {
@@ -23,25 +22,15 @@
         public CategoriesController(ICategoriesService categoriesService)
         {
             this.categoriesService = categoriesService;
-            this.categoryControllerExtension = new CategoriesControllerExtension();
+            this.categoryControllerExtension = new CategoriesControllerExtension(categoriesService);
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string message = null)
         {
             IQueryable<Category> allCategories = this.categoriesService.GetAllCategoriesNoTracking();
 
-            if (allCategories == null)
-            {
-                return this.View("NoCategoryFound");
-            }
-
-            AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
-            {
-                AllCategories = allCategories.To<CategoryProdutsViewModel>().ToList(),
-            };
-
-            return this.View(categoriesModel);
+            return this.categoryControllerExtension.ViewOrNoCategoryFound(allCategories, message);
         }
 
         [HttpGet]
@@ -62,20 +51,21 @@
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(CategoryProdutsViewModel model)
+        public async Task<IActionResult> Edit(CategoryProdutsViewModel userInputModel)
         {
-            Category category = await this.categoriesService.GetByIdAsync(model.Id);
+            Category category = await this.categoriesService.GetByIdAsync(userInputModel.Id);
 
-            if (!this.ModelState.IsValid || category == null)
+            if (category == null)
             {
-                return this.RedirectToAction("Edit", new { id = model.Id, message = GlobalConstants.InvalidDataErrorMessage });
+                return this.View("NoCategoryFound");
             }
 
-            return this.View();
-            //if (!categoriesService.IsProducEdited(model))
-            //{
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
+            }
 
-            //}
+            return await this.categoryControllerExtension.EditAndRedirectOrReturnMessage(category, userInputModel);
         }
 
         [HttpGet]
@@ -90,7 +80,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Create(InputCategoryViewModel model)
         {
-            if (!this.TryValidateModel(model, nameof(InputCategoryViewModel)))
+            if (!this.ModelState.IsValid)
             {
                 return this.RedirectToAction("Create", "Categories", new { errorMessage = GlobalConstants.InvalidDataErrorMessage });
             }
@@ -103,7 +93,7 @@
             Category category = AutoMapperConfig.MapperInstance.Map<Category>(model);
             await this.categoriesService.AddCategoryAsync(category);
 
-            return this.RedirectToAction("SuccessfullyAddedCategory", "Categories", new RouteValueDictionary(model));
+            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyAddedCategoryMessage });
         }
 
         [HttpGet]
@@ -124,8 +114,5 @@
 
             return this.categoryControllerExtension.RedirectOrNotFound(category, productStatus);
         }
-
-        [HttpGet]
-        public IActionResult SuccessfullyAddedCategory(InputCategoryViewModel model) => this.View(model);
     }
 }

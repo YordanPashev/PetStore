@@ -7,6 +7,7 @@
 
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
+    using PetStore.Web.ViewModels.Categories;
 
     public class CategoriesService : ICategoriesService
     {
@@ -63,5 +64,25 @@
 
         public bool IsCategoryExistingInDb(string name)
             => this.categoriesRepo.AllAsNoTracking().Any(c => c.Name == name);
+
+        public bool IsCategoryEdited(Category category, CategoryProdutsViewModel userInputCategory)
+        {
+            if (category.Id == userInputCategory.Id &&
+                category.Name == userInputCategory.Name &&
+                category.ImageURL == userInputCategory.ImageURL)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task UpdateCategoryAsync(Category category, CategoryProdutsViewModel userInputCategory)
+        {
+            category.Name = userInputCategory.Name;
+            category.ImageURL = userInputCategory.ImageURL;
+
+            await this.categoriesRepo.SaveChangesAsync();
+        }
     }
 }

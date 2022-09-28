@@ -15,6 +15,6 @@
 
         [Required(AllowEmptyStrings = false)]
         [RegularExpression(CategoryValidationConstants.UrlRegex, ErrorMessage = CategoryValidationConstants.InvalidUrlMessage)]
-        public string ImageUrl { get; set; }
+        public string ImageURL { get; set; }
     }
 }

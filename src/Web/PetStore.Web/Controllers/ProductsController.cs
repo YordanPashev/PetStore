@@ -81,7 +81,7 @@
             string action = "Delete";
             Product product = await this.productsService.GetByIdAsync(id);
 
-            return await this.productsControllerExtension.ViewOrNoProductFound(product, action);
+            return await this.productsControllerExtension.RedirectToSuccessfulOperationOrNoProductFound(product, action);
         }
 
         [HttpGet]
@@ -168,12 +168,12 @@
             string action = "Undelete";
             Product product = await this.productsService.GetDeletedProductByIdAsync(id);
 
-            return await this.productsControllerExtension.ViewOrNoProductFound(product, action);
+            return await this.productsControllerExtension.RedirectToSuccessfulOperationOrNoProductFound(product, action);
         }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfullOperationTextMessage(string message)
+        public IActionResult SuccessfulOperationTextMessage(string message)
         {
             this.ViewBag.Message = message;
             return this.View();

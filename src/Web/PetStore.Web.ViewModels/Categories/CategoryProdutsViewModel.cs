@@ -14,7 +14,7 @@
 
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageURL { get; set; }
 
         public virtual ICollection<DetailsProductViewModel> Products { get; set; }
 

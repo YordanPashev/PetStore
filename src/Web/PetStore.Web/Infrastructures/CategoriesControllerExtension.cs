@@ -1,15 +1,27 @@
 ﻿namespace PetStore.Web.Infrastructures
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Mvc;
 
     using PetStore.Common;
     using PetStore.Data.Models;
+    using PetStore.Services.Data;
     using PetStore.Services.Mapping;
     using PetStore.Web.Controllers;
+    using PetStore.Web.ViewModels.Categories;
     using PetStore.Web.ViewModels.Products;
 
     public class CategoriesControllerExtension : BaseController
     {
+        private readonly ICategoriesService categoriesService;
+
+        public CategoriesControllerExtension(ICategoriesService categoriesService)
+        {
+            this.categoriesService = categoriesService;
+        }
+
         public IActionResult RedirectOrNotFound(Category category, string productsStatus)
         {
             if (category == null)
@@ -26,7 +38,9 @@
             {
                 ListOfProducts = AutoMapperConfig.MapperInstance.Map<ProductShortInfoViewModel[]>(category.Products),
             };
+
             this.ViewBag.CategoryName = category.Name;
+            this.ViewBag.CategoryImageURL = category.ImageURL;
 
             if (productsStatus == GlobalConstants.ProductStatusInStock)
             {
@@ -39,6 +53,37 @@
             }
 
             return this.View("NoProductsFound");
+        }
+
+        public async Task<IActionResult> EditAndRedirectOrReturnMessage(Category category, CategoryProdutsViewModel userInputModel)
+        {
+            if (!this.categoriesService.IsCategoryEdited(category, userInputModel))
+            {
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+            }
+
+            await this.categoriesService.UpdateCategoryAsync(category, userInputModel);
+            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyEditedCategoryMessage });
+        }
+
+        public IActionResult ViewOrNoCategoryFound(IQueryable<Category> allCategories, string message)
+        {
+            if (allCategories == null)
+            {
+                return this.View("NoCategoryFound");
+            }
+
+            AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
+            {
+                AllCategories = allCategories.To<CategoryProdutsViewModel>().ToList(),
+            };
+
+            if (message != null)
+            {
+                this.ViewBag.UserMessage = message;
+            }
+
+            return this.View(categoriesModel);
         }
     }
 }

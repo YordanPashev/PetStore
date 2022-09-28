@@ -34,7 +34,7 @@
             product.Id = this.GenerateId();
             await this.productsService.AddProductAsync(product);
 
-            return this.RedirectToAction("Details", new { id = product.Id, message = GlobalConstants.SuccessfullyAddProductMessage });
+            return this.RedirectToAction("Details", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedCategoryMessage });
         }
 
         public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel, Product product = null)
@@ -48,19 +48,19 @@
             return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }
 
-        public async Task<IActionResult> ViewOrNoProductFound(Product product, string action)
+        public async Task<IActionResult> RedirectToSuccessfulOperationOrNoProductFound(Product product, string action)
         {
             DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
             if (product != null && action == "Delete")
             {
                 await this.productsService.DeleteAsync(product);
-                return this.RedirectToAction("SuccessfullOperationTextMessage", new { message = GlobalConstants.SuccessfullyDeleteProductMessage });
+                return this.RedirectToAction("SuccessfulOperationTextMessage", new { message = GlobalConstants.SuccessfullyDeleteProductMessage });
             }
 
             if (product != null && action == "Undelete")
             {
                 await this.productsService.UndeleteAsync(product);
-                return this.RedirectToAction("SuccessfullOperationTextMessage", new { message = GlobalConstants.SuccessfullyUndeleteProductMessage });
+                return this.RedirectToAction("SuccessfulOperationTextMessage", new { message = GlobalConstants.SuccessfullyUndeleteProductMessage });
             }
 
             return this.RedirectToAction("Index");

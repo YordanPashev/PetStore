@@ -22,7 +22,11 @@
 
         public const string SuccessfullyUndeleteProductMessage = $"The product is now available.";
 
-        public const string SuccessfullyAddProductMessage = $"A new product has been add to the shop:";
+        public const string SuccessfullyAddedProductMessage = $"A new product has been add to the shop:";
+
+        public const string SuccessfullyAddedCategoryMessage = $"A new category has been add to the shop";
+
+        public const string SuccessfullyEditedCategoryMessage = $"The category has been edited successfully";
 
         public const string SuccessfullyEditProductMessage = $"Edited result:";
 

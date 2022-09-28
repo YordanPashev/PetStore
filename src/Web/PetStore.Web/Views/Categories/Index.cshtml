@@ -4,7 +4,12 @@
 @{
     ViewData["Title"] = "Categories";
 }
-
+@if(ViewBag.UserMessage != null)
+{
+     <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
+        <i>@ViewBag.UserMessage</i>
+    </h1>  
+}
 <div class="row">
         <h1 style="text-align: center">Categories</h1>
 </div>
@@ -12,34 +17,25 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <th>
-        </th>
-        <th>
-            Name
-        </th>
-        <th style="text-align:end">
-            Products Count
-        </th>
+        <th style="text-align:center">Category</th>
+        <th></th>
+        <th style="text-align:end"> Products Count</th>
+        <th style="text-align:end">Catgory Products</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var category in Model.AllCategories) 
     {
         <tr name="trData" onclick="location.href='@Url.Action("CategoryProducts", "Categories", new { category.Id })'">
-           <td class="about-product text-center mt-2"><img src="@category.ImageUrl" width="60" alt="No image">
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => category.Name)
-            </td>
+            <td class="about-product text-center mt-2"><img src="@category.ImageURL" width="60" alt="No image"></td>
+            <td>@Html.DisplayFor(modelItem => category.Name)</td>
+            <td style="text-align:end">@Html.DisplayFor(modelItem => category.Products.Count)</td>
             <td style="text-align:end">
-                @Html.DisplayFor(modelItem => category.Products.Count)
-            </td>
-            <td style="text-align:end">
-                <a class="btn btn-info" asp-action="CategoryProducts" asp-route-id="@category.Id">Products</a> 
+                <a class="btn btn-info" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@category.Id">Products</a> 
                 @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    <a class="btn btn-dark" asp-action="" asp-route-id="@category.Id">Edit</a>
-                    <a class="btn btn-danger" asp-action="" asp-route-id="@category.Id">Delete</a>
+                    <a class="btn btn-dark" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+                    <a class="btn btn-danger" asp-controller="Categories"asp-action="" asp-route-id="@category.Id">Delete</a>
                 }
             </td>
         </tr>

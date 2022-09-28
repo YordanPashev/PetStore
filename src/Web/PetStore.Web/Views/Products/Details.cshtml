@@ -27,39 +27,32 @@
         <div> 
             <a class="btn btn-dark" style="float: left" asp-action="Index">All Products</a>
             <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName Products</a> 
-        </div>  
-    </div> 
-</div>
-@if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-{
-<div>
-    <p class="d-flex justify-content-center container mt-3">
-        <div class="card p-3 bg-white">
-              <i class="fa fa-apple"></i>
-        <div style="text-align:center">
-        <h3><string>Administration settings</string></h3><br/>
-        Created on @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
-        @if(Model.ModifiedOn != null)
-        {                  
-            <p style="text-align:center">Last changes was made on @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
-        }
-        <br/>
         </div>
-            <p class="d-grid gap-2 col-6 mx-auto">
-                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                <a class="btn btn-danger" asp-action="DeleteResult" asp-route-id="@Model.Id">Delete product</a>
-                <input class="btn btn-dark" value="Back" onclick="history.back()">
+        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <p class="d-flex justify-content-center container mt-3">
+                <div style="text-align:center; font-size:25px; padding: 8px; border: 8px solid lightgray; background-color:lightgray; border-radius: 3px">
+                    <i><strong>Administration settings</strong></i>
+                </div>
+                <div class="card p-3 bg-white">
+                    <i class="fa fa-apple"></i>
+                    <div style="text-align:center">                  
+                        <p><i><strong>Created on</strong></i> @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
+                        @if(Model.ModifiedOn != null)
+                        {                  
+                            <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
+                        }
+                        <br/>
+                    </div>
+                    <p class="d-grid gap-2 col-6 mx-auto">
+                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a class="btn btn-danger" asp-action="DeleteResult" asp-route-id="@Model.Id">Delete product</a>
+                        <input class="btn btn-dark" value="Back" onclick="history.back()">
+                    </p>
+                </div>
             </p>
-        </div>   
-     </p>
+        }  
+    </div>
 </div>
-}  
-else
-{
-    <br/>
-    <p class="d-grid gap-2 col-6 mx-auto">
-       <input class="btn btn-secondary" value="Back" onclick="history.back()">
-    </p>
-}
 
 

@@ -9,7 +9,7 @@
 <h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
 
 <h4 style="text-align: center">Edit</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4 mx-auto">
         <form asp-action="Edit">
@@ -37,19 +37,17 @@
             <div class="form-group">
                 <label for="CategoryName" class="control-label">Category</label>
                 <select id="CategoryId" name="CategoryName" class="form-control" asp-items="ViewBag.CategoryId">
-                    @{var productCategory = @Model.Categories.FirstOrDefault(c => c.Name == Model.ProductInfo.CategoryName);
-                    <option value="@productCategory.Name">@productCategory.Name</option>}
-                    @foreach (var categories in Model.Categories)
-                    {
-                        @if(categories.Name == Model.ProductInfo.CategoryName)
+                    @{
+                        var productCategory = @Model.Categories.FirstOrDefault(c => c.Name == Model.ProductInfo.CategoryName);
+                        <option value="@productCategory.Name">@productCategory.Name</option>                  
+                        foreach (var category in Model.Categories.Where(c => c.Name != Model.ProductInfo.CategoryName))
                         {
-                            continue;
+                            <option value="@category.Name">@category.Name</option>
                         }
-                        <option value="@categories.Name">@categories.Name</option>
                     }
                 </select>
             </div>
-            <br />
+            <br/>
             <div class="d-grid gap-2 col-6 mx-auto">
                 <input type="submit" value="Edit" class="btn btn-success"/>
                     <a class="btn btn-danger" asp-controller="Products" asp-action="DeleteResult" asp-route-id="@Model.ProductInfo.Id">Delete</a>
