@@ -4,6 +4,9 @@
 
     public class ProductWithAllCategoriesViewModel
     {
+        public ProductWithAllCategoriesViewModel()
+            => this.Categories = new HashSet<CategoryShortInfoViewModel>();
+
         public ProductInfoViewModel ProductInfo { get; set; }
 
         public ICollection<CategoryShortInfoViewModel> Categories { get; set; }

@@ -26,7 +26,7 @@
         </div>
         <div> 
             <a class="btn btn-dark" style="float: left" asp-action="Index">All Products</a>
-            <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName Products</a> 
+            <a class="btn btn-info" style="float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName</a> 
         </div>
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

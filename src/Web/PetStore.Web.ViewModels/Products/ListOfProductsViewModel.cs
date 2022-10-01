@@ -4,8 +4,11 @@
 
     public class ListOfProductsViewModel
     {
-       public ICollection<ProductShortInfoViewModel> ListOfProducts { get; set; }
+        public ListOfProductsViewModel()
+            => this.ListOfProducts = new HashSet<ProductShortInfoViewModel>();
 
-       public string SearchQuery { get; set; }
+        public ICollection<ProductShortInfoViewModel> ListOfProducts { get; set; }
+
+        public string SearchQuery { get; set; }
     }
 }

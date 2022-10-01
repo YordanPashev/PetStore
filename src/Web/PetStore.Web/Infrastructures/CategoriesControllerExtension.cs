@@ -29,18 +29,18 @@
                 return this.View("NoCategoryFound");
             }
 
+            this.ViewBag.CategoryName = category.Name;
+            this.ViewBag.CategoryImageURL = category.ImageURL;
+
             if (category.Products.Count == 0)
             {
-                return this.View("NoProductFound");
+                return this.View("~/Views/Products/Index.cshtml", new ListOfProductsViewModel());
             }
 
             ListOfProductsViewModel model = new ListOfProductsViewModel()
             {
                 ListOfProducts = AutoMapperConfig.MapperInstance.Map<ProductShortInfoViewModel[]>(category.Products),
             };
-
-            this.ViewBag.CategoryName = category.Name;
-            this.ViewBag.CategoryImageURL = category.ImageURL;
 
             if (productsStatus == GlobalConstants.ProductStatusInStock)
             {
@@ -52,7 +52,7 @@
                 return this.View("~/Views/Products/DeletedProducts.cshtml", model);
             }
 
-            return this.View("NoProductsFound");
+            return this.View("Index", "Products");
         }
 
         public async Task<IActionResult> EditAndRedirectOrReturnMessage(Category category, CategoryProdutsViewModel userInputModel)

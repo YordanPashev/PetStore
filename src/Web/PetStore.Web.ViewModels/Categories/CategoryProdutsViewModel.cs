@@ -10,6 +10,9 @@
 
     public class CategoryProdutsViewModel : IMapFrom<Category>, IHaveCustomMappings
     {
+        public CategoryProdutsViewModel()
+            => this.Products = new HashSet<DetailsProductViewModel>();
+
         public int Id { get; set; }
 
         public string Name { get; set; }
