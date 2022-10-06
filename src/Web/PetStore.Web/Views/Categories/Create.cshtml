@@ -5,9 +5,12 @@
 @{
     ViewData["Title"] = "Create Category";
 }
-<h1 style="text-align:center; color:red"> 
+@if (@ViewBag.ErrorMessage != null)
+{
+    <h1 style="text-align:center; color:red"> 
     @ViewBag.ErrorMessage<br/>
 </h1>
+}
 <h1 style="text-align: center">Create</h1>
 <h4 style="text-align: center">Category</h4>
 <hr/>

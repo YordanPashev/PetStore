@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<h1 class="text-center">@ViewBag.Title</h1>
+<hr />
+<div class="row">
+<div class="col-sm-6">
+     <div class="card ">
+        <button class="btn-success" onclick="location.href='@Url.Action("Create", "Products")'" style="text-align: center; font-size: xx-large">         
+            New Product      
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-6">
+     <div class="card ">
+        <button class="btn-success" onclick="location.href='@Url.Action("Create", "Categories")'" style="text-align: center; font-size: xx-large">         
+            New Category      
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
