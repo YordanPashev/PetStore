@@ -6,8 +6,8 @@
     ViewData["Title"] = $"{Model.Name}";
 }
 
-<h3 style="text-align:left">Category: @Model.CategoryName</h3>
-<h1 style="text-align:center">@Model.Name</h1>
+<h1 style="text-align:center"><strong>@Model.Name</strong></h1>
+<h4 style="text-align:center; color: gray"><i>Category: @Model.CategoryName</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
         <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image">
@@ -23,7 +23,7 @@
                     </p>
                     <p>
                          <div class="d-grid gap-2 col-6 mx-auto">
-                             <a class="btn btn-success" asp-controller="Products" asp-action="UndeleteResult" asp-route-id="@Model.Id">Undelete product</a>
+                             <a class="btn btn-danger" onclick="return confirm('Return @Model.Name back to the shtop?');" asp-action="UndeleteResult" asp-route-id="@Model.Id">Undelete</a>
                              <input class="btn btn-dark" value="Back" onclick="history.back()">
                         </div>
                     </p>

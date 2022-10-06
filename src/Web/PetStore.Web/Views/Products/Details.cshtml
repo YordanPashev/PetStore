@@ -5,6 +5,7 @@
 @{
     ViewData["Title"] = $"{Model.Name}";
 }
+
 @if (Model.UserMessage != null)
 {
     <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
@@ -12,7 +13,9 @@
     </h1>   
     <br/>
 }
-<h1 style="text-align:center">@Model.Name</h1>
+
+<h1 style="text-align:center"><strong>@Model.Name</strong></h1>
+<h4 style="text-align:center; color: gray"><i>Category: @Model.CategoryName</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
         <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image"></div>

@@ -31,7 +31,10 @@
     }
     else
     {
-        <h1 style="text-align: center">Deleted @ViewBag.CategoryName</h1>
+        <h1 class="about-product text-left mt-2">
+            <img src="@ViewBag.CategoryImageURL" alt="@ViewBag.CategoryName" style="width:120px; height:100px; border:2px solid; border-radius: 5px">
+            Deleted @ViewBag.CategoryName
+        </h1> 
     }
 </div>
 <table class="table table-hover">
@@ -67,7 +70,7 @@
             </td>
             <td style="text-align:end">
                 <a class="btn btn-info" asp-controller="Products" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a> 
-                <a class="btn btn-success" asp-controller="Products" asp-action="UndeleteConfirmation" asp-route-id="@product.Id">Undelete</a>
+                <a class="btn btn-danger" asp-controller="Products" asp-action="UndeleteConfirmation" asp-route-id="@product.Id">Undelete</a>
             </td>
         </tr>
     }
