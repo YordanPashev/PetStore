@@ -19,23 +19,7 @@
         private readonly IProductsService productsService;
 
         public ProductsControllerExtension(IProductsService productService)
-        {
-            this.productsService = productService;
-        }
-
-        public async Task<IActionResult> CreateAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel)
-        {
-            if (this.productsService.IsProductExistingInDb(userInputModel.Name))
-            {
-                return this.RedirectToAction("Create", new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
-            }
-
-            Product product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
-            product.Id = this.GenerateId();
-            await this.productsService.AddProductAsync(product);
-
-            return this.RedirectToAction("Details", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedCategoryMessage });
-        }
+            => this.productsService = productService;
 
         public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel, Product product = null)
         {
@@ -96,19 +80,6 @@
 
             return this.View(allProductsModel);
         }
-
-        public IActionResult ViewOrNoGategoryFound(ProductWithAllCategoriesViewModel createProductModel)
-        {
-            if (createProductModel.Categories == null)
-            {
-                return this.View("NoCategoryFound");
-            }
-
-            return this.View(createProductModel);
-        }
-
-        private string GenerateId()
-            => Guid.NewGuid().ToString();
 
         private ICollection<ProductShortInfoViewModel> GetAllMatchingProducts(ICollection<ProductShortInfoViewModel> allProducts, string search)
             => allProducts.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToArray();

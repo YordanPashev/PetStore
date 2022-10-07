@@ -18,9 +18,7 @@
         private readonly ICategoriesService categoriesService;
 
         public CategoriesControllerExtension(ICategoriesService categoriesService)
-        {
-            this.categoriesService = categoriesService;
-        }
+            => this.categoriesService = categoriesService;
 
         public IActionResult RedirectOrNotFound(Category category, string productsStatus)
         {

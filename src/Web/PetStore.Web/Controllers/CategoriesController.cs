@@ -5,7 +5,6 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Routing;
 
     using PetStore.Common;
     using PetStore.Data.Models;
@@ -66,34 +65,6 @@
             }
 
             return await this.categoryControllerExtension.EditAndRedirectOrReturnMessage(category, userInputModel);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Create(string errorMessage = null)
-        {
-            this.ViewBag.ErrorMessage = errorMessage;
-            return this.View("Create");
-        }
-
-        [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Create(InputCategoryViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.RedirectToAction("Create", "Categories", new { errorMessage = GlobalConstants.InvalidDataErrorMessage });
-            }
-
-            if (this.categoriesService.IsCategoryExistingInDb(model.Name))
-            {
-                return this.RedirectToAction("Create", "Categories", new { errorMessage = GlobalConstants.CategoryAlreadyExistInDbErrorMessage });
-            }
-
-            Category category = AutoMapperConfig.MapperInstance.Map<Category>(model);
-            await this.categoriesService.AddCategoryAsync(category);
-
-            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyAddedCategoryMessage });
         }
 
         [HttpGet]

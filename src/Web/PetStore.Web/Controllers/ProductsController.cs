@@ -40,34 +40,6 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Create(string message = null)
-        {
-            ProductWithAllCategoriesViewModel createProductModel = new ProductWithAllCategoriesViewModel()
-            {
-                Categories = this.categoriesService.GetAllCategoriesNoTracking()
-                                                   .To<CategoryShortInfoViewModel>()
-                                                   .ToArray(),
-                UserMessage = message,
-            };
-
-            return this.productsControllerExtension.ViewOrNoGategoryFound(createProductModel);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Create(ProductInfoViewModel userInputModel)
-        {
-            userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
-            if (!this.ModelState.IsValid || userInputModel.CategoryId < 0)
-            {
-                return this.RedirectToAction("Create", new { message = GlobalConstants.InvalidDataErrorMessage });
-            }
-
-            return await this.productsControllerExtension.CreateAndRedirectOrReturnInvalidInputMessage(userInputModel);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> DeleteConfirmation(string id)
         {
             Product product = await this.productsService.GetByIdAsync(id);

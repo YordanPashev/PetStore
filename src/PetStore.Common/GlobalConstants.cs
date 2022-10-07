@@ -8,7 +8,7 @@
 
         public const string CategoryNotFoundErrorMessage = "Invalid Category.";
 
-        public const string ProductAlreadyExistInDbErrorMessage = "Product already exist.";
+        public const string ProductAlreadyExistInDbErrorMessage = "Product with the same name already exist in the shop.";
 
         public const string CategoryAlreadyExistInDbErrorMessage = "Category exist.";
 
