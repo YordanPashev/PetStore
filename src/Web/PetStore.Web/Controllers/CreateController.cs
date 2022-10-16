@@ -14,6 +14,7 @@
     using PetStore.Web.ViewModels.Categories;
     using PetStore.Web.ViewModels.Products;
 
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class CreateController : Controller
     {
         private readonly ICategoriesService categoriesService;
@@ -26,7 +27,6 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult CreateCategory(string errorMessage = null)
         {
             this.ViewBag.ErrorMessage = errorMessage;
@@ -34,7 +34,6 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> CreateCategory(InputCategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
@@ -53,14 +52,13 @@
             return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyAddedCategoryMessage });
         }
 
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        [HttpGet]
         public IActionResult Index()
         {
             return this.View();
         }
 
         [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult CreateProduct(string message = null)
         {
             ProductWithAllCategoriesViewModel createProductModel = new ProductWithAllCategoriesViewModel()
@@ -75,7 +73,6 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> CreateProduct(ProductInfoViewModel userInputModel)
         {
             userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
