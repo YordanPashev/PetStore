@@ -1,0 +1,86 @@
+﻿@using PetStore.Common
+@model PetStore.Web.ViewModels.Pets.AllPetsViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="row">
+    <h1 style="text-align: center">All Pets</h1>
+    <div class="col-md-4 justify-content-end" style="float: left">
+    <form method="get" asp-controller="Pets" asp-action="Index">
+        <div class="input-group">
+            @if (Model.SearchQuery == null)
+            {
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search product...">
+            }
+            else
+            {
+                <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
+            }
+            <div class="input-group-btn">
+                <button class="btn btn-success m-auto" type="submit">
+                    Search
+                </button>
+            </div>
+        </div>
+    </form> 
+ </div>
+</div>
+@if (Model.ListOfAllPets.Count > 0)
+{
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+                <th style="text-align:center">Pet</th>
+                <th></th>
+                <th style="text-align:end">Type</th>
+                <th style="text-align:end">Age</th>
+                <th style="text-align:end">Breed</th>
+                <th style="text-align:end">Price</th>
+                <th style="text-align:end">Get Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.ListOfAllPets)
+            {
+                <tr name="trData" onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'">
+                    <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60" alt="@product.Name"></td>
+                    <td>@Html.DisplayFor(modelItem => product.Name)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Type)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Age)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Breed)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Price) $</td>
+                    <td style="text-align:end">
+                        <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@product.Id">Details</a> 
+                        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                            <a class="btn btn-danger" asp-controller="Pets" asp-action="DeleteConfirmation" asp-route-id="@product.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+        <h1 style="text-align: center">No products found</h1> 
+        <br/>
+}
+<p class="d-grid gap-2 col-2 mx-auto">
+        <input class="btn btn-dark" value="Back" onclick="history.back()">
+        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+        <a class="btn btn-success" asp-controller="Pets" asp-action="Create">Add new pet</a>
+            @if (ViewBag.CategoryName == null)
+            {
+                <a class="btn btn-secondary" asp-controller="Pets" asp-action="DeletedProducts">Sold pets</a>            
+            }
+            else
+            {
+                <a class="btn btn-secondary" asp-controller="Pets" asp-action="DeletedCategoryPorducts" asp-route-name="@ViewBag.CategoryName">Deleted @ViewBag.CategoryName</a>   
+            }
+        }     
+</p>

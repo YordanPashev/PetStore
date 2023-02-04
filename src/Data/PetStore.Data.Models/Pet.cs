@@ -3,7 +3,6 @@ namespace PetStore.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     using PetStore.Data.Common.Models;
     using PetStore.Data.Models.Common;
@@ -31,17 +30,5 @@ namespace PetStore.Data.Models
 
         [Required]
         public PetType Type { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(Client))]
-        public string OwnerId { get; set; }
-
-        public virtual Client Client { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(Store))]
-        public string StoreId { get; set; }
-
-        public virtual Store Store { get; set; }
     }
 }

@@ -71,17 +71,12 @@
 
             if (!string.IsNullOrEmpty(search))
             {
-                allProductsModel = new ListOfProductsViewModel()
-                {
-                    ListOfProducts = this.GetAllMatchingProducts(allProductsModel.ListOfProducts, search),
-                    SearchQuery = search,
-                };
+                ProductShortInfoViewModel[] matchesProducts = allProductsModel.ListOfProducts.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToArray();
+
+                allProductsModel.ListOfProducts = matchesProducts;
             }
 
             return this.View(allProductsModel);
         }
-
-        private ICollection<ProductShortInfoViewModel> GetAllMatchingProducts(ICollection<ProductShortInfoViewModel> allProducts, string search)
-            => allProducts.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToArray();
     }
 }
