@@ -1,0 +1,61 @@
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
+@model PetStore.Web.ViewModels.Pets.PetsWithAllPetTypesViewModel
+
+@{
+    ViewData["Title"] = "Add Pet";
+}
+
+@if (@Model.UserMessage != null)
+{
+    <h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+}   
+<h1 style="text-align: center">Add</h1>
+<h4 style="text-align: center">Pet</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="AddPet">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label for="Name" class="control-label">Name</label>
+                    <input id="Name" name="Name" placeholder="Pet Name..." class="form-control" type="text" minlength="@PetValidationConstants.NameMinLength" maxlength="@PetValidationConstants.NameMaxLength" required/>
+                </div>
+                <div class="form-group">
+                    <label for="Price" class="control-label">Age</label>
+                    <input id="Price" name="Age" placeholder="0.00" class="form-control" type="number" step=".1" min="@PetValidationConstants.AgeMinLength" max="@PetValidationConstants.AgeMaxLength" required/>
+                </div>
+                <div class="form-group">
+                    <label for="Name" class="control-label">Breed</label>
+                    <input id="Breed" name="Breed" placeholder="Breed..." class="form-control" type="text" minlength="@PetValidationConstants.BreedMinLength" maxlength="@PetValidationConstants.BreedMaxLength" required/>
+                </div>
+                <div class="form-group">
+                    <label for="Price" class="control-label">Price</label>
+                    <input id="Price" name="Price" placeholder="0.00" class="form-control" type="number" step=".01" min="@PetValidationConstants.PriceMinValue" max="@PetValidationConstants.PriceMaxValue" required/>
+                </div>
+                <div class="form-group">
+                    <label for="ImageURL" class="control-label">ImageURL</label>
+                    <input id="ImageURL" name="ImageURL" placeholder="ImageURL..." pattern="@PetValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" required/>
+                </div>
+                <div class="form-group">
+                    <label for="CategoryName" class="control-label">Type</label>
+                    <select id="Type" name="Type" class="form-control">
+                        @foreach (var petName in Model.PetTypes)
+                        {
+                            <option value="@petName">@petName</option>
+                        }
+                    </select>
+                </div>
+                <br/>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <input type="submit" value="Create" class="btn btn-success"/>
+                    <input class="btn btn-dark" value="Back" onclick="history.back()">
+                </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

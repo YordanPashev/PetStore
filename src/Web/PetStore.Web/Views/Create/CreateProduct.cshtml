@@ -6,7 +6,10 @@
     ViewData["Title"] = "Create Product";
 }
 
-<h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+if (@Model.UserMessage != null)
+{
+    <h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+}
 <h1 style="text-align: center">Create</h1>
 <h4 style="text-align: center">Product</h4>
 <hr />

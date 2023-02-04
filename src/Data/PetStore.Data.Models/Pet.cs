@@ -15,14 +15,17 @@ namespace PetStore.Data.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
+        [Required]
         [MaxLength(PetValidationConstants.NameMaxLength)]
         public string Name { get; set; }
 
-        public int Age { get; set; }
+        [Required]
+        public double Age { get; set; }
 
         [Required]
         public string Breed { get; set; }
 
+        [Required]
         public decimal Price { get; set; }
 
         [Required]

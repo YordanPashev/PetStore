@@ -1,5 +1,7 @@
 ﻿namespace PetStore.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,10 +10,13 @@
 
     using PetStore.Common;
     using PetStore.Data.Models;
+    using PetStore.Data.Models.Enums;
     using PetStore.Services.Data;
+    using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.Infrastructures;
     using PetStore.Web.ViewModels.Categories;
+    using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -20,10 +25,16 @@
         private readonly ICategoriesService categoriesService;
         private readonly CreateControllerExtension createControllerExtension;
 
-        public CreateController(IProductsService productService, ICategoriesService categoriesService)
+        public CreateController(IProductsService productService, ICategoriesService categoriesService, IPetsService petsService)
         {
             this.categoriesService = categoriesService;
-            this.createControllerExtension = new CreateControllerExtension(productService);
+            this.createControllerExtension = new CreateControllerExtension(productService, petsService);
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return this.View();
         }
 
         [HttpGet]
@@ -53,12 +64,6 @@
         }
 
         [HttpGet]
-        public IActionResult Index()
-        {
-            return this.View();
-        }
-
-        [HttpGet]
         public IActionResult CreateProduct(string message = null)
         {
             ProductWithAllCategoriesViewModel createProductModel = new ProductWithAllCategoriesViewModel()
@@ -83,5 +88,32 @@
 
             return await this.createControllerExtension.CreateAndRedirectOrReturnInvalidInputMessage(userInputModel);
         }
+
+        [HttpGet]
+        public IActionResult AddPet(string message = null)
+        {
+            PetsWithAllPetTypesViewModel createProductModel = new PetsWithAllPetTypesViewModel()
+            {
+                CreatePetViewModel = new CreatePetViewModel(),
+                PetTypes = this.GetAllPetType(),
+                UserMessage = message,
+            };
+
+            return this.View(createProductModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPet(CreatePetViewModel petModel)
+        {
+            if (petModel == null || !this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("AddPet", new { message = GlobalConstants.InvalidDataErrorMessage });
+            }
+
+            return await this.createControllerExtension.CreatePetOrReturnInvalidInputMessage(petModel);
+        }
+
+        private List<string> GetAllPetType()
+            => Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
     }
 }

@@ -8,16 +8,22 @@
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data;
+    using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.Controllers;
+    using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;
 
     public class CreateControllerExtension : BaseController
     {
         private readonly IProductsService productsService;
+        private readonly IPetsService petsService;
 
-        public CreateControllerExtension(IProductsService productService)
-            => this.productsService = productService;
+        public CreateControllerExtension(IProductsService productService, IPetsService petsService)
+        {
+            this.productsService = productService;
+            this.petsService = petsService;
+        }
 
         public IActionResult ViewOrNoGategoryFound(ProductWithAllCategoriesViewModel createProductModel)
         {
@@ -41,6 +47,20 @@
             await this.productsService.AddProductAsync(product);
 
             return this.RedirectToAction("Details", "Products", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
+        }
+
+        public async Task<IActionResult> CreatePetOrReturnInvalidInputMessage(CreatePetViewModel petModel)
+        {
+            if (this.petsService.IsPetExistingInDb(petModel.Name))
+            {
+                return this.RedirectToAction("Pets", new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
+            }
+
+            Pet pet = AutoMapperConfig.MapperInstance.Map<Pet>(petModel);
+            pet.Id = this.GenerateId();
+            await this.petsService.AddPetAsync(pet);
+
+            return this.RedirectToAction("Details", "Pets", new { id = pet.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
         }
 
         private string GenerateId()

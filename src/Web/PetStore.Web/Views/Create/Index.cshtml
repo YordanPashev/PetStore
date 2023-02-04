@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Add";
 }
 
 <h1 class="text-center">@ViewBag.Title</h1>
@@ -16,6 +16,13 @@
      <div class="card ">
         <button class="btn-primary" onclick="location.href='@Url.Action("CreateCategory", "Create")'" style="text-align: center; font-size: xx-large">         
             New Category      
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-6">
+     <div class="card ">
+        <button class="btn-primary" onclick="location.href='@Url.Action("AddPet", "Create")'" style="text-align: center; font-size: xx-large">         
+            New Pet      
             </button>
         </div>
     </div>
