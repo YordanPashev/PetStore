@@ -26,6 +26,8 @@
 
         public const string SuccessfullyAddedCategoryMessage = $"A new category has been add to the shop";
 
+        public const string SuccessfullyAddedPetMessage = $"A new pet has been add to the shop";
+
         public const string SuccessfullyEditedCategoryMessage = $"The category has been edited successfully";
 
         public const string SuccessfullyEditProductMessage = $"Edited result:";
@@ -33,5 +35,8 @@
         public const string ProductStatusInStock = "InStock";
 
         public const string ProductStatusDeleted = "Deleted";
+
+        public const string PetlreadyExistInDbErrorMessage = "Pet has already been added to the shop.";
+
     }
 }

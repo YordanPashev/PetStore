@@ -9,7 +9,7 @@
     {
         IQueryable<Pet> GetAllPetsNoTracking();
 
-        bool IsPetExistingInDb(string petName);
+        bool IsPetExistingInDb(Pet pet);
 
         Task AddPetAsync(Pet pet);
     }

@@ -105,12 +105,16 @@
         [HttpPost]
         public async Task<IActionResult> AddPet(CreatePetViewModel petModel)
         {
-            if (petModel == null || !this.ModelState.IsValid)
+            bool isPetTypeValid = Enum.IsDefined(typeof(PetType), petModel.TypeName);
+
+            if (petModel == null || !this.ModelState.IsValid || !isPetTypeValid)
             {
                 return this.RedirectToAction("AddPet", new { message = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return await this.createControllerExtension.CreatePetOrReturnInvalidInputMessage(petModel);
+            PetType petType = Enum.Parse<PetType>(petModel.TypeName);
+
+            return await this.createControllerExtension.CreatePetOrReturnInvalidInputMessage(petModel, petType);
         }
 
         private List<string> GetAllPetType()

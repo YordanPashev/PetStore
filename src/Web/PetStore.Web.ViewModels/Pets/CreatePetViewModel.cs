@@ -30,6 +30,6 @@
         public string ImageUrl { get; set; }
 
         [Required]
-        public string Type { get; set; }
+        public string TypeName { get; set; }
     }
 }

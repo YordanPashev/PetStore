@@ -7,6 +7,7 @@
 
     using PetStore.Common;
     using PetStore.Data.Models;
+    using PetStore.Data.Models.Enums;
     using PetStore.Services.Data;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
@@ -43,27 +44,37 @@
             }
 
             Product product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
-            product.Id = this.GenerateId();
+            product.Id = Guid.NewGuid().ToString();
             await this.productsService.AddProductAsync(product);
 
             return this.RedirectToAction("Details", "Products", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
         }
 
-        public async Task<IActionResult> CreatePetOrReturnInvalidInputMessage(CreatePetViewModel petModel)
+        public async Task<IActionResult> CreatePetOrReturnInvalidInputMessage(CreatePetViewModel petModel, PetType petType)
         {
-            if (this.petsService.IsPetExistingInDb(petModel.Name))
+            Pet pet = new Pet()
             {
-                return this.RedirectToAction("Pets", new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
+                Id = Guid.NewGuid().ToString(),
+                Name = petModel.Name,
+                Breed = petModel.Breed,
+                Age = petModel.Age,
+                Price = petModel.Price,
+                ImageUrl = petModel.ImageUrl,
+                Type = petType,
+            };
+
+            if (this.petsService.IsPetExistingInDb(pet))
+            {
+                return this.RedirectToAction("Pets", new { message = GlobalConstants.PetlreadyExistInDbErrorMessage });
             }
 
-            Pet pet = AutoMapperConfig.MapperInstance.Map<Pet>(petModel);
-            pet.Id = this.GenerateId();
             await this.petsService.AddPetAsync(pet);
 
-            return this.RedirectToAction("Details", "Pets", new { id = pet.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
+            return this.RedirectToAction("Details", "Pets", new
+            {
+                id = pet.Id,
+                message = GlobalConstants.SuccessfullyAddedPetMessage
+            });
         }
-
-        private string GenerateId()
-            => Guid.NewGuid().ToString();
     }
 }

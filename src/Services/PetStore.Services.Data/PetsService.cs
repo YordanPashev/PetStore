@@ -25,9 +25,11 @@
             => this.petsRepo.AllAsNoTracking()
                      .OrderBy(c => c.Name);
 
-        public bool IsPetExistingInDb(string petName)
+        public bool IsPetExistingInDb(Pet pet)
             => this.petsRepo
                    .AllAsNoTracking()
-                   .Any(p => p.Name == petName);
+                   .Any(p => p.Name == pet.Name && p.Type == pet.Type &&
+                        p.Breed == pet.Breed && p.Age == pet.Age &&
+                        p.Price == pet.Price && p.ImageUrl == pet.ImageUrl);
     }
 }
