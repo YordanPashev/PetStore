@@ -7,10 +7,7 @@ namespace PetStore.Data.Models
     using PetStore.Data.Common.Models;
     using PetStore.Data.Models.Common;
     using PetStore.Data.Models.Enums;
-    
-    // TODO
-    // Change age to date of birth in order to calculate pet age
-    // Add MaxLength and Rage Attributes
+
     public class Pet : BaseDeletableModel<string>
     {
         public Pet()
@@ -26,6 +23,7 @@ namespace PetStore.Data.Models
         public double Age { get; set; }
 
         [Required]
+        [MaxLength(PetValidationConstants.BreedMaxLength)]
         public string Breed { get; set; }
 
         [Required]

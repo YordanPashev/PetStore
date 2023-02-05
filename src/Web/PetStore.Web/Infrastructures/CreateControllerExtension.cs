@@ -70,11 +70,7 @@
 
             await this.petsService.AddPetAsync(pet);
 
-            return this.RedirectToAction("Details", "Pets", new
-            {
-                id = pet.Id,
-                message = GlobalConstants.SuccessfullyAddedPetMessage
-            });
+            return this.RedirectToAction("Details", "Pets", new { id = pet.Id, message = GlobalConstants.SuccessfullyAddedPetMessage});
         }
     }
 }

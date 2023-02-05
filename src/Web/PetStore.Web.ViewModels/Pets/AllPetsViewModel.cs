@@ -5,9 +5,9 @@
     public class AllPetsViewModel
     {
         public AllPetsViewModel()
-            => this.ListOfAllPets = new HashSet<PetsViewModel>();
+            => this.ListOfAllPets = new HashSet<PetViewModel>();
 
-        public ICollection<PetsViewModel> ListOfAllPets { get; set; }
+        public ICollection<PetViewModel> ListOfAllPets { get; set; }
 
         public string SearchQuery { get; set; }
     }

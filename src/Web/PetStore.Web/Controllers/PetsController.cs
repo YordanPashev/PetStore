@@ -1,7 +1,7 @@
 ﻿namespace PetStore.Web.Controllers
 {
     using System.Linq;
-
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
@@ -24,11 +24,26 @@
         {
             AllPetsViewModel model = new AllPetsViewModel()
             {
-                ListOfAllPets = this.petsService.GetAllPetsNoTracking().To<PetsViewModel>().ToArray(),
+                ListOfAllPets = this.petsService.GetAllPetsNoTracking().To<PetViewModel>().ToArray(),
                 SearchQuery = search,
             };
 
             return this.petsControllerExtension.ViewOrNoPetsFound(model, message, search);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id, string message = null)
+        {
+            Pet pet = await this.petsService.GetByIdAsync(id);
+
+            if (pet == null)
+            {
+                return this.View("NoPetsFound");
+            }
+
+            PetViewModel petModel = AutoMapperConfig.MapperInstance.Map<PetViewModel>(pet);
+            petModel.UserMessage = message;
+            return this.View(petModel);
         }
     }
 }

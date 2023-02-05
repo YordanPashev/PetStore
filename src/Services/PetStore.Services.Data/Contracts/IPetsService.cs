@@ -12,5 +12,7 @@
         bool IsPetExistingInDb(Pet pet);
 
         Task AddPetAsync(Pet pet);
+
+        Task<Pet> GetByIdAsync(string id);
     }
 }

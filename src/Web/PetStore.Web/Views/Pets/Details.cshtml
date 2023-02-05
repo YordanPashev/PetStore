@@ -1,0 +1,68 @@
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
+@model PetStore.Web.ViewModels.Pets.PetViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Name}";
+}
+
+@if (Model.UserMessage != null)
+{
+    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
+        <i>@Model.UserMessage</i>
+    </h1>   
+    <br/>
+}
+
+<h1 style="text-align:center"><strong>@Model.Name</strong></h1>
+<h4 style="text-align:center; color: gray"><i>Type: @Model.Type</i></h4>
+<div class="d-flex justify-content-center container mt-3">
+    <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
+        <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image"></div>
+        <div style="text-align:center">Breed: @Model.Breed</div>
+        <div style="text-align:center">Age: @Model.AgeInText</div>
+        <div style="text-align:center">Price: @Math.Round(Model.Price, 2) $</div>
+        @if(User.Identity.IsAuthenticated)
+        {
+            <div class="mb-2" style="text-align:center"><a class="btn btn-success" asp-action="">Add to Card</a></div>      
+        }
+        else
+        {
+            <div class="mb-2" style="text-align:center"><a class="btn btn-success" asp-area="Identity" asp-controller="Account" asp-action="Login">Purchase</a></div>      
+        }
+            <br/>
+            <br/>
+            <br/>
+        <div class="mb-2" style="text-align:center"> 
+            <a class="btn btn-dark" asp-controller="Pets" asp-action="Index">All Pets</a>
+        </div>
+        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <p class="d-flex justify-content-center container mt-3">
+                <div style="text-align:center; font-size:25px; padding: 8px; border: 8px solid lightgray; background-color:lightgray; border-radius: 3px">
+                    <i><strong>Administration settings</strong></i>
+                </div>
+                <div class="card p-3 bg-white">
+                    <i class="fa fa-apple"></i>
+                    <div style="text-align:center">                  
+                        <p><i><strong>Created on</strong></i> @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
+                        @if(Model.ModifiedOn != null)
+                        {                  
+                            <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
+                        }
+                        <br/>
+                    </div>
+                    <p class="d-grid gap-2 col-6 mx-auto">
+                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('Remove @Model.Name from the shtop?');" asp-action="DeleteResult" asp-route-id="@Model.Id">Remove Pet</a>
+                        <input class="btn btn-dark" value="Back" onclick="history.back()">
+                    </p>
+                </div>
+            </p>
+        }  
+    </div>
+</div>
+
+
+
+

@@ -12,7 +12,7 @@ namespace PetStore.Data.Models.Common
         public const int BreedMinLength = 2;
         public const int BreedMaxLength = 50;
 
-        public const double PriceMinValue = 0.1;
+        public const double PriceMinValue = 0.01;
         public const double PriceMaxValue = 1_000_000;
 
         public const string UrlRegex = @"^(https://)(.)+";

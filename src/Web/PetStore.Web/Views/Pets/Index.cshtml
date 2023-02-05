@@ -2,7 +2,7 @@
 @model PetStore.Web.ViewModels.Pets.AllPetsViewModel
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Pets";
 }
 
 <div class="row">
@@ -12,7 +12,7 @@
         <div class="input-group">
             @if (Model.SearchQuery == null)
             {
-                <input type="text" id="search" name="search" class="form-control" placeholder="Search product...">
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search pet...">
             }
             else
             {
@@ -42,21 +42,21 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in Model.ListOfAllPets)
+            @foreach (var pet in Model.ListOfAllPets)
             {
-                <tr name="trData" onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'">
-                    <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60" alt="@product.Name"></td>
-                    <td>@Html.DisplayFor(modelItem => product.Name)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Type)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Age)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Breed)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Price) $</td>
+                <tr name="trData" onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'">
+                    <td class="about-product text-center mt-2"><img src="@pet.ImageUrl" width="60" alt="@pet.Name"></td>
+                    <td>@Html.DisplayFor(modelItem => pet.Name)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => pet.Type)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => pet.AgeInText)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => pet.Breed)</td>
+                    <td style="text-align:end">@Html.DisplayFor(modelItem => pet.Price) $</td>
                     <td style="text-align:end">
-                        <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@product.Id">Details</a> 
+                        <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
-                            <a class="btn btn-danger" asp-controller="Pets" asp-action="DeleteConfirmation" asp-route-id="@product.Id">Delete</a>
+                            <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@pet.Id">Edit</a>
+                            <a class="btn btn-danger" asp-controller="Pets" asp-action="DeleteConfirmation" asp-route-id="@pet.Id">Delete</a>
                         }
                     </td>
                 </tr>
@@ -66,7 +66,7 @@
 }
 else
 {
-        <h1 style="text-align: center">No products found</h1> 
+        <h1 style="text-align: center">No pets found</h1> 
         <br/>
 }
 <p class="d-grid gap-2 col-2 mx-auto">
@@ -76,11 +76,11 @@ else
         <a class="btn btn-success" asp-controller="Pets" asp-action="Create">Add new pet</a>
             @if (ViewBag.CategoryName == null)
             {
-                <a class="btn btn-secondary" asp-controller="Pets" asp-action="DeletedProducts">Sold pets</a>            
+                <a class="btn btn-secondary" asp-controller="Pets" asp-action="RemovedPets">Sold pets</a>            
             }
             else
             {
-                <a class="btn btn-secondary" asp-controller="Pets" asp-action="DeletedCategoryPorducts" asp-route-name="@ViewBag.CategoryName">Deleted @ViewBag.CategoryName</a>   
+                <a class="btn btn-secondary" asp-controller="Pets" asp-action="RemovedTypePets" asp-route-name="@ViewBag.CategoryName">Deleted @ViewBag.CategoryName</a>   
             }
         }     
 </p>

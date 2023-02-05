@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
@@ -24,6 +25,11 @@
         public IQueryable<Pet> GetAllPetsNoTracking()
             => this.petsRepo.AllAsNoTracking()
                      .OrderBy(c => c.Name);
+
+        public async Task<Pet> GetByIdAsync(string id)
+            => await this.petsRepo
+                    .AllAsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == id);
 
         public bool IsPetExistingInDb(Pet pet)
             => this.petsRepo
