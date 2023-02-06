@@ -5,6 +5,7 @@
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Mapping;
+    using PetStore.Web.ViewModels.Common;
 
     public class PetViewModel : IMapFrom<Pet>
     {
@@ -12,11 +13,13 @@
 
         public string Name { get; set; }
 
-        public double Age { get; set; }
+        public int AgeMonts { get; set; }
 
-        public string AgeInText => this.GetAgeInTextFormat();
+        public string AgeInTextFormat => this.FormatAgeToText();
 
         public string Breed { get; set; }
+
+        public DateTime BirthDate { get; set; }
 
         public decimal Price { get; set; }
 
@@ -32,28 +35,22 @@
 
         public DateTime? DeletedOn { get; set; }
 
-        private string GetAgeInTextFormat()
+        private string FormatAgeToText()
         {
-            if (this.Age < 1)
-            {
-                int months = (int)(this.Age * 10);
-                return $"{months} Months";
-            }
-            else
-            {
-                int years = (int)this.Age;
-                string ageInString = this.Age.ToString();
-                int months = int.Parse(ageInString[ageInString.Length - 1].ToString());
+            var dateSpan = DateTimeSpan.CompareDates(DateTime.Now, this.BirthDate);
+            int years = dateSpan.Years;
+            int months = dateSpan.Months;
 
-                if (months == 0)
-                {
-                    return $"{years} years";
-                }
-                else
-                {
-                    return $"{years} years and {months} months";
-                }
+            if (years == 0)
+            {
+                return $"{months} months";
             }
+            else if (months == 0)
+            {
+                return $"{years} years";
+            }
+
+            return $"{years} years and {months} months";
         }
     }
 }

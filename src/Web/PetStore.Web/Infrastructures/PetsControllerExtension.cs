@@ -5,7 +5,6 @@
     using Microsoft.AspNetCore.Mvc;
 
     using PetStore.Services.Data.Contracts;
-    
     using PetStore.Web.Controllers;
     using PetStore.Web.ViewModels.Pets;
 

@@ -20,7 +20,7 @@
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
         <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image"></div>
         <div style="text-align:center">Breed: @Model.Breed</div>
-        <div style="text-align:center">Age: @Model.AgeInText</div>
+        <div style="text-align:center">Age: @Model.AgeInTextFormat</div>
         <div style="text-align:center">Price: @Math.Round(Model.Price, 2) $</div>
         @if(User.Identity.IsAuthenticated)
         {

@@ -3,7 +3,9 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.EntityFrameworkCore;
+
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
@@ -35,7 +37,7 @@
             => this.petsRepo
                    .AllAsNoTracking()
                    .Any(p => p.Name == pet.Name && p.Type == pet.Type &&
-                        p.Breed == pet.Breed && p.Age == pet.Age &&
+                        p.Breed == pet.Breed && p.BirthDate == pet.BirthDate &&
                         p.Price == pet.Price && p.ImageUrl == pet.ImageUrl);
     }
 }

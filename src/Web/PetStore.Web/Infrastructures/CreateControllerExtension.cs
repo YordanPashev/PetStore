@@ -57,7 +57,7 @@
                 Id = Guid.NewGuid().ToString(),
                 Name = petModel.Name,
                 Breed = petModel.Breed,
-                Age = petModel.Age,
+                BirthDate = petModel.BirthDate,
                 Price = petModel.Price,
                 ImageUrl = petModel.ImageUrl,
                 Type = petType,

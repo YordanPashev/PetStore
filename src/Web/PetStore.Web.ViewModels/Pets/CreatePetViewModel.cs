@@ -1,9 +1,9 @@
 ﻿namespace PetStore.Web.ViewModels.Pets
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     using PetStore.Data.Models.Common;
-    using PetStore.Data.Models.Enums;
 
     public class CreatePetViewModel
     {
@@ -13,8 +13,7 @@
         public string Name { get; set; }
 
         [Required]
-        [Range(PetValidationConstants.AgeMinLength, PetValidationConstants.AgeMaxLength)]
-        public double Age { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Required]
         [MinLength(PetValidationConstants.BreedMinLength)]
