@@ -1,0 +1,33 @@
+﻿@using PetStore.Web.ViewModels.Pets
+@model PetTypeViewModel[]
+
+@{
+    ViewBag.Title = "Pet Types";
+}
+
+<h2 class="text-center"><strong>@ViewBag.Title</strong></h2>
+<hr />
+
+@if (Model.Count() > 0)
+{
+    <div class="row">
+        @foreach (var petType in Model)
+        {
+            <div class="col-sm-6 mt-4">
+                <div class="card" style="height: 20rem; border: 3px solid; border-radius: 15px; border-color: whitesmoke; background-image: url(@petType.ImageUrl); background-size: 100% 100%;" >
+                    <div class="card-body" onclick="location.href='@Url.Action("CategoryProducts", "Categories", new { petType.Name })'">
+                        <h5 class="card-title text-center" style="color: black;">
+                            <strong style="font-size: 36px; color: black; border: 3px solid; border-radius: 15px; border-color: transparent; backdrop-filter: blur(20px);">
+                                @petType.Name
+                            </strong>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h1 class="text-center mt-3">No pet types!</h1>
+}

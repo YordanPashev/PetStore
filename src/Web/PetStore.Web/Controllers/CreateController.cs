@@ -95,7 +95,7 @@
             PetsWithAllPetTypesViewModel createProductModel = new PetsWithAllPetTypesViewModel()
             {
                 CreatePetViewModel = new CreatePetViewModel(),
-                PetTypes = this.GetAllPetType(),
+                PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList(),
                 UserMessage = message,
             };
 
@@ -116,8 +116,5 @@
 
             return await this.createControllerExtension.CreatePetOrReturnInvalidInputMessage(petModel, petType);
         }
-
-        private List<string> GetAllPetType()
-            => Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
     }
 }

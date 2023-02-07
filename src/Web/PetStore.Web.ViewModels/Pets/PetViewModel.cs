@@ -2,10 +2,10 @@
 {
     using System;
 
+    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Mapping;
-    using PetStore.Web.ViewModels.Common;
 
     public class PetViewModel : IMapFrom<Pet>
     {

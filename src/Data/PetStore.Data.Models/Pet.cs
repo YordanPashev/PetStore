@@ -19,6 +19,7 @@ namespace PetStore.Data.Models
         [MaxLength(PetValidationConstants.NameMaxLength)]
         public string Name { get; set; }
 
+        [Required]
         public DateTime BirthDate { get; set; }
 
         [Required]

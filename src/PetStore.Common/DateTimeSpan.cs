@@ -1,9 +1,28 @@
-﻿namespace PetStore.Web.ViewModels.Common
+﻿namespace PetStore.Common
 {
     using System;
 
     public struct DateTimeSpan
     {
+        public DateTimeSpan(int years, int months, int days, int hours, int minutes, int seconds, int milliseconds)
+        {
+            this.Years = years;
+            this.Months = months;
+            this.Days = days;
+            this.Hours = hours;
+            this.Minutes = minutes;
+            this.Seconds = seconds;
+            this.Milliseconds = milliseconds;
+        }
+
+        private enum Phase
+        {
+            Years,
+            Months,
+            Days,
+            Done,
+        }
+
         public int Years { get; }
 
         public int Months { get; }
@@ -17,19 +36,6 @@
         public int Seconds { get; }
 
         public int Milliseconds { get; }
-
-        public DateTimeSpan(int years, int months, int days, int hours, int minutes, int seconds, int milliseconds)
-        {
-            this.Years = years;
-            this.Months = months;
-            this.Days = days;
-            this.Hours = hours;
-            this.Minutes = minutes;
-            this.Seconds = seconds;
-            this.Milliseconds = milliseconds;
-        }
-
-        enum Phase { Years, Months, Days, Done }
 
         public static DateTimeSpan CompareDates(DateTime date1, DateTime date2)
         {
@@ -63,6 +69,7 @@
                         {
                             years++;
                         }
+
                         break;
 
                     case Phase.Months:
@@ -71,12 +78,15 @@
                             phase = Phase.Days;
                             current = current.AddMonths(months);
                             if (current.Day < officialDay && officialDay <= DateTime.DaysInMonth(current.Year, current.Month))
+                            {
                                 current = current.AddDays(officialDay - current.Day);
+                            }
                         }
                         else
                         {
                             months++;
                         }
+
                         break;
 
                     case Phase.Days:
