@@ -27,9 +27,9 @@
 
         public IActionResult Index(string search, string message = null)
         {
-            AllPetsViewModel model = new AllPetsViewModel()
+            PetsViewModel model = new PetsViewModel()
             {
-                ListOfAllPets = this.petsService.GetAllPetsNoTracking().To<PetViewModel>().ToArray(),
+                ListOfPets = this.petsService.GetAllPetsNoTracking().To<PetDetailsViewModel>().ToArray(),
                 SearchQuery = search,
             };
 
@@ -46,7 +46,7 @@
                 return this.View("NoPetsFound");
             }
 
-            PetViewModel petModel = AutoMapperConfig.MapperInstance.Map<PetViewModel>(pet);
+            PetDetailsViewModel petModel = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
             petModel.UserMessage = message;
             return this.View(petModel);
         }
@@ -58,24 +58,37 @@
             return this.View(model);
         }
 
+        [HttpGet]
+        public IActionResult TypePets(string name = "")
+        {
+            PetsViewModel model = new PetsViewModel()
+            {
+                ListOfPets = this.petsService.GetAllPetsWithSelectedType(name).To<PetDetailsViewModel>().ToArray(),
+                TypeName = name,
+            };
+
+            return this.View("Index", model);
+        }
+
         private PetTypeViewModel[] GetTypes()
         {
             List<string> petTypesNames = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
             Dictionary<string, string> petTypeUrls = new Dictionary<string, string>()
             {
-                { "Dogs", "https://media.istockphoto.com/id/1278389684/photo/large-group-of-various-breeds-of-dogs-together-on-a-white-background.jpg?s=612x612&w=0&k=20&c=MONWoLtCAUTJUbWed01JaLSgbBMclRbFCJ4szEK7iS0=" },
-                { "Cats", "https://thumbs.dreamstime.com/b/four-cute-cats-20650677.jpg" },
-                { "Birds", "https://i.pinimg.com/originals/7a/a3/1b/7aa31be92644e466a338d52e2d7bc224.jpg" },
-                { "Fishes", "https://www.worldatlas.com/r/w1200/upload/04/ab/d1/fish-species-tropical.jpg" },
-                { "Rodents", "https://www.earlham.ac.uk/sites/default/files/images/articles/Rodents-are-awesome/Rodents-are-awesome-extreme-evolution-feature-hero.jpg" },
+                { "Dog", "https://media.istockphoto.com/id/1278389684/photo/large-group-of-various-breeds-of-dogs-together-on-a-white-background.jpg?s=612x612&w=0&k=20&c=MONWoLtCAUTJUbWed01JaLSgbBMclRbFCJ4szEK7iS0=" },
+                { "Cat", "https://thumbs.dreamstime.com/b/four-cute-cats-20650677.jpg" },
+                { "Bird", "https://i.pinimg.com/originals/7a/a3/1b/7aa31be92644e466a338d52e2d7bc224.jpg" },
+                { "Fish", "https://www.worldatlas.com/r/w1200/upload/04/ab/d1/fish-species-tropical.jpg" },
+                { "Rodent", "https://www.earlham.ac.uk/sites/default/files/images/articles/Rodents-are-awesome/Rodents-are-awesome-extreme-evolution-feature-hero.jpg" },
             };
 
             List<PetTypeViewModel> petTypes = new List<PetTypeViewModel>();
-            if (petTypeUrls.Count == petTypeUrls.Count)
+
+            foreach (var typeName in petTypesNames)
             {
-                foreach (var typeInfo in petTypeUrls)
+                if (petTypeUrls.ContainsKey(typeName))
                 {
-                    PetTypeViewModel petType = new PetTypeViewModel(typeInfo.Key, typeInfo.Value);
+                    PetTypeViewModel petType = new PetTypeViewModel(typeName, petTypeUrls[typeName]);
                     petTypes.Add(petType);
                 }
             }

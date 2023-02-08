@@ -1,12 +1,20 @@
 ﻿@using PetStore.Common
-@model PetStore.Web.ViewModels.Pets.AllPetsViewModel
+@model PetStore.Web.ViewModels.Pets.PetsViewModel
 
 @{
     ViewData["Title"] = "Pets";
 }
 
 <div class="row">
-    <h1 style="text-align: center">All Pets</h1>
+    @if(string.IsNullOrEmpty(Model.TypeName))
+    {
+        <h1 style="text-align: center">All Pets</h1>
+
+    }
+    else
+    {
+        <h1 style="text-align: center">Pets Type @Model.TypeName</h1>
+    }
     <div class="col-md-4 justify-content-end" style="float: left">
     <form method="get" asp-controller="Pets" asp-action="Index">
         <div class="input-group">
@@ -27,7 +35,7 @@
     </form> 
  </div>
 </div>
-@if (Model.ListOfAllPets.Count > 0)
+@if (Model.ListOfPets.Count > 0)
 {
     <table class="table table-hover ">
         <thead>
@@ -42,7 +50,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var pet in Model.ListOfAllPets)
+            @foreach (var pet in Model.ListOfPets)
             {
                 <tr name="trData" onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'">
                     <td class="about-product text-center mt-2"><img src="@pet.ImageUrl" width="60" alt="@pet.Name"></td>
@@ -73,7 +81,7 @@ else
         <input class="btn btn-dark" value="Back" onclick="history.back()">
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
-        <a class="btn btn-success" asp-controller="Pets" asp-action="Create">Add new pet</a>
+        <a class="btn btn-success" asp-controller="Create" asp-action="AddPet">Add new pet</a>
             @if (ViewBag.CategoryName == null)
             {
                 <a class="btn btn-secondary" asp-controller="Pets" asp-action="RemovedPets">Sold pets</a>            

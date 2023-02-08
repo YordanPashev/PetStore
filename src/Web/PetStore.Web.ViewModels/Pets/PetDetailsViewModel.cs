@@ -7,7 +7,7 @@
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Mapping;
 
-    public class PetViewModel : IMapFrom<Pet>
+    public class PetDetailsViewModel : IMapFrom<Pet>
     {
         public string Id { get; set; }
 

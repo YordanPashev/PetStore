@@ -8,6 +8,7 @@
 
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
+    using PetStore.Data.Models.Enums;
     using PetStore.Services.Data.Contracts;
 
     public class PetsService : IPetsService
@@ -26,7 +27,21 @@
 
         public IQueryable<Pet> GetAllPetsNoTracking()
             => this.petsRepo.AllAsNoTracking()
-                     .OrderBy(c => c.Name);
+                    .OrderBy(p => p.Name);
+
+        public IQueryable<Pet> GetAllPetsWithSelectedType(string typeName)
+        {
+            PetType petType;
+
+            if (Enum.TryParse<PetType>(typeName, out petType))
+            {
+                return this.petsRepo.AllAsNoTracking()
+                   .Where(p => p.Type == petType)
+                   .OrderBy(c => c.Name);
+            }
+
+            return null;
+        }
 
         public async Task<Pet> GetByIdAsync(string id)
             => await this.petsRepo

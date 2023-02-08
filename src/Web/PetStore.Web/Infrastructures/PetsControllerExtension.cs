@@ -15,9 +15,9 @@
         public PetsControllerExtension(IPetsService categoriesService)
             => this.petsService = categoriesService;
 
-        public IActionResult ViewOrNoPetsFound(AllPetsViewModel model, string message, string search)
+        public IActionResult ViewOrNoPetsFound(PetsViewModel model, string message, string search)
         {
-            if (model.ListOfAllPets == null || model.ListOfAllPets.Count == 0)
+            if (model.ListOfPets == null || model.ListOfPets.Count == 0)
             {
                 return this.View("NoPetsFound");
             }
@@ -29,7 +29,7 @@
 
             if (!string.IsNullOrEmpty(search))
             {
-                model.ListOfAllPets = model.ListOfAllPets.Where(p => p.Name.Contains(search)).ToList();
+                model.ListOfPets = model.ListOfPets.Where(p => p.Name.Contains(search)).ToList();
             }
 
             return this.View(model);

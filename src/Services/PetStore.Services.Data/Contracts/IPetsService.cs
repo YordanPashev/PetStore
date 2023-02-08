@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using PetStore.Data.Models;
+    using PetStore.Web.ViewModels.Pets;
 
     public interface IPetsService
     {
@@ -14,5 +15,7 @@
         Task AddPetAsync(Pet pet);
 
         Task<Pet> GetByIdAsync(string id);
+
+        IQueryable<Pet> GetAllPetsWithSelectedType(string typeName);
     }
 }
