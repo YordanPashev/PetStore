@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -40,7 +41,7 @@
                    .OrderBy(c => c.Name);
             }
 
-            return null;
+            return Enumerable.Empty<Pet>().AsQueryable();
         }
 
         public async Task<Pet> GetByIdAsync(string id)

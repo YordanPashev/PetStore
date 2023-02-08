@@ -29,7 +29,8 @@
 
             if (!string.IsNullOrEmpty(search))
             {
-                model.ListOfPets = model.ListOfPets.Where(p => p.Name.Contains(search)).ToList();
+                string searchWordLowerCase = search.ToLower();
+                model.ListOfPets = model.ListOfPets.Where(p => p.Name.ToLower().Contains(searchWordLowerCase)).ToList();
             }
 
             return this.View(model);

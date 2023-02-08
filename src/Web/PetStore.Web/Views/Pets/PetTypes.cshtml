@@ -14,7 +14,7 @@
         @foreach (var petType in Model)
         {
             <div class="col-sm-6 mt-4">
-                <div class="card" style="height: 20rem; border: 3px solid; border-radius: 15px; border-color: whitesmoke; background-image: url(@petType.ImageUrl); background-size: 100% 100%;" >
+                <div class="card" style="height: 18rem; border: 3px solid; border-radius: 15px; border-color: whitesmoke; background-image: url(@petType.ImageUrl); background-size: 100% 100%;" >
                     <div class="card-body" onclick="location.href='@Url.Action("TypePets", "Pets", new { petType.Name })'">
                         <h5 class="card-title text-center" style="color: black;">
                             <strong style="font-size: 36px; color: black; border: 3px solid; border-radius: 15px; border-color: transparent; backdrop-filter: blur(20px);">
@@ -29,5 +29,5 @@
 }
 else
 {
-    <h1 class="text-center mt-3">No pet types!</h1>
+    <h1 class="text-center mt-3">No pet types yet!</h1>
 }

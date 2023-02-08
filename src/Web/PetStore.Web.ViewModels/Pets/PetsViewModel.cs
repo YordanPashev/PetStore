@@ -7,7 +7,7 @@
         public PetsViewModel()
             => this.ListOfPets = new HashSet<PetDetailsViewModel>();
 
-        public ICollection<PetDetailsViewModel> ListOfPets { get; set; }
+        public ICollection<PetDetailsViewModel> ListOfPets { get; set; } = null;
 
         public string SearchQuery { get; set; }
 

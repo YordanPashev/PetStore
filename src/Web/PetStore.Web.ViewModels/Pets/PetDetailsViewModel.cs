@@ -27,6 +27,10 @@
 
         public PetType Type { get; set; }
 
+        public string PetTypePlural => this.GetPetTypePlural();
+
+        public string TypeName => this.Type.ToString();
+
         public string UserMessage { get; set; }
 
         public DateTime CreatedOn { get; set; }
@@ -34,6 +38,12 @@
         public DateTime? ModifiedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        private string GetPetTypePlural()
+        {
+            string petTypeInTextFormat = this.Type.ToString();
+            return petTypeInTextFormat == "Fish" ? petTypeInTextFormat + "es" : petTypeInTextFormat + "s";
+        }
 
         private string FormatAgeToText()
         {

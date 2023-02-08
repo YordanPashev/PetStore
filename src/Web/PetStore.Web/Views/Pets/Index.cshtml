@@ -43,8 +43,6 @@
                 <th style="text-align:center">Pet</th>
                 <th></th>
                 <th style="text-align:end">Type</th>
-                <th style="text-align:end">Age</th>
-                <th style="text-align:end">Breed</th>
                 <th style="text-align:end">Price</th>
                 <th style="text-align:end">Get Details</th>
             </tr>
@@ -56,8 +54,6 @@
                     <td class="about-product text-center mt-2"><img src="@pet.ImageUrl" width="60" alt="@pet.Name"></td>
                     <td>@Html.DisplayFor(modelItem => pet.Name)</td>
                     <td style="text-align:end">@Html.DisplayFor(modelItem => pet.Type)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => pet.AgeInTextFormat)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => pet.Breed)</td>
                     <td style="text-align:end">@Html.DisplayFor(modelItem => pet.Price) $</td>
                     <td style="text-align:end">
                         <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a> 

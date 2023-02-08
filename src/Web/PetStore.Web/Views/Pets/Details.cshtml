@@ -34,7 +34,8 @@
             <br/>
             <br/>
         <div class="mb-2" style="text-align:center"> 
-            <a class="btn btn-dark" asp-controller="Pets" asp-action="Index">All Pets</a>
+            <a class="btn btn-dark" style="float: left" asp-controller="Pets" asp-action="Index">All Pets</a>
+            <a class="btn btn-info" style="float: right" asp-controller="Pets" asp-action="TypePets" asp-route-name="@Model.TypeName">More @Model.PetTypePlural</a>
         </div>
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

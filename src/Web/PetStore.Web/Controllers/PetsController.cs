@@ -59,7 +59,7 @@
         }
 
         [HttpGet]
-        public IActionResult TypePets(string name = "")
+        public IActionResult TypePets(string name = null)
         {
             PetsViewModel model = new PetsViewModel()
             {

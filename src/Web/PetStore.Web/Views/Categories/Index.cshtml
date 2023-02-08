@@ -10,42 +10,41 @@
         <i>@ViewBag.UserMessage</i>
     </h1>  
 }
-<div class="row">
-        <h1 style="text-align: center">Categories</h1>
-</div>
-<br/>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th style="text-align:center">Category</th>
-        <th></th>
-        <th style="text-align:end"> Products Count</th>
-        <th style="text-align:end">Catgory Products</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var category in Model.AllCategories) 
-    {
-        <tr name="trData" onclick="location.href='@Url.Action("CategoryProducts", "Categories", new { category.Id })'">
-            <td class="about-product text-center mt-2"><img src="@category.ImageURL" width="60" alt="No image"></td>
-            <td>@Html.DisplayFor(modelItem => category.Name)</td>
-            <td style="text-align:end">@Html.DisplayFor(modelItem => category.Products.Count)</td>
-            <td style="text-align:end">
-                <a class="btn btn-info" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@category.Id">Products</a> 
-                @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-                {
-                    <a class="btn btn-dark" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
-                    <a class="btn btn-danger" asp-controller="Categories"asp-action="" asp-route-id="@category.Id">Delete</a>
-                }
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<h2 class="text-center"><strong>@ViewBag.Title</strong></h2>
+<hr />
+@if (Model.AllCategories.Count > 0)
+{
+    <div class="row">
+        @foreach (var category in Model.AllCategories)
+        {
+            <div class="col-sm-6 mt-4">
+                <div class="card" style="height: 30rem; border: 3px solid; border-radius: 15px; border-color: whitesmoke; background-image: url(@category.ImageURL); background-size: 100% 100%;" >
+                    <div class="card-body" onclick="location.href='@Url.Action("CategoryProducts", "Categories", new { category.Id })'">
+                        <p class="card-title text-center" style="color: black;">
+                            <strong style="font-size: 36px; color: black; border: 3px solid; border-radius: 15px; border-color: transparent; backdrop-filter: blur(20px);">
+                                @category.Name
+                            </strong>
+                        </p>
+                        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <a class="btn btn-info mb-2" style="position: absolute; bottom: 0; right:25%; left:25%;" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+}
+else
+{
+    <h1 class="text-center mt-3">No products yet!</h1>
+}
 <div>
+
    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
    {
-       <p style="text-align:center">
+       <p class="mt-4" style="text-align:center">
            <a class="btn btn-success" asp-action="Create">Add new category</a>
        </p>
    }
