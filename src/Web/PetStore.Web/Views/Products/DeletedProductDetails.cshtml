@@ -17,9 +17,9 @@
                  @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                  {
                     <p style="text-align:center">
-                         Created on @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
-                         Last changes was made on @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
-                         Deleted on @Model.DeletedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)<br/>
+                         Created on @Model.CreatedOn.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)<br/>
+                         Last changes was made on @Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)<br/>
+                         Deleted on @Model.DeletedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)<br/>
                     </p>
                     <p>
                          <div class="d-grid gap-2 col-6 mx-auto">

@@ -13,13 +13,18 @@
     using PetStore.Services.Mapping;
     using PetStore.Web.Controllers;
     using PetStore.Web.ViewModels.Products;
+    using PetStore.Web.ViewModels.Search;
 
     public class ProductsControllerExtension : BaseController
     {
         private readonly IProductsService productsService;
+        private readonly ICategoriesService categoriesService;
 
-        public ProductsControllerExtension(IProductsService productService)
-            => this.productsService = productService;
+        public ProductsControllerExtension(IProductsService productService, ICategoriesService categoriesService)
+        {
+            this.productsService = productService;
+            this.categoriesService = categoriesService;
+        }
 
         public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel, Product product = null)
         {
@@ -62,21 +67,48 @@
             return this.View(productDetailsModel);
         }
 
-        public IActionResult ViewOrNoProductsFound(ListOfProductsViewModel allProductsModel, string search)
+        public IActionResult ViewOrNoProductsFound(SearchProductViewModel searchModel)
         {
-            if (allProductsModel == null)
+            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
+            {
+                ListOfProducts = this.GetProducts(searchModel.CategoryName, searchModel.Search),
+                CategoryName = searchModel.CategoryName,
+            };
+
+            if (productsShortInfoModel == null)
             {
                 return this.View("NoProductFound");
             }
 
-            if (!string.IsNullOrEmpty(search))
-            {
-                ProductShortInfoViewModel[] matchesProducts = allProductsModel.ListOfProducts.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToArray();
+            return this.View(productsShortInfoModel);
+        }
 
-                allProductsModel.ListOfProducts = matchesProducts;
+        private ICollection<ProductShortInfoViewModel> GetProducts(string categoryName, string search)
+        {
+            if (categoryName == null)
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    return this.productsService.GetAllProductsInSale()
+                                               .To<ProductShortInfoViewModel>()
+                                               .Where(p => p.Name.ToLower().Contains(search.ToLower()))
+                                               .ToArray();
+                }
+
+                return this.productsService.GetAllProductsInSale().To<ProductShortInfoViewModel>().ToArray();
             }
 
-            return this.View(allProductsModel);
+            this.ViewBag.CategoryImageURL = this.categoriesService.GetCategoryImageUrl(categoryName);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName)
+                                           .To<ProductShortInfoViewModel>()
+                                           .Where(p => p.Name.ToLower().Contains(search.ToLower()))
+                                           .ToArray();
+            }
+
+            return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName).To<ProductShortInfoViewModel>().ToArray();
         }
     }
 }

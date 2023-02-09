@@ -45,10 +45,10 @@
                 <div class="card p-3 bg-white">
                     <i class="fa fa-apple"></i>
                     <div style="text-align:center">                  
-                        <p><i><strong>Created on</strong></i> @Model.CreatedOn.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
+                        <p><i><strong>Created on</strong></i> @Model.CreatedOn.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
                         @if(Model.ModifiedOn != null)
                         {                  
-                            <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @Model.ModifiedOn.Value.ToString(ProductValidationConstants.DefaultDateTimeFormat)</p>
+                            <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
                         }
                         <br/>
                     </div>

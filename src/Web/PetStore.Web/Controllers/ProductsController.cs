@@ -13,6 +13,7 @@
     using PetStore.Services.Mapping;
     using PetStore.Web.Infrastructures;
     using PetStore.Web.ViewModels.Products;
+    using PetStore.Web.ViewModels.Search;
 
     public class ProductsController : BaseController
     {
@@ -24,18 +25,13 @@
         {
             this.productsService = productService;
             this.categoriesService = categoriesService;
-            this.productsControllerExtension = new ProductsControllerExtension(productService);
+            this.productsControllerExtension = new ProductsControllerExtension(productService, categoriesService);
         }
 
         [HttpGet]
-        public IActionResult Index(string search)
+        public IActionResult Index(SearchProductViewModel model)
         {
-            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
-            {
-                ListOfProducts = this.productsService.GetAllProductsInSale().To<ProductShortInfoViewModel>().ToArray(),
-            };
-
-            return this.productsControllerExtension.ViewOrNoProductsFound(productsShortInfoModel, search);
+            return this.productsControllerExtension.ViewOrNoProductsFound(model);
         }
 
         [HttpGet]
@@ -60,12 +56,12 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult DeletedProducts(string search)
         {
-            ListOfProductsViewModel deletedProductsModel = new ListOfProductsViewModel()
+            SearchProductViewModel searchModel = new SearchProductViewModel()
             {
-                ListOfProducts = this.productsService.GetDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray(),
+                Search = search,
             };
 
-            return this.productsControllerExtension.ViewOrNoProductsFound(deletedProductsModel, search);
+            return this.productsControllerExtension.ViewOrNoProductsFound(searchModel);
         }
 
         [HttpGet]

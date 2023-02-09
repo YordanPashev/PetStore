@@ -21,7 +21,5 @@
 
         public const string UrlRegex = @"^(https://)(.)+";
         public const string UrlRegexForView = "^(https://)(.)+";
-
-        public const string DefaultDateTimeFormat = "dd/MM/yyyy, HH:mm:ss";
     }
 }

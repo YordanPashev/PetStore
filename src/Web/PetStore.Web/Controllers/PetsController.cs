@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-
+    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Data.Contracts;
@@ -48,6 +48,7 @@
 
             PetDetailsViewModel petModel = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
             petModel.UserMessage = message;
+
             return this.View(petModel);
         }
 

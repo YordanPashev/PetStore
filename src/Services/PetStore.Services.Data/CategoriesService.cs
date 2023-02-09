@@ -38,6 +38,11 @@
                      .Include(c => c.Products.OrderBy(p => p.Name))
                      .OrderBy(c => c.Name);
 
+        public string GetCategoryImageUrl(string categoryName)
+            => this.categoriesRepo.AllAsNoTracking()
+                    .FirstOrDefault(c => c.Name == categoryName)
+                    .ImageURL;
+
         public async Task<Category> GetCategoryWithDeletedProductsByIdAsync(string name)
             => await this.categoriesRepo.AllAsNoTrackingWithDeleted()
                     .Include(c => c.Products.Where(p => p.IsDeleted == true).OrderBy(p => p.Name))

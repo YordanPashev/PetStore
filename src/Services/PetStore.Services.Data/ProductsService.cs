@@ -35,6 +35,19 @@
                     .Include(p => p.Category)
                     .OrderBy(p => p.Name);
 
+        public IQueryable<Product> GetAllProductsInSaleForSelectedCateogry(string categoryName)
+        {
+            if (categoryName == null)
+            {
+                return Enumerable.Empty<Product>().AsQueryable();
+            }
+
+            return this.productRepo.AllAsNoTracking()
+                    .Include(p => p.Category)
+                    .Where(p => p.Category.Name == categoryName)
+                    .OrderBy(p => p.Name);
+        }
+
         public IQueryable<Product> GetDeletedProductsNoTracking()
             => this.productRepo.AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)

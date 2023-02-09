@@ -12,13 +12,16 @@
 
         IQueryable<Category> GetAllCategories();
 
+        IQueryable<Category> GetAllCategoriesNoTracking();
+
         Task<Category> GetByIdAsync(int id);
 
-        IQueryable<Category> GetAllCategoriesNoTracking();
+        Task<Category> GetByIdNoTrackingAsync(int id);
+
+        string GetCategoryImageUrl(string categoryName);
 
         Task<Category> GetCategoryWithDeletedProductsByIdAsync(string name);
 
-        Task<Category> GetByIdNoTrackingAsync(int id);
 
         Task<int> GetIdByNameNoTrackingAsync(string name);
 
