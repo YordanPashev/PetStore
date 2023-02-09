@@ -19,33 +19,33 @@
             @ViewBag.CategoryName
         </h1>     
     }
-<div class="col-md-4 justify-content-end" style="float: left"> 
-    <form method="get" asp-controller="Products" asp-action="Index">
-        <div class="input-group">
-            @if (Model.SearchQuery == null)
-            {
-                <input type="text" id="search" name="Search" class="form-control" placeholder="Search product...">
-            }
-            else
-            {
-                <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
-            }
-            @if(ViewBag.CategoryName == null)
-            {
-                <input type="hidden" id="CategoryName" name="CategoryName" value="@Model.CategoryName">
-            }
-            else
-            {
-                <input type="hidden" id="CategoryName" name="CategoryName" value="@ViewBag.CategoryName">
-            }
-            <div class="input-group-btn">
-                <button class="btn btn-success m-auto" type="submit">
-                    Search
-                </button>
+    <div class="col-md-4 justify-content-end" style="float: left"> 
+        <form method="get" asp-controller="Products" asp-action="Index">
+            <div class="input-group">
+                @if (Model.SearchQuery == null)
+                {
+                    <input type="text" id="search" name="Search" class="form-control" placeholder="Search product...">
+                }
+                else
+                {
+                    <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
+                }
+                @if(ViewBag.CategoryName == null)
+                {
+                    <input type="hidden" id="CategoryName" name="CategoryName" value="@Model.CategoryName">
+                }
+                else
+                {
+                    <input type="hidden" id="CategoryName" name="CategoryName" value="@ViewBag.CategoryName">
+                }
+                <div class="input-group-btn">
+                    <button class="btn btn-success m-auto" type="submit">
+                        Search
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
- </div>
+        </form>
+     </div>
 </div>
 @if (Model.ListOfProducts.Count > 0)
 {

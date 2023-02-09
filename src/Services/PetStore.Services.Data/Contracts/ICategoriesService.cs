@@ -22,7 +22,6 @@
 
         Task<Category> GetCategoryWithDeletedProductsByIdAsync(string name);
 
-
         Task<int> GetIdByNameNoTrackingAsync(string name);
 
         bool IsCategoryExistingInDb(string name);

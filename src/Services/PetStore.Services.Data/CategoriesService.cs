@@ -41,7 +41,6 @@
         public string GetCategoryImageUrl(string categoryName)
             => this.categoriesRepo.AllAsNoTracking()
                     .FirstOrDefault(c => c.Name == categoryName)
-                    .ImageURL;
 
         public async Task<Category> GetCategoryWithDeletedProductsByIdAsync(string name)
             => await this.categoriesRepo.AllAsNoTrackingWithDeleted()
