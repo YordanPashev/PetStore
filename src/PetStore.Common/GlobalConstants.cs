@@ -41,7 +41,5 @@
         public const string AdministrationSettingsDateTimeFormat = "dd/MM/yyyy, HH:mm:ss";
 
         public const string PetBirthDateFormat = "dd MMMM, yyyy";
-
-        public const string BulgarianCulture = "bg-BG";
     }
 }

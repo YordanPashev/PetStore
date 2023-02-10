@@ -9,8 +9,6 @@
     @if (ViewBag.CategoryName == null && Model.CategoryName == null)
     {
         <h1 style="text-align: center">All Products</h1>
-        <div class="col-md-4 justify-content-end" style="float: left">
-    </div>
     }
     else
     {
@@ -19,7 +17,7 @@
             @ViewBag.CategoryName
         </h1>     
     }
-    <div class="col-md-4 justify-content-end" style="float: left"> 
+    <div class="col-md-4 mb-4 justify-content-end" style="float: left"> 
         <form method="get" asp-controller="Products" asp-action="Index">
             <div class="input-group">
                 @if (Model.SearchQuery == null)
@@ -49,25 +47,25 @@
 </div>
 @if (Model.ListOfProducts.Count > 0)
 {
-    <table class="table table-hover ">
+    <table class="table table-hover" style="border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
-                <th style="text-align:center">Product</th>
-                <th></th>
-                <th style="text-align:end">Category</th>
-                <th style="text-align:end">Price</th>
-                <th style="text-align:end">Get Details</th>
+                <th style="color: green; text-align: start; font-weight: bold;">Product</th>
+                <th style="text-align:start">Name</th>
+                <th style="color: blue; text-align: start; font-weight: bold;">Category</th>
+                <th style="color: red; text-align:end; font-weight: bold;">Price</th>
+                <th style="color: #0DCAF0; text-align:end; font-weight: bold;">Get Details</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var product in Model.ListOfProducts)
             {
                 <tr name="trData" onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'">
-                    <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60" alt="@product.Name"></td>
-                    <td>@Html.DisplayFor(modelItem => product.Name)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.CategoryName)</td>
-                    <td style="text-align:end">@Html.DisplayFor(modelItem => product.Price) $</td>
-                    <td style="text-align:end">
+                    <td class="about-product text-start mt-2" width="180"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
+                    <td style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
+                    <td style="color: blue; text-align:start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
+                    <td style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
+                    <td style="text-align:end; font-weight: bold;">
                         <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
