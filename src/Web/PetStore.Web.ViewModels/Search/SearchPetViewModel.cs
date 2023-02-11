@@ -1,9 +1,9 @@
 ﻿namespace PetStore.Web.ViewModels.Search
 {
-    public class SearchProductViewModel
+    public class SearchPetViewModel
     {
         public string SearchQuery { get; set; }
 
-        public string CategoryName { get; set; }
+        public string PetTypeName { get; set; }
     }
 }

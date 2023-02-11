@@ -41,5 +41,15 @@
         public const string AdministrationSettingsDateTimeFormat = "dd/MM/yyyy, HH:mm:ss";
 
         public const string PetBirthDateFormat = "dd MMMM, yyyy";
+
+        public const string DogTypeImage = "https://media.istockphoto.com/id/1278389684/photo/large-group-of-various-breeds-of-dogs-together-on-a-white-background.jpg?s=612x612&w=0&k=20&c=MONWoLtCAUTJUbWed01JaLSgbBMclRbFCJ4szEK7iS0=";
+
+        public const string CatTypeImage = "https://thumbs.dreamstime.com/b/four-cute-cats-20650677.jpg";
+
+        public const string BirdTypeImage = "https://i.pinimg.com/originals/7a/a3/1b/7aa31be92644e466a338d52e2d7bc224.jpg";
+
+        public const string FishTypeImage = "https://www.worldatlas.com/r/w1200/upload/04/ab/d1/fish-species-tropical.jpg";
+
+        public const string RodentTypeImage = "https://www.earlham.ac.uk/sites/default/files/images/articles/Rodents-are-awesome/Rodents-are-awesome-extreme-evolution-feature-hero.jpg";
     }
 }

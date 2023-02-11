@@ -24,11 +24,11 @@
                 <div class="input-group">
                     @if (Model.SearchQuery == null)
                     {
-                        <input type="text" id="search" name="Search" class="form-control" placeholder="Product name...">
+                        <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
                     }
                     else
                     {
-                        <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
+                        <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
                     }
                         <input type="hidden" id="CategoryName" name="CategoryName" value="@Model.CategoryName">
                     <div class="input-group-btn">

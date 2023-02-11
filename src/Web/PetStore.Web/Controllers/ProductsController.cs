@@ -58,7 +58,7 @@
         {
             SearchProductViewModel searchModel = new SearchProductViewModel()
             {
-                Search = search,
+                SearchQuery = search,
             };
 
             return this.productsControllerExtension.ViewOrNoProductsFound(searchModel);

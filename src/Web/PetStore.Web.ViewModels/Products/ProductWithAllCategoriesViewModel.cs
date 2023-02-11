@@ -4,8 +4,7 @@
 
     public class ProductWithAllCategoriesViewModel
     {
-        public ProductWithAllCategoriesViewModel()
-            => this.Categories = new HashSet<CategoryShortInfoViewModel>();
+        public ProductWithAllCategoriesViewModel() => this.Categories = new HashSet<CategoryShortInfoViewModel>();
 
         public ProductInfoViewModel ProductInfo { get; set; }
 

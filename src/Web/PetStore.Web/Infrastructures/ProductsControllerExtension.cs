@@ -71,8 +71,9 @@
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
-                ListOfProducts = this.GetProducts(searchModel.CategoryName, searchModel.Search),
+                ListOfProducts = this.GetProducts(searchModel.CategoryName, searchModel.SearchQuery),
                 CategoryName = searchModel.CategoryName,
+                SearchQuery = searchModel.SearchQuery,
             };
 
             if (productsShortInfoModel == null)
@@ -83,15 +84,15 @@
             return this.View(productsShortInfoModel);
         }
 
-        private ICollection<ProductShortInfoViewModel> GetProducts(string categoryName, string search)
+        private ICollection<ProductShortInfoViewModel> GetProducts(string categoryName, string searchQuery)
         {
             if (categoryName == null)
             {
-                if (!string.IsNullOrEmpty(search))
+                if (!string.IsNullOrEmpty(searchQuery))
                 {
                     return this.productsService.GetAllProductsInSale()
                                                .To<ProductShortInfoViewModel>()
-                                               .Where(p => p.Name.ToLower().Contains(search.ToLower()))
+                                               .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                                .ToArray();
                 }
 
@@ -100,11 +101,11 @@
 
             this.ViewBag.CategoryImageURL = this.categoriesService.GetCategoryImageUrl(categoryName);
 
-            if (!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(searchQuery))
             {
                 return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName)
                                            .To<ProductShortInfoViewModel>()
-                                           .Where(p => p.Name.ToLower().Contains(search.ToLower()))
+                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                            .ToArray();
             }
 

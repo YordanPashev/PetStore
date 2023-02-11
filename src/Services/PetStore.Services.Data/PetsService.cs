@@ -1,7 +1,6 @@
 ﻿namespace PetStore.Services.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -30,7 +29,7 @@
             => this.petsRepo.AllAsNoTracking()
                     .OrderBy(p => p.Name);
 
-        public IQueryable<Pet> GetAllPetsWithSelectedType(string typeName)
+        public IQueryable<Pet> GetAllPetsForSelectedType(string typeName)
         {
             PetType petType;
 

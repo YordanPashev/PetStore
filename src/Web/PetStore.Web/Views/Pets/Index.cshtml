@@ -6,13 +6,13 @@
 }
 
 <div class="row">
-    @if(string.IsNullOrEmpty(Model.TypeName))
+    @if(string.IsNullOrEmpty(Model.PetTypeName))
     {
         <h1 style="text-align: center">All Pets</h1>
     }
     else
     {
-        <h1 style="text-align: center">Pets Type @Model.TypeName</h1>
+        <h1 style="text-align: center">Pets Type @Model.PetTypeName</h1>
     }
     @if(Model.ListOfPets.Count > 0)
     {
@@ -21,12 +21,13 @@
                 <div class="input-group">
                     @if (Model.SearchQuery == null)
                     {
-                        <input type="text" id="search" name="search" class="form-control" placeholder="Pet name...">
+                        <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
                     }
                     else
                     {
-                        <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
+                        <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
                     }
+                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
                     <div class="input-group-btn">
                         <button class="btn btn-success m-auto" type="submit">
                             Search
