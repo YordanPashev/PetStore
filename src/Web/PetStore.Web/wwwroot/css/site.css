@@ -63,7 +63,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-image: url('https://img.freepik.com/free-vector/frame-with-dogs-vector-white-background_53876-127700.jpg?w=2000') !important;
+    background-image: url('../img/Background Image.jpg') !important;
     background-size: cover;
     background-repeat: no-repeat !important;
     background-color: #FFFFFF !important;

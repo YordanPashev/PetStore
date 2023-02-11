@@ -27,7 +27,6 @@
                 return this.View("NoCategoryFound");
             }
 
-            this.ViewBag.CategoryName = category.Name;
             this.ViewBag.CategoryImageURL = category.ImageURL;
 
             if (category.Products.Count == 0)
@@ -38,6 +37,7 @@
             ListOfProductsViewModel model = new ListOfProductsViewModel()
             {
                 ListOfProducts = AutoMapperConfig.MapperInstance.Map<ProductShortInfoViewModel[]>(category.Products),
+                CategoryName = category.Name,
             };
 
             if (productsStatus == GlobalConstants.ProductStatusInStock)
