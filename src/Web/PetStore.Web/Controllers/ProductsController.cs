@@ -54,14 +54,9 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult DeletedProducts(string search)
+        public IActionResult DeletedProducts(SearchProductViewModel searchModel)
         {
-            SearchProductViewModel searchModel = new SearchProductViewModel()
-            {
-                SearchQuery = search,
-            };
-
-            return this.productsControllerExtension.ViewOrNoProductsFound(searchModel);
+            return this.productsControllerExtension.DeletedProductsViewOrNoProductsFound(searchModel.SearchQuery);
         }
 
         [HttpGet]

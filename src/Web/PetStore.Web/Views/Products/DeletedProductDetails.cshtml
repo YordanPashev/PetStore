@@ -10,9 +10,9 @@
 <h4 style="text-align:center; color: gray"><i>Category: @Model.CategoryName</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
-        <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="400"  alt="No image">
-            <div> <h6 class="mt-4 text-black-50">@Model.Description</h6></div>
-        <div>Price: @Math.Round(Model.Price, 2) $</div>
+        <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="600"  alt="No image">
+            <div> <h6>@Model.Description</h6></div>
+        <div style="font-weight: bold;">Price: @Math.Round(Model.Price, 2) $</div>
             <br/> 
                  @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                  {

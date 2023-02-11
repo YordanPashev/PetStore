@@ -6,68 +6,45 @@
 }
 
 <div class="row">
-    @if (ViewBag.CategoryName == null)
-    {
-        <h1 style="text-align: center">Deleted Products</h1>
-        <div class="col-md-4 justify-content-end" style="float: left">
-            <form method="get" asp-controller="Products" asp-action="DeletedProducts">
-                <div class="input-group">
-                    @if (Model.SearchQuery == null)
-                    {
-                        <input type="text" id="search" name="search" class="form-control" placeholder="Search...">
-                    }
-                    else
-                    {
-                        <input type="text" id="search" name="search" class="form-control" value="@Model.SearchQuery">
-                    }
-                    <div class="input-group-btn">
-                        <button class="btn btn-success m-auto" type="submit">
-                            Search
-                        </button>
-                    </div>
+    <h1 style="text-align: center">Deleted Products</h1>
+    <div class="col-md-4 justify-content-end" style="float: left">
+        <form method="get" asp-controller="Products" asp-action="DeletedProducts">
+            <div class="input-group">
+                @if (Model.SearchQuery == null)
+                {
+                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
+                }
+                else
+                {
+                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                }
+                <div class="input-group-btn">
+                    <button class="btn btn-success m-auto" type="submit">
+                        Search
+                    </button>
                 </div>
-            </form> 
-        </div>
-    }
-    else
-    {
-        <h1 class="about-product text-left mt-2">
-            <img src="@ViewBag.CategoryImageURL" alt="@ViewBag.CategoryName" style="width:120px; height:100px; border:2px solid; border-radius: 5px">
-            Deleted @ViewBag.CategoryName
-        </h1> 
-    }
+            </div>
+        </form> 
+    </div>
 </div>
-<table class="table table-hover">
+<table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
     <thead>
-    <tr>
-        <th>
-        </th>
-        <th>
-            Name
-        </th>
-        <th style="text-align:end">
-            Category Name
-        </th>
-        <th style="text-align:end">
-            Price
-        </th>
-    </tr>
+        <tr>
+            <th style="text-align: start; font-weight: bold;">Product</th>
+            <th style="text-align:start">Name</th>
+            <th style="text-align: start; font-weight: bold;">Category</th>
+            <th style="color: red; text-align:end; font-weight: bold;">Price</th>
+            <th style="color: #0DCAF0; text-align:end; font-weight: bold;">Get Details</th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var product in Model.ListOfProducts) 
     {
         <tr name="trData" onclick="location.href='@Url.Action("DeletedProductDetails", "Products", new { product.Id })'">
-            <td class="about-product text-center mt-2"><img src="@product.ImageUrl" width="60" alt="No image">
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => product.Name)
-            </td>
-            <td style="text-align:end">
-                @Html.DisplayFor(modelItem => product.CategoryName)
-            </td>
-            <td style="text-align:end">
-                @Html.DisplayFor(modelItem => product.Price) $
-            </td>
+            <td class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
+            <td style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
+            <td style="text-align:start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
+            <td style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
             <td style="text-align:end">
                 <a class="btn btn-info" asp-controller="Products" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a> 
                 <a class="btn btn-danger" asp-controller="Products" asp-action="UndeleteConfirmation" asp-route-id="@product.Id">Undelete</a>

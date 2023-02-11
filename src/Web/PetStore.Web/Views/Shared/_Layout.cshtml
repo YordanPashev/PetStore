@@ -10,37 +10,36 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #F7F7F7">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="margin-left: 10px">
+                <img src="https://media.istockphoto.com/vectors/pet-shop-on-transparent-background-vector-id1284316922?k=20&m=1284316922&s=612x612&w=0&h=SYmBfcRGv706r0TSGgpmLRS2ov4ZMNI80gN1sWuCfk8=" width="60">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Products" asp-action="Index" style="font-weight: bold;">All Product</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index" style="font-weight: bold;">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Pets" asp-action="Index" style="font-weight: bold;">All Pets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Pets" asp-action="PetTypes" style="font-weight: bold;">Pets Types</a>
+                    </li>
+                    @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
                         <li class="nav-item">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">All Product</a>
+                            <a class="nav-link text-dark" asp-controller="Create" asp-action="Index" style="font-weight: bold;">Create and Add</a>
                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index">Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Pets" asp-action="Index">All Pets</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Pets" asp-action="PetTypes">Pets Types</a>
-                        </li>
-                        @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Create" asp-action="Index">Create and Add</a>
-                            </li>
-                        } 
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
+                    } 
+                </ul>
+                <partial name="_LoginPartial"/>
             </div>
         </nav>
     </header>

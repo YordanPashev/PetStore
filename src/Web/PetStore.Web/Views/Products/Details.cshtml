@@ -18,11 +18,11 @@
 <h4 style="text-align:center; color: gray"><i>Category: @Model.CategoryName</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
-        <div class="about-product text-center mt-2 mb-2"><img src="@Model.ImageUrl" width="400"  alt="No image"></div>
+        <div class="about-product text-center mt-2 mb-2"><img src="@Model.ImageUrl" width="500"  alt="No image"></div>
         <div style="text-align:center"> 
             <h6>@Model.Description</h6>
         </div>
-        <div style="text-align:center">Price: @Math.Round(Model.Price, 2) $</div>
+        <div style="text-align:center; font-weight: bold">Price: @Math.Round(Model.Price, 2) $</div>
         @if(User.Identity.IsAuthenticated)
         {
             <div style="text-align:center"><a class="btn btn-success" asp-action="">Add to Card</a></div>      

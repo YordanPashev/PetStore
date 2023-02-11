@@ -67,11 +67,27 @@
             return this.View(productDetailsModel);
         }
 
+        public IActionResult DeletedProductsViewOrNoProductsFound(string searchQuery)
+        {
+            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
+            {
+                ListOfProducts = this.GetDeletedProducts(searchQuery),
+                SearchQuery = searchQuery,
+            };
+
+            if (productsShortInfoModel == null)
+            {
+                return this.View("NoProductFound");
+            }
+
+            return this.View(productsShortInfoModel);
+        }
+
         public IActionResult ViewOrNoProductsFound(SearchProductViewModel searchModel)
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
-                ListOfProducts = this.GetProducts(searchModel.CategoryName, searchModel.SearchQuery),
+                ListOfProducts = this.GetProductsInSale(searchModel.CategoryName, searchModel.SearchQuery),
                 CategoryName = searchModel.CategoryName,
                 SearchQuery = searchModel.SearchQuery,
             };
@@ -84,7 +100,7 @@
             return this.View(productsShortInfoModel);
         }
 
-        private ICollection<ProductShortInfoViewModel> GetProducts(string categoryName, string searchQuery)
+        private ICollection<ProductShortInfoViewModel> GetProductsInSale(string categoryName, string searchQuery)
         {
             if (categoryName == null)
             {
@@ -110,6 +126,19 @@
             }
 
             return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName).To<ProductShortInfoViewModel>().ToArray();
+        }
+
+        private ICollection<ProductShortInfoViewModel> GetDeletedProducts(string searchQuery)
+        {
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                return this.productsService.GetDeletedProductsNoTracking()
+                                           .To<ProductShortInfoViewModel>()
+                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
+                                           .ToArray();
+            }
+
+            return this.productsService.GetDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray();
         }
     }
 }
