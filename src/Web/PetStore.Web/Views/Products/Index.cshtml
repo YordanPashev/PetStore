@@ -81,13 +81,13 @@ else
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
         <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add new product</a>
-            @if (ViewBag.CategoryName == null)
+            @if (@Model.CategoryName == null)
             {
                 <a class="btn btn-secondary" asp-controller="Products" asp-action="DeletedProducts">All Deleted products</a>            
             }
             else
             {
-                <a class="btn btn-secondary" asp-controller="Categories" asp-action="DeletedCategoryPorducts" asp-route-name="@ViewBag.CategoryName">Deleted @ViewBag.CategoryName</a>   
+                <a class="btn btn-secondary" asp-controller="Products" asp-action="DeletedProducts" asp-route-name="@ViewBag.CategoryName">Deleted @Model.CategoryName</a>   
             }
         }     
 </p>
