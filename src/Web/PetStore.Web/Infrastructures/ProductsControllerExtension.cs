@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Web.Infrastructures
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -92,7 +91,7 @@
                 SearchQuery = searchModel.SearchQuery,
             };
 
-            if (productsShortInfoModel == null)
+            if (productsShortInfoModel == null && string.IsNullOrEmpty(productsShortInfoModel.SearchQuery))
             {
                 return this.View("NoProductFound");
             }

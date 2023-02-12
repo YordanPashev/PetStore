@@ -50,46 +50,13 @@
         [HttpGet]
         public IActionResult PetTypes()
         {
-            PetTypeViewModel[] model = this.GetAllPetTypes();
-            return this.View(model);
+            return this.petsControllerExtension.ViewOrNoPetTypesFound();
         }
 
         [HttpGet]
         public IActionResult TypePets(string name = null)
         {
-            PetsViewModel model = new PetsViewModel()
-            {
-                ListOfPets = this.petsService.GetAllPetsForSelectedType(name).To<PetDetailsViewModel>().ToArray(),
-                PetTypeName = name,
-            };
-
-            return this.View("Index", model);
-        }
-
-        private PetTypeViewModel[] GetAllPetTypes()
-        {
-            List<string> petTypesNames = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
-            Dictionary<string, string> petTypeUrls = new Dictionary<string, string>()
-            {
-                { "Dog", GlobalConstants.DogTypeImage },
-                { "Cat", GlobalConstants.CatTypeImage },
-                { "Bird", GlobalConstants.BirdTypeImage },
-                { "Fish", GlobalConstants.FishTypeImage },
-                { "Rodent", GlobalConstants.RodentTypeImage },
-            };
-
-            List<PetTypeViewModel> petTypes = new List<PetTypeViewModel>();
-
-            foreach (var typeName in petTypesNames)
-            {
-                if (petTypeUrls.ContainsKey(typeName))
-                {
-                    PetTypeViewModel petType = new PetTypeViewModel(typeName, petTypeUrls[typeName]);
-                    petTypes.Add(petType);
-                }
-            }
-
-            return petTypes.ToArray();
+            return this.petsControllerExtension.AllPetsForSelectedTypeOrNonExistentPetType(name);
         }
     }
 }

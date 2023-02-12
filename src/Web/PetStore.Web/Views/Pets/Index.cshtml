@@ -14,29 +14,26 @@
     {
         <h1 style="text-align: center">Pets Type @Model.PetTypeName</h1>
     }
-    @if(Model.ListOfPets.Count > 0)
-    {
-        <div class="col-md-4 mb-4 justify-content-end" style="float: left">
-            <form method="get" asp-controller="Pets" asp-action="Index">
-                <div class="input-group">
-                    @if (Model.SearchQuery == null)
-                    {
-                        <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
-                    }
-                    else
-                    {
-                        <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
-                    }
-                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
-                    <div class="input-group-btn">
-                        <button class="btn btn-success m-auto" type="submit">
-                            Search
-                        </button>
-                    </div>
+    <div class="col-md-4 mb-4 justify-content-end" style="float: left">
+        <form method="get" asp-controller="Pets" asp-action="Index">
+            <div class="input-group">
+                @if (Model.SearchQuery == null)
+                {
+                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
+                }
+                else
+                {
+                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                }
+                    <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
+                <div class="input-group-btn">
+                    <button class="btn btn-success m-auto" type="submit">
+                        Search
+                    </button>
                 </div>
-            </form> 
-        </div>
-    }
+            </div>
+        </form> 
+    </div>
 </div>
 @if (Model.ListOfPets.Count > 0)
 {

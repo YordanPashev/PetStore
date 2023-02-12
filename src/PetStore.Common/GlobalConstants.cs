@@ -51,5 +51,11 @@
         public const string FishTypeImage = "https://www.worldatlas.com/r/w1200/upload/04/ab/d1/fish-species-tropical.jpg";
 
         public const string RodentTypeImage = "https://www.earlham.ac.uk/sites/default/files/images/articles/Rodents-are-awesome/Rodents-are-awesome-extreme-evolution-feature-hero.jpg";
+
+        public const string CreateProductImage = "https://patchpuppy.com/wp-content/uploads/2019/02/34369600_l.jpg.webp";
+
+        public const string CreateCategoryImage = "https://www.linkpicture.com/q/Create-Category-Image.jpg";
+
+        public const string AddPetImage = "https://media.istockphoto.com/id/1283692900/photo/group-of-different-kind-of-pets-like-cat-dog-rabbit-mouse-chinchilla-guinea-pig-bird-and-fish.jpg?s=612x612&w=0&k=20&c=oRyN_o5XT6UYFtwidjPxYFN9T5v0dBvu4CCAZUUJtW4=";
     }
 }
