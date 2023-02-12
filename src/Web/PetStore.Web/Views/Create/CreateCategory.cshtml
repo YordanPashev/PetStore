@@ -20,12 +20,12 @@
         <form asp-action="CreateCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label for="Name" class="control-label">Name</label>
+                <label for="Name" class="control-label">Category Name</label>
                 <input id="Name" name="Name" placeholder="Category Name..." class="form-control" type="text" minlength="@CategoryValidationConstants.NameMinLength" maxlength="@CategoryValidationConstants.NameMaxLength"/>
             </div>
             <div class="form-group">
-                <label for="ImageURL" class="control-label">ImageURL</label>
-                <input id="ImageURL" name="ImageURL" placeholder="ImageURL..." pattern="@CategoryValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text"/>
+                <label for="ImageURL" class="control-label">Image URL</label>
+                <input id="ImageURL" name="ImageURL" placeholder="Image URL..." pattern="@CategoryValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text"/>
             </div>
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto">
