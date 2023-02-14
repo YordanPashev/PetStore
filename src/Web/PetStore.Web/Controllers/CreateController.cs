@@ -54,19 +54,19 @@
 
             if (this.categoriesService.IsCategoryExistingInDb(model.Name))
             {
-                return this.RedirectToAction("CreateCategory", "Create", new { errorMessage = GlobalConstants.CategoryAlreadyExistInDbErrorMessage });
+                return this.RedirectToAction("CreateCategory", "Create", new { errorMessage = GlobalConstants.ProductCategoryAlreadyExistInDbErrorMessage });
             }
 
             Category category = AutoMapperConfig.MapperInstance.Map<Category>(model);
             await this.categoriesService.AddCategoryAsync(category);
 
-            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyAddedCategoryMessage });
+            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyAddedProducCategoryMessage });
         }
 
         [HttpGet]
         public IActionResult CreateProduct(string message = null)
         {
-            ProductWithAllCategoriesViewModel createProductModel = new ProductWithAllCategoriesViewModel()
+            CreateProductViewModel createProductModel = new CreateProductViewModel()
             {
                 Categories = this.categoriesService.GetAllCategoriesNoTracking()
                                                    .To<CategoryShortInfoViewModel>()
@@ -86,7 +86,7 @@
                 return this.RedirectToAction("CreateProduct", new { message = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return await this.createControllerExtension.CreateAndRedirectOrReturnInvalidInputMessage(userInputModel);
+            return await this.createControllerExtension.CreateProductAndRedirectOrReturnInvalidInputMessage(userInputModel);
         }
 
         [HttpGet]

@@ -91,7 +91,7 @@
                 return this.View("NoProductFound");
             }
 
-            ProductWithAllCategoriesViewModel editPorudctModel = new ProductWithAllCategoriesViewModel()
+            EditProductViewModel editPorudctModel = new EditProductViewModel()
             {
                 ProductInfo = AutoMapperConfig.MapperInstance.Map<ProductInfoViewModel>(product),
                 Categories = this.categoriesService.GetAllCategoriesNoTracking().To<CategoryShortInfoViewModel>().ToArray(),

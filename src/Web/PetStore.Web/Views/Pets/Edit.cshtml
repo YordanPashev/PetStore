@@ -1,0 +1,66 @@
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
+@model PetStore.Web.ViewModels.Products.EditPetViewModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+
+<h4 style="text-align: center">Edit</h4>
+<hr/>
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Id" class="control-label">Id</label>
+                <input id="Id" name="Id" class="form-control" type="text" value="@Model.Id" readonly/>
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input id="Name" name="Name" class="form-control" type="text" value="@Model.Name" minlength="@PetValidationConstants.NameMinLength" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength" required/>
+            </div>
+            <div class="form-group">
+                    <label for="Price" class="control-label">Date of birth</label>
+                    <input id="BirthDate" name="BirthDate" class="form-control" type="date" value="@Model.BirthDate.ToString("yyyy-MM-dd")"required/>
+            </div>
+            <div class="form-group">
+                <label for="Description" class="control-label">Breed</label>
+                <input id="Description" name="Breed" class="form-control" type="text" value="@Model.Breed" minlength="@PetValidationConstants.BreedMinLength" maxlength="@PetValidationConstants.BreedMaxLength" required/>
+            </div>
+            <div class="form-group">
+                <label for="Price" class="control-label">Price</label>
+                <input id="Price" name="Price" class="form-control" value="@Model.Price" type="number" step="0.01" min="0.01" max="@PetValidationConstants.PriceMaxValue" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="ImageURL" class="control-label">Image URL</label>
+                <input id="ImageURL" name="ImageURL" pattern="@ProductValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" value="@Model.ImageUrl" required/>
+            </div>
+            <div class="form-group">
+                <label for="TypeName" class="control-label">Type</label>
+                <select id="TypeName" name="TypeName" class="form-control">>
+                    @{
+                        <option value="@Model.TypeName">@Model.TypeName</option>                  
+                        foreach (var petTypeName in Model.PetTypes.Where(c => c != Model.TypeName))
+                        {
+                            <option value="@Model.TypeName">@petTypeName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <br/>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <input type="submit" value="Edit" class="btn btn-success"/>
+                    <a class="btn btn-danger" onclick="return confirm('Remove @Model.Name from the shtop?');" asp-action="DeleteResult" asp-route-id="@Model.Id">Delete</a>
+                <input class="btn btn-dark" value="Back" onclick="history.back()">
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

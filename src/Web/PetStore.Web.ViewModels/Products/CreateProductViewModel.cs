@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class ProductWithAllCategoriesViewModel
+    public class CreateProductViewModel
     {
-        public ProductWithAllCategoriesViewModel() => this.Categories = new HashSet<CategoryShortInfoViewModel>();
+        public CreateProductViewModel() => this.Categories = new HashSet<CategoryShortInfoViewModel>();
 
         public ProductInfoViewModel ProductInfo { get; set; }
 

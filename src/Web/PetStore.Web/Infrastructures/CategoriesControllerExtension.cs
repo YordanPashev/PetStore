@@ -61,7 +61,7 @@
             }
 
             await this.categoriesService.UpdateCategoryAsync(category, userInputModel);
-            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyEditedCategoryMessage });
+            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyEditedProductCategoryMessage });
         }
 
         public IActionResult ViewOrNoCategoryFound(IQueryable<Category> allCategories, string message)

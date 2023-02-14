@@ -10,6 +10,7 @@
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Data.Contracts;
+    using PetStore.Web.ViewModels.Products;
 
     public class PetsService : IPetsService
     {
@@ -48,11 +49,27 @@
                     .AllAsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == id);
 
+        public async Task<Pet> GetPetByIdForEditAsync(string id)
+            => await this.petsRepo
+                    .All()
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
         public bool IsPetExistingInDb(Pet pet)
             => this.petsRepo
                    .AllAsNoTracking()
                    .Any(p => p.Name == pet.Name && p.Type == pet.Type &&
-                        p.Breed == pet.Breed && p.BirthDate == pet.BirthDate &&
-                        p.Price == pet.Price && p.ImageUrl == pet.ImageUrl);
+                        p.Breed == pet.Breed && p.BirthDate == pet.BirthDate);
+
+        public async Task UpdatePetDataAsync(EditPetViewModel userInputModel, Pet pet, PetType petType)
+        {
+            pet.Name = userInputModel.Name;
+            pet.Type = petType;
+            pet.Breed = userInputModel.Breed;
+            pet.BirthDate = userInputModel.BirthDate;
+            pet.Price = Math.Round(userInputModel.Price, 2);
+            pet.ImageUrl = userInputModel.ImageUrl;
+
+            await this.petsRepo.SaveChangesAsync();
+        }
     }
 }

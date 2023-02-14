@@ -27,12 +27,12 @@
 
         public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel, Product product = null)
         {
-            if (!this.productsService.IsProductEdited(userInputModel, product))
+            if (!this.IsProductEdited(userInputModel, product))
             {
                 return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
             }
 
-            await this.productsService.UpdateProductAsync(userInputModel, product);
+            await this.productsService.UpdateProductDataAsync(userInputModel, product);
             return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }
 
@@ -138,6 +138,17 @@
             }
 
             return this.productsService.GetDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray();
+        }
+
+        private bool IsProductEdited(ProductInfoViewModel model, Product product)
+        {
+            if (product.Name == model.Name && product.Price == model.Price && product.Description == model.Description &&
+                product.ImageUrl == model.ImageUrl && product.CategoryId == model.CategoryId)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -26,7 +26,7 @@
             this.petsService = petsService;
         }
 
-        public IActionResult ViewOrNoGategoryFound(ProductWithAllCategoriesViewModel createProductModel)
+        public IActionResult ViewOrNoGategoryFound(CreateProductViewModel createProductModel)
         {
             if (createProductModel.Categories == null)
             {
@@ -36,7 +36,7 @@
             return this.View(createProductModel);
         }
 
-        public async Task<IActionResult> CreateAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel)
+        public async Task<IActionResult> CreateProductAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel)
         {
             if (this.productsService.IsProductExistingInDb(userInputModel.Name))
             {

@@ -10,7 +10,7 @@
 
         public const string ProductAlreadyExistInDbErrorMessage = "Product with the same name already exist in the shop.";
 
-        public const string CategoryAlreadyExistInDbErrorMessage = "Category exist.";
+        public const string ProductCategoryAlreadyExistInDbErrorMessage = "Category exist.";
 
         public const string InvalidDataErrorMessage = "Invalid data.";
 
@@ -24,11 +24,11 @@
 
         public const string SuccessfullyAddedProductMessage = $"A new product has been add to the shop:";
 
-        public const string SuccessfullyAddedCategoryMessage = $"A new category has been add to the shop";
+        public const string SuccessfullyAddedProducCategoryMessage = $"A new category has been add to the shop";
 
         public const string SuccessfullyAddedPetMessage = $"A new pet has been add to the shop";
 
-        public const string SuccessfullyEditedCategoryMessage = $"The category has been edited successfully";
+        public const string SuccessfullyEditedProductCategoryMessage = $"The category has been edited successfully";
 
         public const string SuccessfullyEditProductMessage = $"Edited result:";
 
