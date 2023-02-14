@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -38,7 +37,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> DeleteConfirmation(string id)
         {
-            Product product = await this.productsService.GetByIdAsync(id);
+            Product product = await this.productsService.GetByProductIdAsync(id);
             return this.productsControllerExtension.ViewOrNoProductsFound(product);
         }
 
@@ -46,10 +45,16 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> DeleteResult(string id)
         {
-            string action = "Delete";
-            Product product = await this.productsService.GetByIdAsync(id);
+            Product product = await this.productsService.GetByProductIdAsync(id);
+            if (product != null)
+            {
+                await this.productsService.DeleteProductAsync(product);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
 
-            return await this.productsControllerExtension.RedirectToSuccessfulOperationOrNoProductFound(product, action);
+                return this.View("SuccessfulOperationTextMessage");
+            }
+
+            return this.RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -69,7 +74,7 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id, string message = null)
         {
-            Product product = await this.productsService.GetByIdAsync(id);
+            Product product = await this.productsService.GetByProductIdAsync(id);
 
             if (product == null)
             {
@@ -85,7 +90,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(string id, string message = null)
         {
-            Product product = await this.productsService.GetByIdForEditAsync(id);
+            Product product = await this.productsService.GetProductByIdForEditAsync(id);
             if (product == null)
             {
                 return this.View("NoProductFound");
@@ -105,8 +110,8 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(ProductInfoViewModel userInputModel)
         {
-            userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
-            Product product = await this.productsService.GetByIdForEditAsync(userInputModel.Id);
+            userInputModel.CategoryId = await this.categoriesService.GetCategoryIdByNameNoTrackingAsync(userInputModel.CategoryName);
+            Product product = await this.productsService.GetProductByIdForEditAsync(userInputModel.Id);
 
             if (!this.ModelState.IsValid || product == null || userInputModel?.CategoryId < 0)
             {
@@ -128,18 +133,16 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> UndeleteResult(string id)
         {
-            string action = "Undelete";
             Product product = await this.productsService.GetDeletedProductByIdAsync(id);
+            if (product != null)
+            {
+                await this.productsService.UndeleteProductAsync(product);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteProductMessage;
 
-            return await this.productsControllerExtension.RedirectToSuccessfulOperationOrNoProductFound(product, action);
-        }
+                return this.View("SuccessfulOperationTextMessage");
+            }
 
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult SuccessfulOperationTextMessage(string message)
-        {
-            this.ViewBag.Message = message;
-            return this.View();
+            return this.RedirectToAction("Index");
         }
     }
 }

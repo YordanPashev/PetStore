@@ -34,14 +34,30 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> DeleteResult(string id)
+        {
+            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
+            if (pet != null)
+            {
+                await this.petsService.DeletePetAsync(pet);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyDeletePetMessage;
+
+                return this.View("SuccessfulOperationTextMessage");
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Details(string id, string message = null)
         {
-            Pet pet = await this.petsService.GetByIdAsync(id);
+            Pet pet = await this.petsService.GetPetByIdAsync(id);
 
             if (pet == null)
             {
-                this.ViewBag.Title = "No Pet Found";
-                return this.View("NotFound");
+                this.ViewBag.Message = "No Pet Found";
+                return this.View("NotFoundMessageForPetsController");
             }
 
             PetDetailsViewModel petModel = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
@@ -57,8 +73,8 @@
             Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
             if (pet == null)
             {
-                this.ViewBag.Title = "No Pet Found";
-                return this.View("NotFound");
+                this.ViewBag.Message = "No Pet Found";
+                return this.View("NotFoundMessageForPetsController");
             }
 
             EditPetViewModel model = AutoMapperConfig.MapperInstance.Map<EditPetViewModel>(pet);

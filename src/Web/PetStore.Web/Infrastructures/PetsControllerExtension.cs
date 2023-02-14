@@ -28,13 +28,13 @@
         {
             if (!Enum.IsDefined(typeof(PetType), typeName))
             {
-                this.ViewBag.Title = "No Pet Type Found";
-                return this.View("NotFound");
+                this.ViewBag.Message = "No Pet Type Found";
+                return this.View("NotFoundMessageForPetsController");
             }
 
             PetsViewModel model = new PetsViewModel()
             {
-                ListOfPets = this.petsService.GetAllPetsForSelectedType(typeName).To<PetDetailsViewModel>().ToArray(),
+                ListOfPets = this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray(),
                 PetTypeName = typeName,
             };
 
@@ -73,8 +73,8 @@
 
             if (petTypesNames == null || petTypesNames.Count == 0)
             {
-                this.ViewBag.Title = "There is no Pet Types";
-                return this.View("NotFound");
+                this.ViewBag.Message = "There is no Pet Types";
+                return this.View("NotFoundMessageForPetsController");
             }
 
             Dictionary<string, string> petTypeUrls = new Dictionary<string, string>()
@@ -109,8 +109,8 @@
 
             if (listOfPetsModel.ListOfPets == null && string.IsNullOrEmpty(listOfPetsModel.SearchQuery))
             {
-                this.ViewBag.Title = "No Pets Found";
-                return this.View("NotFound");
+                this.ViewBag.Message = "No Pets Found";
+                return this.View("NotFoundMessageForPetsController");
             }
 
             return this.View(listOfPetsModel);
@@ -134,24 +134,24 @@
             {
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    return this.petsService.GetAllPetsNoTracking()
+                    return this.petsService.GetAllPetsInSaleNoTracking()
                                                .To<PetDetailsViewModel>()
                                                .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                                .ToArray();
                 }
 
-                return this.petsService.GetAllPetsNoTracking().To<PetDetailsViewModel>().ToArray();
+                return this.petsService.GetAllPetsInSaleNoTracking().To<PetDetailsViewModel>().ToArray();
             }
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                return this.petsService.GetAllPetsForSelectedType(typeName)
+                return this.petsService.GetAllPetsInSaleForSelectedType(typeName)
                                            .To<PetDetailsViewModel>()
                                            .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                            .ToArray();
             }
 
-            return this.petsService.GetAllPetsForSelectedType(typeName).To<PetDetailsViewModel>().ToArray();
+            return this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray();
         }
     }
 }

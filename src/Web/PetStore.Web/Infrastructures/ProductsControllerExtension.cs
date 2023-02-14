@@ -36,24 +36,6 @@
             return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }
 
-        public async Task<IActionResult> RedirectToSuccessfulOperationOrNoProductFound(Product product, string action)
-        {
-            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            if (product != null && action == "Delete")
-            {
-                await this.productsService.DeleteAsync(product);
-                return this.RedirectToAction("SuccessfulOperationTextMessage", new { message = GlobalConstants.SuccessfullyDeleteProductMessage });
-            }
-
-            if (product != null && action == "Undelete")
-            {
-                await this.productsService.UndeleteAsync(product);
-                return this.RedirectToAction("SuccessfulOperationTextMessage", new { message = GlobalConstants.SuccessfullyUndeleteProductMessage });
-            }
-
-            return this.RedirectToAction("Index");
-        }
-
         public IActionResult ViewOrNoProductsFound(Product product)
         {
             if (product == null)

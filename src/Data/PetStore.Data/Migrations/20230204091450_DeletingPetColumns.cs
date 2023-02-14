@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
+﻿#nullable disable
 namespace PetStore.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class DeletingPetColumns : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,7 +80,7 @@ namespace PetStore.Data.Migrations
                 table: "Pets",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(450)",
                 oldNullable: true);
@@ -91,7 +90,7 @@ namespace PetStore.Data.Migrations
                 table: "Pets",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pets_OwnerId",

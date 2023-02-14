@@ -10,7 +10,7 @@
     {
         Task AddProductAsync(Product product);
 
-        Task DeleteAsync(Product product);
+        Task DeleteProductAsync(Product product);
 
         IQueryable<Product> GetAllProductsInSale();
 
@@ -18,18 +18,18 @@
 
         IQueryable<Product> GetDeletedProductsNoTracking();
 
-        Task<Product> GetByIdAsync(string id);
+        Task<Product> GetByProductIdAsync(string id);
 
         Task<Product> GetDeletedProductByIdAsyncNoTracking(string id);
 
         Task<Product> GetDeletedProductByIdAsync(string id);
 
-        Task<Product> GetByIdForEditAsync(string id);
+        Task<Product> GetProductByIdForEditAsync(string id);
 
         bool IsProductExistingInDb(string productName);
 
         Task UpdateProductDataAsync(ProductInfoViewModel model, Product product);
 
-        Task UndeleteAsync(Product product);
+        Task UndeleteProductAsync(Product product);
     }
 }

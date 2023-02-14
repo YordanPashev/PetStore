@@ -54,7 +54,7 @@
                     .Include(c => c.Products.OrderBy(p => p.Name))
                     .FirstOrDefaultAsync(c => c.Id == id);
 
-        public async Task<int> GetIdByNameNoTrackingAsync(string name)
+        public async Task<int> GetCategoryIdByNameNoTrackingAsync(string name)
         {
             Category category = await this.categoriesRepo.AllAsNoTracking()
                     .FirstOrDefaultAsync(c => c.Name == name);

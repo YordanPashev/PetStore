@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
+﻿#nullable disable
 namespace PetStore.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class PetEntityAdjustments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,7 +13,7 @@ namespace PetStore.Data.Migrations
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
                 oldMaxLength: 50,

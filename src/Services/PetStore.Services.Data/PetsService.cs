@@ -26,11 +26,18 @@
             await this.petsRepo.SaveChangesAsync();
         }
 
-        public IQueryable<Pet> GetAllPetsNoTracking()
-            => this.petsRepo.AllAsNoTracking()
-                    .OrderBy(p => p.Name);
+        public async Task DeletePetAsync(Pet pet)
+        {
+            this.petsRepo.Delete(pet);
+            await this.petsRepo.SaveChangesAsync();
+        }
 
-        public IQueryable<Pet> GetAllPetsForSelectedType(string typeName)
+        public IQueryable<Pet> GetAllPetsInSaleNoTracking()
+            => this.petsRepo.AllAsNoTracking()
+                   .Where(p => p.IsDeleted == false)
+                   .OrderBy(p => p.Name);
+
+        public IQueryable<Pet> GetAllPetsInSaleForSelectedType(string typeName)
         {
             PetType petType;
 
@@ -38,13 +45,14 @@
             {
                 return this.petsRepo.AllAsNoTracking()
                    .Where(p => p.Type == petType)
+                   .Where(p => p.IsDeleted == false)
                    .OrderBy(c => c.Name);
             }
 
             return Enumerable.Empty<Pet>().AsQueryable();
         }
 
-        public async Task<Pet> GetByIdAsync(string id)
+        public async Task<Pet> GetPetByIdAsync(string id)
             => await this.petsRepo
                     .AllAsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == id);

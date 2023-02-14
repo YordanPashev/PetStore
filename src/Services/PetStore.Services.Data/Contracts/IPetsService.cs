@@ -11,11 +11,13 @@
     {
         Task AddPetAsync(Pet pet);
 
-        IQueryable<Pet> GetAllPetsNoTracking();
+        Task DeletePetAsync(Pet pet);
 
-        IQueryable<Pet> GetAllPetsForSelectedType(string typeName);
+        IQueryable<Pet> GetAllPetsInSaleNoTracking();
 
-        Task<Pet> GetByIdAsync(string id);
+        IQueryable<Pet> GetAllPetsInSaleForSelectedType(string typeName);
+
+        Task<Pet> GetPetByIdAsync(string id);
 
         Task<Pet> GetPetByIdForEditAsync(string id);
 

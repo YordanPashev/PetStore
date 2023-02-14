@@ -1,7 +1,6 @@
 ﻿namespace PetStore.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -80,7 +79,7 @@
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductInfoViewModel userInputModel)
         {
-            userInputModel.CategoryId = await this.categoriesService.GetIdByNameNoTrackingAsync(userInputModel.CategoryName);
+            userInputModel.CategoryId = await this.categoriesService.GetCategoryIdByNameNoTrackingAsync(userInputModel.CategoryName);
             if (userInputModel == null || !this.ModelState.IsValid || userInputModel.CategoryId < 0)
             {
                 return this.RedirectToAction("CreateProduct", new { message = GlobalConstants.InvalidDataErrorMessage });

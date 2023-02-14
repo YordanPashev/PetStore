@@ -18,9 +18,11 @@
 
         public const string EditMessage = "Please make your changes.";
 
-        public const string SuccessfullyDeleteProductMessage = $"The product has been removed from the Shop.";
+        public const string SuccessfullyDeleteProductMessage = $"The selected product has been removed from the Shop.";
 
-        public const string SuccessfullyUndeleteProductMessage = $"The product is now available.";
+        public const string SuccessfullyUndeleteProductMessage = $"The selected product is now available in the shop.";
+
+        public const string SuccessfullyDeletePetMessage = $"The selected pet has been removed from the Shop.";
 
         public const string SuccessfullyAddedProductMessage = $"A new product has been add to the shop:";
 

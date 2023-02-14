@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = this.ViewBag.Title;
+    ViewData["Title"] = this.ViewBag.Message;
 }
 
 <h1 style="text-align:center">@this.ViewData["Title"]</h1>
@@ -8,6 +8,5 @@
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-success" style="float: right" asp-controller="Pets" asp-action="Index">All Pets</a>
     <a class="btn btn-info" style="float: right" asp-controller="Pets" asp-action="PetTypes">Pet Types</a>
-
 </div>
 

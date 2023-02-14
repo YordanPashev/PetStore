@@ -11,6 +11,5 @@
         public string PetTypeName { get; set; }
 
         public string SearchQuery { get; set; }
-
     }
 }

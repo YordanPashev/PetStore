@@ -24,7 +24,7 @@
            await this.productRepo.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Product product)
+        public async Task DeleteProductAsync(Product product)
         {
             this.productRepo.Delete(product);
             await this.productRepo.SaveChangesAsync();
@@ -32,6 +32,7 @@
 
         public IQueryable<Product> GetAllProductsInSale()
             => this.productRepo.AllAsNoTracking()
+                    .Where(p => p.IsDeleted == false)
                     .Include(p => p.Category)
                     .OrderBy(p => p.Name);
 
@@ -44,6 +45,7 @@
 
             return this.productRepo.AllAsNoTracking()
                     .Include(p => p.Category)
+                    .Where(p => p.IsDeleted == false)
                     .Where(p => p.Category.Name == categoryName)
                     .OrderBy(p => p.Name);
         }
@@ -54,13 +56,13 @@
                     .Where(p => p.IsDeleted)
                     .OrderBy(p => p.Name);
 
-        public async Task<Product> GetByIdAsync(string id)
+        public async Task<Product> GetByProductIdAsync(string id)
             => await this.productRepo
                     .AllAsNoTracking()
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Product> GetByIdForEditAsync(string id)
+        public async Task<Product> GetProductByIdForEditAsync(string id)
             => await this.productRepo
                     .All()
                     .Include(p => p.Category)
@@ -96,7 +98,7 @@
             await this.productRepo.SaveChangesAsync();
         }
 
-        public async Task UndeleteAsync(Product product)
+        public async Task UndeleteProductAsync(Product product)
         {
             product.DeletedOn = null;
             product.IsDeleted = false;

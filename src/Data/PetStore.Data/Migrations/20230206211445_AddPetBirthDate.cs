@@ -2,6 +2,7 @@
 namespace PetStore.Data.Migrations
 {
     using System;
+
     using Microsoft.EntityFrameworkCore.Migrations;
 
     public partial class AddPetBirthDate : Migration
