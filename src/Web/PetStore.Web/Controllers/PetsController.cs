@@ -70,26 +70,21 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(string id, string message = null)
         {
-            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
-            if (pet == null)
-            {
-                this.ViewBag.Message = "No Pet Found";
-                return this.View("NotFoundMessageForPetsController");
-            }
-
-            EditPetViewModel model = AutoMapperConfig.MapperInstance.Map<EditPetViewModel>(pet);
-            model.TypeName = pet.Type.ToString();
-            model.PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
-            model.UserMessage = message;
-
-            return this.View(model);
+            return await this.petsControllerExtension.ViewOrNoPetFound(id, message);
         }
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(EditPetViewModel userInputModel)
         {
-            return await this.petsControllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel);
+            Pet pet = await this.petsService.GetPetByIdForEditAsync(userInputModel.Id);
+
+            if (!this.ModelState.IsValid || pet == null)
+            {
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
+            }
+
+            return await this.petsControllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, pet);
         }
 
         [HttpGet]

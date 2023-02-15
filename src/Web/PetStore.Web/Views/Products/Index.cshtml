@@ -53,17 +53,17 @@
         <tbody>
             @foreach (var product in Model.ListOfProducts)
             {
-                <tr name="trData" onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'">
-                    <td class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
-                    <td style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
-                    <td style="text-align:start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
-                    <td style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
+                <tr name="trData">
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align:start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
                     <td style="text-align:end; font-weight: bold;">
                         <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a class="btn btn-dark" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
-                            <a class="btn btn-danger" asp-controller="Products" asp-action="DeleteConfirmation" asp-route-id="@product.Id">Delete</a>
+                            <a class="btn btn-danger" onclick="return confirm('Remove @product.Name from the shtop?');" asp-action="DeleteResult" asp-route-id="@product.Id">Delete</a>
                         }
                     </td>
                 </tr>

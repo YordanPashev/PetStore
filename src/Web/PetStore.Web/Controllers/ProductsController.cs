@@ -35,14 +35,6 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> DeleteConfirmation(string id)
-        {
-            Product product = await this.productsService.GetByProductIdAsync(id);
-            return this.productsControllerExtension.ViewOrNoProductsFound(product);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> DeleteResult(string id)
         {
             Product product = await this.productsService.GetByProductIdAsync(id);
@@ -119,14 +111,6 @@
             }
 
             return await this.productsControllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, product);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> UndeleteConfirmation(string id)
-        {
-            Product product = await this.productsService.GetDeletedProductByIdAsyncNoTracking(id);
-            return this.productsControllerExtension.ViewOrNoProductsFound(product);
         }
 
         [HttpGet]

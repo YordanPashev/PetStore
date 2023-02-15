@@ -50,17 +50,17 @@
         <tbody>
             @foreach (var pet in Model.ListOfPets)
             {
-                <tr name="trData" onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'">
-                    <td class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
-                    <td style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
-                    <td style="text-align:end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
-                    <td style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
+                <tr name="trData">
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align:end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
                     <td style="text-align: end; font-weight: bold;">
                         <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@pet.Id">Edit</a>
-                            <a class="btn btn-danger" asp-controller="Pets" asp-action="DeleteConfirmation" asp-route-id="@pet.Id">Delete</a>
+                            <a class="btn btn-danger" onclick="return confirm('Remove @pet.Name from the shop?');" asp-action="DeleteResult" asp-route-id="@pet.Id">Remove</a>
                         }
                     </td>
                 </tr>

@@ -40,14 +40,14 @@
     <tbody>
     @foreach (var product in Model.ListOfProducts) 
     {
-        <tr name="trData" onclick="location.href='@Url.Action("DeletedProductDetails", "Products", new { product.Id })'">
-            <td class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
-            <td style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
-            <td style="text-align:start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
-            <td style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
+        <tr name="trData">
+            <td onclick="location.href='@Url.Action("DeletedProductDetails", "Products", new { product.Id })'" class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
+            <td onclick="location.href='@Url.Action("DeletedProductDetails", "Products", new { product.Id })'" style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
+            <td onclick="location.href='@Url.Action("DeletedProductDetails", "Products", new { product.Id })'" style="text-align:start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
+            <td onclick="location.href='@Url.Action("DeletedProductDetails", "Products", new { product.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
             <td style="text-align:end">
                 <a class="btn btn-info" asp-controller="Products" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a> 
-                <a class="btn btn-danger" asp-controller="Products" asp-action="UndeleteConfirmation" asp-route-id="@product.Id">Undelete</a>
+                 <a class="btn btn-danger" onclick="return confirm('Return @product.Name back to the shtop?');" asp-action="UndeleteResult" asp-route-id="@product.Id">Undelete</a>
             </td>
         </tr>
     }

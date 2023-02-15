@@ -41,17 +41,10 @@
             return this.View("Index", model);
         }
 
-        public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(EditPetViewModel userInputModel)
+        public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(EditPetViewModel userInputModel, Pet pet)
         {
             PetType petType;
             if (!Enum.TryParse<PetType>(userInputModel.TypeName, out petType))
-            {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
-            }
-
-            Pet pet = await this.petsService.GetPetByIdForEditAsync(userInputModel.Id);
-
-            if (!this.ModelState.IsValid || pet == null)
             {
                 return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
             }
@@ -94,6 +87,24 @@
                     model.Add(petType);
                 }
             }
+
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> ViewOrNoPetFound(string id, string message)
+        {
+
+            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
+            if (pet == null)
+            {
+                this.ViewBag.Message = "No Pet Found";
+                return this.View("NotFoundMessageForPetsController");
+            }
+
+            EditPetViewModel model = AutoMapperConfig.MapperInstance.Map<EditPetViewModel>(pet);
+            model.TypeName = pet.Type.ToString();
+            model.PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
+            model.UserMessage = message;
 
             return this.View(model);
         }
