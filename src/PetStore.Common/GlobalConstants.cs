@@ -22,6 +22,8 @@
 
         public const string SuccessfullyUndeleteProductMessage = $"The selected product is now available in the shop.";
 
+        public const string SuccessfullyUndeletePetMessage = $"The selected pet is now available in the shop.";
+
         public const string SuccessfullyDeletePetMessage = $"The selected pet has been removed from the Shop.";
 
         public const string SuccessfullyAddedProductMessage = $"A new product has been add to the shop:";

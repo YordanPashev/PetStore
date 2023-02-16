@@ -14,7 +14,7 @@
     <br/>
 }
 
-<h1 style="text-align:center"><strong>@Model.Name</strong></h1>
+<h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
 <h4 style="text-align:center; color: gray"><i>Type: @Model.Type</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3" style="background-color: #F7F7F7;"><i class="fa fa-apple"></i>
@@ -36,7 +36,7 @@
             <br/>
         <div class="mb-2" style="text-align:center"> 
             <a class="btn btn-dark" style="float: left" asp-controller="Pets" asp-action="Index">All Pets</a>
-            <a class="btn btn-info" style="float: right" asp-controller="Pets" asp-action="TypePets" asp-route-name="@Model.TypeName">More @Model.PetTypePlural</a>
+            <a class="btn btn-info" style="float: right" asp-controller="Pets" asp-action="TypePets" asp-route-name="@Model.TypeName">More Pets Type @Model.TypeName</a>
         </div>
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

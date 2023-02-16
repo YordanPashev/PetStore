@@ -6,7 +6,7 @@
 }
 
 <div class="row">
-    <h1 style="text-align: center">Deleted Products</h1>
+    <h1 style="text-align: center">@ViewData["Title"]</h1>
     <div class="col-md-4 justify-content-end" style="float: left">
         <form method="get" asp-controller="Products" asp-action="DeletedProducts">
             <div class="input-group">
@@ -27,6 +27,8 @@
         </form> 
     </div>
 </div>
+@if (Model.ListOfProducts.Count > 0)
+{
 <table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
     <thead>
         <tr>
@@ -47,12 +49,18 @@
             <td onclick="location.href='@Url.Action("DeletedProductDetails", "Products", new { product.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
             <td style="text-align:end">
                 <a class="btn btn-info" asp-controller="Products" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a> 
-                 <a class="btn btn-danger" onclick="return confirm('Return @product.Name back to the shtop?');" asp-action="UndeleteResult" asp-route-id="@product.Id">Undelete</a>
+                 <a class="btn btn-danger" onclick="return confirm('Return @product.Name back to the shtop?');" asp-controller="Products" asp-action="UndeleteResult" asp-route-id="@product.Id">Undelete</a>
             </td>
         </tr>
     }
     </tbody>
 </table>
+}
+else
+{
+        <h1 style="text-align: center">No products found</h1> 
+        <br/>
+}
 <div style="text-align:center">
          <input class="btn btn-dark" value="Back" onclick="history.back()">
 </div>

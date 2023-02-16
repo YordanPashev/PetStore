@@ -16,7 +16,7 @@
 
         IQueryable<Product> GetAllProductsInSaleForSelectedCateogry(string categoryName);
 
-        IQueryable<Product> GetDeletedProductsNoTracking();
+        IQueryable<Product> GetAllDeletedProductsNoTracking();
 
         Task<Product> GetByProductIdAsync(string id);
 

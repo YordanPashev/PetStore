@@ -35,6 +35,20 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult DeletedPets(SearchPetViewModel searchModel)
+        {
+            return this.petsControllerExtension.DeletedPetsViewOrNoPetsFound(searchModel.SearchQuery);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeletedPetDetails(string id)
+        {
+            Pet pet = await this.petsService.GetDeletedPetByIdAsyncNoTracking(id);
+            return this.petsControllerExtension.ViewOrNoPetsFound(pet);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> DeleteResult(string id)
         {
             Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
@@ -97,6 +111,22 @@
         public IActionResult TypePets(string name = null)
         {
             return this.petsControllerExtension.AllPetsForSelectedTypeOrNonExistentPetType(name);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> UndeleteResult(string id)
+        {
+            Pet pet = await this.petsService.GetDeletedPetByIdAsync(id);
+            if (pet != null)
+            {
+                await this.petsService.UndeleteProductAsync(pet);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeletePetMessage;
+
+                return this.View("SuccessfulOperationTextMessage");
+            }
+
+            return this.RedirectToAction("Index");
         }
     }
 }

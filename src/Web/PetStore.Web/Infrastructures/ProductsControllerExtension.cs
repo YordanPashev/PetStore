@@ -113,13 +113,13 @@
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                return this.productsService.GetDeletedProductsNoTracking()
+                return this.productsService.GetAllDeletedProductsNoTracking()
                                            .To<ProductShortInfoViewModel>()
                                            .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                            .ToArray();
             }
 
-            return this.productsService.GetDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray();
+            return this.productsService.GetAllDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray();
         }
 
         private bool IsProductEdited(ProductInfoViewModel model, Product product)

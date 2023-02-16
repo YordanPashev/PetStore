@@ -1,5 +1,5 @@
 ﻿@using PetStore.Common
-@model PetStore.Web.ViewModels.Pets.PetsViewModel
+@model PetStore.Web.ViewModels.Pets.ListOfPetsViewModel
 
 @{
     ViewData["Title"] = "Pets";
@@ -60,7 +60,7 @@
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@pet.Id">Edit</a>
-                            <a class="btn btn-danger" onclick="return confirm('Remove @pet.Name from the shop?');" asp-action="DeleteResult" asp-route-id="@pet.Id">Remove</a>
+                            <a class="btn btn-danger" onclick="return confirm('Remove @pet.Name from the shop?');" asp-controller="Pets" asp-action="DeleteResult" asp-route-id="@pet.Id">Remove</a>
                         }
                     </td>
                 </tr>
@@ -77,14 +77,7 @@ else
         <input class="btn btn-dark" value="Back" onclick="history.back()">
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
-        <a class="btn btn-success" asp-controller="Create" asp-action="AddPet">Add new pet</a>
-            @if (ViewBag.CategoryName == null)
-            {
-                <a class="btn btn-secondary" asp-controller="Pets" asp-action="RemovedPets">Sold pets</a>            
-            }
-            else
-            {
-                <a class="btn btn-secondary" asp-controller="Pets" asp-action="RemovedTypePets" asp-route-name="@ViewBag.CategoryName">Deleted @ViewBag.CategoryName</a>   
-            }
+            <a class="btn btn-success" asp-controller="Create" asp-action="AddPet">Add New Pet</a>
+            <a class="btn btn-secondary" asp-controller="Pets" asp-action="DeletedPets">Removed Pets</a>
         }     
 </p>

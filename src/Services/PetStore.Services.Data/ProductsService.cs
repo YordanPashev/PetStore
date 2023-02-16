@@ -50,7 +50,7 @@
                     .OrderBy(p => p.Name);
         }
 
-        public IQueryable<Product> GetDeletedProductsNoTracking()
+        public IQueryable<Product> GetAllDeletedProductsNoTracking()
             => this.productRepo.AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)
                     .Where(p => p.IsDeleted)
@@ -68,16 +68,16 @@
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Product> GetDeletedProductByIdAsyncNoTracking(string id)
+        public async Task<Product> GetDeletedProductByIdAsync(string id)
             => await this.productRepo
-                    .AllAsNoTrackingWithDeleted()
+                    .AllWithDeleted()
                     .Where(p => p.IsDeleted)
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Product> GetDeletedProductByIdAsync(string id)
+        public async Task<Product> GetDeletedProductByIdAsyncNoTracking(string id)
             => await this.productRepo
-                    .AllWithDeleted()
+                    .AllAsNoTrackingWithDeleted()
                     .Where(p => p.IsDeleted)
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);

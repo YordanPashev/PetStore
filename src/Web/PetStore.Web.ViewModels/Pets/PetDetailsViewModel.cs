@@ -7,7 +7,7 @@
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Mapping;
 
-    public class PetDetailsViewModel : IMapFrom<Pet>
+    public class PetDetailsViewModel : IMapFrom<Pet>, IMapTo<Pet>
     {
         public string Id { get; set; }
 
@@ -27,8 +27,6 @@
 
         public PetType Type { get; set; }
 
-        public string PetTypePlural => this.GetPetTypePlural();
-
         public string TypeName => this.Type.ToString();
 
         public string UserMessage { get; set; }
@@ -38,12 +36,6 @@
         public DateTime? ModifiedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-
-        private string GetPetTypePlural()
-        {
-            string petTypeInTextFormat = this.Type.ToString();
-            return petTypeInTextFormat == "Fish" ? petTypeInTextFormat + "es" : petTypeInTextFormat + "s";
-        }
 
         private string FormatAgeToText()
         {

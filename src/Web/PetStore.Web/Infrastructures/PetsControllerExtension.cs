@@ -32,13 +32,42 @@
                 return this.View("NotFoundMessageForPetsController");
             }
 
-            PetsViewModel model = new PetsViewModel()
+            ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
                 ListOfPets = this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray(),
                 PetTypeName = typeName,
             };
 
             return this.View("Index", model);
+        }
+
+        public IActionResult DeletedPetsViewOrNoPetsFound(string searchQuery)
+        {
+            ListOfPetsViewModel model = new ListOfPetsViewModel()
+            {
+                ListOfPets = this.GetDeletedPets(searchQuery),
+                SearchQuery = searchQuery,
+            };
+
+            if (model == null)
+            {
+                return this.View("NoProductFound");
+            }
+
+            return this.View(model);
+        }
+
+        public IActionResult ViewOrNoPetsFound(Pet pet)
+        {
+            if (pet == null)
+            {
+                this.ViewBag.Message = "No Pet Found";
+                return this.View("NotFoundMessageForPetsController");
+            }
+
+            PetDetailsViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
+
+            return this.View(productDetailsModel);
         }
 
         public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(EditPetViewModel userInputModel, Pet pet)
@@ -93,7 +122,6 @@
 
         public async Task<IActionResult> ViewOrNoPetFound(string id, string message)
         {
-
             Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
             if (pet == null)
             {
@@ -111,7 +139,7 @@
 
         public IActionResult ViewOrNoPetsFound(SearchPetViewModel searchModel)
         {
-            PetsViewModel listOfPetsModel = new PetsViewModel()
+            ListOfPetsViewModel listOfPetsModel = new ListOfPetsViewModel()
             {
                 ListOfPets = this.GetPets(searchModel.PetTypeName, searchModel.SearchQuery),
                 PetTypeName = searchModel.PetTypeName,
@@ -163,6 +191,19 @@
             }
 
             return this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray();
+        }
+
+        private ICollection<PetDetailsViewModel> GetDeletedPets(string searchQuery)
+        {
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                return this.petsService.GetAllDeletedPetsNoTracking()
+                                           .To<PetDetailsViewModel>()
+                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
+                                           .ToArray();
+            }
+
+            return this.petsService.GetAllDeletedPetsNoTracking().To<PetDetailsViewModel>().ToArray();
         }
     }
 }

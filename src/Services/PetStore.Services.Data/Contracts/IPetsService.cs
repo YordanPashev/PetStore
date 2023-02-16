@@ -13,9 +13,15 @@
 
         Task DeletePetAsync(Pet pet);
 
+        IQueryable<Pet> GetAllDeletedPetsNoTracking();
+
         IQueryable<Pet> GetAllPetsInSaleNoTracking();
 
         IQueryable<Pet> GetAllPetsInSaleForSelectedType(string typeName);
+
+        Task<Pet> GetDeletedPetByIdAsync(string id);
+
+        Task<Pet> GetDeletedPetByIdAsyncNoTracking(string id);
 
         Task<Pet> GetPetByIdAsync(string id);
 
@@ -24,5 +30,7 @@
         bool IsPetExistingInDb(Pet pet);
 
         Task UpdatePetDataAsync(EditPetViewModel userInputModel, Pet pet, PetType petType);
+
+        Task UndeleteProductAsync(Pet product);
     }
 }

@@ -63,7 +63,7 @@
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a class="btn btn-dark" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
-                            <a class="btn btn-danger" onclick="return confirm('Remove @product.Name from the shtop?');" asp-action="DeleteResult" asp-route-id="@product.Id">Delete</a>
+                            <a class="btn btn-danger" onclick="return confirm('Remove @product.Name from the shtop?');" asp-controller="Products" asp-action="DeleteResult" asp-route-id="@product.Id">Delete</a>
                         }
                     </td>
                 </tr>
@@ -80,14 +80,7 @@ else
         <input class="btn btn-dark" value="Back" onclick="history.back()">
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
-        <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add new product</a>
-            @if (@Model.CategoryName == null)
-            {
-                <a class="btn btn-secondary" asp-controller="Products" asp-action="DeletedProducts">All Deleted products</a>            
-            }
-            else
-            {
-                <a class="btn btn-secondary" asp-controller="Products" asp-action="DeletedProducts" asp-route-name="@ViewBag.CategoryName">Deleted @Model.CategoryName</a>   
-            }
+            <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add New Product</a>
+            <a class="btn btn-danger" asp-controller="Products" asp-action="DeletedProducts">All Deleted Products</a>
         }     
 </p>

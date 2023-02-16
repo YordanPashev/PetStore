@@ -2,10 +2,10 @@
 @model List<PetTypeViewModel>
 
 @{
-    ViewBag.Title = "Pet Types";
+   ViewData["Title"] = "Pet Types";
 }
 
-<h2 class="text-center"><strong>@ViewBag.Title</strong></h2>
+<h2 class="text-center"><strong>@ViewData["Title"]</strong></h2>
 <hr />
 
 @if (Model.Count() > 0)

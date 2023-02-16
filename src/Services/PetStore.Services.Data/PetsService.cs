@@ -32,6 +32,11 @@
             await this.petsRepo.SaveChangesAsync();
         }
 
+        public IQueryable<Pet> GetAllDeletedPetsNoTracking()
+            => this.petsRepo.AllAsNoTrackingWithDeleted()
+                    .Where(p => p.IsDeleted)
+                    .OrderBy(p => p.Name);
+
         public IQueryable<Pet> GetAllPetsInSaleNoTracking()
             => this.petsRepo.AllAsNoTracking()
                    .Where(p => p.IsDeleted == false)
@@ -51,6 +56,18 @@
 
             return Enumerable.Empty<Pet>().AsQueryable();
         }
+
+        public async Task<Pet> GetDeletedPetByIdAsync(string id)
+            => await this.petsRepo
+                    .AllWithDeleted()
+                    .Where(p => p.IsDeleted)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+        public async Task<Pet> GetDeletedPetByIdAsyncNoTracking(string id)
+            => await this.petsRepo
+                    .AllAsNoTrackingWithDeleted()
+                    .Where(p => p.IsDeleted)
+                    .FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task<Pet> GetPetByIdAsync(string id)
             => await this.petsRepo
@@ -77,6 +94,13 @@
             pet.Price = Math.Round(userInputModel.Price, 2);
             pet.ImageUrl = userInputModel.ImageUrl;
 
+            await this.petsRepo.SaveChangesAsync();
+        }
+
+        public async Task UndeleteProductAsync(Pet pet)
+        {
+            pet.DeletedOn = null;
+            pet.IsDeleted = false;
             await this.petsRepo.SaveChangesAsync();
         }
     }

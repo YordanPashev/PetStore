@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class PetsViewModel
+    public class ListOfPetsViewModel
     {
-        public PetsViewModel() => this.ListOfPets = new HashSet<PetDetailsViewModel>();
+        public ListOfPetsViewModel() => this.ListOfPets = new HashSet<PetDetailsViewModel>();
 
         public ICollection<PetDetailsViewModel> ListOfPets { get; set; } = null;
 
