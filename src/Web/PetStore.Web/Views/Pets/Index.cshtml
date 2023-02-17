@@ -8,32 +8,42 @@
 <div class="row">
     @if(string.IsNullOrEmpty(Model.PetTypeName))
     {
-        <h1 style="text-align: center">All Pets</h1>
+        <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
     }
     else
     {
         <h1 style="text-align: center">Pets Type @Model.PetTypeName</h1>
     }
-    <div class="col-md-4 mb-4 justify-content-end" style="float: left">
-        <form method="get" asp-controller="Pets" asp-action="Index">
-            <div class="input-group">
-                @if (Model.SearchQuery == null)
-                {
-                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
-                }
-                else
-                {
-                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
-                }
-                    <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
-                <div class="input-group-btn">
-                    <button class="btn btn-success m-auto" type="submit">
-                        Search
-                    </button>
-                </div>
+    <Row style="width: 1240px;">
+        <Column>
+            <div class="col-md-4 mb-4 justify-content-end" style="float: left">
+                <form method="get" asp-controller="Pets" asp-action="Index">
+                    <div class="input-group">
+                        @if (Model.SearchQuery == null)
+                        {
+                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
+                        }
+                        else
+                        {
+                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                        }
+                            <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
+                        <div class="input-group-btn">
+                            <button class="btn btn-success m-auto" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form> 
             </div>
-        </form> 
-    </div>
+        </Column>
+        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <Column style="float: right;">
+                <a class="btn btn-danger" asp-controller="Pets" asp-action="DeletedPets">Removed Pets</a>
+            </Column>
+        }
+    </Row>
 </div>
 @if (Model.ListOfPets.Count > 0)
 {
@@ -70,14 +80,13 @@
 }
 else
 {
-        <h1 style="text-align: center">No pets found</h1> 
-        <br/>
+    <h1 style="text-align: center">No pets found</h1> 
+    <br/>
 }
 <p class="d-grid gap-2 col-2 mx-auto">
-        <input class="btn btn-dark" value="Back" onclick="history.back()">
-        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <a class="btn btn-success" asp-controller="Create" asp-action="AddPet">Add New Pet</a>
-            <a class="btn btn-secondary" asp-controller="Pets" asp-action="DeletedPets">Removed Pets</a>
-        }     
+    <input class="btn btn-dark" value="Back" onclick="history.back()">
+    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <a class="btn btn-success" asp-controller="Create" asp-action="AddPet">Add New Pet</a>
+    }     
 </p>

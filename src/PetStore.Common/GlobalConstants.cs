@@ -44,7 +44,7 @@
 
         public const string AdministrationSettingsDateTimeFormat = "dd/MM/yyyy, HH:mm:ss";
 
-        public const string PetBirthDateFormat = "dd MMMM, yyyy";
+        public const string PetBirthDateFormat = "d MMMM, yyyy";
 
         public const string DogTypeImage = "https://media.istockphoto.com/id/1278389684/photo/large-group-of-various-breeds-of-dogs-together-on-a-white-background.jpg?s=612x612&w=0&k=20&c=MONWoLtCAUTJUbWed01JaLSgbBMclRbFCJ4szEK7iS0=";
 

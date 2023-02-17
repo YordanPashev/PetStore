@@ -8,7 +8,7 @@
 <div class="row">
     @if (ViewBag.CategoryName == null && Model.CategoryName == null)
     {
-        <h1 style="text-align: center">All Products</h1>
+        <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
     }
     else
     {
@@ -17,26 +17,36 @@
             @Model.CategoryName
         </h1>     
     }
-    <div class="col-md-4 mb-4 justify-content-end" style="float: left"> 
-        <form method="get" asp-controller="Products" asp-action="Index">
-            <div class="input-group">
-                @if (Model.SearchQuery == null)
-                {
-                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
-                }
-                else
-                {
-                    <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
-                }
-                    <input type="hidden" id="CategoryName" name="CategoryName" value="@Model.CategoryName">
-                <div class="input-group-btn">
-                    <button class="btn btn-success m-auto" type="submit">
-                        Search
-                    </button>
-                </div>
+    <Row style="width: 1240px;">
+        <Column>
+            <div class="col-md-4 mb-4 justify-content-end" style="float: left"> 
+                <form method="get" asp-controller="Products" asp-action="Index">
+                    <div class="input-group">
+                        @if (Model.SearchQuery == null)
+                        {
+                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
+                        }
+                        else
+                        {
+                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                        }
+                            <input type="hidden" id="CategoryName" name="CategoryName" value="@Model.CategoryName">
+                        <div class="input-group-btn">
+                            <button class="btn btn-success m-auto" type="submit">
+                                Search
+                           </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>  
+        </Column>
+        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <Column style="float: right;">
+                <a class="btn btn-danger" asp-controller="Products" asp-action="DeletedProducts">Deleted Products</a>
+            </Column>
+        }
+    </Row>
 </div>
 @if (Model.ListOfProducts.Count > 0)
 {
@@ -73,14 +83,13 @@
 }
 else
 {
-        <h1 style="text-align: center">No products found</h1> 
-        <br/>
+    <h1 style="text-align: center">No products found</h1> 
+    <br/>
 }
 <p class="d-grid gap-2 col-2 mx-auto">
-        <input class="btn btn-dark" value="Back" onclick="history.back()">
-        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add New Product</a>
-            <a class="btn btn-danger" asp-controller="Products" asp-action="DeletedProducts">All Deleted Products</a>
-        }     
+    <input class="btn btn-dark" value="Back" onclick="history.back()">
+    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add New Product</a>
+    }     
 </p>

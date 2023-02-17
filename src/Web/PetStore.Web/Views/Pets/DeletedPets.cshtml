@@ -6,7 +6,7 @@
 }
 
 <div class="row">
-    <h1 style="text-align: center">@ViewData["Title"]</h1>
+    <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
     <div class="col-md-4 justify-content-end" style="float: left">
         <form method="get" asp-controller="Pets" asp-action="DeletedPets">
             <div class="input-group">
@@ -44,10 +44,10 @@
                 @foreach (var pet in Model.ListOfPets) 
                 {
                     <tr name="trData">
-                        <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
-                        <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
-                        <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align:end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
-                        <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
+                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "Pets", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
+                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "Pets", new { pet.Id })'" style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
+                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "Pets", new { pet.Id })'" style="text-align:end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
+                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "Pets", new { pet.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
                         <td style="text-align: end; font-weight: bold;">
                             <a class="btn btn-info" asp-controller="Pets" asp-action="DeletedPetDetails" asp-route-id="@pet.Id">Details</a> 
                             <a class="btn btn-danger" onclick="return confirm('Return @pet.Name back to the shtop?');" asp-controller="Pets" asp-action="UndeleteResult" asp-route-id="@pet.Id">Return back to the shop</a>
