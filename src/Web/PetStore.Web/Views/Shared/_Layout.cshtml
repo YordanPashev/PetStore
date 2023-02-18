@@ -21,16 +21,16 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Products" asp-action="Index" style="font-weight: bold;">Products</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index" style="font-weight: bold;">Products</a>
                     </li>
                      <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index" style="font-weight: bold;">Categories</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index" style="font-weight: bold;">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Pets" asp-action="Index" style="font-weight: bold;">Pets</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Pets" asp-action="Index" style="font-weight: bold;">Pets</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Pets" asp-action="PetTypes" style="font-weight: bold;">Pets Types</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Pets" asp-action="PetTypes" style="font-weight: bold;">Pets Types</a>
                     </li>
                     @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
