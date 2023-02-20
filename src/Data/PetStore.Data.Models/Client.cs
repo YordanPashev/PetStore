@@ -4,7 +4,7 @@ namespace PetStore.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Microsoft.AspNetCore.Identity;
+   
     using PetStore.Data.Models.Common;
 
     public class Client : ApplicationUser
