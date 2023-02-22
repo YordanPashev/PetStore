@@ -10,10 +10,8 @@ namespace PetStore.Data.Models
 
     public class ClientCard : BaseDeletableModel<string>
     {
-        public ClientCard()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public string Id { get; set; }
 
         [Required]
         [MaxLength(ClientCardValidationConstants.CardNumberMaxLength)]
