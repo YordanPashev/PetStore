@@ -1,0 +1,32 @@
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
+
+@model PetStore.Web.ViewModels.Client.UserViewModel
+
+@{
+    ViewData["Title"] = $"Client Details";
+}
+
+<h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
+<div class="d-flex justify-content-center container mt-3">
+    <div class="card p-3" style="background-color: #F7F7F7;"><i class="fa fa-apple"></i>
+        <div style="text-align:center"><i><strong>FirstName:</strong> @Model.FirstName</i></div>
+        <div style="text-align:center"><i><strong>LastName:</strong> @Model.LastName</i></div>
+        <div style="text-align:center"><i><strong>Date of registration:</strong> @Model.CreatedOn.ToString(GlobalConstants.DefaultDateDateFormat)</i></div>
+        <br />
+        <div style="text-align:center"><i><strong>CLient Card Number:</strong> @Model.ClientCard.CardNumber</i></div>
+        <div style="text-align:center"><i><strong>Discount:</strong> @Model.ClientCard.Discount %</i></div>
+        <div style="text-align:center"><i><strong>Expiration Date:</strong> @Model.ClientCard.ExpirationDate.ToString(GlobalConstants.DefaultDateDateFormat)</i></div>
+        <br />
+        <div class="mb-2" style="text-align:center">
+            <a class="btn btn-primary" asp-controller="Client" asp-action="Edit">Edit</a>
+        </div>      
+        <div class="mb-2" style="text-align:center"> 
+            <a class="btn btn-danger" style="float: left" asp-controller="Client" asp-action="DeactivateAcccount">Deactivate Acccount</a>
+        </div>
+    </div>
+</div>
+
+
+
+

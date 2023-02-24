@@ -1,8 +1,8 @@
 ﻿namespace PetStore.Services.Data
 {
     using System;
-
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
@@ -13,6 +13,12 @@
 
         public ClientCardService(IDeletableEntityRepository<ClientCard> productRepo)
             => this.clientCardRepo = productRepo;
+
+        public async Task<ClientCard> GetCardByIdAsync(string clientCardId)
+            => await this.clientCardRepo
+                        .AllAsNoTracking()
+                        .Include(c => c.Client)
+                        .FirstOrDefaultAsync(cc => cc.Id == clientCardId);
 
         public async Task CreateNewCard(string cardId, string userId)
         {

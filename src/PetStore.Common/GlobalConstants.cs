@@ -2,22 +2,12 @@
 {
     public static class GlobalConstants
     {
+        // System
         public const string SystemName = "PetStore";
 
         public const string AdministratorRoleName = "Administrator";
 
-        public const string CategoryNotFoundErrorMessage = "Invalid Category.";
-
-        public const string ProductAlreadyExistInDbErrorMessage = "Product with the same name already exist in the shop.";
-
-        public const string ProductCategoryAlreadyExistInDbErrorMessage = "Category exist.";
-
-        public const string InvalidDataErrorMessage = "Invalid data.";
-
-        public const string InvalidUrlUserMessage = "Include https://";
-
-        public const string EditMessage = "Please make your changes.";
-
+        // User messages
         public const string SuccessfullyDeleteProductMessage = $"The selected product has been removed from the Shop.";
 
         public const string SuccessfullyUndeleteProductMessage = $"The selected product is now available in the shop.";
@@ -42,10 +32,26 @@
 
         public const string PetlreadyExistInDbErrorMessage = "Pet has already been added to the shop.";
 
+        public const string InvalidDataErrorMessage = "Invalid data.";
+
+        public const string InvalidUrlUserMessage = "Include https://";
+
+        public const string CategoryNotFoundErrorMessage = "Invalid Category.";
+
+        public const string EditMessage = "Please make your changes.";
+
+        public const string ProductAlreadyExistInDbErrorMessage = "Product with the same name already exist in the shop.";
+
+        public const string ProductCategoryAlreadyExistInDbErrorMessage = "Category exist.";
+
+        // Date formats
         public const string AdministrationSettingsDateTimeFormat = "dd/MM/yyyy, HH:mm:ss";
 
         public const string PetBirthDateFormat = "d MMMM, yyyy";
 
+        public const string DefaultDateDateFormat = "dd/MM/yyyy";
+
+        // Pet Types
         public const string DogTypeImage = "https://media.istockphoto.com/id/1278389684/photo/large-group-of-various-breeds-of-dogs-together-on-a-white-background.jpg?s=612x612&w=0&k=20&c=MONWoLtCAUTJUbWed01JaLSgbBMclRbFCJ4szEK7iS0=";
 
         public const string CatTypeImage = "https://thumbs.dreamstime.com/b/four-cute-cats-20650677.jpg";

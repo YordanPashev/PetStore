@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "No Client Found";
+}
+
+<h1 style="text-align:center">@this.ViewData["Title"]</h1>
+<br/>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-info" style="float: left" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">Log in</a>
+    <a class="btn btn-success" style="float: right" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Context.Request.Path">Resiter</a>          
+</div>
+

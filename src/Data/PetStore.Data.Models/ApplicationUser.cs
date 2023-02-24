@@ -3,7 +3,7 @@ namespace PetStore.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using Microsoft.AspNetCore.Identity;
 
     using PetStore.Data.Common.Models;
@@ -24,7 +24,10 @@ namespace PetStore.Data.Models
 
         public string AddressId { get; set; }
 
+        [ForeignKey(nameof(ClientCard))]
         public string ClientCardId { get; set; }
+
+        public virtual ClientCard ClientCard { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }
@@ -41,5 +44,6 @@ namespace PetStore.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
     }
 }

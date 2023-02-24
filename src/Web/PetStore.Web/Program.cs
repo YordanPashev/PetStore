@@ -1,7 +1,6 @@
 namespace PetStore.Web
 {
     using System;
-  
     using System.Reflection;
 
     using Microsoft.AspNetCore.Builder;
@@ -76,6 +75,7 @@ namespace PetStore.Web
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPetsService, PetsService>();
             services.AddTransient<IClientCardService, ClientCardService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         private static void Configure(WebApplication app)
