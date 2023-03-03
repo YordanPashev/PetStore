@@ -133,14 +133,15 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 
 			if (ModelState.IsValid)
 			{
-				var user = this.CreateUser() as ApplicationUser;
+				var user = this.CreateUser();
 				user.FirstName = this.Input.FirstName;
                 user.LastName = this.Input.LastName;
+				user.UserName = this.Input.Email;
 				string clientCardId = Guid.NewGuid().ToString();
 				await this.clientCardService.CreateNewCard(clientCardId, user.Id);
 				user.ClientCardId = clientCardId;
 
-                await _userStore.SetUserNameAsync(user, Input.FirstName, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
 				await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 				var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -179,7 +180,7 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 			return Page();
 		}
 
-		private IdentityUser CreateUser()
+		private ApplicationUser CreateUser()
 		{
 			try
 			{
