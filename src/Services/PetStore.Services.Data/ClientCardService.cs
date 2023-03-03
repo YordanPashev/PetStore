@@ -14,12 +14,6 @@
         public ClientCardService(IDeletableEntityRepository<ClientCard> productRepo)
             => this.clientCardRepo = productRepo;
 
-        public async Task<ClientCard> GetCardByIdAsync(string clientCardId)
-            => await this.clientCardRepo
-                        .AllAsNoTracking()
-                        .Include(c => c.Client)
-                        .FirstOrDefaultAsync(cc => cc.Id == clientCardId);
-
         public async Task CreateNewCard(string cardId, string userId)
         {
             ClientCard clientCard = new ClientCard

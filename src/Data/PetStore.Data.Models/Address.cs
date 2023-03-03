@@ -10,7 +10,7 @@ namespace PetStore.Data.Models
     public class Address : BaseDeletableModel<string>
     {
         public Address()
-            => this.Clients = new HashSet<Client>();
+            => this.Clients = new HashSet<ApplicationUser>();
 
         [Key]
         public string Id { get; set; }
@@ -27,6 +27,6 @@ namespace PetStore.Data.Models
         [ForeignKey(nameof(ClientId))]
         public string ClientId { get; set; }
 
-        public virtual ICollection<Client> Clients { get; set; }
+        public virtual ICollection<ApplicationUser> Clients { get; set; }
     }
 }

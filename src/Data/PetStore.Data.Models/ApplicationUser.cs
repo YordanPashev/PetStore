@@ -16,13 +16,18 @@ namespace PetStore.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+
         }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
+        [ForeignKey(nameof(Address))]
+
         public string AddressId { get; set; }
+
+        public virtual Address Address { get; set; }
 
         [ForeignKey(nameof(ClientCard))]
         public string ClientCardId { get; set; }

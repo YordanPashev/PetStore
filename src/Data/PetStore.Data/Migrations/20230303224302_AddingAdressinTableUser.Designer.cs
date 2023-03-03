@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetStore.Data;
 
@@ -11,9 +12,10 @@ using PetStore.Data;
 namespace PetStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230303224302_AddingAdressinTableUser")]
+    partial class AddingAdressinTableUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,7 +142,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("OrderProduct", (string)null);
+                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("OrderService", b =>
@@ -155,7 +157,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("ServicesId");
 
-                    b.ToTable("OrderService", (string)null);
+                    b.ToTable("OrderService");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Address", b =>
@@ -193,7 +195,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.ApplicationRole", b =>
@@ -383,7 +385,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("PaymentCards", (string)null);
+                    b.ToTable("PaymentCards");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Category", b =>
@@ -419,7 +421,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.ClientCard", b =>
@@ -460,7 +462,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("ClientCards", (string)null);
+                    b.ToTable("ClientCards");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Order", b =>
@@ -499,7 +501,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Pet", b =>
@@ -556,7 +558,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("Pets", (string)null);
+                    b.ToTable("Pets");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Product", b =>
@@ -601,7 +603,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Service", b =>
@@ -638,7 +640,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Setting", b =>
@@ -671,7 +673,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Settings", (string)null);
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Store", b =>
@@ -711,7 +713,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Stores", (string)null);
+                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("ProductStore", b =>
@@ -726,7 +728,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("StoresId");
 
-                    b.ToTable("ProductStore", (string)null);
+                    b.ToTable("ProductStore");
                 });
 
             modelBuilder.Entity("ServiceStore", b =>
@@ -741,7 +743,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("StoresId");
 
-                    b.ToTable("ServiceStore", (string)null);
+                    b.ToTable("ServiceStore");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Client", b =>

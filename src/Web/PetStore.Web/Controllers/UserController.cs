@@ -1,13 +1,12 @@
 ﻿namespace PetStore.Web.Controllers
 {
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Razor;
-    using PetStore.Data.Models;
+
     using PetStore.Services.Data.Contracts;
-    using PetStore.Services.Mapping;
-    using PetStore.Web.ViewModels.Client;
+    using PetStore.Web.ViewModels.User;
 
     [Authorize]
     public class UserController : Controller
@@ -24,14 +23,11 @@
 
         public async Task<IActionResult> Index(string id)
         {
-            ApplicationUser user = await this.clientService.GetClientByIdAsycn(id);
-            user.ClientCard = await this.clientCardService.GetCardByIdAsync(user?.ClientCardId);
-            if (user == null)
+            UserViewModel model = await this.clientService.GetClientByIdAsycn(id);
+            if (model == null)
             {
                 return this.View("NoClientFound");
             }
-
-            UserViewModel model = AutoMapperConfig.MapperInstance.Map<UserViewModel>(user);
 
             return this.View(model);
         }

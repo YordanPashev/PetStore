@@ -7,7 +7,5 @@
     public interface IClientCardService
     {
         Task CreateNewCard(string cardId, string userId);
-
-        Task<ClientCard> GetCardByIdAsync(string clientCardId);
     }
 }

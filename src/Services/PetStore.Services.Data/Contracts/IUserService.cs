@@ -2,10 +2,10 @@
 {
     using System.Threading.Tasks;
 
-    using PetStore.Data.Models;
+    using PetStore.Web.ViewModels.User;
 
     public interface IUserService
     {
-        Task<ApplicationUser> GetClientByIdAsycn(string userId);
+        Task<UserViewModel> GetClientByIdAsycn(string userId);
     }
 }

@@ -4,7 +4,7 @@
 
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;
-    using PetStore.Web.ViewModels.Client;
+    using PetStore.Web.ViewModels.User;
 
     public class ClientCardDetaislsViewModel : IMapFrom<ClientCard>, IMapTo<ClientCard>
     {

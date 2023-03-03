@@ -1,7 +1,7 @@
 ﻿@using PetStore.Common
 @using PetStore.Data.Models.Common
 
-@model PetStore.Web.ViewModels.Client.UserViewModel
+@model PetStore.Web.ViewModels.User.UserViewModel
 
 @{
     ViewData["Title"] = $"Client Details";
@@ -10,9 +10,12 @@
 <h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3" style="background-color: #F7F7F7;"><i class="fa fa-apple"></i>
-        <div style="font-size:24px;"><i><strong>FullName:</strong> @Model.FirstName @Model.LastName</i></div>
+        <div style="font-size:24px;"><i><strong>Full Name:</strong> @Model.FirstName @Model.LastName</i></div>
+        <div style="font-size:24px;"><i><strong>Phone Number:</strong> @Model.PhoneNumber</i></div>
+        <div style="font-size:24px;"><i><strong>Adress:</strong> @Model.Address.AddressText</i></div>
+
         <div style="font-size:24px;"><i><strong>Date of registration:</strong> @Model.CreatedOn.ToString(GlobalConstants.DefaultDateDateFormat)</i></div>
-        @if (Model.ClientCard != null)
+        @if (this.Model.ClientCard != null)
         {
             <hr />
             <div class="card mb-4" style="width: 500px; height: 300px; border-radius: 20px; background-image: url('https://cdn.pixabay.com/photo/2018/10/01/09/21/pets-3715733__340.jpg'); background-size: 100% 100%;">

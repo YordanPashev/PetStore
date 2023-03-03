@@ -25,6 +25,6 @@ namespace PetStore.Data.Models
         [ForeignKey(nameof(Client))]
         public string ClientId { get; set; }
 
-        public virtual Client Client { get; set; }
+        public virtual ApplicationUser Client { get; set; }
     }
 }
