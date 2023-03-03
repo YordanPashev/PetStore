@@ -4,12 +4,21 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
+@{
+    string applicationUserFullName;
+}
 <ul class="navbar-nav" style="margin-right: 10px">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         ApplicationUser applicationUser = (ApplicationUser) await this.UserManager.GetUserAsync(this.User);
-        string applicationUserFullName = applicationUser.FirstName + " " + applicationUser.LastName;
+        if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            applicationUserFullName = "Admin";
+        }
+        else
+        {
+            applicationUserFullName = applicationUser.FirstName + " " + applicationUser.LastName;
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="User" asp-action="Index" asp-route-id="@applicationUser.Id" title="Manage">Hello, <i>@applicationUserFullName</i>!</a>
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -28,7 +37,7 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Context.Request.Path">Register</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">Login</a>

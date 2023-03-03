@@ -1,7 +1,8 @@
 ﻿namespace PetStore.Services.Data.Contracts
 {
-    using PetStore.Data.Models;
     using System.Threading.Tasks;
+
+    using PetStore.Data.Models;
 
     public interface IClientCardService
     {
