@@ -139,25 +139,37 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 
 		public async Task OnGetAsync(string returnUrl = null)
 		{
+            if (this.User.Identity.IsAuthenticated)
+            {
+                this.Response.Redirect("/Home/Index");
+            }
+
             this.ReturnUrl = returnUrl;
             this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 		}
 
 		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
 		{
-			returnUrl ??= this.Url.Content("~/");
+            if (this.User.Identity.IsAuthenticated)
+            {
+                this.Response.Redirect("/Home/Index");
+            }
+
+            returnUrl ??= this.Url.Content("~/");
             this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
 			if (this.ModelState.IsValid)
 			{
 				this.user = this.CreateUser();
-                await this.PopulateUser();
 
                 await this._userStore.SetUserNameAsync(this.user, this.Input.Email, CancellationToken.None);
 				await this._emailStore.SetEmailAsync(this.user, this.Input.Email, CancellationToken.None);
 				var result = await this._userManager.CreateAsync(this.user, this.Input.Password);
 
-				if (result.Succeeded)
+                await this.PopulateUser();
+				await this._userManager.UpdateAsync(this.user);
+
+                if (result.Succeeded)
 				{
                     this._logger.LogInformation("User created a new account with password.");
 
