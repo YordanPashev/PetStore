@@ -1,10 +1,12 @@
 ﻿namespace PetStore.Web.Controllers
 {
+    using System.Security.Principal;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
+    using PetStore.Common;
+    using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
     using PetStore.Web.ViewModels.User;
 
@@ -30,6 +32,20 @@
             }
 
             return this.View(model);
+        }
+
+        public async Task<IActionResult> DeactivateAcccountResult(string id)
+        {
+            ApplicationUser user = await this.clientService.GetUserByIdForEditAsync(id);
+            if (user != null)
+            {
+                await this.clientService.DeactivateUserAccountAsync(user);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyDeactivateUserAccountMessage;
+
+                return this.RedirectToPage("/Account/Logout", new { area = "Identity" });
+            }
+
+            return this.RedirectToAction("Index");
         }
     }
 }

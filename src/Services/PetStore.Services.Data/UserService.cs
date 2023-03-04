@@ -14,9 +14,25 @@
     {
 
         private readonly IDeletableEntityRepository<ApplicationUser> userRepo;
+        private readonly IDeletableEntityRepository<Address> adressRepo;
+        private readonly IDeletableEntityRepository<ClientCard> clientCardRepo;
 
-        public UserService(IDeletableEntityRepository<ApplicationUser> userRepo)
-            => this.userRepo = userRepo;
+
+        public UserService(IDeletableEntityRepository<ApplicationUser> userRepo, IDeletableEntityRepository<Address> adressRepo, IDeletableEntityRepository<ClientCard> clientCardRepo)
+        {
+            this.userRepo = userRepo;
+            this.adressRepo = adressRepo;
+            this.clientCardRepo = clientCardRepo;
+        }
+
+        public async Task DeactivateUserAccountAsync(ApplicationUser user)
+        {
+            this.userRepo.Delete(user);
+            this.adressRepo.Delete(user.Address);
+            this.clientCardRepo.Delete(user.ClientCard);
+
+            await this.userRepo.SaveChangesAsync();
+        }
 
         public async Task<UserViewModel> GetClientByIdAsycn(string userId)
         {
@@ -28,5 +44,11 @@
 
             return AutoMapperConfig.MapperInstance.Map<UserViewModel>(user);
         }
+
+        public async Task<ApplicationUser> GetUserByIdForEditAsync(string id)
+            => await this.userRepo.All()
+                                  .Include(u => u.Address)
+                                  .Include(u => u.ClientCard)
+                                  .FirstOrDefaultAsync(u => u.Id == id);
     }
 }
