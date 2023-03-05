@@ -12,25 +12,23 @@
     @ViewBag.ErrorMessage<br/>
 </h1>
 }
-<h2 style="text-align: center">Create</h2>
-<h4 style="text-align: center">Category</h4>
-<hr/>
-<div class="row">
+<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="CreateCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mt-3 mb-3">
                 <label for="Name" class="control-label">Category Name</label>
-                <input id="Name" name="Name" placeholder="Category Name..." class="form-control" type="text" minlength="@CategoryValidationConstants.NameMinLength" maxlength="@CategoryValidationConstants.NameMaxLength"/>
+                <input id="Name" name="Name" placeholder="Category Name..." class="form-control" type="text" minlength="@CategoryValidationConstants.NameMinLength" maxlength="@CategoryValidationConstants.NameMaxLength" required />
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="ImageURL" class="control-label">Image URL</label>
-                <input id="ImageURL" name="ImageURL" placeholder="Image URL..." pattern="@CategoryValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text"/>
+                <input id="ImageURL" name="ImageURL" placeholder="Image URL..." pattern="@CategoryValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" required />
             </div>
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto">
                 <input type="submit" value="Create" class="btn btn-success"/>
-                <input class="btn btn-dark" value="Back" onclick="history.back()">
+                <input class="btn btn-dark mb-3" value="Back" onclick="history.back()">
             </div>
         </form>
     </div>

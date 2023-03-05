@@ -10,31 +10,28 @@
 {
     <h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
 }
-<h2 style="text-align: center">Create</h2>
-<h4 style="text-align: center">Product</h4>
-<hr />
-<div class="row">
+<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="CreateProduct">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group">
+                <div class="form-group mt-3 mb-3">
                     <label for="Name" class="control-label">Product Name</label>
                     <input id="Name" name="Name" placeholder="Product Name..." class="form-control" type="text" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength" required/>
                 </div>
-                <div class="form-group">
+                <div class="form-groupm b-3">
                     <label for="Price" class="control-label">Price</label>
                     <input id="Price" name="Price" placeholder="0.00" class="form-control" type="number" step=".01" min="0.01" max="1000000" required/>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="ImageURL" class="control-label">Image URL</label>
                     <input id="ImageURL" name="ImageURL" placeholder="Image URL..." pattern="@ProductValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" required/>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="Description" class="control-label">Description</label>
                     <input id="Description" name="Description" placeholder="Description..." class="form-control" type="text" minlength="@ProductValidationConstants.DescriptionMinLength" maxlength="@ProductValidationConstants.DescriptionMaxLength" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="CategoryName" class="control-label">Category</label>
                     <select id="CategoryId" name="CategoryName" class="form-control" asp-items="ViewBag.CategoryName">
                         @foreach (var catInfo in Model.Categories)
@@ -46,7 +43,7 @@
                 <br/>
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <input type="submit" value="Create" class="btn btn-success"/>
-                    <input class="btn btn-dark" value="Back" onclick="history.back()">
+                    <input class="btn btn-dark mb-3" value="Back" onclick="history.back()">
                 </div>
         </form>
     </div>

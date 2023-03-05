@@ -1,4 +1,6 @@
-﻿namespace PetStore.Common
+﻿using PetStore.Data.Models.Common;
+
+namespace PetStore.Common
 {
     public static class GlobalConstants
     {
@@ -16,7 +18,7 @@
 
         public const string SuccessfullyDeletePetMessage = $"The selected pet has been removed from the Shop.";
 
-        public const string SuccessfullyDeactivateUserAccountMessage = $"Your account has been activate. If you would like to activate your account please send a request to the administrators.";
+        public const string SuccessfullyDeactivateUserAccountMessage = $"Your account has been activate. If you would like to reactivate your account, please send a request to the administrators.";
 
         public const string SuccessfullyAddedProductMessage = $"A new product has been add to the shop:";
 
@@ -45,6 +47,16 @@
         public const string ProductAlreadyExistInDbErrorMessage = "Product with the same name already exist in the shop.";
 
         public const string ProductCategoryAlreadyExistInDbErrorMessage = "Category exist.";
+
+        public const string UserNameMinLengthErrormessage = $"The name must be at least 3 characters";
+
+        public const string UserNameMaxLengthErrormessage = "The name must be max 100 characters";
+
+        public const string UserDeliveryAddressErrormessage = "The address must in format City, Street and max 150 characters!";
+
+        public const string UserPhoneNumberErrormessage = "The phone number must contains only digits and must be min 7 and max 12!";
+
+        public const string UserEmailErrorMessage = "The email must be in format  username@domainname.extension";
 
         // Date formats
         public const string AdministrationSettingsDateTimeFormat = "dd/MM/yyyy, HH:mm:ss";

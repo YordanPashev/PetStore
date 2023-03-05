@@ -20,8 +20,9 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 	using Microsoft.AspNetCore.WebUtilities;
 	using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 	using Microsoft.Extensions.Logging;
-
+	using PetStore.Common;
 	using PetStore.Data.Models;
+	using PetStore.Data.Models.Common;
 	using PetStore.Services.Data;
 	using PetStore.Services.Data.Contracts;
 	using PetStore.Web.Infrastructures;
@@ -87,12 +88,12 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 			///     directly from your code. This API may change or be removed in future releases.
 			/// </summary>
 			[Required]
-			[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long!", MinimumLength = 3)]
+			[StringLength(UserValidationConstants.NameMaxLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long!", MinimumLength = UserValidationConstants.NameMinLength)]
 			[Display(Name = "First Name")]
 			public string FirstName { get; set; }
 
 			[Required]
-			[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long!", MinimumLength = 3)]
+			[StringLength(UserValidationConstants.NameMaxLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long!", MinimumLength = UserValidationConstants.NameMinLength)]
 			[Display(Name = "Last Name")]
 			public string LastName { get; set; }
 
@@ -102,18 +103,17 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 			/// </summary>
 			
 			[Required]
-			[EmailAddress]
+			[EmailAddress(ErrorMessage = GlobalConstants.UserEmailErrorMessage)]
 			[Display(Name = "Email")]
 			public string Email { get; set; }
 
             [Required]
-            [RegularExpression(@"^(\+)?(\d){7,12}$", ErrorMessage = "The phone number must contains only digits and must be min 7 and max 12!")]
+            [RegularExpression(UserValidationConstants.PhoneNumberRrgex, ErrorMessage = GlobalConstants.UserPhoneNumberErrormessage)]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 			
             [Required]
-            [RegularExpression(@"^(.){3,},(.){5,}$", ErrorMessage = "The address must in format City, Street!")]
-            [StringLength(500, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long!", MinimumLength = 3)]
+            [RegularExpression(UserValidationConstants.DeliveryAddressRrgex, ErrorMessage = GlobalConstants.UserDeliveryAddressErrormessage)]
             [Display(Name = "Delivery address")]
             public string DeliveryAddress { get; set; }
 
@@ -122,7 +122,7 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-			[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+			[StringLength(UserValidationConstants.PassWordMaxLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = UserValidationConstants.PassWordMinLength)]
 			[DataType(DataType.Password)]
 			[Display(Name = "Password")]
 			public string Password { get; set; }

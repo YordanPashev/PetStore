@@ -1,7 +1,5 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -9,7 +7,6 @@
 
     using PetStore.Common;
     using PetStore.Data.Models;
-    using PetStore.Data.Models.Enums;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.Infrastructures;

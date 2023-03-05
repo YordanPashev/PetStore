@@ -16,6 +16,6 @@
 
         public int Discount { get; set; }
 
-        public virtual UserViewModel Client { get; set; }
+        public virtual UserDetailsViewModel Client { get; set; }
     }
 }

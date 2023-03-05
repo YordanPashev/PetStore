@@ -4,57 +4,58 @@
 
 @{
     ViewData["Title"] = "Add Pet";
+    string currentDate = @DateTime.Now.ToString("yyyy-MM-dd");
 }
 
 @if (@Model.UserMessage != null)
 {
-    <h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
-}   
-<h2 style="text-align: center">Add</h2>
-<h4 style="text-align: center">Pet</h4>
-<hr />
-<div class="row">
+    <h1 style="text-align:center; color:red">@Model.UserMessage</h1>
+}
+<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="AddPet">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label for="Name" class="control-label">pet Name</label>
-                    <input id="Name" name="Name" placeholder="Pet Name..." class="form-control" type="text" minlength="@PetValidationConstants.NameMinLength" maxlength="@PetValidationConstants.NameMaxLength" required/>
-                </div>
-                <div class="form-group">
-                    <label for="Price" class="control-label">Date of birth</label>
-                    <input id="BirthDate" name="BirthDate" class="form-control" type="date" required/>
-                </div>
-                <div class="form-group">
-                    <label for="Breed" class="control-label">Breed</label>
-                    <input id="Breed" name="Breed" placeholder="Breed..." class="form-control" type="text" minlength="@PetValidationConstants.BreedMinLength" maxlength="@PetValidationConstants.BreedMaxLength" required/>
-                </div>
-                <div class="form-group">
-                    <label for="Price" class="control-label">Price</label>
-                    <input id="Price" name="Price" placeholder="0.00" class="form-control" type="number" step=".01" min="@PetValidationConstants.PriceMinValue" max="@PetValidationConstants.PriceMaxValue" required/>
-                </div>
-                <div class="form-group">
-                    <label for="ImageURL" class="control-label">Image URL</label>
-                    <input id="ImageURL" name="ImageURL" placeholder="Image URL..." pattern="@PetValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" required/>
-                </div>
-                <div class="form-group">
-                    <label for="TypeName" class="control-label">Type</label>
-                    <select id="TypeName" name="TypeName" class="form-control">
-                        @foreach (var petName in Model.PetTypes)
-                        {
-                            <option value="@petName">@petName</option>
-                        }
-                    </select>
-                </div>
-                <br/>
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <input type="submit" value="Create" class="btn btn-success"/>
-                    <input class="btn btn-dark" value="Back" onclick="history.back()">
-                </div>
+            <div class="form-group mt-3 mb-3">
+                <label for="Name" class="control-label">Pet Name</label>
+                <input id="Name" name="Name" placeholder="Pet Name..." class="form-control" type="text" minlength="@PetValidationConstants.NameMinLength" maxlength="@PetValidationConstants.NameMaxLength" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="Price" class="control-label">Date of birth</label>
+                <input id="BirthDate" value="@currentDate" name="BirthDate" class="form-control" type="date" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="Breed" class="control-label">Breed</label>
+                <input id="Breed" name="Breed" placeholder="Breed..." class="form-control" type="text" minlength="@PetValidationConstants.BreedMinLength" maxlength="@PetValidationConstants.BreedMaxLength" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="Price" class="control-label">Price</label>
+                <input id="Price" name="Price" placeholder="0.00" class="form-control" type="number" step=".01" min="@PetValidationConstants.PriceMinValue" max="@PetValidationConstants.PriceMaxValue" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="ImageURL" class="control-label">Image URL</label>
+                <input id="ImageURL" name="ImageURL" placeholder="Image URL..." pattern="@PetValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="TypeName" class="control-label">Type</label>
+                <select id="TypeName" name="TypeName" class="form-control">
+                    @foreach (var petName in Model.PetTypes)
+                    {
+                        <option value="@petName">@petName</option>
+                    }
+                </select>
+            </div>
+            <br />
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <input class="btn btn-dark  mb-3" value="Back" onclick="history.back()">
+            </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

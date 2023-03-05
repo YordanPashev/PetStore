@@ -3,6 +3,14 @@
     this.ViewData["Title"] = "Home Page";
 }
 
+@if (!string.IsNullOrEmpty(this.ViewBag.Message))
+{
+    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;">
+        <i>@this.ViewBag.Message</i>
+    </h1>
+    <br />
+}
+
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
         <h1 class="display-4 mb-0" style="text-align: center ; font-weight: bold; font-style: italic;">Welcome to @GlobalConstants.SystemName!</h1>

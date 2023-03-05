@@ -9,8 +9,7 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.AspNetCore.Mvc.RazorPages;
 	using Microsoft.Extensions.Logging;
-
-	using PetStore.Data.Models;
+    using PetStore.Data.Models;
 
 	public class LogoutModel : PageModel
     {
@@ -21,16 +20,6 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
         {
 			this.signInManager = signInManager;
 			this.logger = logger;
-        }
-
-        public async Task<IActionResult> OnGet()
-        {
-            await this.signInManager.SignOutAsync();
-            this.logger.LogInformation("User logged out.");
-
-            // This needs to be a redirect so that the browser performs a new
-            // request and the identity for the user gets updated.
-            return this.Redirect("/Home/Index");
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)

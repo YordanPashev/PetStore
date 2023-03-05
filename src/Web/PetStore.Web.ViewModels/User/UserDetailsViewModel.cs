@@ -7,7 +7,7 @@
     using PetStore.Web.ViewModels.Address;
     using PetStore.Web.ViewModels.ClientCard;
 
-    public class UserViewModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>
+    public class UserDetailsViewModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>
     {
         public string Id { get; set; }
 

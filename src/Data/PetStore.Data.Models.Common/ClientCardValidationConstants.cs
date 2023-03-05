@@ -2,6 +2,6 @@
 {
     public static class ClientCardValidationConstants
     {
-        public const int CardNumberMaxLength = 30;
+        public const int CardNumberMaxLength = 6;
     }
 }

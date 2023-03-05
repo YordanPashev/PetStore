@@ -9,7 +9,7 @@
     {
         Task DeactivateUserAccountAsync(ApplicationUser user);
 
-        Task<UserViewModel> GetClientByIdAsycn(string userId);
+        Task<UserDetailsViewModel> GetClientByIdAsycn(string userId);
 
         Task<ApplicationUser> GetUserByIdForEditAsync(string id);
     }
