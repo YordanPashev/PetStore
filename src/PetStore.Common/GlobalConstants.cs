@@ -1,7 +1,7 @@
-﻿using PetStore.Data.Models.Common;
-
-namespace PetStore.Common
+﻿namespace PetStore.Common
 {
+    using PetStore.Data.Models.Common;
+
     public static class GlobalConstants
     {
         // System

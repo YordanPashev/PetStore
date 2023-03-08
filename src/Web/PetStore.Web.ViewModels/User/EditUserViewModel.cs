@@ -32,7 +32,7 @@
         public string PhoneNumber { get; set; }
 
         [Required]
-        public EditAddressViewModel Address { get; set; }
+        public string AddressText { get; set; }
 
         public string UserMessage { get; set; }
     }

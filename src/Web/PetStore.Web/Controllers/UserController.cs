@@ -24,19 +24,19 @@
         private readonly ILogger<LogoutModel> logger;
         private readonly UserControllerExtension controllerExtension;
 
-        public UserController(IUserService clientService, IClientCardService clientCardService, SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
+        public UserController(IUserService userService, IClientCardService clientCardService, SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
         {
-            this.userService = clientService;
+            this.userService = userService;
             this.clientCardService = clientCardService;
             this.signInManager = signInManager;
             this.logger = logger;
-            this.controllerExtension = new UserControllerExtension();
+            this.controllerExtension = new UserControllerExtension(userService);
         }
 
         public async Task<IActionResult> Index(string id)
         {
-            UserDetailsViewModel model = await this.userService.GetClientByIdAsycn(id);
-            if (model == null || model.Address == null || model.ClientCard == null)
+            UserDetailsViewModel model = await this.userService.GetUserByIdAsycn(id);
+            if (model == null)
             {
                 return this.View("NoClientFound");
             }
@@ -65,12 +65,13 @@
         {
             ApplicationUser user = await this.userService.GetUserByIdForEditAsync(id);
             EditUserViewModel model = AutoMapperConfig.MapperInstance.Map<EditUserViewModel>(user);
-            if (model == null || model.Address == null)
+            model.AddressText = user.Address.AddressText;
+            if (model == null || model.AddressText == null)
             {
                 return this.View("NoClientFound");
             }
 
-            model.UserMessage = null;
+            model.UserMessage = message;
 
             return this.View(model);
         }
@@ -78,14 +79,12 @@
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel userInputModel)
         {
-            UserDetailsViewModel user = await this.userService.GetClientByIdAsycn(userInputModel.Id);
-
-            if (!this.ModelState.IsValid || user == null)
+            if (!this.ModelState.IsValid)
             {
                 return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return this.View(); //await this.controllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, user);
+            return await this.controllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel);
         }
     }
 }

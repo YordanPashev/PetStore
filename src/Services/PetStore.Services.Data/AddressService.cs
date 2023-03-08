@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Services.Data
 {
     using System.Threading.Tasks;
+
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
@@ -23,6 +24,7 @@
                 TownName = townName,
                 ClientId = userId,
             };
+
             await this.addressRepo.AddAsync(address);
             await this.addressRepo.SaveChangesAsync();
         }
