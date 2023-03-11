@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
+
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;

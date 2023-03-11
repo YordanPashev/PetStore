@@ -48,8 +48,8 @@
     <table class="table table-hover" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
-                <th style="text-align:start;">Pet</th>
-                <th style="text-align:start;">Name</th>
+                <th style="text-align: start;">Pet</th>
+                <th style="text-align: start;">Name</th>
                 <th style="text-align: end; font-weight: bold;">Type</th>
                 <th style="color: red; text-align: end; font-weight: bold;">Price</th>
                 <th style="color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
@@ -60,9 +60,9 @@
             {
                 <tr name="trData">
                     <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
-                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align:end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="color: red; text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
                     <td style="text-align: end; font-weight: bold;">
                         <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))

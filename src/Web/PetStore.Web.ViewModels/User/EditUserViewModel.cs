@@ -6,7 +6,6 @@
     using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
-    using PetStore.Web.ViewModels.Address;
 
     public class EditUserViewModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>
     {
@@ -32,6 +31,7 @@
         public string PhoneNumber { get; set; }
 
         [Required]
+        [RegularExpression(UserValidationConstants.DeliveryAddressRrgex, ErrorMessage = GlobalConstants.UserDeliveryAddressErrormessage)]
         public string AddressText { get; set; }
 
         public string UserMessage { get; set; }

@@ -52,10 +52,10 @@
         <thead>
             <tr>
                 <th style="text-align: start; font-weight: bold;">Product</th>
-                <th style="text-align:start">Name</th>
+                <th style="text-align: start">Name</th>
                 <th style="text-align: start; font-weight: bold;">Category</th>
-                <th style="color: red; text-align:end; font-weight: bold;">Price</th>
-                <th style="color: #0DCAF0; text-align:end; font-weight: bold;">Get Details</th>
+                <th style="color: red; text-align: end; font-weight: bold;">Price</th>
+                <th style="color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
             </tr>
         </thead>
         <tbody>
@@ -63,9 +63,9 @@
             {
                 <tr name="trData">
                     <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
-                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align:start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="color: red; text-align:end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align :left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align: start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="color: red; text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
                     <td style="text-align:end; font-weight: bold;">
                         <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))

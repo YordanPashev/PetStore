@@ -1,0 +1,43 @@
+﻿@using PetStore.Common
+@model PetStore.Web.ViewModels.User.UserShortInfoViewModel[]
+
+@{
+    ViewData["Title"] = "List of all Users";
+}
+
+<div class="row">
+    <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+</div>
+@if (Model.Length > 0)
+{
+    <table class="table table-hover" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
+        <thead>
+            <tr>
+                <th style="text-align: start;">Email</th>
+                <th style="text-align: end;">First Name</th>
+                <th style="text-align: end;">Last Name</th>
+                <th style="color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr name="trData">
+                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => user.Email)</td>
+                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.FirstName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.LastName)</td>
+                    <td style="text-align: end; font-weight: bold;">
+                        <a class="btn btn-info" asp-controller="User" asp-action="Details" asp-route-id="@user.Id">Details</a> 
+                        <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('Deactivate account with email: @user.Email ?');" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@user.Id">Deactivate</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 style="text-align: center">There is no registrated user yet!</h1> 
+    <br/>
+}

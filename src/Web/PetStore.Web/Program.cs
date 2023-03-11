@@ -77,6 +77,7 @@ namespace PetStore.Web
             services.AddTransient<IClientCardService, ClientCardService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAddressService, AddressService>();
+            services.AddTransient<IAdministrationService, AdministrationService>();
         }
 
         private static void Configure(WebApplication app)
