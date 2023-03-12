@@ -88,6 +88,6 @@ else
     <input class="btn btn-dark" value="Back" onclick="history.back()">
     @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
     {
-        <a class="btn btn-success" asp-controller="Products" asp-action="Create">Add New Product</a>
+        <a class="btn btn-success" asp-area="Administration" asp-controller="Create" asp-action="CreateProduct">Add New Product</a>
     }     
 </p>

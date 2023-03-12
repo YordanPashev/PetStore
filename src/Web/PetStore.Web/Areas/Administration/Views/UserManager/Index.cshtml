@@ -8,7 +8,7 @@
 <div class="row">
     <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
 </div>
-@if (Model.Length > 0)
+@if (this.Model.Length > 0)
 {
     <table class="table table-hover" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
@@ -16,20 +16,29 @@
                 <th style="text-align: start;">Email</th>
                 <th style="text-align: end;">First Name</th>
                 <th style="text-align: end;">Last Name</th>
+                <th style="text-align: end;">Status</th>
                 <th style="color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model)
+            @foreach (var user in this.Model)
             {
                 <tr name="trData">
                     <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => user.Email)</td>
                     <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.FirstName)</td>
                     <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.LastName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.AccountStatus)</td>
                     <td style="text-align: end; font-weight: bold;">
                         <a class="btn btn-info" asp-controller="User" asp-action="Details" asp-route-id="@user.Id">Details</a> 
                         <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                        <a class="btn btn-danger" onclick="return confirm('Deactivate account with email: @user.Email ?');" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@user.Id">Deactivate</a>
+                        @if (user.AccountStatus == GlobalConstants.AccountStatusActive)
+                        {
+                            <a class="btn btn-danger" onclick="return confirm('Deactivate account with email: @user.Email ?');" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@user.Id">Deactivate</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-danger" onclick="return confirm('Activate account with email: @user.Email ?');" asp-controller="User" asp-action="ActivateAcccountResult" asp-route-id="@user.Id">Activate</a>
+                        }
                     </td>
                 </tr>
             }

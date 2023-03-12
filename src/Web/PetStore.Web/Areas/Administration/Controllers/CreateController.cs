@@ -1,10 +1,9 @@
-﻿namespace PetStore.Web.Controllers
+﻿namespace PetStore.Web.Areas.Administration.Controllers
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using PetStore.Common;
@@ -18,8 +17,7 @@
     using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;
 
-    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-    public class CreateController : Controller
+    public class CreateController : AdministrationController
     {
         private readonly ICategoriesService categoriesService;
         private readonly CreateControllerExtension createControllerExtension;

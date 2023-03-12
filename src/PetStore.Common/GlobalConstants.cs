@@ -58,6 +58,11 @@
 
         public const string UserEmailErrorMessage = "The email must be in format  username@domainname.extension";
 
+        // Account Statuses
+        public const string AccountStatusActive = "Active";
+
+        public const string AccountStatusInactive = "Inactive";
+
         // Date formats
         public const string AdministrationSettingsDateTimeFormat = "dd/MM/yyyy, HH:mm:ss";
 

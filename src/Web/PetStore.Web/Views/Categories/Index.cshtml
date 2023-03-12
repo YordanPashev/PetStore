@@ -45,7 +45,7 @@ else
    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
    {
        <p class="mt-4" style="text-align:center">
-           <a class="btn btn-success" asp-controller="Create" asp-action="CreateCategory">Add New Category</a>
+           <a class="btn btn-success" asp-area="Administration" asp-controller="Create" asp-action="CreateCategory">Add New Category</a>
        </p>
    }
 </div>

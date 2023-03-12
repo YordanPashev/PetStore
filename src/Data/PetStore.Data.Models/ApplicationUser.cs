@@ -4,6 +4,7 @@ namespace PetStore.Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
+
     using Microsoft.AspNetCore.Identity;
 
     using PetStore.Data.Common.Models;
@@ -16,7 +17,6 @@ namespace PetStore.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-
         }
 
         public string FirstName { get; set; }
