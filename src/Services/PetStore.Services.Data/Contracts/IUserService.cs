@@ -12,7 +12,9 @@
 
         Task<UserDetailsViewModel> GetUserByIdAsycn(string userId);
 
-        Task<ApplicationUser> GetUserByIdForEditAsync(string id);
+        Task<UserDetailsViewModel> GetUserByIdWtihDeactivatedAsycn(string userId);
+
+        Task<ApplicationUser> GetActiveUserByIdForEditAsync(string id);
 
         Task UpdateUserDataAsync(EditUserViewModel editModel, ApplicationUser user);
     }

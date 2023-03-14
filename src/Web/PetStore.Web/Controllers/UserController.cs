@@ -1,5 +1,7 @@
 ﻿namespace PetStore.Web.Controllers
 {
+    using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -46,13 +48,25 @@
 
         public async Task<IActionResult> DeactivateAcccountResult(string id)
         {
-            ApplicationUser user = await this.userService.GetUserByIdForEditAsync(id);
+            ApplicationUser user = await this.userService.GetActiveUserByIdForEditAsync(id);
             if (user != null)
             {
-                await this.userService.DeactivateUserAccountAsync(user);
-                await this.signInManager.SignOutAsync();
-                this.logger.LogInformation("User logged out.");
-                this.ViewBag.Message = GlobalConstants.SuccessfullyDeactivateUserAccountMessage;
+                if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    StringBuilder viewBagMessage = new StringBuilder();
+                    viewBagMessage.Append("User: ")
+                                  .Append(user.Email)
+                                  .Append(" has been deactivated.");
+
+                    this.ViewBag.Message = viewBagMessage.ToString();
+                }
+                else
+                {
+                    await this.userService.DeactivateUserAccountAsync(user);
+                    await this.signInManager.SignOutAsync();
+                    this.logger.LogInformation("User logged out.");
+                    this.ViewBag.Message = GlobalConstants.SuccessfullyUserDeactivateHisAccountMessage;
+                }
 
                 return this.View("~/Views/Home/Index.cshtml");
             }
@@ -63,9 +77,11 @@
         [HttpGet]
         public async Task<IActionResult> Edit(string id, string message = null)
         {
-            ApplicationUser user = await this.userService.GetUserByIdForEditAsync(id);
+            ApplicationUser user = await this.userService.GetActiveUserByIdForEditAsync(id);
+
             EditUserViewModel model = AutoMapperConfig.MapperInstance.Map<EditUserViewModel>(user);
             model.AddressText = user.Address.AddressText;
+
             if (model == null || model.AddressText == null)
             {
                 return this.View("NoClientFound");

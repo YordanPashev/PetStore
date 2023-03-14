@@ -6,40 +6,44 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-	string applicationUserFullName = string.Empty;
-	string userHoverText;
+	string username = string.Empty;
+	string userHoverText = string.Empty;
 	ApplicationUser applicationUser = (ApplicationUser)await this.UserManager.GetUserAsync(this.User);
 
-	if (this.SignInManager.IsSignedIn(this.User) && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+	if (this.SignInManager.IsSignedIn(this.User))
 	{
-		applicationUserFullName = "Admin";
-		userHoverText = "You have administrator rights";
+		if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+		{
+			username = "Admin";
+			userHoverText = "You have administrator rights";
+		}
+		else
+		{
+			username = applicationUser.FirstName;
+
+			userHoverText = "Manage";
+		}
 	}
-	else
-	{
-		userHoverText = "Manage";
 	}
-}
-<ul class="navbar-nav" style="margin-right: 10px; margin-left: 10px">
-	@if(SignInManager.IsSignedIn(this.User))
-	{
-	applicationUserFullName = applicationUser.FirstName;
-	<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index" asp-route-id="@applicationUser.Id" title="@userHoverText">Hello, <i>@applicationUserFullName</i>!</a>
-	</li>
-	<li class="nav-item">
-		<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
-			<button type="submit" class="nav-link btn btn-link text-dark">Log out</button>
-		</form>
-	</li>
-	}
-	else
-	{
-	<li class="nav-item">
-		<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Context.Request.Path">Register</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">Login</a>
-	</li>
-	}
-</ul>
+	<ul class="navbar-nav" style="margin-right: 10px; margin-left: 10px">
+		@if (SignInManager.IsSignedIn(this.User))
+		{
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index" asp-route-id="@applicationUser.Id" title="@userHoverText">Hello, <i>@username</i>!</a>
+			</li>
+			<li class="nav-item">
+				<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+					<button type="submit" class="nav-link btn btn-link text-dark">Log out</button>
+				</form>
+			</li>
+		}
+		else
+		{
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Context.Request.Path">Register</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">Login</a>
+			</li>
+		}
+	</ul>

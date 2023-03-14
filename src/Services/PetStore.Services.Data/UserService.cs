@@ -45,7 +45,18 @@
             return AutoMapperConfig.MapperInstance.Map<UserDetailsViewModel>(user);
         }
 
-        public async Task<ApplicationUser> GetUserByIdForEditAsync(string id)
+        public async Task<UserDetailsViewModel> GetUserByIdWtihDeactivatedAsycn(string userId)
+        {
+            ApplicationUser user = await this.userRepo
+                                    .AllAsNoTrackingWithDeleted()
+                                    .Include(u => u.Address)
+                                    .Include(u => u.ClientCard)
+                                    .FirstOrDefaultAsync(u => u.Id == userId);
+
+            return AutoMapperConfig.MapperInstance.Map<UserDetailsViewModel>(user);
+        }
+
+        public async Task<ApplicationUser> GetActiveUserByIdForEditAsync(string id)
             => await this.userRepo.All()
                                   .Include(u => u.Address)
                                   .Include(u => u.ClientCard)

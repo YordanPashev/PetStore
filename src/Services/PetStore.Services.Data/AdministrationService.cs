@@ -8,7 +8,6 @@
 
     public class AdministrationService : IAdministrationService
     {
-
         private readonly IDeletableEntityRepository<ApplicationUser> userRepo;
         private readonly IDeletableEntityRepository<Address> addressRepo;
         private readonly IDeletableEntityRepository<ClientCard> clientCardRepo;
@@ -20,7 +19,7 @@
             this.clientCardRepo = clientCardRepo;
         }
 
-        public IQueryable<ApplicationUser> GetAllUsers()
+        public IQueryable<ApplicationUser> GetAllUsersWithDeleted()
             => this.userRepo.AllAsNoTrackingWithDeleted()
                             .Where(x => x.Roles.Count == 0);
     }

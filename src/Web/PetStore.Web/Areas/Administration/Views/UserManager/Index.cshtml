@@ -24,20 +24,19 @@
             @foreach (var user in this.Model)
             {
                 <tr name="trData">
-                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => user.Email)</td>
-                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.FirstName)</td>
-                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.LastName)</td>
-                    <td onclick="location.href='@Url.Action("Details", "User", new { user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.AccountStatus)</td>
+                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => user.Email)</td>
+                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.FirstName)</td>
+                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.LastName)</td>
+                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.AccountStatus)</td>
                     <td style="text-align: end; font-weight: bold;">
-                        <a class="btn btn-info" asp-controller="User" asp-action="Details" asp-route-id="@user.Id">Details</a> 
-                        <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                        @if (user.AccountStatus == GlobalConstants.AccountStatusActive)
+                        <a class="btn btn-info" asp-controller="UserManager" asp-action="AccountDetails" asp-route-id="@user.Id">Details</a>
+                        @if (!user.IsDeleted)
                         {
-                            <a class="btn btn-danger" onclick="return confirm('Deactivate account with email: @user.Email ?');" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@user.Id">Deactivate</a>
+                            <a class="btn btn-danger" onclick="return confirm('Deactivate account with email: @user.Email ?');" asp-area="" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@user.Id">Deactivate Account</a>
                         }
                         else
                         {
-                            <a class="btn btn-danger" onclick="return confirm('Activate account with email: @user.Email ?');" asp-controller="User" asp-action="ActivateAcccountResult" asp-route-id="@user.Id">Activate</a>
+                            <a class="btn btn-success" style="width: 162px" onclick="return confirm('Activate account with email: @user.Email ?');" asp-area="Administration" asp-controller="User" asp-action="ActivateAcccountResult" asp-route-id="@user.Id">Activate Account</a>
                         }
                     </td>
                 </tr>

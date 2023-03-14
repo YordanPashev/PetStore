@@ -1,7 +1,10 @@
 ﻿namespace PetStore.Web.ViewModels.User
 {
     using System;
+    using System.Collections.Generic;
 
+    using Microsoft.AspNetCore.Identity;
+    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Address;
@@ -28,5 +31,7 @@
         public ClientCardDetaislsViewModel ClientCard { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

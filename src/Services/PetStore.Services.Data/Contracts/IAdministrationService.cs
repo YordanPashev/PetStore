@@ -6,6 +6,6 @@
 
     public interface IAdministrationService
     {
-        IQueryable<ApplicationUser> GetAllUsers();
+        IQueryable<ApplicationUser> GetAllUsersWithDeleted();
     }
 }

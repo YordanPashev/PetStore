@@ -18,7 +18,7 @@
 
         public const string SuccessfullyDeletePetMessage = $"The selected pet has been removed from the Shop.";
 
-        public const string SuccessfullyDeactivateUserAccountMessage = $"Your account has been activate. If you would like to reactivate your account, please send a request to the administrators.";
+        public const string SuccessfullyUserDeactivateHisAccountMessage = $"Your account has been activate. If you would like to reactivate your account, please send a request to the administrators.";
 
         public const string SuccessfullyAddedProductMessage = $"A new product has been add to the shop:";
 

@@ -19,7 +19,7 @@
 
         public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(EditUserViewModel editModel)
         {
-            ApplicationUser user = await this.userService.GetUserByIdForEditAsync(editModel.Id);
+            ApplicationUser user = await this.userService.GetActiveUserByIdForEditAsync(editModel.Id);
 
             if (!this.IsUserEdited(editModel, user) || editModel.Id != user.Id)
             {
