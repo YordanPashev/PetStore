@@ -1,11 +1,8 @@
 ﻿namespace PetStore.Services.Data
 {
-    using System.Data;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
-    using PetStore.Common;
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
@@ -34,7 +31,7 @@
             await this.userRepo.SaveChangesAsync();
         }
 
-        public async Task<UserDetailsViewModel> GetUserByIdAsycn(string userId)
+        public async Task<UserDetailsViewModel> GetActiveUserByIdAsycn(string userId)
         {
             ApplicationUser user = await this.userRepo
                                     .AllAsNoTracking()

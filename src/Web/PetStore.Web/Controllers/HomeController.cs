@@ -8,8 +8,9 @@
 
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        public IActionResult Index(string message = null)
         {
+            this.ViewBag.Message = message;
             return this.View();
         }
 

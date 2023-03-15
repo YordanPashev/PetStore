@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Services.Data.Contracts
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using PetStore.Data.Models;
@@ -10,7 +9,7 @@
     {
         Task DeactivateUserAccountAsync(ApplicationUser user);
 
-        Task<UserDetailsViewModel> GetUserByIdAsycn(string userId);
+        Task<UserDetailsViewModel> GetActiveUserByIdAsycn(string userId);
 
         Task<UserDetailsViewModel> GetUserByIdWtihDeactivatedAsycn(string userId);
 

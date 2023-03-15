@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -21,23 +20,21 @@
     public class UserController : Controller
     {
         private readonly IUserService userService;
-        private readonly IClientCardService clientCardService;
+        private readonly UserControllerExtension controllerExtension;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LogoutModel> logger;
-        private readonly UserControllerExtension controllerExtension;
 
         public UserController(IUserService userService, IClientCardService clientCardService, SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
         {
             this.userService = userService;
-            this.clientCardService = clientCardService;
+            this.controllerExtension = new UserControllerExtension(userService);
             this.signInManager = signInManager;
             this.logger = logger;
-            this.controllerExtension = new UserControllerExtension(userService);
         }
 
         public async Task<IActionResult> Index(string id)
         {
-            UserDetailsViewModel model = await this.userService.GetUserByIdAsycn(id);
+            UserDetailsViewModel model = await this.userService.GetActiveUserByIdAsycn(id);
             if (model == null)
             {
                 return this.View("NoClientFound");
@@ -49,26 +46,23 @@
         public async Task<IActionResult> DeactivateAcccountResult(string id)
         {
             ApplicationUser user = await this.userService.GetActiveUserByIdForEditAsync(id);
+            string message;
             if (user != null)
             {
                 if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    StringBuilder viewBagMessage = new StringBuilder();
-                    viewBagMessage.Append("User: ")
-                                  .Append(user.Email)
-                                  .Append(" has been deactivated.");
-
-                    this.ViewBag.Message = viewBagMessage.ToString();
+                    message = this.GetSuccessfullyDeactivatedAccountMessage(user.Email);
                 }
                 else
                 {
-                    await this.userService.DeactivateUserAccountAsync(user);
                     await this.signInManager.SignOutAsync();
                     this.logger.LogInformation("User logged out.");
-                    this.ViewBag.Message = GlobalConstants.SuccessfullyUserDeactivateHisAccountMessage;
+                    message = GlobalConstants.SuccessfullyUserDeactivateHisAccountMessage;
                 }
 
-                return this.View("~/Views/Home/Index.cshtml");
+                await this.userService.DeactivateUserAccountAsync(user);
+
+                return this.RedirectToAction("Index", "Home", new { message });
             }
 
             return this.View("NoClientFound");
@@ -101,6 +95,16 @@
             }
 
             return await this.controllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel);
+        }
+
+        private string GetSuccessfullyDeactivatedAccountMessage(string userEmail)
+        {
+            StringBuilder message = new StringBuilder();
+            message.Append("User: ")
+                          .Append(userEmail)
+                          .Append(" has been deactivated.");
+
+            return message.ToString();
         }
     }
 }
