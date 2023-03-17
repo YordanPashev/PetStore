@@ -26,8 +26,8 @@
 
         bool IsCategoryExistingInDb(string name);
 
-        bool IsCategoryEdited(Category category, CategoryProdutsViewModel userInputCategory);
+        bool IsCategoryEdited(Category category, EditCategoryViewModel userInputCategory);
 
-        Task UpdateCategoryAsync(Category category, CategoryProdutsViewModel userInputCategory);
+        Task UpdateCategoryAsync(Category category, EditCategoryViewModel userInputCategory);
     }
 }

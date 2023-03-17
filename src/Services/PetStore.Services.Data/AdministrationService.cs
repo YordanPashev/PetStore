@@ -34,14 +34,15 @@
             clientCard.IsDeleted = false;
             clientCard.DeletedOn = null;
 
-            await this.userRepo.SaveChangesAsync();
             await this.addressRepo.SaveChangesAsync();
             await this.clientCardRepo.SaveChangesAsync();
+            await this.userRepo.SaveChangesAsync();
         }
 
         public IQueryable<ApplicationUser> GetAllUsersWithDeleted()
             => this.userRepo.AllAsNoTrackingWithDeleted()
-                            .Where(u => u.Roles.Count == 0);
+                            .Where(u => u.Roles.Count == 0)
+                            .OrderBy(u => u.Email);
 
         public async Task<ApplicationUser> GetInctiveUserByIdForEditAsync(string id)
             => await this.userRepo.AllWithDeleted()

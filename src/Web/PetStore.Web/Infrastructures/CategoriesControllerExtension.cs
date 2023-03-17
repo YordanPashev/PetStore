@@ -53,17 +53,6 @@
             return this.View("Index", "Products");
         }
 
-        public async Task<IActionResult> EditAndRedirectOrReturnMessage(Category category, CategoryProdutsViewModel userInputModel)
-        {
-            if (!this.categoriesService.IsCategoryEdited(category, userInputModel))
-            {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
-            }
-
-            await this.categoriesService.UpdateCategoryAsync(category, userInputModel);
-            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyEditedProductCategoryMessage });
-        }
-
         public IActionResult ViewOrNoCategoryFound(IQueryable<Category> allCategories, string message)
         {
             if (allCategories == null)

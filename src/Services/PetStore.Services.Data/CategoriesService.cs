@@ -70,7 +70,7 @@
         public bool IsCategoryExistingInDb(string name)
             => this.categoriesRepo.AllAsNoTracking().Any(c => c.Name == name);
 
-        public bool IsCategoryEdited(Category category, CategoryProdutsViewModel userInputCategory)
+        public bool IsCategoryEdited(Category category, EditCategoryViewModel userInputCategory)
         {
             if (category.Id == userInputCategory.Id &&
                 category.Name == userInputCategory.Name &&
@@ -82,7 +82,7 @@
             return true;
         }
 
-        public async Task UpdateCategoryAsync(Category category, CategoryProdutsViewModel userInputCategory)
+        public async Task UpdateCategoryAsync(Category category, EditCategoryViewModel userInputCategory)
         {
             category.Name = userInputCategory.Name;
             category.ImageURL = userInputCategory.ImageURL;
