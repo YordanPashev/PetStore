@@ -8,17 +8,12 @@
 
 <h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
 
-<h4 style="text-align: center">Edit</h4>
-<hr/>
-<div class="row">
+<h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
+<div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
-        <form asp-action="Edit">
+        <form asp-action="EditProduct">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label for="Id" class="control-label">Id</label>
-                <input id="Id" name="Id" class="form-control" type="text" value="@Model.ProductInfo.Id" readonly/>
-            </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label for="Name" class="control-label">Name</label>
                 <input id="Name" name="Name" class="form-control" type="text" value="@Model.ProductInfo.Name" minlength="@ProductValidationConstants.NameMinLength" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength" required/>
             </div>
@@ -47,10 +42,10 @@
                 </select>
             </div>
             <br/>
-            <div class="d-grid gap-2 col-6 mx-auto">
+            <div class="d-grid gap-2 col-6 mx-auto ">
                 <input type="submit" value="Edit" class="btn btn-success"/>
-                    <a class="btn btn-danger" onclick="return confirm('Remove @Model.ProductInfo.Name from the shtop?');" asp-action="DeleteResult" asp-route-id="@Model.ProductInfo.Id">Delete</a>
-                <input class="btn btn-dark" value="Back" onclick="history.back()">
+                    <a class="btn btn-danger" onclick="return confirm('Remove @Model.ProductInfo.Name from the shtop?');" asp-area="Administration" asp-controller="Delete" asp-action="DeleteResult" asp-route-id="@Model.ProductInfo.Id">Delete</a>
+                <input class="btn btn-dark mb-4" value="Back" onclick="history.back()">
             </div>
         </form>
     </div>

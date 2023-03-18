@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -17,6 +18,12 @@
         IQueryable<Product> GetAllProductsInSaleForSelectedCateogry(string categoryName);
 
         IQueryable<Product> GetAllDeletedProductsNoTracking();
+
+        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStockNoTracking(string searchQueryCapitalCase);
+
+        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSale(string searchQueryCapitalCase);
+
+        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSaleForSelectedCateogry(string searchQueryCapitalCase, string categoryName);
 
         Task<Product> GetByProductIdAsync(string id);
 

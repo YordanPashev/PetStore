@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@
 
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
+    using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Products;
 
     public class ProductsService : IProductsService
@@ -45,7 +47,6 @@
 
             return this.productRepo.AllAsNoTracking()
                     .Include(p => p.Category)
-                    .Where(p => p.IsDeleted == false)
                     .Where(p => p.Category.Name == categoryName)
                     .OrderBy(p => p.Name);
         }
@@ -55,6 +56,42 @@
                     .Include(p => p.Category)
                     .Where(p => p.IsDeleted)
                     .OrderBy(p => p.Name);
+
+        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStockNoTracking(string searchQueryCapitalCase)
+        => this.productRepo
+                    .AllAsNoTrackingWithDeleted()
+                    .Where(p => p.IsDeleted)
+                    .Include(p => p.Category)
+                    .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
+                                p.Category.Name.ToUpper().Contains(searchQueryCapitalCase))
+                    .To<ProductShortInfoViewModel>()
+                    .ToList();
+
+        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSale(string searchQueryCapitalCase)
+            => this.productRepo
+                    .AllAsNoTracking()
+                    .Include(p => p.Category)
+                    .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
+                                p.Category.Name.ToUpper().Contains(searchQueryCapitalCase))
+                    .To<ProductShortInfoViewModel>()
+                    .ToList();
+
+        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSaleForSelectedCateogry(string searchQueryCapitalCase, string categoryName)
+        {
+            if (categoryName == null)
+            {
+                return Enumerable.Empty<ProductShortInfoViewModel>().ToList();
+            }
+
+            return this.productRepo.AllAsNoTracking()
+                    .Include(p => p.Category)
+                    .Where(p => p.Category.Name == categoryName)
+                    .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
+                                p.Category.Name.ToUpper().Contains(searchQueryCapitalCase))
+                    .OrderBy(p => p.Name)
+                    .To<ProductShortInfoViewModel>()
+                    .ToList();
+        }
 
         public async Task<Product> GetByProductIdAsync(string id)
             => await this.productRepo

@@ -69,7 +69,7 @@
                         <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a class="btn btn-dark" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                            <a class="btn btn-dark" asp-area="Administration" asp-controller="Edit" asp-action="EditProduct" asp-route-id="@product.Id">Edit</a>
                             <a class="btn btn-danger" onclick="return confirm('Remove @product.Name from the shtop?');" asp-controller="Products" asp-action="DeleteResult" asp-route-id="@product.Id">Delete</a>
                         }
                     </td>

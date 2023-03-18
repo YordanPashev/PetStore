@@ -80,41 +80,6 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(string id, string message = null)
-        {
-            Product product = await this.productsService.GetProductByIdForEditAsync(id);
-            if (product == null)
-            {
-                return this.View("NoProductFound");
-            }
-
-            EditProductViewModel editPorudctModel = new EditProductViewModel()
-            {
-                ProductInfo = AutoMapperConfig.MapperInstance.Map<ProductInfoViewModel>(product),
-                Categories = this.categoriesService.GetAllCategoriesNoTracking().To<CategoryShortInfoViewModel>().ToArray(),
-                UserMessage = message,
-            };
-
-            return this.View(editPorudctModel);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(ProductInfoViewModel userInputModel)
-        {
-            userInputModel.CategoryId = await this.categoriesService.GetCategoryIdByNameNoTrackingAsync(userInputModel.CategoryName);
-            Product product = await this.productsService.GetProductByIdForEditAsync(userInputModel.Id);
-
-            if (!this.ModelState.IsValid || product == null || userInputModel?.CategoryId < 0)
-            {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
-            }
-
-            return await this.productsControllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, product);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> UndeleteResult(string id)
         {
             Product product = await this.productsService.GetDeletedProductByIdAsync(id);

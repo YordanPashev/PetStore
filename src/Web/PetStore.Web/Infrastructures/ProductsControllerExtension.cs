@@ -25,17 +25,6 @@
             this.categoriesService = categoriesService;
         }
 
-        public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel, Product product = null)
-        {
-            if (!this.IsProductEdited(userInputModel, product))
-            {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
-            }
-
-            await this.productsService.UpdateProductDataAsync(userInputModel, product);
-            return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
-        }
-
         public IActionResult ViewOrNoProductsFound(Product product)
         {
             if (product == null)
@@ -83,54 +72,36 @@
 
         private ICollection<ProductShortInfoViewModel> GetProductsInSale(string categoryName, string searchQuery)
         {
+            string searchQueryCapitalCase = string.IsNullOrEmpty(searchQuery) ? string.Empty : searchQuery.ToUpper();
+
             if (categoryName == null)
             {
-                if (!string.IsNullOrEmpty(searchQuery))
+                if (string.IsNullOrEmpty(searchQueryCapitalCase))
                 {
-                    return this.productsService.GetAllProductsInSale()
-                                               .To<ProductShortInfoViewModel>()
-                                               .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
-                                               .ToArray();
+                    return this.productsService.GetAllProductsInSale().To<ProductShortInfoViewModel>().ToArray();
                 }
 
-                return this.productsService.GetAllProductsInSale().To<ProductShortInfoViewModel>().ToArray();
+                return this.productsService.GetAllSearchedProductsInSale(searchQueryCapitalCase);
             }
 
             this.ViewBag.CategoryImageURL = this.categoriesService.GetCategoryImageUrl(categoryName);
 
-            if (!string.IsNullOrEmpty(searchQuery))
+            if (string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName)
-                                           .To<ProductShortInfoViewModel>()
-                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
-                                           .ToArray();
+                return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName).To<ProductShortInfoViewModel>().ToArray();
             }
 
-            return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName).To<ProductShortInfoViewModel>().ToArray();
+            return this.productsService.GetAllSearchedProductsInSaleForSelectedCateogry(searchQueryCapitalCase, categoryName);
         }
 
-        private ICollection<ProductShortInfoViewModel> GetDeletedProducts(string searchQuery)
+        private ICollection<ProductShortInfoViewModel> GetDeletedProducts(string searchQueryCapitalCase)
         {
-            if (!string.IsNullOrEmpty(searchQuery))
+            if (string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.productsService.GetAllDeletedProductsNoTracking()
-                                           .To<ProductShortInfoViewModel>()
-                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
-                                           .ToArray();
+                return this.productsService.GetAllDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray();
             }
 
-            return this.productsService.GetAllDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray();
-        }
-
-        private bool IsProductEdited(ProductInfoViewModel model, Product product)
-        {
-            if (product.Name == model.Name && product.Price == model.Price && product.Description == model.Description &&
-                product.ImageUrl == model.ImageUrl && product.CategoryId == model.CategoryId)
-            {
-                return false;
-            }
-
-            return true;
+            return this.productsService.GetAllSearchedProductsOutOfStockNoTracking(searchQueryCapitalCase);
         }
     }
 }
