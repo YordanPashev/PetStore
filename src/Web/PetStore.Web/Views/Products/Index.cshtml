@@ -43,7 +43,7 @@
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <Column style="float: right;">
-                <a class="btn btn-danger" asp-controller="Products" asp-action="DeletedProducts">Deleted Products</a>
+                <a class="btn btn-danger" asp-area="Administration" asp-controller="Delete" asp-action="DeletedProducts">Deleted Products</a>
             </Column>
         }
     </Row>
@@ -70,7 +70,7 @@
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a class="btn btn-dark" asp-area="Administration" asp-controller="Edit" asp-action="EditProduct" asp-route-id="@product.Id">Edit</a>
-                            <a class="btn btn-danger" onclick="return confirm('Remove @product.Name from the shtop?');" asp-controller="Products" asp-action="DeleteResult" asp-route-id="@product.Id">Delete</a>
+                                <a class="btn btn-danger" onclick="return confirm('Remove @product.Name from the shtop?');" asp-area="Administration" asp-controller="Delete" asp-action="DeleteResult" asp-route-id="@product.Id">Delete</a>
                         }
                     </td>
                 </tr>

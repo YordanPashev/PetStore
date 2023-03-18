@@ -33,7 +33,7 @@
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
                                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                 {
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="DeletedProducts">Deleted Products</a></li>
+                                    <li><a class="dropdown-item" asp-area="Administration" asp-controller="Delete" asp-action="DeletedProducts">Deleted Products</a></li>
                                 }
                             </ul>
                         </div>

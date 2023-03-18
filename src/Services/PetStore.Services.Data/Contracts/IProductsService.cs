@@ -27,7 +27,7 @@
 
         Task<Product> GetByProductIdAsync(string id);
 
-        Task<Product> GetDeletedProductByIdAsyncNoTracking(string id);
+        Task<DetailsProductViewModel> GetDeletedProductByIdAsyncNoTracking(string id);
 
         Task<Product> GetDeletedProductByIdAsync(string id);
 

@@ -17,50 +17,26 @@
     public class ProductsController : BaseController
     {
         private readonly IProductsService productsService;
-        private readonly ICategoriesService categoriesService;
         private readonly ProductsControllerExtension productsControllerExtension;
 
         public ProductsController(IProductsService productService, ICategoriesService categoriesService)
         {
             this.productsService = productService;
-            this.categoriesService = categoriesService;
             this.productsControllerExtension = new ProductsControllerExtension(productService, categoriesService);
         }
 
         [HttpGet]
-        public IActionResult Index(SearchProductViewModel model)
+        public IActionResult Index(SearchProductViewModel searchModel)
         {
-            return this.productsControllerExtension.ViewOrNoProductsFound(model);
-        }
 
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> DeleteResult(string id)
-        {
-            Product product = await this.productsService.GetByProductIdAsync(id);
-            if (product != null)
+            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
-                await this.productsService.DeleteProductAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
+                ListOfProducts = this.productsControllerExtension.GetProductsInSale(searchModel.CategoryName, searchModel.SearchQuery),
+                CategoryName = searchModel.CategoryName,
+                SearchQuery = searchModel.SearchQuery,
+            };
 
-                return this.View("SuccessfulOperationTextMessage");
-            }
-
-            return this.RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult DeletedProducts(SearchProductViewModel searchModel)
-        {
-            return this.productsControllerExtension.DeletedProductsViewOrNoProductsFound(searchModel.SearchQuery);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeletedProductDetails(string id)
-        {
-            Product product = await this.productsService.GetDeletedProductByIdAsyncNoTracking(id);
-            return this.productsControllerExtension.ViewOrNoProductsFound(product);
+            return this.productsControllerExtension.ViewOrNoProductsFound(searchModel, productsShortInfoModel);
         }
 
         [HttpGet]
@@ -76,22 +52,6 @@
             DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
             productDetailsModel.UserMessage = message;
             return this.View(productDetailsModel);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> UndeleteResult(string id)
-        {
-            Product product = await this.productsService.GetDeletedProductByIdAsync(id);
-            if (product != null)
-            {
-                await this.productsService.UndeleteProductAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteProductMessage;
-
-                return this.View("SuccessfulOperationTextMessage");
-            }
-
-            return this.RedirectToAction("Index");
         }
     }
 }
