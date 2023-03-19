@@ -55,8 +55,8 @@
                         <br/>
                     </div>
                     <p class="d-grid gap-2 col-6 mx-auto">
-                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                        <a class="btn btn-danger" onclick="return confirm('Remove @Model.Name from the shtop?');" asp-action="DeleteResult" asp-route-id="@Model.Id">Remove Pet</a>
+                        <a class="btn btn-secondary" asp-area="Administration" asp-controller="PetsManager" asp-action="Editpet" asp-route-id="@Model.Id">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('Remove @Model.Name from the shtop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@Model.Id">Remove Pet</a>
                         <input class="btn btn-dark" value="Back" onclick="history.back()">
                     </p>
                 </div>

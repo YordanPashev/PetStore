@@ -44,7 +44,7 @@
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto ">
                 <input type="submit" value="Edit" class="btn btn-success"/>
-                    <a class="btn btn-danger" onclick="return confirm('Remove @Model.ProductInfo.Name from the shtop?');" asp-area="Administration" asp-controller="Delete" asp-action="DeleteResult" asp-route-id="@Model.ProductInfo.Id">Delete</a>
+                <a class="btn btn-danger" onclick="return confirm('Remove @Model.ProductInfo.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@Model.ProductInfo.Id">Delete</a>
                 <input class="btn btn-dark mb-4" value="Back" onclick="history.back()">
             </div>
         </form>

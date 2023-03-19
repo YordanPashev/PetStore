@@ -97,7 +97,7 @@
             await this.petsRepo.SaveChangesAsync();
         }
 
-        public async Task UndeleteProductAsync(Pet pet)
+        public async Task UndeletePetAsync(Pet pet)
         {
             pet.DeletedOn = null;
             pet.IsDeleted = false;

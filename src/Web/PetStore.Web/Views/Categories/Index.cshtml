@@ -28,7 +28,7 @@
                         </p>
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a class="btn btn-info mb-2" style="position: absolute; bottom: 0; right:25%; left:25%;" asp-area="Administration" asp-controller="Edit" asp-action="EditCategory" asp-route-id="@category.Id">Edit</a>
+                            <a class="btn btn-info mb-2" style="position: absolute; bottom: 0; right:25%; left:25%;" asp-area="Administration" asp-controller="CategoriesManager" asp-action="EditCategory" asp-route-id="@category.Id">Edit</a>
                         }
                     </div>
                 </div>

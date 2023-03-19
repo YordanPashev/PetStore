@@ -1,4 +1,4 @@
-﻿namespace PetStore.Web.Infrastructures.Administration
+﻿namespace PetStore.Web.Areas.Administration.Infrastructures.Administration
 {
     using System;
     using System.Threading.Tasks;
@@ -30,24 +30,24 @@
         {
             if (createProductModel.Categories == null)
             {
-                return View("NoCategoryFound");
+                return this.View("NoCategoryFound");
             }
 
-            return View(createProductModel);
+            return this.View(createProductModel);
         }
 
         public async Task<IActionResult> CreateProductAndRedirectOrReturnInvalidInputMessage(ProductInfoViewModel userInputModel)
         {
-            if (productsService.IsProductExistingInDb(userInputModel.Name))
+            if (this.productsService.IsProductExistingInDb(userInputModel.Name))
             {
-                return RedirectToAction("CreateProduct", new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
+                return this.RedirectToAction("CreateProduct", new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
             }
 
             Product product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
             product.Id = Guid.NewGuid().ToString();
-            await productsService.AddProductAsync(product);
+            await this.productsService.AddProductAsync(product);
 
-            return RedirectToAction("Details", "Products", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
+            return this.RedirectToAction("Details", "Products", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
         }
 
         public async Task<IActionResult> CreatePetOrReturnInvalidInputMessage(CreatePetViewModel petModel, PetType petType)
@@ -63,14 +63,14 @@
                 Type = petType,
             };
 
-            if (petsService.IsPetExistingInDb(pet))
+            if (this.petsService.IsPetExistingInDb(pet))
             {
-                return RedirectToAction("Pets", new { message = GlobalConstants.PetlreadyExistInDbErrorMessage });
+                return this.RedirectToAction("Pets", new { message = GlobalConstants.PetlreadyExistInDbErrorMessage });
             }
 
-            await petsService.AddPetAsync(pet);
+            await this.petsService.AddPetAsync(pet);
 
-            return RedirectToAction("Details", "Pets", new { id = pet.Id, message = GlobalConstants.SuccessfullyAddedPetMessage });
+            return this.RedirectToAction("Details", "Pets", new { id = pet.Id, message = GlobalConstants.SuccessfullyAddedPetMessage });
         }
     }
 }

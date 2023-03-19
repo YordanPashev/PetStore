@@ -1,12 +1,9 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
@@ -28,7 +25,6 @@
         [HttpGet]
         public IActionResult Index(SearchProductViewModel searchModel)
         {
-
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
                 ListOfProducts = this.productsControllerExtension.GetProductsInSale(searchModel.CategoryName, searchModel.SearchQuery),
@@ -43,15 +39,9 @@
         public async Task<IActionResult> Details(string id, string message = null)
         {
             Product product = await this.productsService.GetByProductIdAsync(id);
+            DetailsProductViewModel model = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
 
-            if (product == null)
-            {
-                return this.View("NoProductFound");
-            }
-
-            DetailsProductViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
-            productDetailsModel.UserMessage = message;
-            return this.View(productDetailsModel);
+            return this.productsControllerExtension.ViewOrNoProductFound(model, message);
         }
     }
 }

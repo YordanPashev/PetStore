@@ -31,6 +31,6 @@
 
         Task UpdatePetDataAsync(EditPetViewModel userInputModel, Pet pet, PetType petType);
 
-        Task UndeleteProductAsync(Pet product);
+        Task UndeletePetAsync(Pet product);
     }
 }

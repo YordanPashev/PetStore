@@ -25,77 +25,24 @@
             this.petsControllerExtension = new PetsControllerExtension(petsService);
         }
 
-        public IActionResult Index(SearchPetViewModel model)
+        public IActionResult Index(SearchPetViewModel searchModel)
         {
-            return this.petsControllerExtension.ViewOrNoPetsFound(model);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult DeletedPets(SearchPetViewModel searchModel)
-        {
-            return this.petsControllerExtension.DeletedPetsViewOrNoPetsFound(searchModel.SearchQuery);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeletedPetDetails(string id)
-        {
-            Pet pet = await this.petsService.GetDeletedPetByIdAsyncNoTracking(id);
-            return this.petsControllerExtension.ViewOrNoPetsFound(pet);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> DeleteResult(string id)
-        {
-            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
-            if (pet != null)
+            ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
-                await this.petsService.DeletePetAsync(pet);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyDeletePetMessage;
-
-                return this.View("SuccessfulOperationTextMessage");
-            }
-
-            return this.RedirectToAction("Index");
+                ListOfPets = this.petsControllerExtension.GetPets(searchModel.PetTypeName, searchModel.SearchQuery),
+                PetTypeName = searchModel.PetTypeName,
+                SearchQuery = searchModel.SearchQuery,
+            };
+            return this.petsControllerExtension.ViewOrNoPetsFound(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(string id, string message = null)
         {
             Pet pet = await this.petsService.GetPetByIdAsync(id);
+            PetDetailsViewModel model = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
 
-            if (pet == null)
-            {
-                this.ViewBag.Message = "No Pet Found";
-                return this.View("NotFoundMessageForPetsController");
-            }
-
-            PetDetailsViewModel petModel = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
-            petModel.UserMessage = message;
-
-            return this.View(petModel);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(string id, string message = null)
-        {
-            return await this.petsControllerExtension.ViewOrNoPetFound(id, message);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Edit(EditPetViewModel userInputModel)
-        {
-            Pet pet = await this.petsService.GetPetByIdForEditAsync(userInputModel.Id);
-
-            if (!this.ModelState.IsValid || pet == null)
-            {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
-            }
-
-            return await this.petsControllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel, pet);
+            return this.petsControllerExtension.ViewOrNoPetFound(model, message);
         }
 
         [HttpGet]
@@ -107,23 +54,7 @@
         [HttpGet]
         public IActionResult TypePets(string name = null)
         {
-            return this.petsControllerExtension.AllPetsForSelectedTypeOrNonExistentPetType(name);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> UndeleteResult(string id)
-        {
-            Pet pet = await this.petsService.GetDeletedPetByIdAsync(id);
-            if (pet != null)
-            {
-                await this.petsService.UndeleteProductAsync(pet);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeletePetMessage;
-
-                return this.View("SuccessfulOperationTextMessage");
-            }
-
-            return this.RedirectToAction("Index");
+            return this.petsControllerExtension.ViewOrNonExistentPetType(name);
         }
     }
 }

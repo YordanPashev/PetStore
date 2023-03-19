@@ -4,7 +4,6 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
-
     using PetStore.Data.Models;
     using PetStore.Services.Data;
     using PetStore.Services.Mapping;
@@ -23,13 +22,14 @@
             this.categoriesService = categoriesService;
         }
 
-        public IActionResult ViewOrNoProductFound(DetailsProductViewModel model)
+        public IActionResult ViewOrNoProductFound(DetailsProductViewModel model, string message = null)
         {
             if (model == null)
             {
                 return this.View("NoProductFound");
             }
 
+            model.UserMessage = message;
 
             return this.View(model);
         }
@@ -76,6 +76,17 @@
             }
 
             return this.productsService.GetAllSearchedProductsOutOfStockNoTracking(searchQueryCapitalCase);
+        }
+
+        public bool IsProductEdited(ProductInfoViewModel model, Product product)
+        {
+            if (product.Name == model.Name && product.Price == model.Price && product.Description == model.Description &&
+                product.ImageUrl == model.ImageUrl && product.CategoryId == model.CategoryId)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

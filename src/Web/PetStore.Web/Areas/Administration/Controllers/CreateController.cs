@@ -12,7 +12,7 @@
     using PetStore.Services.Data;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
-    using PetStore.Web.Infrastructures.Administration;
+    using PetStore.Web.Areas.Administration.Infrastructures.Administration;
     using PetStore.Web.ViewModels.Categories;
     using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;

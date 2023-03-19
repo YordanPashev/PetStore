@@ -15,7 +15,6 @@
     using PetStore.Web.Controllers;
     using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;
-    using PetStore.Web.ViewModels.Search;
 
     public class PetsControllerExtension : BaseController
     {
@@ -24,7 +23,58 @@
         public PetsControllerExtension(IPetsService categoriesService)
             => this.petsService = categoriesService;
 
-        public IActionResult AllPetsForSelectedTypeOrNonExistentPetType(string typeName)
+        public bool IsPetEdited(EditPetViewModel userInputModel, Pet pet)
+        {
+            if (userInputModel.Name == pet.Name && userInputModel.Breed == pet.Breed &&
+                userInputModel.BirthDate == pet.BirthDate && userInputModel.TypeName == pet.Type.ToString() &&
+                userInputModel.Price == pet.Price && userInputModel.ImageUrl == pet.ImageUrl)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public ICollection<PetDetailsViewModel> GetPets(string typeName, string searchQuery)
+        {
+            if (typeName == null)
+            {
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    return this.petsService.GetAllPetsInSaleNoTracking()
+                                               .To<PetDetailsViewModel>()
+                                               .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
+                                               .ToArray();
+                }
+
+                return this.petsService.GetAllPetsInSaleNoTracking().To<PetDetailsViewModel>().ToArray();
+            }
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                return this.petsService.GetAllPetsInSaleForSelectedType(typeName)
+                                           .To<PetDetailsViewModel>()
+                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
+                                           .ToArray();
+            }
+
+            return this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray();
+        }
+
+        public ICollection<PetDetailsViewModel> GetDeletedPets(string searchQuery)
+        {
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                return this.petsService.GetAllDeletedPetsNoTracking()
+                                           .To<PetDetailsViewModel>()
+                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
+                                           .ToArray();
+            }
+
+            return this.petsService.GetAllDeletedPetsNoTracking().To<PetDetailsViewModel>().ToArray();
+        }
+
+        public IActionResult ViewOrNonExistentPetType(string typeName)
         {
             if (!Enum.IsDefined(typeof(PetType), typeName))
             {
@@ -41,50 +91,28 @@
             return this.View("Index", model);
         }
 
-        public IActionResult DeletedPetsViewOrNoPetsFound(string searchQuery)
+        public IActionResult ViewOrNoPetsFound(ListOfPetsViewModel model)
         {
-            ListOfPetsViewModel model = new ListOfPetsViewModel()
+            if (model == null && string.IsNullOrEmpty(model.SearchQuery))
             {
-                ListOfPets = this.GetDeletedPets(searchQuery),
-                SearchQuery = searchQuery,
-            };
-
-            if (model == null)
-            {
-                return this.View("NoProductFound");
+                this.ViewBag.Message = "No Pets Found";
+                return this.View("NotFoundMessageForPetsController");
             }
 
             return this.View(model);
         }
 
-        public IActionResult ViewOrNoPetsFound(Pet pet)
+        public IActionResult ViewOrNoPetFound(PetDetailsViewModel model, string message = null)
         {
-            if (pet == null)
+            if (model == null)
             {
                 this.ViewBag.Message = "No Pet Found";
                 return this.View("NotFoundMessageForPetsController");
             }
 
-            PetDetailsViewModel productDetailsModel = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
+            model.UserMessage = message;
 
-            return this.View(productDetailsModel);
-        }
-
-        public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(EditPetViewModel userInputModel, Pet pet)
-        {
-            PetType petType;
-            if (!Enum.TryParse<PetType>(userInputModel.TypeName, out petType))
-            {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
-            }
-
-            if (!this.IsPetEdited(userInputModel, pet))
-            {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
-            }
-
-            await this.petsService.UpdatePetDataAsync(userInputModel, pet, petType);
-            return this.RedirectToAction("Details", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
+            return this.View(model);
         }
 
         public IActionResult ViewOrNoPetTypesFound()
@@ -123,6 +151,7 @@
         public async Task<IActionResult> ViewOrNoPetFound(string id, string message)
         {
             Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
+
             if (pet == null)
             {
                 this.ViewBag.Message = "No Pet Found";
@@ -135,75 +164,6 @@
             model.UserMessage = message;
 
             return this.View(model);
-        }
-
-        public IActionResult ViewOrNoPetsFound(SearchPetViewModel searchModel)
-        {
-            ListOfPetsViewModel listOfPetsModel = new ListOfPetsViewModel()
-            {
-                ListOfPets = this.GetPets(searchModel.PetTypeName, searchModel.SearchQuery),
-                PetTypeName = searchModel.PetTypeName,
-                SearchQuery = searchModel.SearchQuery,
-            };
-
-            if (listOfPetsModel.ListOfPets == null && string.IsNullOrEmpty(listOfPetsModel.SearchQuery))
-            {
-                this.ViewBag.Message = "No Pets Found";
-                return this.View("NotFoundMessageForPetsController");
-            }
-
-            return this.View(listOfPetsModel);
-        }
-
-        private bool IsPetEdited(EditPetViewModel userInputModel, Pet pet)
-        {
-            if (userInputModel.Name == pet.Name && userInputModel.Breed == pet.Breed &&
-                userInputModel.BirthDate == pet.BirthDate && userInputModel.TypeName == pet.Type.ToString() &&
-                userInputModel.Price == pet.Price && userInputModel.ImageUrl == pet.ImageUrl)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private ICollection<PetDetailsViewModel> GetPets(string typeName, string searchQuery)
-        {
-            if (typeName == null)
-            {
-                if (!string.IsNullOrEmpty(searchQuery))
-                {
-                    return this.petsService.GetAllPetsInSaleNoTracking()
-                                               .To<PetDetailsViewModel>()
-                                               .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
-                                               .ToArray();
-                }
-
-                return this.petsService.GetAllPetsInSaleNoTracking().To<PetDetailsViewModel>().ToArray();
-            }
-
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                return this.petsService.GetAllPetsInSaleForSelectedType(typeName)
-                                           .To<PetDetailsViewModel>()
-                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
-                                           .ToArray();
-            }
-
-            return this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray();
-        }
-
-        private ICollection<PetDetailsViewModel> GetDeletedPets(string searchQuery)
-        {
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                return this.petsService.GetAllDeletedPetsNoTracking()
-                                           .To<PetDetailsViewModel>()
-                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
-                                           .ToArray();
-            }
-
-            return this.petsService.GetAllDeletedPetsNoTracking().To<PetDetailsViewModel>().ToArray();
         }
     }
 }

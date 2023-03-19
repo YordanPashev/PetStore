@@ -41,7 +41,7 @@
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <Column style="float: right;">
-                <a class="btn btn-danger" asp-controller="Pets" asp-action="DeletedPets">Removed Pets</a>
+                <a class="btn btn-danger" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
             </Column>
         }
     </Row>
@@ -67,8 +67,8 @@
                         <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a> 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a class="btn btn-dark" asp-controller="Pets" asp-action="Edit" asp-route-id="@pet.Id">Edit</a>
-                            <a class="btn btn-danger" onclick="return confirm('Remove @pet.Name from the shop?');" asp-controller="Pets" asp-action="DeleteResult" asp-route-id="@pet.Id">Remove</a>
+                                <a class="btn btn-dark" asp-area="Administration" asp-controller="PetsManager" asp-action="EditPet" asp-route-id="@pet.Id">Edit</a>
+                                <a class="btn btn-danger" onclick="return confirm('Remove @pet.Name from the shop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@pet.Id">Remove</a>
                         }
                     </td>
                 </tr>
