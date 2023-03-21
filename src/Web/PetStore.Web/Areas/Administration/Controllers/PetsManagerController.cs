@@ -1,10 +1,10 @@
 ﻿namespace PetStore.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Data;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;

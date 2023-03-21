@@ -1,13 +1,24 @@
 ﻿namespace PetStore.Common
 {
-    using PetStore.Data.Models.Common;
-
     public static class GlobalConstants
     {
         // System
         public const string SystemName = "PetStore";
 
         public const string AdministratorRoleName = "Administrator";
+
+        // Contact
+        public const string ShopWrokingHours = "9:00 AM – 06:00 PM";
+
+        public const string ShopWrokingDays = "Monday through Saturday";
+
+        public const string ShopAdress = "Sofia, Stefan Dichev 5 str.";
+
+        public const string ContactEmailAddress = "contact@petstore.com";
+
+        public const string ContactPhoneNumber = "+3590888333444";
+
+        public const string LinkToGoogleMaps = @"https://www.google.com/maps/place/%D1%83%D0%BB.+%E2%80%9E%D0%A1%D1%82%D0%B5%D1%84%D0%B0%D0%BD+%D0%94%D0%B8%D1%87%D0%B5%D0%B2%E2%80%9C+5,+1407+%D0%BA%D0%B2.+%D0%9A%D1%80%D1%8A%D1%81%D1%82%D0%BE%D0%B2%D0%B0+%D0%B2%D0%B0%D0%B4%D0%B0,+%D0%A1%D0%BE%D1%84%D0%B8%D1%8F/@42.6508967,23.3112758,18.57z/data=!4m5!3m4!1s0x40aa846431662027:0x4b1e6a8ef6fb98b5!8m2!3d42.6510228!4d23.3120088";
 
         // User messages
         public const string SuccessfullyDeleteProductMessage = $"The selected product has been removed from the Shop.";
@@ -18,7 +29,7 @@
 
         public const string SuccessfullyDeletePetMessage = $"The selected pet has been removed from the Shop.";
 
-        public const string SuccessfullyUserDeactivateHisAccountMessage = $"Your account has been activate. If you would like to reactivate your account, please send a request to the administrators.";
+        public const string SuccessfullyUserDeactivateHisAccountMessage = $"Your account has been activate. If you would like to reactivate your account, please contact us.";
 
         public const string SuccessfullyAddedProductMessage = $"A new product has been add to the shop:";
 
