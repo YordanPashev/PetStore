@@ -27,33 +27,6 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditPet(string id, string message = null)
-        {
-            return await this.petsControllerExtension.ViewOrNoPetFound(id, message);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditPet(EditPetViewModel userInputModel)
-        {
-            Pet pet = await this.petsService.GetPetByIdForEditAsync(userInputModel.Id);
-            PetType petType;
-
-            if (!this.ModelState.IsValid || !Enum.TryParse<PetType>(userInputModel.TypeName, out petType) || pet == null)
-            {
-                return this.RedirectToAction("EditPet", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
-            }
-
-            if (!this.petsControllerExtension.IsPetEdited(userInputModel, pet))
-            {
-                return this.RedirectToAction("EditPet", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
-            }
-
-            await this.petsService.UpdatePetDataAsync(userInputModel, pet, petType);
-
-            return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
-        }
-
-        [HttpGet]
         public IActionResult DeletedPets(SearchPetViewModel searchModel)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
@@ -72,6 +45,32 @@
             PetDetailsViewModel model = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
 
             return this.petsControllerExtension.ViewOrNoPetFound(model);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditPet(string id, string message = null)
+            => await this.petsControllerExtension.ViewOrNoPetFound(id, message);
+
+        [HttpPost]
+        public async Task<IActionResult> EditPet(EditPetViewModel userInputModel)
+        {
+            Pet pet = await this.petsService.GetPetByIdForEditAsync(userInputModel.Id);
+            PetType petType;
+
+            if (!this.ModelState.IsValid || !Enum.TryParse<PetType>(userInputModel.TypeName, out petType) || pet == null)
+            {
+                return this.RedirectToAction("EditPet", "PetsManager", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
+            }
+
+            if (!this.petsControllerExtension.IsPetEdited(userInputModel, pet))
+            {
+                return this.RedirectToAction("EditPet", "PetsManager", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+            }
+
+            await this.petsService.UpdatePetDataAsync(userInputModel, pet, petType);
+
+            return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }
 
         [HttpGet]

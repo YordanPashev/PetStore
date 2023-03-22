@@ -12,26 +12,63 @@
     using PetStore.Services.Data;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
-    using PetStore.Web.Areas.Administration.Infrastructures.Administration;
     using PetStore.Web.ViewModels.Categories;
     using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;
 
     public class CreateController : AdministrationController
     {
+        private readonly IProductsService productsService;
         private readonly ICategoriesService categoriesService;
-        private readonly CreateControllerExtension createControllerExtension;
+        private readonly IPetsService petsService;
 
         public CreateController(IProductsService productService, ICategoriesService categoriesService, IPetsService petsService)
         {
+            this.productsService = productService;
             this.categoriesService = categoriesService;
-            this.createControllerExtension = new CreateControllerExtension(productService, petsService);
+            this.petsService = petsService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             return this.View();
+        }
+
+        [HttpGet]
+        public IActionResult AddPet(string message = null)
+        {
+            PetsWithAllPetTypesViewModel createProductModel = new PetsWithAllPetTypesViewModel()
+            {
+                CreatePetViewModel = new CreatePetViewModel(),
+                PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList(),
+                UserMessage = message,
+            };
+
+            return this.View(createProductModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPet(CreatePetViewModel userInputModel)
+        {
+            bool isPetTypeValid = Enum.IsDefined(typeof(PetType), userInputModel.TypeName);
+
+            if (userInputModel == null || !this.ModelState.IsValid || !isPetTypeValid)
+            {
+                return this.RedirectToAction("AddPet", "Create", new { message = GlobalConstants.InvalidDataErrorMessage });
+            }
+
+            Pet pet = AutoMapperConfig.MapperInstance.Map<Pet>(userInputModel);
+            pet.Type = Enum.Parse<PetType>(userInputModel.TypeName);
+
+            if (this.petsService.IsPetExistingInDb(pet))
+            {
+                return this.RedirectToAction("AddPet", "Create", new { message = GlobalConstants.PetlreadyExistInDbErrorMessage });
+            }
+
+            await this.petsService.AddPetAsync(pet);
+
+            return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id = pet.Id, message = GlobalConstants.SuccessfullyAddedPetMessage });
         }
 
         [HttpGet]
@@ -71,7 +108,12 @@
                 UserMessage = message,
             };
 
-            return this.createControllerExtension.ViewOrNoGategoryFound(createProductModel);
+            if (createProductModel.Categories == null)
+            {
+                return this.View("NoCategoryFound");
+            }
+
+            return this.View(createProductModel);
         }
 
         [HttpPost]
@@ -80,38 +122,19 @@
             userInputModel.CategoryId = await this.categoriesService.GetCategoryIdByNameNoTrackingAsync(userInputModel.CategoryName);
             if (userInputModel == null || !this.ModelState.IsValid || userInputModel.CategoryId < 0)
             {
-                return this.RedirectToAction("CreateProduct", new { message = GlobalConstants.InvalidDataErrorMessage });
+                return this.RedirectToAction("CreateProduct", "Create", new { message = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return await this.createControllerExtension.CreateProductAndRedirectOrReturnInvalidInputMessage(userInputModel);
-        }
-
-        [HttpGet]
-        public IActionResult AddPet(string message = null)
-        {
-            PetsWithAllPetTypesViewModel createProductModel = new PetsWithAllPetTypesViewModel()
+            if (this.productsService.IsProductExistingInDb(userInputModel.Name))
             {
-                CreatePetViewModel = new CreatePetViewModel(),
-                PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList(),
-                UserMessage = message,
-            };
-
-            return this.View(createProductModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddPet(CreatePetViewModel petModel)
-        {
-            bool isPetTypeValid = Enum.IsDefined(typeof(PetType), petModel.TypeName);
-
-            if (petModel == null || !this.ModelState.IsValid || !isPetTypeValid)
-            {
-                return this.RedirectToAction("AddPet", new { message = GlobalConstants.InvalidDataErrorMessage });
+                return this.RedirectToAction("CreateProduct", "Create", new { message = GlobalConstants.ProductAlreadyExistInDbErrorMessage });
             }
 
-            PetType petType = Enum.Parse<PetType>(petModel.TypeName);
+            Product product = AutoMapperConfig.MapperInstance.Map<Product>(userInputModel);
+            product.Id = Guid.NewGuid().ToString();
+            await this.productsService.AddProductAsync(product);
 
-            return await this.createControllerExtension.CreatePetOrReturnInvalidInputMessage(petModel, petType);
+            return this.RedirectToAction("Details", "Products", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
         }
     }
 }

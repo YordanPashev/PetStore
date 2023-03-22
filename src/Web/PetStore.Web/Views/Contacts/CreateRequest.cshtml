@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@using PetStore.Common;
+@using PetStore.Data.Models.Common;
+@using PetStore.Data.Models;
+@using PetStore.Web.ViewModels.Requests;
+
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@model RequestViewModel
+
+@{
+    this.ViewData["Title"] = "Send a request";
+    string userEmailAdress = "Your email...";
+
+    if (this.User.Identity.IsAuthenticated && !this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        ApplicationUser applicationUser = (ApplicationUser)await this.UserManager.GetUserAsync(this.User);
+        userEmailAdress = applicationUser.Email.ToString();
+    }
+}
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <h1 style="text-align:center; font-weight: bold; font-style: italic">Administrators can't send a request.</h1>
+}
+else
+{
+    <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+    <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
+        <div class="col-md-4 mx-auto mt-3">
+            <section>
+                <form asp-action="CreateRequest">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group mt-3 mb-3">
+                        <input style="float: left" id="Title" name="Title" placeholder="Title..." class="form-control" type="text" minlength="@RequestValidationConstants.TitleMinLength" maxlength="@RequestValidationConstants.TitleMinLength" required />
+                        <input style="float: right" id="SenderEmail" name="SenderEmail" placeholder="@userEmailAdress" class="form-control" type="email" title="@GlobalConstants.UserPhoneNumberErrormessage" required />
+                    </div>
+                    <div class="form-group mt-3 mb-3">
+                        <input id="Message" name="Message" placeholder="Write you request here..." class="form-control" type="text" minlength="@RequestValidationConstants.MessageMinLength" maxlength="@RequestValidationConstants.MessageMaxLength" required />
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <input type="submit" value="Send" class="btn btn-success" />
+                        <input class="btn btn-dark mb-3" value="Back" onclick="history.back()">
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

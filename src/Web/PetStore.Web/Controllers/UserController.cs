@@ -19,12 +19,12 @@
     [Authorize]
     public class UserController : Controller
     {
-        private readonly IUserService userService;
+        private readonly IUsersService userService;
         private readonly UserControllerExtension controllerExtension;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LogoutModel> logger;
 
-        public UserController(IUserService userService, IClientCardService clientCardService, SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
+        public UserController(IUsersService userService, IClientCardsService clientCardService, SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
         {
             this.userService = userService;
             this.controllerExtension = new UserControllerExtension(userService);

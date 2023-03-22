@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
+﻿#nullable disable
 namespace PetStore.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class addingCliendIdinAdressTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,7 +32,7 @@ namespace PetStore.Data.Migrations
                 table: "Address",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -13,10 +13,10 @@
 
     public class UserManagerController : AdministrationController
     {
-        private readonly IAdministrationService administrationService;
-        private readonly IUserService userService;
+        private readonly IAdministrationsService administrationService;
+        private readonly IUsersService userService;
 
-        public UserManagerController(IAdministrationService administrationService, IUserService userService)
+        public UserManagerController(IAdministrationsService administrationService, IUsersService userService)
         {
             this.administrationService = administrationService;
             this.userService = userService;
@@ -61,8 +61,8 @@
         {
             StringBuilder message = new StringBuilder();
             message.Append("User: ")
-                          .Append(userEmail)
-                          .Append(" has been activated.");
+                   .Append(userEmail)
+                   .Append(" has been activated.");
 
             return message.ToString();
         }

@@ -60,7 +60,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Contact\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 </Project>

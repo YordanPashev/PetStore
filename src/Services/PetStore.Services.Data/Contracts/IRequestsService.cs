@@ -4,8 +4,8 @@
 
     using PetStore.Data.Models;
 
-    public interface IClientCardService
+    public interface IRequestsService
     {
-        Task CreateNewCard(string cardId, string userId);
+        Task CreateRequest(Request userRequestModel);
     }
 }

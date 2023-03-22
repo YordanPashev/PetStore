@@ -69,15 +69,16 @@ namespace PetStore.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<IAdministrationsService, AdministrationsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IClientCardsService, ClientCardsService>();
+            services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IPetsService, PetsService>();
-            services.AddTransient<IClientCardService, ClientCardService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IAddressService, AddressService>();
-            services.AddTransient<IAdministrationService, AdministrationService>();
+            services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<IRequestsService, RequestsService>();
+            services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         private static void Configure(WebApplication app)

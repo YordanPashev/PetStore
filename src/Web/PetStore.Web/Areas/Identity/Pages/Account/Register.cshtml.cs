@@ -35,8 +35,8 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 		private readonly IUserEmailStore<ApplicationUser> _emailStore;
 		private readonly ILogger<RegisterModel> _logger;
 		private readonly IEmailSender _emailSender;
-		private readonly IClientCardService clientCardService;
-        private readonly IAddressService addressService;
+		private readonly IClientCardsService clientCardService;
+        private readonly IAddressesService addressService;
 		private ApplicationUser user;
 
         public RegisterModel(
@@ -45,8 +45,8 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 			SignInManager<ApplicationUser> signInManager,
 			ILogger<RegisterModel> logger,
 			IEmailSender emailSender,
-			IClientCardService clientCardService,
-            IAddressService addressService)
+			IClientCardsService clientCardService,
+            IAddressesService addressService)
 		{
             this._userManager = userManager;
             this._userStore = userStore;

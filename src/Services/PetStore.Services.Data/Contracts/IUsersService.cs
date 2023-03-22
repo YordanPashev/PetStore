@@ -5,7 +5,7 @@
     using PetStore.Data.Models;
     using PetStore.Web.ViewModels.User;
 
-    public interface IUserService
+    public interface IUsersService
     {
         Task DeactivateUserAccountAsync(ApplicationUser user);
 

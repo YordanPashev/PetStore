@@ -7,11 +7,11 @@
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
 
-    public class ClientCardService : IClientCardService
+    public class ClientCardsService : IClientCardsService
     {
         private readonly IDeletableEntityRepository<ClientCard> clientCardRepo;
 
-        public ClientCardService(IDeletableEntityRepository<ClientCard> productRepo)
+        public ClientCardsService(IDeletableEntityRepository<ClientCard> productRepo)
             => this.clientCardRepo = productRepo;
 
         public async Task CreateNewCard(string cardId, string userId)

@@ -8,13 +8,13 @@
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
 
-    public class AdministrationService : IAdministrationService
+    public class AdministrationsService : IAdministrationsService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepo;
         private readonly IDeletableEntityRepository<Address> addressRepo;
         private readonly IDeletableEntityRepository<ClientCard> clientCardRepo;
 
-        public AdministrationService(IDeletableEntityRepository<ApplicationUser> userRepo, IDeletableEntityRepository<Address> adressRepo, IDeletableEntityRepository<ClientCard> clientCardRepo)
+        public AdministrationsService(IDeletableEntityRepository<ApplicationUser> userRepo, IDeletableEntityRepository<Address> adressRepo, IDeletableEntityRepository<ClientCard> clientCardRepo)
         {
             this.userRepo = userRepo;
             this.addressRepo = adressRepo;

@@ -26,6 +26,35 @@
         }
 
         [HttpGet]
+        public async Task<IActionResult> DeleteProduct(string id)
+        {
+            Product product = await this.productService.GetByProductIdAsync(id);
+
+            if (product != null)
+            {
+                await this.productService.DeleteProductAsync(product);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
+
+                return this.View("SuccessfulOperationTextMessage");
+            }
+
+            return this.View("NoProductFound");
+        }
+
+        [HttpGet]
+        public IActionResult DeletedProducts(SearchProductViewModel searchModel)
+        {
+            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
+            {
+                ListOfProducts = this.productsControllerExtension.GetDeletedProducts(searchModel.SearchQuery),
+                SearchQuery = searchModel.SearchQuery,
+            };
+
+            return this.productsControllerExtension.ViewOrNoProductsFound(searchModel, productsShortInfoModel);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> EditProduct(string id, string message = null)
         {
             Product product = await this.productService.GetProductByIdForEditAsync(id);
@@ -52,44 +81,16 @@
 
             if (!this.ModelState.IsValid || product == null || userInputModel?.CategoryId < 0)
             {
-                return this.RedirectToAction("EditProduct", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
+                return this.RedirectToAction("EditProduct", "ProductsManager", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
             }
 
             if (!this.productsControllerExtension.IsProductEdited(userInputModel, product))
             {
-                return this.RedirectToAction("EditProduct", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+                return this.RedirectToAction("EditProduct", "ProductsManager", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
             }
 
             await this.productService.UpdateProductDataAsync(userInputModel, product);
             return this.RedirectToAction("Details", "Products", new { area = string.Empty, id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeleteProduct(string id)
-        {
-            Product product = await this.productService.GetByProductIdAsync(id);
-
-            if (product != null)
-            {
-                await this.productService.DeleteProductAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
-
-                return this.View("SuccessfulOperationTextMessage");
-            }
-
-            return this.View("NoProductFound");
-        }
-
-        [HttpGet]
-        public IActionResult DeletedProducts(SearchProductViewModel searchModel)
-        {
-            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
-            {
-                ListOfProducts = this.productsControllerExtension.GetDeletedProducts(searchModel.SearchQuery),
-                SearchQuery = searchModel.SearchQuery,
-            };
-
-            return this.productsControllerExtension.ViewOrNoProductsFound(searchModel, productsShortInfoModel);
         }
 
         [HttpGet]

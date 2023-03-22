@@ -1,10 +1,12 @@
-﻿namespace PetStore.Web.ViewModels.Contact
+﻿namespace PetStore.Web.ViewModels.Requests
 {
     using System.ComponentModel.DataAnnotations;
 
+    using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
+    using PetStore.Services.Mapping;
 
-    public class RequestViewModel
+    public class RequestViewModel : IMapFrom<Request>, IMapTo<Request>
     {
         public string Id { get; set; }
 

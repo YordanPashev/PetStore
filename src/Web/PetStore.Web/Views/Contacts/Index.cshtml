@@ -1,7 +1,7 @@
 ﻿@using PetStore.Common
 
 @{
-    ViewData["Title"] = $"Contact";
+    ViewData["Title"] = $"Contacts";
 }
 
 <h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
@@ -22,7 +22,7 @@
             <Text style="font-size:24px;"><i>@GlobalConstants.ShopAdress</i></Text>
             <br />
         </p>
-        <p  style="text-align: center;">
+        <p style="text-align: center;">
             <Text style="font-size:24px;"><strong>Contacts:</strong></Text>
             <br />
             <Text style="font-size:24px;"><strong>Phone Number:</strong></Text>
@@ -36,9 +36,12 @@
     </div>
 </div>
 <div class="d-grid gap-2 col-2 mx-auto mt-4">
-    <a class="btn btn-secondary" onclick="window.location.href='@GlobalConstants.LinkToGoogleMaps';">Find us on the map</a>
-    <a class="btn btn-primary" asp-area="" asp-controller="Contact" asp-action="Request">Send a request</a>
-    <a class="btn btn-dark"onclick="history.go(-1); return false;">Back</a>
+    <a class="btn btn-primary" onclick="window.location.href='@GlobalConstants.GoogleMapsURLAdress';">Find us on the map</a>
+    @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <a class="btn btn-success" asp-area="" asp-controller="Contacts" asp-action="CreateRequest">Send a request</a>
+    }
+    <a class="btn btn-dark" onclick="history.back(); return false;">Back</a>
 </div>
 
 

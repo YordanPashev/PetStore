@@ -6,11 +6,11 @@
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
 
-    public class AddressService : IAddressService
+    public class AddressesService : IAddressesService
     {
         private readonly IDeletableEntityRepository<Address> addressRepo;
 
-        public AddressService(IDeletableEntityRepository<Address> addressRepo)
+        public AddressesService(IDeletableEntityRepository<Address> addressRepo)
             => this.addressRepo = addressRepo;
 
         public async Task CreateNewAddress(string addressId, string userId, string fullAddressText)

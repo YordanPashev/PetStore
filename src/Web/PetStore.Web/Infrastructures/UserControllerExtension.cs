@@ -12,9 +12,9 @@
 
     public class UserControllerExtension : BaseController
     {
-        private readonly IUserService userService;
+        private readonly IUsersService userService;
 
-        public UserControllerExtension(IUserService userService)
+        public UserControllerExtension(IUsersService userService)
             => this.userService = userService;
 
         public async Task<IActionResult> EditAndRedirectOrReturnInvalidInputMessage(EditUserViewModel editModel)

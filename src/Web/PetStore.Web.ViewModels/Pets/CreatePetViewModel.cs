@@ -3,9 +3,11 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
+    using PetStore.Services.Mapping;
 
-    public class CreatePetViewModel
+    public class CreatePetViewModel : IMapFrom<Pet>, IMapTo<Pet>
     {
         [Required]
         [MinLength(PetValidationConstants.NameMinLength)]

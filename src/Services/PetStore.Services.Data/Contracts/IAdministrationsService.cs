@@ -5,7 +5,7 @@
 
     using PetStore.Data.Models;
 
-    public interface IAdministrationService
+    public interface IAdministrationsService
     {
         Task ActivateUserAccount(ApplicationUser user);
 

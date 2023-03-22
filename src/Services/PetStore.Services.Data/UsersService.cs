@@ -9,13 +9,13 @@
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.User;
 
-    public class UserService : IUserService
+    public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepo;
         private readonly IDeletableEntityRepository<Address> addressRepo;
         private readonly IDeletableEntityRepository<ClientCard> clientCardRepo;
 
-        public UserService(IDeletableEntityRepository<ApplicationUser> userRepo, IDeletableEntityRepository<Address> adressRepo, IDeletableEntityRepository<ClientCard> clientCardRepo)
+        public UsersService(IDeletableEntityRepository<ApplicationUser> userRepo, IDeletableEntityRepository<Address> adressRepo, IDeletableEntityRepository<ClientCard> clientCardRepo)
         {
             this.userRepo = userRepo;
             this.addressRepo = adressRepo;
