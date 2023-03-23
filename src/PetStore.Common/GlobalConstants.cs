@@ -69,7 +69,7 @@
 
         public const string UserEmailErrorMessage = "The email must be in format  username@domainname.extension";
 
-        public const string SuccessfullySendedRequestMessage = "Your request has been sent. We will reach you via email";
+        public const string SuccessfullySendedRequestMessage = "Your request has been sent. We will reach you via email.";
 
         // Account Statuses
         public const string AccountStatusActive = "Active";

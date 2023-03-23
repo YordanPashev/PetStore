@@ -6,7 +6,7 @@
     using PetStore.Data.Models.Common;
     using PetStore.Services.Mapping;
 
-    public class RequestViewModel : IMapFrom<Request>, IMapTo<Request>
+    public class CreateRequestViewModel : IMapFrom<Request>, IMapTo<Request>
     {
         public string Id { get; set; }
 

@@ -20,14 +20,12 @@
     public class UserController : Controller
     {
         private readonly IUsersService userService;
-        private readonly UserControllerExtension controllerExtension;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LogoutModel> logger;
 
-        public UserController(IUsersService userService, IClientCardsService clientCardService, SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
+        public UserController(IUsersService userService, SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
         {
             this.userService = userService;
-            this.controllerExtension = new UserControllerExtension(userService);
             this.signInManager = signInManager;
             this.logger = logger;
         }
@@ -94,7 +92,16 @@
                 return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
             }
 
-            return await this.controllerExtension.EditAndRedirectOrReturnInvalidInputMessage(userInputModel);
+            ApplicationUser user = await this.userService.GetActiveUserByIdForEditAsync(userInputModel.Id);
+
+            if (!this.IsUserEdited(userInputModel, user) || userInputModel.Id != user.Id)
+            {
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+            }
+
+            await this.userService.UpdateUserDataAsync(userInputModel, user);
+
+            return this.RedirectToAction("Index", "User", new { id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }
 
         private string GetSuccessfullyDeactivatedAccountMessage(string userEmail)
@@ -105,6 +112,18 @@
                           .Append(" has been deactivated.");
 
             return message.ToString();
+        }
+
+        private bool IsUserEdited(EditUserViewModel editModel, ApplicationUser user)
+        {
+            if (editModel.FirstName == user.FirstName && editModel.LastName == user.LastName &&
+                editModel.Email == user.Email && editModel.PhoneNumber == user.PhoneNumber &&
+                editModel.AddressText == user.Address.AddressText)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

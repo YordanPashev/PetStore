@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Web.Areas.Administration.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -47,10 +48,24 @@
             return this.petsControllerExtension.ViewOrNoPetFound(model);
         }
 
-
         [HttpGet]
         public async Task<IActionResult> EditPet(string id, string message = null)
-            => await this.petsControllerExtension.ViewOrNoPetFound(id, message);
+        {
+            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
+
+            if (pet == null)
+            {
+                this.ViewBag.Message = "No Pet Found";
+                return this.View("NotFoundMessageForPetsController");
+            }
+
+            EditPetViewModel model = AutoMapperConfig.MapperInstance.Map<EditPetViewModel>(pet);
+            model.TypeName = pet.Type.ToString();
+            model.PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
+            model.UserMessage = message;
+
+            return this.View(model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> EditPet(EditPetViewModel userInputModel)

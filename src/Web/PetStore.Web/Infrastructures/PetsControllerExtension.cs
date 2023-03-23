@@ -147,23 +147,5 @@
 
             return this.View(model);
         }
-
-        public async Task<IActionResult> ViewOrNoPetFound(string id, string message)
-        {
-            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
-
-            if (pet == null)
-            {
-                this.ViewBag.Message = "No Pet Found";
-                return this.View("NotFoundMessageForPetsController");
-            }
-
-            EditPetViewModel model = AutoMapperConfig.MapperInstance.Map<EditPetViewModel>(pet);
-            model.TypeName = pet.Type.ToString();
-            model.PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
-            model.UserMessage = message;
-
-            return this.View(model);
-        }
     }
 }

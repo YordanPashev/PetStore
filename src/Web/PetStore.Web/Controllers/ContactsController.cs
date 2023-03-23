@@ -23,15 +23,14 @@
         [HttpGet]
         public IActionResult CreateRequest()
         {
-            RequestViewModel model = new RequestViewModel();
+            CreateRequestViewModel model = new CreateRequestViewModel();
             return this.View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRequest(RequestViewModel userRequestModel)
+        public async Task<IActionResult> CreateRequest(CreateRequestViewModel userRequestModel)
         {
-            userRequestModel = null;
-            if (!this.ModelState.IsValid)
+            if (!this.ModelState.IsValid || userRequestModel == null)
             {
                 return this.RedirectToAction("CreateRequest", "Contacts", new { message = GlobalConstants.InvalidDataErrorMessage });
             }

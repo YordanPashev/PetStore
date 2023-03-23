@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System;
     using System.Threading.Tasks;
 
     using PetStore.Data.Common.Repositories;
@@ -15,6 +16,7 @@
 
         public async Task CreateRequest(Request userRequestModel)
         {
+            userRequestModel.Id = Guid.NewGuid().ToString();
             await this.requestsRepo.AddAsync(userRequestModel);
             await this.requestsRepo.SaveChangesAsync();
         }

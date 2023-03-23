@@ -36,7 +36,7 @@
     </div>
 </div>
 <div class="d-grid gap-2 col-2 mx-auto mt-4">
-    <a class="btn btn-primary" onclick="window.location.href='@GlobalConstants.GoogleMapsURLAdress';">Find us on the map</a>
+    <a class="btn btn-primary" onclick=" window.open('@GlobalConstants.GoogleMapsURLAdress','_blank')">Find us on the map</a>
     @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
     {
         <a class="btn btn-success" asp-area="" asp-controller="Contacts" asp-action="CreateRequest">Send a request</a>

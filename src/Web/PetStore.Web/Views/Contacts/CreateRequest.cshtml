@@ -8,7 +8,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 
-@model RequestViewModel
+@model CreateRequestViewModel
 
 @{
     this.ViewData["Title"] = "Send a request";
@@ -29,27 +29,38 @@ else
 {
     <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
     <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
-        <div class="col-md-4 mx-auto mt-3">
-            <section>
-                <form asp-action="CreateRequest">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group mt-3 mb-3">
-                        <input style="float: left" id="Title" name="Title" placeholder="Title..." class="form-control" type="text" minlength="@RequestValidationConstants.TitleMinLength" maxlength="@RequestValidationConstants.TitleMinLength" required />
-                        <input style="float: right" id="SenderEmail" name="SenderEmail" placeholder="@userEmailAdress" class="form-control" type="email" title="@GlobalConstants.UserPhoneNumberErrormessage" required />
-                    </div>
-                    <div class="form-group mt-3 mb-3">
-                        <input id="Message" name="Message" placeholder="Write you request here..." class="form-control" type="text" minlength="@RequestValidationConstants.MessageMinLength" maxlength="@RequestValidationConstants.MessageMaxLength" required />
-                    </div>
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <input type="submit" value="Send" class="btn btn-success" />
-                        <input class="btn btn-dark mb-3" value="Back" onclick="history.back()">
-                    </div>
-                </form>
-            </section>
+        <div class="col-md-6 mx-auto mt-4 mb-4">
+            <form asp-action="CreateRequest">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <Row>
+                    <Column class="mb-4" style="float:left">
+                            <input id="Title" name="Title" placeholder="Title..." class="form-control" style="width: 300px" type="text" minlength="@RequestValidationConstants.TitleMinLength" maxlength="@RequestValidationConstants.TitleMaxLength" required />
+                    </Column>
+                    <Column class="mb-4" style="float: right;">
+                        @if (this.User.Identity.IsAuthenticated && !this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <input id="SenderEmail" name="SenderEmail" value="@userEmailAdress" class="form-control" style="width: 300px" type="email" required />
+                        }
+                        else
+                        {
+                            <input id="SenderEmail" name="SenderEmail" placeholder="@userEmailAdress" class="form-control" style="width: 300px" type="email" required />
+                        }
+                    </Column>
+                </Row>
+                <div class="mt-4 mb-4">
+                    <textarea class="form-control" cols="20" rows="10" id="Message" name="Message" placeholder="Write you request here..." type="text" minlength="@RequestValidationConstants.MessageMinLength" maxlength="@RequestValidationConstants.MessageMaxLength" required></textarea>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <input type="submit" value="Send" class="btn btn-success" />
+                    <input class="btn btn-dark mb-3" value="Back" onclick="history.back()">
+                </div>
+            </form>
         </div>
     </div>
 }
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
