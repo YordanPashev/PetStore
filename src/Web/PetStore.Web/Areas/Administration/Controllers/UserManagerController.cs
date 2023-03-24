@@ -22,9 +22,14 @@
             this.userService = userService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string message = null)
         {
             UserShortInfoViewModel[] model = this.administrationService.GetAllUsersWithDeleted().To<UserShortInfoViewModel>().ToArray();
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                this.ViewBag.Message = message;
+            }
 
             return this.View(model);
         }
@@ -54,7 +59,7 @@
 
             await this.administrationService.ActivateUserAccount(user);
 
-            return this.RedirectToAction("Index", "Home", new { area = string.Empty, message });
+            return this.RedirectToAction("Index", "UserManager", new { message });
         }
 
         private string GetSuccessfullyActivatedAccountMessage(string userEmail)

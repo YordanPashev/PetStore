@@ -5,38 +5,48 @@
     ViewData["Title"] = "List of all Users";
 }
 
+@if (!string.IsNullOrEmpty(this.ViewBag.Message))
+{
+    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;">
+        <i>@this.ViewBag.Message</i>
+    </h1>
+    <br />
+}
+
 <div class="row">
     <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
 </div>
+
 @if (this.Model.Length > 0)
 {
     <table class="table table-hover" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
-                <th style="text-align: start;">Email</th>
-                <th style="text-align: end;">First Name</th>
-                <th style="text-align: end;">Last Name</th>
-                <th style="text-align: end;">Status</th>
-                <th style="color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
+                <th style="font-size: 16pt; color: gray; text-align: start;">Email</th>
+                <th style="font-size: 16pt; text-align: end;">First Name</th>
+                <th style="font-size: 16pt; text-align: end;">Last Name</th>
+                <th style="font-size: 16pt; text-align: end;">Status</th>
+                <th style="font-size: 16pt; color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var user in this.Model)
             {
+                string statusColor = user.AccountStatus == GlobalConstants.AccountStatusActive ? "green" : "red";
                 <tr name="trData">
-                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => user.Email)</td>
-                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.FirstName)</td>
-                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.LastName)</td>
-                    <td onclick="location.href='@Url.Action("Index", "User", new { Area = "", user.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.AccountStatus)</td>
+                    <td onclick="location.href='@Url.Action("AccountDetails", "UserManager", new { user.Id })'" style="font-size: 14pt; color: gray; text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => user.Email)</td>
+                    <td onclick="location.href='@Url.Action("AccountDetails", "UserManager", new { user.Id })'" style="font-size: 14pt; text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.FirstName)</td>
+                    <td onclick="location.href='@Url.Action("AccountDetails", "UserManager", new { user.Id })'" style="font-size: 14pt; text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.LastName)</td>
+                    <td onclick="location.href='@Url.Action("AccountDetails", "UserManager", new { user.Id })'" style="color: @statusColor; font-size: 14pt; text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => user.AccountStatus)</td>
                     <td style="text-align: end; font-weight: bold;">
-                        <a class="btn btn-info" asp-controller="UserManager" asp-action="AccountDetails" asp-route-id="@user.Id">Details</a>
+                        <a class="btn btn-info" style="height: 41px" asp-controller="UserManager" asp-action="AccountDetails" asp-route-id="@user.Id">Details</a>
                         @if (!user.IsDeleted)
                         {
-                            <a class="btn btn-danger" onclick="return confirm('Deactivate account with email: @user.Email ?');" asp-area="" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@user.Id">Deactivate Account</a>
+                            <a class="btn btn-danger" style="font-size: 14pt;" onclick="return confirm('Deactivate account with email: @user.Email ?');" asp-area="" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@user.Id">Deactivate Account</a>
                         }
                         else
                         {
-                            <a class="btn btn-success" style="width: 162px" onclick="return confirm('Activate account with email: @user.Email ?');" asp-area="Administration" asp-controller="UserManager" asp-action="ActivateAcccountResult" asp-route-id="@user.Id">Activate Account</a>
+                            <a class="btn btn-success" style="font-size: 14pt; width: 184px" onclick="return confirm('Activate account with email: @user.Email ?');" asp-area="Administration" asp-controller="UserManager" asp-action="ActivateAcccountResult" asp-route-id="@user.Id">Activate Account</a>
                         }
                     </td>
                 </tr>

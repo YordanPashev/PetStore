@@ -61,7 +61,7 @@ else
         }
         else
         {
-            <a class="btn btn-success" onclick="return confirm('Activate account with email: @Model.Email ?');" asp-area="Administration" asp-controller="Administration" asp-action="ActivateAcccountResult" asp-route-id="@Model.Id">Activate Account</a>
+            <a class="btn btn-success" onclick="return confirm('Activate account with email: @Model.Email ?');" asp-area="Administration" asp-controller="UserManager" asp-action="ActivateAcccountResult" asp-route-id="@Model.Id">Activate Account</a>
         }
         <input class="btn btn-dark" value="Back" onclick="history.go(-1); return false;">
     </div>

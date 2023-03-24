@@ -2,19 +2,16 @@
 @model PetStore.Web.ViewModels.Pets.ListOfPetsViewModel
 
 @{
-    ViewData["Title"] = "Pets";
+    this.ViewData["Title"] = "Pets";
+    string pageTitle = this.ViewData["Title"].ToString();
+    if (!string.IsNullOrEmpty(Model.PetTypeName))
+    {
+        pageTitle = "Pets Type" + Model.PetTypeName;
+    }
 }
 
 <div class="row">
-    @if(string.IsNullOrEmpty(Model.PetTypeName))
-    {
-        <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
-    }
-    else
-    {
-        <h1 style="text-align: center">Pets Type @Model.PetTypeName</h1>
-    }
-
+    <h1 class="text-center"><strong>@pageTitle</strong></h1>
     @if (Model.ListOfPets.Count > 0)
     {
     <Row style="width: 1240px;">
@@ -24,15 +21,15 @@
                     <div class="input-group">
                         @if (Model.SearchQuery == null)
                         {
-                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
                         }
                         else
                         {
-                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                           <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
                         }
                             <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
                         <div class="input-group-btn">
-                            <button class="btn btn-success m-auto" type="submit">Search</button>
+                                <button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
                         </div>
                     </div>
                 </form> 
@@ -41,18 +38,18 @@
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <Column style="float: right;">
-                <a class="btn btn-danger" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
+                    <a class="btn btn-danger" style="font-size: 14pt" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
             </Column>
         }
     </Row>
     <table class="table table-hover" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
-                <th style="text-align: start;">Pet</th>
-                <th style="text-align: start;">Name</th>
-                <th style="text-align: end; font-weight: bold;">Type</th>
-                <th style="color: red; text-align: end; font-weight: bold;">Price</th>
-                <th style="color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
+                <th style="font-size: 18pt; text-align: start;">Pet</th>
+                <th style="font-size: 18pt; text-align: start;">Name</th>
+                <th style="font-size: 18pt;color: gray; text-align: end; font-weight: bold;">Type</th>
+                <th style="font-size: 18pt; color: red; text-align: end; font-weight: bold;">Price</th>
+                <th style="font-size: 18pt;color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
             </tr>
         </thead>
         <tbody>
@@ -60,15 +57,15 @@
             {
                 <tr name="trData">
                     <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
-                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align: left; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="color: red; text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="font-size: 16pt; text-align: start; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="font-size: 16pt; color: gray; width: 300px; text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="font-size: 16pt; color: red; width: 400px; text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
                     <td style="text-align: end; font-weight: bold;">
-                        <a class="btn btn-info" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a> 
+                        <a class="btn btn-info" style="font-size: 15pt" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a>
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                                <a class="btn btn-dark" asp-area="Administration" asp-controller="PetsManager" asp-action="EditPet" asp-route-id="@pet.Id">Edit</a>
-                                <a class="btn btn-danger" onclick="return confirm('Remove @pet.Name from the shop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@pet.Id">Remove</a>
+                            <a class="btn btn-dark" style="font-size: 15pt" asp-area="Administration" asp-controller="PetsManager" asp-action="EditPet" asp-route-id="@pet.Id">Edit</a>
+                            <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Remove @pet.Name from the shop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@pet.Id">Remove</a>
                         }
                     </td>
                 </tr>

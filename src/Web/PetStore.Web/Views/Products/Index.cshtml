@@ -26,15 +26,15 @@
                     <div class="input-group">
                         @if (Model.SearchQuery == null)
                         {
-                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
                         }
                         else
                         {
-                            <input type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
                         }
                             <input type="hidden" id="CategoryName" name="CategoryName" value="@Model.CategoryName">
                         <div class="input-group-btn">
-                            <button class="btn btn-success m-auto" type="submit">Search</button>
+                                <button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
                         </div>
                     </div>
                 </form>
@@ -43,18 +43,18 @@
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <Column style="float: right;">
-                    <a class="btn btn-danger" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">Deleted Products</a>
+                    <a class="btn btn-danger" style="font-size: 15pt" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">Deleted Products</a>
             </Column>
         }
     </Row>
     <table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
-                <th style="text-align: start; font-weight: bold;">Product</th>
-                <th style="text-align: start">Name</th>
-                <th style="text-align: start; font-weight: bold;">Category</th>
-                <th style="color: red; text-align: end; font-weight: bold;">Price</th>
-                <th style="color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
+                <th style="font-size: 18pt; text-align: start; font-weight: bold;">Product</th>
+                <th style="font-size: 18pt; text-align: start">Name</th>
+                <th style="font-size: 18pt; color: gray; text-align: end; font-weight: bold;">Category</th>
+                <th style="font-size: 18pt; color: red; text-align: end; font-weight: bold;">Price</th>
+                <th style="font-size: 18pt; color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
             </tr>
         </thead>
         <tbody>
@@ -62,15 +62,15 @@
             {
                 <tr name="trData">
                     <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
-                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align :left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="text-align: start; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
-                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="color: red; text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="font-size: 16pt; width: 400px; text-align: start; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="font-size: 16pt; color: gray; text-align: end; width: 200px; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
+                    <td onclick="location.href='@Url.Action("Details", "Products", new { product.Id })'" style="font-size: 16pt; color: red; text-align: end; width: 200px; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
                     <td style="text-align:end; font-weight: bold;">
-                        <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a> 
-                        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+                            <a class="btn btn-info" style="font-size: 15pt" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a>
+                            @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a class="btn btn-dark" asp-area="Administration" asp-controller="ProductsManager" asp-action="EditProduct" asp-route-id="@product.Id">Edit</a>
-                                <a class="btn btn-danger" onclick="return confirm('Remove @product.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@product.Id">Delete</a>
+                            <a class="btn btn-dark" style="font-size: 15pt" asp-area="Administration" asp-controller="ProductsManager" asp-action="EditProduct" asp-route-id="@product.Id">Edit</a>
+                                <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Remove @product.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@product.Id">Delete</a>
                         }
                     </td>
                 </tr>

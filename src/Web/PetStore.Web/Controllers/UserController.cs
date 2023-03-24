@@ -30,6 +30,7 @@
             this.logger = logger;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(string id)
         {
             UserDetailsViewModel model = await this.userService.GetActiveUserByIdAsycn(id);
@@ -41,6 +42,7 @@
             return this.View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> DeactivateAcccountResult(string id)
         {
             ApplicationUser user = await this.userService.GetActiveUserByIdForEditAsync(id);
@@ -59,6 +61,11 @@
                 }
 
                 await this.userService.DeactivateUserAccountAsync(user);
+
+                if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    return this.RedirectToAction("Index", "UserManager", new { area = "Administration", message });
+                }
 
                 return this.RedirectToAction("Index", "Home", new { message });
             }
