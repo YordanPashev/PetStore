@@ -49,7 +49,7 @@
             <div class="d-grid gap-2 col-6 mx-auto">
                 <input type="submit" value="Edit" class="btn btn-success"/>
                 <a class="btn btn-danger" onclick="return confirm('Remove @Model.Name from the shop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@Model.Id">Delete</a>
-                    <input class="btn btn-dark mb-4" value="Back" onclick="history.back()">
+                <input class="btn btn-dark mb-4" value="Back" onclick="history.back()">
             </div>
         </form>
     </div>

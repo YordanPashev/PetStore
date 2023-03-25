@@ -7,6 +7,11 @@
 
         public const string AdministratorRoleName = "Administrator";
 
+        // Products
+        public const string ProductStatusInStock = "InStock";
+
+        public const string ProductStatusDeleted = "Deleted";
+
         // Contact
         public const string ShopWrokingHours = "9:00 AM – 06:00 PM";
 
@@ -41,10 +46,6 @@
 
         public const string SuccessfullyEditProductMessage = $"Edited result:";
 
-        public const string ProductStatusInStock = "InStock";
-
-        public const string ProductStatusDeleted = "Deleted";
-
         public const string PetlreadyExistInDbErrorMessage = "Pet has already been added to the shop.";
 
         public const string InvalidDataErrorMessage = "Invalid data.";
@@ -70,6 +71,10 @@
         public const string UserEmailErrorMessage = "The email must be in format  username@domainname.extension";
 
         public const string SuccessfullySendedRequestMessage = "Your request has been sent. We will reach you via email.";
+
+        public const string SuccessfullyRemovedRequest = "The selected request has been removed from the list.";
+
+        public const string NoRequestFoundMessage = "Invalid data. No request found.";
 
         // Account Statuses
         public const string AccountStatusActive = "Active";

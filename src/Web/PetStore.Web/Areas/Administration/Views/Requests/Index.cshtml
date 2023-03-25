@@ -1,0 +1,58 @@
+﻿@using PetStore.Common;
+@using PetStore.Web.ViewModels.Requests;
+
+@model RequestViewModel[]
+
+@{
+    this.ViewData["Title"] = $"There is {this.Model?.Count() ?? 0} active requests";
+}
+
+@if (!string.IsNullOrEmpty(this.ViewBag.Message))
+{
+    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;">
+        <i>@this.ViewBag.Message</i>
+    </h1>
+}
+
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
+
+@if (Model.Count() > 0)
+{
+    <div class="row">
+        @foreach (var request in Model)
+        {
+            <div class="col-sm-6 mt-4">
+                <div class="card" style="background-color: transparent; border: 3px solid; border-radius: 15px; border-color: whitesmoke; backdrop-filter: blur(20px);">
+                    <div class="card-body">
+                        <h5 class="card-title text-center" style="color: black;">
+                            <strong style="font-size: 36px; color: black">
+                                @request.Title
+                            </strong>
+                        </h5>
+                        <h6 class="card-text" style="text-align: center; color: gray">
+                            <i>Sender email: </i><strong>@request.SenderEmail</strong>
+                        </h6>
+                        <h6 style="text-align: center; color: gray">
+                            <i>Published on:</i> <strong>@request.CreatedOn.ToString(GlobalConstants.DefaultDateDateFormat)</strong>
+                        </h6>
+                        <p class="card-text" style="color: black">
+                            <strong><i>@Html.Raw(request.Message.Replace("\r\n", "<br />"))</i></strong>
+                        </p>
+                        <div class="d-grid gap-2 col-3 mx-auto mt-4">
+                            <a class="btn btn-danger" style="width: 200px; font-size: 14pt" onclick="return confirm('Remove @request.Title request?');" asp-area="Administration" asp-controller="Requests" asp-action="RemoveRequest" asp-route-id="@request.Id">Remove Request</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h1 class="text-center mt-3">There is no active requests</h1>
+}
+
+<div class="d-grid gap-2 col-3 mx-auto mt-4">
+    <a class="btn btn-secondary" style="font-size: 14pt" asp-controller="Requests" asp-action="InactiveRequests">Inactive Requests</a>
+    <input class="btn btn-dark mb-2" value="Back" onclick="history.back()">
+</div>

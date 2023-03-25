@@ -12,10 +12,10 @@
 
     public class ContactsController : BaseController
     {
-        private readonly IRequestsService requestsServices;
+        private readonly IRequestsService requestsService;
 
-        public ContactsController(IRequestsService requestsServices)
-            => this.requestsServices = requestsServices;
+        public ContactsController(IRequestsService requestsService)
+            => this.requestsService = requestsService;
 
         public IActionResult Index()
             => this.View();
@@ -36,7 +36,7 @@
             }
 
             Request request = AutoMapperConfig.MapperInstance.Map<Request>(userRequestModel);
-            await this.requestsServices.CreateRequest(request);
+            await this.requestsService.CreateRequestAsync(request);
 
             return this.RedirectToAction("Index", "Home", new { area = string.Empty, message = GlobalConstants.SuccessfullySendedRequestMessage });
         }

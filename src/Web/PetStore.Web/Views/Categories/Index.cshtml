@@ -3,7 +3,7 @@
 @model PetStore.Web.ViewModels.Categories.AllCategoriesViewModel
 
 @{
-    ViewData["Title"] = "Categories";
+    this.ViewData["Title"] = "Categories";
 }
 @if(!string.IsNullOrEmpty(ViewBag.UserMessage))
 {
@@ -11,7 +11,7 @@
         <i>@ViewBag.UserMessage</i>
     </h1>  
 }
-<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 <hr />
 @if (Model.AllCategories.Count > 0)
 {
