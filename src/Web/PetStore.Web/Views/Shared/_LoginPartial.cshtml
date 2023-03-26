@@ -25,21 +25,21 @@
 		}
 	}
 	}
-	<ul class="navbar-nav" style="margin-right: 10px; margin-left: 10px">
+<ul class="navbar-nav" style="font-size: 16pt; margin-right: 10px; margin-left: 10px">
 		@if (SignInManager.IsSignedIn(this.User))
 		{
-			<li class="nav-item">
+			<li class="nav-item" style="font-size: 16pt;">
 				<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index" asp-route-id="@applicationUser.Id" title="@userHoverText">Hello, <i>@username</i>!</a>
 			</li>
 			<li class="nav-item">
 				<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
-					<button type="submit" class="nav-link btn btn-link text-dark">Log out</button>
+				<button type="submit" class="nav-link btn btn-link text-dark" style="font-size: 16pt;">Log out</button>
 				</form>
 			</li>
 		}
 		else
 		{
-			<li class="nav-item">
+			<li class="nav-item" style="font-size: 16pt;">
 				<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Context.Request.Path">Register</a>
 			</li>
 			<li class="nav-item">

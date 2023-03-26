@@ -31,7 +31,7 @@
 
             if (category.Products.Count == 0)
             {
-                return this.View("~/Views/Products/Index.cshtml", new ListOfProductsViewModel());
+                return this.View("~/Views/Products/Index.cshtml", new ListOfProductsViewModel() { CategoryName = category.Name });
             }
 
             ListOfProductsViewModel model = new ListOfProductsViewModel()

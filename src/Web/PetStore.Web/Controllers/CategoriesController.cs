@@ -38,15 +38,5 @@
 
             return this.categoryControllerExtension.RedirectOrNotFound(category, productStatus);
         }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> DeletedCategoryPorducts(string name)
-        {
-            string productStatus = GlobalConstants.ProductStatusDeleted;
-            Category category = await this.categoriesService.GetCategoryWithDeletedProductsByIdAsync(name);
-
-            return this.categoryControllerExtension.RedirectOrNotFound(category, productStatus);
-        }
     }
 }
