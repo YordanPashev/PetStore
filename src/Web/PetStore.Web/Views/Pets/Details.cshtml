@@ -3,7 +3,8 @@
 @model PetStore.Web.ViewModels.Pets.PetDetailsViewModel
 
 @{
-    ViewData["Title"] = $"{Model.Name}";
+    this.ViewData["Title"] = $"{this.Model.Name}";
+    string petTypePlural = Model.TypeName == "Fish" ? Model.TypeName : Model.TypeName + "s";
 }
 
 @if(Model.UserMessage != null)
@@ -14,7 +15,7 @@
     <br/>
 }
 
-<h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
+<h1 style="text-align:center"><strong>@this.ViewData["Title"]</strong></h1>
 <h4 style="text-align:center; color: gray"><i>Type: @Model.Type</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3" style="background-color: #F7F7F7;"><i class="fa fa-apple"></i>
@@ -40,7 +41,7 @@
         <br/>
         <div class="mb-3" style="text-align:center"> 
             <a class="btn btn-dark" style="width: 200px; font-size: 16pt; float: left" asp-controller="Pets" asp-action="Index">All Pets</a>
-            <a class="btn btn-info" style="font-size: 16pt; float: right" asp-controller="Pets" asp-action="TypePets" asp-route-name="@Model.TypeName">More Pets Type @Model.TypeName</a>
+            <a class="btn btn-info" style="font-size: 16pt; float: right" asp-controller="Pets" asp-action="TypePets" asp-route-name="@Model.TypeName">More @petTypePlural</a>
         </div>
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

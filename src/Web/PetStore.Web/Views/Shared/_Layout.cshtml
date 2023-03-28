@@ -79,15 +79,15 @@
                                 <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: transparent; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     Administration Options
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="font-size: 14pt; font-style: italic">
-                                    <li class="nav-item" style="float: left">
-                                        <a class="nav-link text-dark" asp-area="Administration" asp-controller="Create" asp-action="Index">Create and Add</a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
                                     </li>
-                                    <li class="nav-item" style="float: left">
-                                        <a class="nav-link text-dark" asp-area="Administration" asp-controller="Requests" asp-action="Index">All Active Requests</a>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="Index">Create and Add</a>
                                     </li>
-                                    <li class="nav-item" style="float: left">
-                                        <a class="nav-link text-dark" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
                                     </li>
                                 </ul>
                             </div>
