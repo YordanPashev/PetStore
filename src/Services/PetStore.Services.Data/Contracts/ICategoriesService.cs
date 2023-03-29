@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,11 +11,15 @@
     {
         Task AddCategoryAsync(Category category);
 
-        IQueryable<Category> GetAllCategories();
+        Task DeleteCategoryAsync(Category category);
+
+        ICollection<DeletedCategoryViewModel> GetDeletedCategories();
 
         IQueryable<Category> GetAllCategoriesNoTracking();
 
-        Task<Category> GetByIdAsync(int id);
+        Task<Category> GetByIdForEditAsync(int id);
+
+        Task<Category> GetDeletedCategoryByIdAsync(int id);
 
         Task<Category> GetByIdNoTrackingAsync(int id);
 
@@ -29,5 +34,7 @@
         bool IsCategoryEdited(Category category, EditCategoryViewModel userInputCategory);
 
         Task UpdateCategoryAsync(Category category, EditCategoryViewModel userInputCategory);
+
+        Task UndeleteCategoryAsync(Category category);
     }
 }

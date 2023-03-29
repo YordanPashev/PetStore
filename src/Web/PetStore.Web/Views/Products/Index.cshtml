@@ -70,7 +70,7 @@
                             @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a class="btn btn-dark" style="font-size: 15pt" asp-area="Administration" asp-controller="ProductsManager" asp-action="EditProduct" asp-route-id="@product.Id">Edit</a>
-                                <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Remove @product.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@product.Id">Delete</a>
+                            <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Remove @product.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@product.Id">Delete</a>
                         }
                     </td>
                 </tr>

@@ -60,7 +60,7 @@
                 return this.View("NoCategoryFound");
             }
 
-            AllCategoriesViewModel categoriesModel = new AllCategoriesViewModel()
+            CategoriesViewModel categoriesModel = new CategoriesViewModel()
             {
                 AllCategories = allCategories.To<CategoryProdutsViewModel>().ToList(),
             };

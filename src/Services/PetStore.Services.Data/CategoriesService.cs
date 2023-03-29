@@ -1,5 +1,7 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -7,6 +9,7 @@
 
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
+    using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Categories;
 
     public class CategoriesService : ICategoriesService
@@ -22,16 +25,31 @@
             await this.categoriesRepo.SaveChangesAsync();
         }
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task DeleteCategoryAsync(Category category)
+        {
+            this.categoriesRepo.Delete(category);
+            await this.categoriesRepo.SaveChangesAsync();
+        }
+
+        public async Task<Category> GetDeletedCategoryByIdAsync(int id)
+            => await this.categoriesRepo
+                    .AllWithDeleted()
+                    .Where(c => c.IsDeleted)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
+        public async Task<Category> GetByIdForEditAsync(int id)
             => await this.categoriesRepo
                     .All()
                     .Include(c => c.Products.OrderBy(p => p.Name))
                     .FirstOrDefaultAsync(c => c.Id == id);
 
-        public IQueryable<Category> GetAllCategories()
+        public ICollection<DeletedCategoryViewModel> GetDeletedCategories()
             => this.categoriesRepo
-                     .All().Include(c => c.Products.OrderBy(p => p.Name)).
-                     OrderBy(c => c.Name);
+                     .AllAsNoTrackingWithDeleted()
+                     .Where(c => c.IsDeleted)
+                     .OrderBy(c => c.Name)
+                     .To<DeletedCategoryViewModel>()
+                     .ToList();
 
         public IQueryable<Category> GetAllCategoriesNoTracking()
             => this.categoriesRepo.AllAsNoTracking()
@@ -87,6 +105,13 @@
             category.Name = userInputCategory.Name;
             category.ImageURL = userInputCategory.ImageURL;
 
+            await this.categoriesRepo.SaveChangesAsync();
+        }
+
+        public async Task UndeleteCategoryAsync(Category category)
+        {
+            category.IsDeleted = false;
+            category.DeletedOn = null;
             await this.categoriesRepo.SaveChangesAsync();
         }
     }

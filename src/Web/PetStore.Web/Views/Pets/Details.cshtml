@@ -1,10 +1,10 @@
-﻿@using PetStore.Common
+﻿@using System.Text
+@using PetStore.Common
 @using PetStore.Data.Models.Common
 @model PetStore.Web.ViewModels.Pets.PetDetailsViewModel
 
 @{
     this.ViewData["Title"] = $"{this.Model.Name}";
-    string petTypePlural = Model.TypeName == "Fish" ? Model.TypeName : Model.TypeName + "s";
 }
 
 @if(Model.UserMessage != null)
@@ -26,22 +26,19 @@
         <div class="mt-2" style="color: darkorange; font-size: 20pt; text-align:center; font-weight: bold">Price: @Math.Round(Model.Price, 2) $</div>
         @if(this.User.Identity.IsAuthenticated)
         {
-            <div class="mb-2" style="text-align:center">
+            <div style="text-align:center">
                 <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-action="">Add to Card</a>
             </div>
         }
         else
         {
-            <div class="mb-5" style="text-align:center">
-                <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-area="Identity" asp-controller="Account" asp-action="Login">Purchase</a>
+            <div style="text-align:center">
+                <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-area="Identity" asp-controller="Account" asp-action="Login">Fast Purchase</a>
             </div>
         }
-        <br/>
-        <br/>
-        <br/>
         <div class="mb-3" style="text-align:center"> 
-            <a class="btn btn-dark" style="width: 200px; font-size: 16pt; float: left" asp-controller="Pets" asp-action="Index">All Pets</a>
-            <a class="btn btn-info" style="font-size: 16pt; float: right" asp-controller="Pets" asp-action="TypePets" asp-route-name="@Model.TypeName">More @petTypePlural</a>
+            <a class="btn btn-dark" style="font-size: 16pt; float: left" asp-controller="Pets" asp-action="Index">All Pets</a>
+            <a class="btn btn-info" style="font-size: 16pt; float: right" asp-controller="Pets" asp-action="TypePets" asp-route-name="@Model.TypeName">More @Model.TypePlural</a>
         </div>
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

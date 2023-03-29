@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class AllCategoriesViewModel
+    public class CategoriesViewModel
     {
-        public AllCategoriesViewModel()
+        public CategoriesViewModel()
             => this.AllCategories = new HashSet<CategoryProdutsViewModel>();
 
         public ICollection<CategoryProdutsViewModel> AllCategories { get; set; }

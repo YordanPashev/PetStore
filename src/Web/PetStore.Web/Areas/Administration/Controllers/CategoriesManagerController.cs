@@ -1,5 +1,7 @@
 ﻿namespace PetStore.Web.Areas.Administration.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -22,9 +24,58 @@
         }
 
         [HttpGet]
+        public IActionResult DeletedCategories(string message)
+        {
+            List<DeletedCategoryViewModel> model = this.categoriesService.GetDeletedCategories().ToList();
+            if (string.IsNullOrEmpty(message))
+            {
+                this.ViewBag.Message = message;
+            }
+
+            return this.View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            Category category = await this.categoriesService.GetByIdForEditAsync(id);
+
+            if (category == null)
+            {
+                return this.View("NoCategoryFound");
+            }
+
+            if (category.Products.Count > 0)
+            {
+                return this.RedirectToAction("Index", "Categories", new { area = string.Empty, message = GlobalConstants.CantDeleteCateoryWithProductsMessage });
+            }
+
+            await this.categoriesService.DeleteCategoryAsync(category);
+            this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteCategoryMessage;
+
+            return this.View("SuccessfulOperationTextMessage");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UndeleteCategory(int id)
+        {
+            Category category = await this.categoriesService.GetDeletedCategoryByIdAsync(id);
+
+            if (category != null)
+            {
+                await this.categoriesService.UndeleteCategoryAsync(category);
+                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteCategoryMessage;
+
+                return this.View("SuccessfulOperationTextMessage");
+            }
+
+            return this.View("NoCategoryFound");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> EditCategory(int id, string message = null)
         {
-            Category category = await this.categoriesService.GetByIdAsync(id);
+            Category category = await this.categoriesService.GetByIdForEditAsync(id);
             if (category == null)
             {
                 return this.View("NoCategoryFound");
@@ -39,7 +90,7 @@
         [HttpPost]
         public async Task<IActionResult> EditCategory(EditCategoryViewModel userInputModel)
         {
-            Category category = await this.categoriesService.GetByIdAsync(userInputModel.Id);
+            Category category = await this.categoriesService.GetByIdForEditAsync(userInputModel.Id);
 
             if (category == null)
             {

@@ -1,0 +1,47 @@
+﻿@using PetStore.Common;
+@using PetStore.Web.ViewModels.Categories;
+
+@model List<DeletedCategoryViewModel>
+
+@{
+    this.ViewData["Title"] = "Deleted Categories";
+}
+@if(!string.IsNullOrEmpty(ViewBag.Message))
+{
+     <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
+        <i>@ViewBag.Message</i>
+    </h1>  
+}
+@if (Model.Count > 0)
+{
+    <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
+    <table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
+        <thead>
+            <tr>
+                <th style="font-size: 18pt; text-align: start;">Category</th>
+                <th style="font-size: 18pt; text-align: start;">Name</th>
+                <th style="font-size: 18pt;color: #0DCAF0; text-align: end; font-weight: bold;">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr name="trData">
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { category.Id })'" class="about-product text-start mt-2" width="180"><img src="@category.ImageURL" width="160" alt="No Image"></td>
+                    <td onclick="location.href='@Url.Action("Details", "Pets", new { category.Id })'" style="font-size: 16pt; text-align: start; font-weight: bold;">@Html.DisplayFor(modelItem => category.Name)</td>
+                    <td style="text-align: end; font-weight: bold;">
+                        <a class="btn btn-success" style="font-size: 15pt" onclick="return confirm('Return @category.Name back to the shtop?');" asp-area="Administration" asp-controller="CategoriesManager" asp-action="UndeleteCategory" asp-route-id="@category.Id">Undelete category</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 style="text-align: center">No categories found</h1>
+    <br />
+}
+<div style="text-align:center">
+    <input class="btn btn-dark" value="Back" onclick="history.back()">
+</div>

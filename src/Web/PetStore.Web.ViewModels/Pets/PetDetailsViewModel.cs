@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Web.ViewModels.Pets
 {
     using System;
+    using System.Text;
 
     using PetStore.Common;
     using PetStore.Data.Models;
@@ -29,6 +30,8 @@
 
         public string TypeName => this.Type.ToString();
 
+        public string TypePlural => this.GetPetTypePLural();
+
         public string UserMessage { get; set; }
 
         public DateTime CreatedOn { get; set; }
@@ -53,6 +56,14 @@
             }
 
             return $"{years} years and {months} months";
+        }
+
+        private string GetPetTypePLural()
+        {
+            StringBuilder petTypePlural = new StringBuilder(this.TypeName);
+            petTypePlural = petTypePlural.ToString() == "Fish" ? petTypePlural : petTypePlural.Append("s");
+
+            return petTypePlural.ToString();
         }
     }
 }

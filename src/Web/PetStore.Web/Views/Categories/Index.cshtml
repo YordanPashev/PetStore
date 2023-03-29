@@ -1,6 +1,6 @@
 ﻿@using PetStore.Common;
 
-@model PetStore.Web.ViewModels.Categories.AllCategoriesViewModel
+@model PetStore.Web.ViewModels.Categories.CategoriesViewModel
 
 @{
     this.ViewData["Title"] = "Categories";
@@ -28,7 +28,10 @@
                         </p>
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a class="btn btn-info mb-2" style="position: absolute; bottom: 0; right:25%; left:25%;" asp-area="Administration" asp-controller="CategoriesManager" asp-action="EditCategory" asp-route-id="@category.Id">Edit</a>
+                            <div style="position: absolute; bottom: 0; right:25%; left:25%;">
+                                <a class="btn btn-info mb-2" style="float: left; width: 100px" asp-area="Administration" asp-controller="CategoriesManager" asp-action="EditCategory" asp-route-id="@category.Id">Edit</a>
+                                <a class="btn btn-danger mb-2" style="float: right; width: 100px" onclick="return confirm('Remove @category.Name from the shtop?');" asp-area="Administration" asp-controller="CategoriesManager" asp-action="DeleteCategory" asp-route-id="@category.Id">Delete</a>
+                            </div>
                         }
                     </div>
                 </div>
@@ -45,8 +48,11 @@ else
 
    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
    {
-       <p class="mt-4" style="text-align:center">
+       <div class="mt-5" style="text-align:center">
            <a class="btn btn-success" asp-area="Administration" asp-controller="Create" asp-action="CreateCategory">Add New Category</a>
-       </p>
+       </div>
+       <div class="mt-2" style="text-align:center">
+            <a class="btn btn-danger" asp-area="Administration" asp-controller="CategoriesManager" asp-action="DeletedCategories">Deleted Categories</a>
+       </div>
    }
 </div>

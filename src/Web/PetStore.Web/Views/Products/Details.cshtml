@@ -32,13 +32,10 @@
         else
         {
             <div style="text-align:center">
-                <a class="btn btn-success mb-5" style="font-size: 22pt;" asp-area="Identity" asp-controller="Account" asp-action="Login">Purchase</a>
+                <a class="btn btn-success mb-5" style="font-size: 22pt;" asp-area="Identity" asp-controller="Account" asp-action="Login">Fast Purchase</a>
             </div>
         }
-            <br/>
-            <br/>
-            <br/>
-        <div> 
+        <div class="mb-3" style="text-align:center">
             <a class="btn btn-dark" style="width: 200px; font-size: 18pt; float: left" asp-action="Index">All Products</a>
             <a class="btn btn-info" style="font-size: 18pt; float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName</a>
         </div>

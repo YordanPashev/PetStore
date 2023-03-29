@@ -42,6 +42,14 @@
         }
 
         [HttpGet]
+        public async Task<IActionResult> DeletedProductDetails(string id)
+        {
+            DetailsProductViewModel model = await this.productService.GetDeletedProductByIdAsyncNoTracking(id);
+
+            return this.productsControllerExtension.ViewOrNoProductFound(model);
+        }
+
+        [HttpGet]
         public IActionResult DeletedProducts(SearchProductViewModel searchModel)
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
@@ -52,7 +60,6 @@
 
             return this.productsControllerExtension.ViewOrNoProductsFound(searchModel, productsShortInfoModel);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> EditProduct(string id, string message = null)
@@ -91,14 +98,6 @@
 
             await this.productService.UpdateProductDataAsync(userInputModel, product);
             return this.RedirectToAction("Details", "Products", new { area = string.Empty, id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeletedProductDetails(string id)
-        {
-            DetailsProductViewModel model = await this.productService.GetDeletedProductByIdAsyncNoTracking(id);
-
-            return this.productsControllerExtension.ViewOrNoProductFound(model);
         }
 
         [HttpGet]

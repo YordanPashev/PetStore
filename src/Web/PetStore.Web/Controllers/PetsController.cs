@@ -2,16 +2,13 @@
 {
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.Infrastructures;
     using PetStore.Web.ViewModels.Pets;
-    using PetStore.Web.ViewModels.Products;
     using PetStore.Web.ViewModels.Search;
 
     public class PetsController : BaseController
