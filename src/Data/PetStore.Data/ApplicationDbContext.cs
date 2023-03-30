@@ -32,17 +32,9 @@
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Store> Stores { get; set; }
-
         public DbSet<Client> Clients { get; set; }
 
-        public DbSet<CardInfo> PaymentCards { get; set; }
-
         public DbSet<ClientCard> ClientCards { get; set; }
-
-        public DbSet<Order> Orders { get; set; }
-
-        public DbSet<Service> Services { get; set; }
 
         public DbSet<Request> Requests { get; set; }
 

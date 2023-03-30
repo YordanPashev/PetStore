@@ -128,36 +128,6 @@ namespace PetStore.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.Property<string>("OrdersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProductsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("OrdersId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("OrderProduct");
-                });
-
-            modelBuilder.Entity("OrderService", b =>
-                {
-                    b.Property<string>("OrdersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ServicesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("OrdersId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("OrderService");
-                });
-
             modelBuilder.Entity("PetStore.Data.Models.Address", b =>
                 {
                     b.Property<string>("Id")
@@ -338,56 +308,6 @@ namespace PetStore.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("PetStore.Data.Models.CardInfo", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CVC")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
-
-                    b.Property<string>("CardHolder")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasMaxLength(19)
-                        .HasColumnType("nvarchar(19)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ExpirationDate")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("PaymentCards");
-                });
-
             modelBuilder.Entity("PetStore.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -465,45 +385,6 @@ namespace PetStore.Data.Migrations
                     b.ToTable("ClientCards");
                 });
 
-            modelBuilder.Entity("PetStore.Data.Models.Order", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DeliveryType")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Orders");
-                });
-
             modelBuilder.Entity("PetStore.Data.Models.Pet", b =>
                 {
                     b.Property<string>("Id")
@@ -544,9 +425,6 @@ namespace PetStore.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("StoreId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -555,8 +433,6 @@ namespace PetStore.Data.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("StoreId");
 
                     b.ToTable("Pets");
                 });
@@ -644,43 +520,6 @@ namespace PetStore.Data.Migrations
                     b.ToTable("Requests");
                 });
 
-            modelBuilder.Entity("PetStore.Data.Models.Service", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Services");
-                });
-
             modelBuilder.Entity("PetStore.Data.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
@@ -712,76 +551,6 @@ namespace PetStore.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.Store", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AddressId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Stores");
-                });
-
-            modelBuilder.Entity("ProductStore", b =>
-                {
-                    b.Property<string>("ProductsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StoresId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ProductsId", "StoresId");
-
-                    b.HasIndex("StoresId");
-
-                    b.ToTable("ProductStore");
-                });
-
-            modelBuilder.Entity("ServiceStore", b =>
-                {
-                    b.Property<string>("ServicesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StoresId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ServicesId", "StoresId");
-
-                    b.HasIndex("StoresId");
-
-                    b.ToTable("ServiceStore");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Client", b =>
@@ -842,36 +611,6 @@ namespace PetStore.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PetStore.Data.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OrderService", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PetStore.Data.Models.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PetStore.Data.Models.ApplicationUser", b =>
                 {
                     b.HasOne("PetStore.Data.Models.Address", "Address")
@@ -887,32 +626,10 @@ namespace PetStore.Data.Migrations
                     b.Navigation("ClientCard");
                 });
 
-            modelBuilder.Entity("PetStore.Data.Models.CardInfo", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Client", "Client")
-                        .WithMany("PaymentCards")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
             modelBuilder.Entity("PetStore.Data.Models.ClientCard", b =>
                 {
                     b.HasOne("PetStore.Data.Models.ApplicationUser", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.Order", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Client", "Client")
-                        .WithMany("Orders")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -925,10 +642,6 @@ namespace PetStore.Data.Migrations
                     b.HasOne("PetStore.Data.Models.Client", null)
                         .WithMany("Pets")
                         .HasForeignKey("ClientId");
-
-                    b.HasOne("PetStore.Data.Models.Store", null)
-                        .WithMany("Pets")
-                        .HasForeignKey("StoreId");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Product", b =>
@@ -940,47 +653,6 @@ namespace PetStore.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.Store", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("ProductStore", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PetStore.Data.Models.Store", null)
-                        .WithMany()
-                        .HasForeignKey("StoresId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ServiceStore", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PetStore.Data.Models.Store", null)
-                        .WithMany()
-                        .HasForeignKey("StoresId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Address", b =>
@@ -1002,17 +674,8 @@ namespace PetStore.Data.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("PetStore.Data.Models.Store", b =>
-                {
-                    b.Navigation("Pets");
-                });
-
             modelBuilder.Entity("PetStore.Data.Models.Client", b =>
                 {
-                    b.Navigation("Orders");
-
-                    b.Navigation("PaymentCards");
-
                     b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618

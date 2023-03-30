@@ -4,6 +4,7 @@ namespace PetStore.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
     using PetStore.Data.Common.Models;
     using PetStore.Data.Models.Common;
 

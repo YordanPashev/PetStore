@@ -33,7 +33,7 @@
 				<th style="font-size: 18pt; text-align: start; font-weight: bold;">Product</th>
 				<th style="font-size: 18pt; text-align:start">Name</th>
 				<th style="font-size: 18pt; color: gray;text-align: end; font-weight: bold;">Category</th>
-				<th style="font-size: 18pt; color: red; text-align:end; font-weight: bold;">Price</th>
+				<th style="font-size: 18pt; color: darkorange; text-align:end; font-weight: bold;">Price</th>
 				<th style="font-size: 18pt; color: #0DCAF0; text-align:end; font-weight: bold;">Get Details</th>
 			</tr>
 		</thead>
@@ -44,7 +44,7 @@
 					<td onclick="location.href='@Url.Action("DeletedProductDetails", "ProductsManager", new { product.Id })'" class="about-product text-start mt-2" width="160"><img src="@product.ImageUrl" width="160" alt="No Image"></td>
 					<td onclick="location.href='@Url.Action("DeletedProductDetails", "ProductsManager", new { product.Id })'" style="font-size: 16pt; width: 400px; text-align:left; font-weight: bold;">@Html.DisplayFor(modelItem => product.Name)</td>
 					<td onclick="location.href='@Url.Action("DeletedProductDetails", "ProductsManager", new { product.Id })'" style="font-size: 16pt; color: gray; text-align: end; width: 200px; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => product.CategoryName)</td>
-					<td onclick="location.href='@Url.Action("DeletedProductDetails", "ProductsManager", new { product.Id })'" style="font-size: 16pt; color: red; text-align: end; width: 200px; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
+					<td onclick="location.href='@Url.Action("DeletedProductDetails", "ProductsManager", new { product.Id })'" style="font-size: 16pt; color: darkorange; text-align: end; width: 200px; font-weight: bold;">@Html.DisplayFor(modelItem => product.Price) $</td>
 					<td style="text-align:end">
 						<a class="btn btn-info" style="font-size: 15pt" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProductDetails" asp-route-id="@product.Id">Details</a>
 						<a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Return @product.Name back to the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="UndeleteProduct" asp-route-id="@product.Id">Undelete</a>

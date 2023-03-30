@@ -14,7 +14,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3" style="height: 70px; background-color: #F7F7F7; ">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index" style="margin-left: 10px">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="margin-left: 10px">
                 <img src="https://media.istockphoto.com/vectors/pet-shop-on-transparent-background-vector-id1284316922?k=20&m=1284316922&s=612x612&w=0&h=SYmBfcRGv706r0TSGgpmLRS2ov4ZMNI80gN1sWuCfk8=" width="60">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -39,6 +39,9 @@
                                 {
                                     <li>
                                         <a class="dropdown-item" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">Deleted Products</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="CategoriesManager" asp-action="DeletedCategories">Deleted Categories</a>
                                     </li>
                                 }
                             </ul>
@@ -70,31 +73,31 @@
                     </li>
                 </ul>
                 </div>
-            <div class="navbar mr-4">
                 @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: transparent; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Administration Options
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic">
-                                    <li>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="Index">Create and Add</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="navbar mr-4">
+                        <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: transparent; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Administration Options
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="Index">Factory</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 }
-            </div>
             <partial name="_LoginPartial"/>
         </nav>
     </header>

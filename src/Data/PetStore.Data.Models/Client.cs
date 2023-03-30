@@ -4,16 +4,14 @@ namespace PetStore.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-   
+
     using PetStore.Data.Models.Common;
 
     public class Client : ApplicationUser
     {
         public Client()
         {
-            this.PaymentCards = new HashSet<CardInfo>();
             this.Pets = new HashSet<Pet>();
-            this.Orders = new HashSet<Order>();
         }
 
         [Required]
@@ -34,10 +32,6 @@ namespace PetStore.Data.Models
 
         public virtual ClientCard ClientCard { get; set; }
 
-        public virtual ICollection<CardInfo> PaymentCards { get; set; }
-
         public virtual ICollection<Pet> Pets { get; set; }
-
-        public virtual ICollection<Order> Orders { get; set; }
     }
 }
