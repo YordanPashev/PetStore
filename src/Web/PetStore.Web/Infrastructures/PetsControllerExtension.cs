@@ -30,10 +30,11 @@
             {
                 return false;
             }
+
             return true;
         }
 
-        public ICollection<PetDetailsViewModel> GetPets(string typeName, string searchQuery, string orderByCriteria)
+        public ICollection<PetDetailsViewModel> GetPets(string typeName, string searchQuery, string orderCriteria)
         {
             string searchQueryCapitalCase = string.IsNullOrEmpty(searchQuery) ? string.Empty : searchQuery.ToUpper();
 
@@ -41,37 +42,37 @@
             {
                 if (!string.IsNullOrEmpty(searchQueryCapitalCase))
                 {
-                    return this.petsService.GetAllSearchedPetsInSale(searchQueryCapitalCase, orderByCriteria)
+                    return this.petsService.GetAllSearchedPetsInSale(searchQueryCapitalCase, orderCriteria)
                                                .To<PetDetailsViewModel>()
                                                .ToArray();
                 }
 
-                return this.petsService.GetAllPetsInSale(orderByCriteria).To<PetDetailsViewModel>().ToArray();
+                return this.petsService.GetAllPetsInSale(orderCriteria).To<PetDetailsViewModel>().ToArray();
             }
 
             if (!string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.petsService.GetAllSearchedTypePetsInSale(typeName, searchQueryCapitalCase, orderByCriteria)
+                return this.petsService.GetAllSearchedTypePetsInSale(typeName, searchQueryCapitalCase, orderCriteria)
                                            .To<PetDetailsViewModel>()
                                            .ToArray();
             }
 
-            return this.petsService.GetAllTypePetsInSale(typeName, orderByCriteria).To<PetDetailsViewModel>().ToArray();
+            return this.petsService.GetAllTypePetsInSale(typeName, orderCriteria).To<PetDetailsViewModel>().ToArray();
         }
 
-        public ICollection<PetDetailsViewModel> GetDeletedPets(string searchQueryCapitalCase, string orderByCriteria)
+        public ICollection<PetDetailsViewModel> GetDeletedPets(string searchQueryCapitalCase, string orderCriteria)
         {
             if (!string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.petsService.GetAllSearchedRemovedPets(searchQueryCapitalCase, orderByCriteria)
+                return this.petsService.GetAllSearchedRemovedPets(searchQueryCapitalCase, orderCriteria)
                                            .To<PetDetailsViewModel>()
                                            .ToArray();
             }
 
-            return this.petsService.GetAllRemovedPets(orderByCriteria).To<PetDetailsViewModel>().ToArray();
+            return this.petsService.GetAllRemovedPets(orderCriteria).To<PetDetailsViewModel>().ToArray();
         }
 
-        public IActionResult ViewOrNonExistentPetType(string typeName, string orderByCriteria)
+        public IActionResult ViewOrNonExistentPetType(string typeName, string orderCriteria)
         {
             if (!Enum.IsDefined(typeof(PetType), typeName))
             {
@@ -81,7 +82,7 @@
 
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
-                ListOfPets = this.petsService.GetAllTypePetsInSale(typeName, orderByCriteria).To<PetDetailsViewModel>().ToArray(),
+                ListOfPets = this.petsService.GetAllTypePetsInSale(typeName, orderCriteria).To<PetDetailsViewModel>().ToArray(),
                 PetTypeName = typeName,
             };
 

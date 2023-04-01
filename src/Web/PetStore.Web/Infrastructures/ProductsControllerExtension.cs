@@ -34,7 +34,7 @@
             return this.View(model);
         }
 
-        public IActionResult ViewOrNoProductsFound(SearchProductViewModel searchModel, ListOfProductsViewModel productsShortInfoModel)
+        public IActionResult ViewOrNoProductsFound(SearchAndSortProductViewModel searchModel, ListOfProductsViewModel productsShortInfoModel)
         {
             if (productsShortInfoModel == null && string.IsNullOrEmpty(productsShortInfoModel.SearchQuery))
             {

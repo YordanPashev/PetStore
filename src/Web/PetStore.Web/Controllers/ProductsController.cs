@@ -23,7 +23,7 @@
         }
 
         [HttpGet]
-        public IActionResult Index(SearchProductViewModel searchModel)
+        public IActionResult Index(SearchAndSortProductViewModel searchModel)
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {

@@ -28,7 +28,7 @@
         }
 
         [HttpGet]
-        public IActionResult DeletedPets(SearchPetViewModel searchModel, string orderByCriteria)
+        public IActionResult DeletedPets(SearchAndSortPetViewModel searchModel, string orderByCriteria)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {

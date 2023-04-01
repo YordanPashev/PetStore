@@ -121,7 +121,7 @@
 
         public const string CriteriaType = "Type";
 
-        public const string CriteriaRiecent = "Ricent";
+        public const string CriteriaRecent = "Recent";
 
         public const string CriteriaName = "Name";
 
@@ -130,7 +130,7 @@
             CriteriaPriceAscending,
             CriteriaPriceDescending,
             CriteriaType,
-            CriteriaRiecent,
+            CriteriaRecent,
             CriteriaName,
         });
     }

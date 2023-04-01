@@ -50,7 +50,7 @@
         }
 
         [HttpGet]
-        public IActionResult DeletedProducts(SearchProductViewModel searchModel)
+        public IActionResult DeletedProducts(SearchAndSortProductViewModel searchModel)
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {

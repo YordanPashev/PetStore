@@ -22,7 +22,7 @@
             this.petsControllerExtension = new PetsControllerExtension(petsService);
         }
 
-        public IActionResult Index(SearchPetViewModel searchModel)
+        public IActionResult Index(SearchAndSortPetViewModel searchModel)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {

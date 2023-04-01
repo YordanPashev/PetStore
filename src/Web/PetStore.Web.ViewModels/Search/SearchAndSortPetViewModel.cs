@@ -1,6 +1,6 @@
 ﻿namespace PetStore.Web.ViewModels.Search
 {
-    public class SearchPetViewModel
+    public class SearchAndSortPetViewModel
     {
         public string SearchQuery { get; set; }
 

@@ -171,7 +171,7 @@
                 return result.OrderBy(p => p.Type)
                              .ThenBy(p => p.Name);
             }
-            else if (orderCriteria == GlobalConstants.CriteriaRiecent)
+            else if (orderCriteria == GlobalConstants.CriteriaRecent)
             {
                 return result.OrderByDescending(p => p.CreatedOn)
                              .ThenBy(p => p.Name);

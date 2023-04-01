@@ -29,7 +29,7 @@
                         }
                             <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
                         <div class="input-group-btn">
-                            <button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
+                            <button class="btn btn-success m-auto" style="font-size: 15pt" onclick="this.form.submit()">Search</button>
                         </div>
                     </div>
                 </form> 
@@ -58,7 +58,7 @@
                                    @foreach (string orderCriteria in GlobalConstants.OrderByCriteria)
                                    {
                                        <li>
-                                            <button class="btn m-auto" style="background-color: transparent" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria" onclick="this.form.submit()">@orderCriteria</button>
+                                            <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
                                        </li>
                                    }
                                 </form>
