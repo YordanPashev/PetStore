@@ -12,12 +12,17 @@
         Task AddPetAsync(Pet pet);
 
         Task DeletePetAsync(Pet pet);
+        IQueryable<Pet> GetAllRemovedPets(string orderByCriteria);
 
-        IQueryable<Pet> GetAllDeletedPetsNoTracking();
+        IQueryable<Pet> GetAllPetsInSale(string orderByCriteria);
 
-        IQueryable<Pet> GetAllPetsInSaleNoTracking();
+        IQueryable<Pet> GetAllSearchedPetsInSale(string searchQuery, string orderByCriteria);
 
-        IQueryable<Pet> GetAllPetsInSaleForSelectedType(string typeName);
+        IQueryable<Pet> GetAllTypePetsInSale(string typeName, string orderByCriteria);
+
+        IQueryable<Pet> GetAllSearchedTypePetsInSale(string typeName, string searchQuery, string orderByCriteria);
+
+        IQueryable<Pet> GetAllSearchedRemovedPets(string searchQuery, string orderByCriteria);
 
         Task<Pet> GetDeletedPetByIdAsync(string id);
 

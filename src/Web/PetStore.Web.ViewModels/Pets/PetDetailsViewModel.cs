@@ -16,7 +16,7 @@
 
         public int AgeMonts { get; set; }
 
-        public string AgeInTextFormat => this.FormatAgeToText();
+        public string AgeInTextFormat => PetTypesHelper.FormatAgeToText(this.BirthDate);
 
         public string Breed { get; set; }
 
@@ -30,7 +30,7 @@
 
         public string TypeName => this.Type.ToString();
 
-        public string TypePlural => this.GetPetTypePLural();
+        public string TypePlural => PetTypesHelper.GetPetTypePlural(this.TypeName);
 
         public string UserMessage { get; set; }
 
@@ -39,31 +39,5 @@
         public DateTime? ModifiedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-
-        private string FormatAgeToText()
-        {
-            var dateSpan = DateTimeSpan.CompareDates(DateTime.Now, this.BirthDate);
-            int years = dateSpan.Years;
-            int months = dateSpan.Months;
-
-            if (years == 0)
-            {
-                return $"{months} months";
-            }
-            else if (months == 0)
-            {
-                return $"{years} years";
-            }
-
-            return $"{years} years and {months} months";
-        }
-
-        private string GetPetTypePLural()
-        {
-            StringBuilder petTypePlural = new StringBuilder(this.TypeName);
-            petTypePlural = petTypePlural.ToString() == "Fish" ? petTypePlural : petTypePlural.Append("s");
-
-            return petTypePlural.ToString();
-        }
     }
 }

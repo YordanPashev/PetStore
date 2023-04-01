@@ -26,10 +26,11 @@
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
-                ListOfPets = this.petsControllerExtension.GetPets(searchModel.PetTypeName, searchModel.SearchQuery),
+                ListOfPets = this.petsControllerExtension.GetPets(searchModel.PetTypeName, searchModel.SearchQuery, searchModel.OrderCriteria),
                 PetTypeName = searchModel.PetTypeName,
                 SearchQuery = searchModel.SearchQuery,
             };
+
             return this.petsControllerExtension.ViewOrNoPetsFound(model);
         }
 
@@ -49,9 +50,9 @@
         }
 
         [HttpGet]
-        public IActionResult TypePets(string name = null)
+        public IActionResult TypePets(string name = null, string orderByCriteria = null)
         {
-            return this.petsControllerExtension.ViewOrNonExistentPetType(name);
+            return this.petsControllerExtension.ViewOrNonExistentPetType(name, orderByCriteria);
         }
     }
 }

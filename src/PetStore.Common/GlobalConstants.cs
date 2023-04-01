@@ -1,5 +1,8 @@
 ﻿namespace PetStore.Common
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+
     public static class GlobalConstants
     {
         // System
@@ -110,5 +113,25 @@
         public const string CreateCategoryImage = "https://www.linkpicture.com/q/Create-Category-Image.jpg";
 
         public const string AddPetImage = "https://media.istockphoto.com/id/1283692900/photo/group-of-different-kind-of-pets-like-cat-dog-rabbit-mouse-chinchilla-guinea-pig-bird-and-fish.jpg?s=612x612&w=0&k=20&c=oRyN_o5XT6UYFtwidjPxYFN9T5v0dBvu4CCAZUUJtW4=";
+
+        // Order Critera
+        public const string CriteriaPriceAscending = "Price Ascending";
+
+        public const string CriteriaPriceDescending = "Price Descending";
+
+        public const string CriteriaType = "Type";
+
+        public const string CriteriaRiecent = "Ricent";
+
+        public const string CriteriaName = "Name";
+
+        public static readonly IList<string> OrderByCriteria = new ReadOnlyCollection<string>(new List<string>
+        {
+            CriteriaPriceAscending,
+            CriteriaPriceDescending,
+            CriteriaType,
+            CriteriaRiecent,
+            CriteriaName,
+        });
     }
 }

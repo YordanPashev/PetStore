@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -31,50 +30,48 @@
             {
                 return false;
             }
-
             return true;
         }
 
-        public ICollection<PetDetailsViewModel> GetPets(string typeName, string searchQuery)
+        public ICollection<PetDetailsViewModel> GetPets(string typeName, string searchQuery, string orderByCriteria)
         {
+            string searchQueryCapitalCase = string.IsNullOrEmpty(searchQuery) ? string.Empty : searchQuery.ToUpper();
+
             if (typeName == null)
             {
-                if (!string.IsNullOrEmpty(searchQuery))
+                if (!string.IsNullOrEmpty(searchQueryCapitalCase))
                 {
-                    return this.petsService.GetAllPetsInSaleNoTracking()
+                    return this.petsService.GetAllSearchedPetsInSale(searchQueryCapitalCase, orderByCriteria)
                                                .To<PetDetailsViewModel>()
-                                               .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                                .ToArray();
                 }
 
-                return this.petsService.GetAllPetsInSaleNoTracking().To<PetDetailsViewModel>().ToArray();
+                return this.petsService.GetAllPetsInSale(orderByCriteria).To<PetDetailsViewModel>().ToArray();
             }
 
-            if (!string.IsNullOrEmpty(searchQuery))
+            if (!string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.petsService.GetAllPetsInSaleForSelectedType(typeName)
+                return this.petsService.GetAllSearchedTypePetsInSale(typeName, searchQueryCapitalCase, orderByCriteria)
                                            .To<PetDetailsViewModel>()
-                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                            .ToArray();
             }
 
-            return this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray();
+            return this.petsService.GetAllTypePetsInSale(typeName, orderByCriteria).To<PetDetailsViewModel>().ToArray();
         }
 
-        public ICollection<PetDetailsViewModel> GetDeletedPets(string searchQuery)
+        public ICollection<PetDetailsViewModel> GetDeletedPets(string searchQueryCapitalCase, string orderByCriteria)
         {
-            if (!string.IsNullOrEmpty(searchQuery))
+            if (!string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.petsService.GetAllDeletedPetsNoTracking()
+                return this.petsService.GetAllSearchedRemovedPets(searchQueryCapitalCase, orderByCriteria)
                                            .To<PetDetailsViewModel>()
-                                           .Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()))
                                            .ToArray();
             }
 
-            return this.petsService.GetAllDeletedPetsNoTracking().To<PetDetailsViewModel>().ToArray();
+            return this.petsService.GetAllRemovedPets(orderByCriteria).To<PetDetailsViewModel>().ToArray();
         }
 
-        public IActionResult ViewOrNonExistentPetType(string typeName)
+        public IActionResult ViewOrNonExistentPetType(string typeName, string orderByCriteria)
         {
             if (!Enum.IsDefined(typeof(PetType), typeName))
             {
@@ -84,7 +81,7 @@
 
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
-                ListOfPets = this.petsService.GetAllPetsInSaleForSelectedType(typeName).To<PetDetailsViewModel>().ToArray(),
+                ListOfPets = this.petsService.GetAllTypePetsInSale(typeName, orderByCriteria).To<PetDetailsViewModel>().ToArray(),
                 PetTypeName = typeName,
             };
 

@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
-
+    using PetStore.Common;
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
@@ -22,6 +22,7 @@
         public async Task AddPetAsync(Pet pet)
         {
             pet.Price = Math.Round(pet.Price, 2);
+
             await this.petsRepo.AddAsync(pet);
             await this.petsRepo.SaveChangesAsync();
         }
@@ -32,29 +33,78 @@
             await this.petsRepo.SaveChangesAsync();
         }
 
-        public IQueryable<Pet> GetAllDeletedPetsNoTracking()
-            => this.petsRepo.AllAsNoTrackingWithDeleted()
-                    .Where(p => p.IsDeleted)
-                    .OrderBy(p => p.Name);
+        public IQueryable<Pet> GetAllRemovedPets(string orderCriteria)
+        {
+            IQueryable<Pet> result = this.petsRepo.AllAsNoTrackingWithDeleted()
+                                                  .Where(p => p.IsDeleted)
+                                                  .OrderBy(p => p.Name);
+            result = this.OrderByCriteria(orderCriteria, result);
 
-        public IQueryable<Pet> GetAllPetsInSaleNoTracking()
-            => this.petsRepo.AllAsNoTracking()
-                   .Where(p => p.IsDeleted == false)
-                   .OrderBy(p => p.Name);
+            return result;
+        }
 
-        public IQueryable<Pet> GetAllPetsInSaleForSelectedType(string typeName)
+        public IQueryable<Pet> GetAllPetsInSale(string orderCriteria)
+        {
+            IQueryable<Pet> result = this.petsRepo.AllAsNoTracking();
+            result = this.OrderByCriteria(orderCriteria, result);
+
+            return result;
+        }
+
+        public IQueryable<Pet> GetAllTypePetsInSale(string typeName, string orderCriteria)
         {
             PetType petType;
 
             if (Enum.TryParse<PetType>(typeName, out petType))
             {
-                return this.petsRepo.AllAsNoTracking()
-                   .Where(p => p.Type == petType)
-                   .Where(p => p.IsDeleted == false)
-                   .OrderBy(c => c.Name);
+                IQueryable<Pet> result = this.petsRepo.AllAsNoTracking()
+                                                      .Where(p => p.Type == petType)
+                                                      .OrderBy(c => c.Name);
+                result = this.OrderByCriteria(orderCriteria, result);
+
+                return result;
             }
 
             return Enumerable.Empty<Pet>().AsQueryable();
+        }
+
+        public IQueryable<Pet> GetAllSearchedPetsInSale(string searchQueryCapitalCase, string orderCriteria)
+        {
+            IQueryable<Pet> result = this.petsRepo.AllAsNoTracking()
+                                                  .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase))
+                                                  .OrderBy(p => p.Name);
+            result = this.OrderByCriteria(orderCriteria, result);
+
+            return result;
+        }
+
+        public IQueryable<Pet> GetAllSearchedTypePetsInSale(string typeName, string searchQueryCapitalCase, string orderCriteria)
+        {
+            PetType petType;
+
+            if (Enum.TryParse<PetType>(typeName, out petType))
+            {
+                IQueryable<Pet> result = this.petsRepo.AllAsNoTracking()
+                                                      .Where(p => p.Type == petType)
+                                                      .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase))
+                                                      .OrderBy(c => c.Name);
+                result = this.OrderByCriteria(orderCriteria, result);
+
+                return result;
+            }
+
+            return Enumerable.Empty<Pet>().AsQueryable();
+        }
+
+        public IQueryable<Pet> GetAllSearchedRemovedPets(string searchQueryCapitalCase, string orderCriteria)
+        {
+            IQueryable<Pet> result = this.petsRepo.AllAsNoTrackingWithDeleted()
+                                                  .Where(p => p.IsDeleted)
+                                                  .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase))
+                                                  .OrderBy(p => p.Name);
+            result = this.OrderByCriteria(orderCriteria, result);
+
+            return result;
         }
 
         public async Task<Pet> GetDeletedPetByIdAsync(string id)
@@ -102,6 +152,32 @@
             pet.DeletedOn = null;
             pet.IsDeleted = false;
             await this.petsRepo.SaveChangesAsync();
+        }
+
+        private IQueryable<Pet> OrderByCriteria(string orderCriteria, IQueryable<Pet> result)
+        {
+            if (orderCriteria == GlobalConstants.CriteriaPriceAscending)
+            {
+                return result.OrderBy(p => p.Price)
+                             .ThenBy(p => p.Name);
+            }
+            else if (orderCriteria == GlobalConstants.CriteriaPriceDescending)
+            {
+                return result.OrderByDescending(p => p.Price)
+                             .ThenBy(p => p.Name);
+            }
+            else if (orderCriteria == GlobalConstants.CriteriaType)
+            {
+                return result.OrderBy(p => p.Type)
+                             .ThenBy(p => p.Name);
+            }
+            else if (orderCriteria == GlobalConstants.CriteriaRiecent)
+            {
+                return result.OrderByDescending(p => p.CreatedOn)
+                             .ThenBy(p => p.Name);
+            }
+
+            return result.OrderBy(p => p.Name);
         }
     }
 }

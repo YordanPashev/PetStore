@@ -15,15 +15,15 @@
 
         IQueryable<Product> GetAllProductsInSale();
 
-        IQueryable<Product> GetAllProductsInSaleForSelectedCateogry(string categoryName);
+        IQueryable<Product> GetAllCategoryProductsInSale(string categoryName);
 
-        IQueryable<Product> GetAllDeletedProductsNoTracking();
+        IQueryable<Product> GetAllDeletedProducts();
 
-        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStockNoTracking(string searchQueryCapitalCase);
+        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStock(string searchQueryCapitalCase);
 
         ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSale(string searchQueryCapitalCase);
 
-        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSaleForSelectedCateogry(string searchQueryCapitalCase, string categoryName);
+        ICollection<ProductShortInfoViewModel> GetAllSearchedCategoryProductsInSale(string searchQueryCapitalCase, string categoryName);
 
         Task<Product> GetByProductIdAsync(string id);
 

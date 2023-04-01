@@ -38,7 +38,7 @@
                     .Include(p => p.Category)
                     .OrderBy(p => p.Name);
 
-        public IQueryable<Product> GetAllProductsInSaleForSelectedCateogry(string categoryName)
+        public IQueryable<Product> GetAllCategoryProductsInSale(string categoryName)
         {
             if (categoryName == null)
             {
@@ -51,13 +51,13 @@
                     .OrderBy(p => p.Name);
         }
 
-        public IQueryable<Product> GetAllDeletedProductsNoTracking()
+        public IQueryable<Product> GetAllDeletedProducts()
             => this.productRepo.AllAsNoTrackingWithDeleted()
                     .Include(p => p.Category)
                     .Where(p => p.IsDeleted)
                     .OrderBy(p => p.Name);
 
-        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStockNoTracking(string searchQueryCapitalCase)
+        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStock(string searchQueryCapitalCase)
         => this.productRepo
                     .AllAsNoTrackingWithDeleted()
                     .Where(p => p.IsDeleted)
@@ -76,7 +76,7 @@
                     .To<ProductShortInfoViewModel>()
                     .ToList();
 
-        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSaleForSelectedCateogry(string searchQueryCapitalCase, string categoryName)
+        public ICollection<ProductShortInfoViewModel> GetAllSearchedCategoryProductsInSale(string searchQueryCapitalCase, string categoryName)
         {
             if (categoryName == null)
             {

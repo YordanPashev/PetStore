@@ -2,9 +2,9 @@
 {
     using System;
 
-    public struct DateTimeSpan
+    public struct SpawnTimeCalculator
     {
-        public DateTimeSpan(int years, int months, int days, int hours, int minutes, int seconds, int milliseconds)
+        public SpawnTimeCalculator(int years, int months, int days, int hours, int minutes, int seconds, int milliseconds)
         {
             this.Years = years;
             this.Months = months;
@@ -37,7 +37,7 @@
 
         public int Milliseconds { get; }
 
-        public static DateTimeSpan CompareDates(DateTime date1, DateTime date2)
+        public static SpawnTimeCalculator CompareDates(DateTime date1, DateTime date2)
         {
             if (date2 < date1)
             {
@@ -52,7 +52,7 @@
             int days = 0;
 
             Phase phase = Phase.Years;
-            DateTimeSpan span = new DateTimeSpan();
+            SpawnTimeCalculator span = new SpawnTimeCalculator();
             int officialDay = current.Day;
 
             while (phase != Phase.Done)
@@ -94,7 +94,7 @@
                         {
                             current = current.AddDays(days);
                             var timespan = date2 - current;
-                            span = new DateTimeSpan(years, months, days, timespan.Hours, timespan.Minutes, timespan.Seconds, timespan.Milliseconds);
+                            span = new SpawnTimeCalculator(years, months, days, timespan.Hours, timespan.Minutes, timespan.Seconds, timespan.Milliseconds);
                             phase = Phase.Done;
                         }
                         else

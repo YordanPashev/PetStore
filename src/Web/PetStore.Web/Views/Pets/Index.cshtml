@@ -3,15 +3,15 @@
 
 @{
     this.ViewData["Title"] = "Pets";
-    string pageTitle = this.ViewData["Title"].ToString();
+
     if (!string.IsNullOrEmpty(Model.PetTypeName))
     {
-        pageTitle = "Pets Type" + Model.PetTypeName;
+        this.ViewData["Title"] = Model.PetTypePlural;
     }
 }
 
 <div class="row">
-    <h1 class="text-center"><strong>@pageTitle</strong></h1>
+    <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
     @if (Model.ListOfPets.Count > 0)
     {
     <Row style="width: 1240px;">
@@ -25,11 +25,11 @@
                         }
                         else
                         {
-                           <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
                         }
                             <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
                         <div class="input-group-btn">
-                                <button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
+                            <button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
                         </div>
                     </div>
                 </form> 
@@ -38,9 +38,36 @@
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <Column style="float: right;">
-                    <a class="btn btn-danger" style="font-size: 14pt" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
+                <a class="btn btn-danger" style="font-size: 15pt" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
             </Column>
         }
+    </Row>
+    <Row>
+        <Column>
+            <div class="navbar mr-4">
+                <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                Order by
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
+                                <form method="get" asp-controller="Pets" asp-action="Index">
+                                   <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
+                                   <input type="hidden" id="SearchQuery" name="SearchQuery" value="@Model.SearchQuery">
+                                   @foreach (string orderCriteria in GlobalConstants.OrderByCriteria)
+                                   {
+                                       <li>
+                                            <button class="btn m-auto" style="background-color: transparent" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria" onclick="this.form.submit()">@orderCriteria</button>
+                                       </li>
+                                   }
+                                </form>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </Column>
     </Row>
     <table class="table table-hover" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>

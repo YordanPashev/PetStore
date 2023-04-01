@@ -28,11 +28,11 @@
         }
 
         [HttpGet]
-        public IActionResult DeletedPets(SearchPetViewModel searchModel)
+        public IActionResult DeletedPets(SearchPetViewModel searchModel, string orderByCriteria)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
-                ListOfPets = this.petsControllerExtension.GetDeletedPets(searchModel.SearchQuery),
+                ListOfPets = this.petsControllerExtension.GetDeletedPets(searchModel.SearchQuery, orderByCriteria),
                 SearchQuery = searchModel.SearchQuery,
             };
 

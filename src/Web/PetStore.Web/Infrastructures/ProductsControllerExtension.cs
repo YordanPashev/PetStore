@@ -62,20 +62,20 @@
 
             if (string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.productsService.GetAllProductsInSaleForSelectedCateogry(categoryName).To<ProductShortInfoViewModel>().ToArray();
+                return this.productsService.GetAllCategoryProductsInSale(categoryName).To<ProductShortInfoViewModel>().ToArray();
             }
 
-            return this.productsService.GetAllSearchedProductsInSaleForSelectedCateogry(searchQueryCapitalCase, categoryName);
+            return this.productsService.GetAllSearchedCategoryProductsInSale(searchQueryCapitalCase, categoryName);
         }
 
         public ICollection<ProductShortInfoViewModel> GetDeletedProducts(string searchQueryCapitalCase)
         {
             if (string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.productsService.GetAllDeletedProductsNoTracking().To<ProductShortInfoViewModel>().ToArray();
+                return this.productsService.GetAllDeletedProducts().To<ProductShortInfoViewModel>().ToArray();
             }
 
-            return this.productsService.GetAllSearchedProductsOutOfStockNoTracking(searchQueryCapitalCase);
+            return this.productsService.GetAllSearchedProductsOutOfStock(searchQueryCapitalCase);
         }
 
         public bool IsProductEdited(ProductInfoViewModel model, Product product)
