@@ -72,32 +72,32 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index" style="font-weight: bold;">Contacts</a>
                     </li>
                 </ul>
+             </div>
+            @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <div class="navbar mr-4">
+                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: transparent; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Administration Options
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="Index">Factory</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
-                {
-                    <div class="navbar mr-4">
-                        <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
-                            <li class="nav-item">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: transparent; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Administration Options
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic">
-                                        <li>
-                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="Index">Factory</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                }
+            }
             <partial name="_LoginPartial"/>
         </nav>
     </header>
