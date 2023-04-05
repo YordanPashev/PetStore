@@ -26,6 +26,18 @@
         }
 
         [HttpGet]
+        public IActionResult DeletedProducts(SearchAndSortProductViewModel searchAndSortModel)
+        {
+            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
+            {
+                ListOfProducts = this.productsControllerExtension.GetAllDeletedProducts(searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
+                SearchQuery = searchAndSortModel.SearchQuery,
+            };
+
+            return this.productsControllerExtension.ViewOrNoProductsFound(searchAndSortModel, productsShortInfoModel);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> DeleteProduct(string id)
         {
             Product product = await this.productService.GetByProductIdAsync(id);
@@ -44,21 +56,10 @@
         [HttpGet]
         public async Task<IActionResult> DeletedProductDetails(string id)
         {
-            DetailsProductViewModel model = await this.productService.GetDeletedProductByIdAsyncNoTracking(id);
+            Product deletedProduct = await this.productService.GetDeletedProductByIdAsyncNoTracking(id);
+            DetailsProductViewModel model = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(deletedProduct);
 
             return this.productsControllerExtension.ViewOrNoProductFound(model);
-        }
-
-        [HttpGet]
-        public IActionResult DeletedProducts(SearchAndSortProductViewModel searchModel)
-        {
-            ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
-            {
-                ListOfProducts = this.productsControllerExtension.GetDeletedProducts(searchModel.SearchQuery),
-                SearchQuery = searchModel.SearchQuery,
-            };
-
-            return this.productsControllerExtension.ViewOrNoProductsFound(searchModel, productsShortInfoModel);
         }
 
         [HttpGet]

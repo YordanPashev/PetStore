@@ -12,6 +12,7 @@
         Task AddPetAsync(Pet pet);
 
         Task DeletePetAsync(Pet pet);
+
         IQueryable<Pet> GetAllRemovedPets(string orderByCriteria);
 
         IQueryable<Pet> GetAllPetsInSale(string orderByCriteria);

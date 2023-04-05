@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -13,21 +12,21 @@
 
         Task DeleteProductAsync(Product product);
 
-        IQueryable<Product> GetAllProductsInSale();
+        IQueryable<Product> GetAllProductsInSale(string orderCriteria);
 
-        IQueryable<Product> GetAllCategoryProductsInSale(string categoryName);
+        IQueryable<Product> GetAllCategoryProductsInSale(string categoryName, string orderCriteria);
 
-        IQueryable<Product> GetAllDeletedProducts();
+        IQueryable<Product> GetAllDeletedProducts(string orderCriteria);
 
-        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStock(string searchQueryCapitalCase);
+        IQueryable<Product> GetAllSearchedProductsOutOfStock(string searchQueryCapitalCase, string orderCriteria);
 
-        ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSale(string searchQueryCapitalCase);
+        IQueryable<Product> GetAllSearchedProductsInSale(string searchQueryCapitalCase, string orderCriteria);
 
-        ICollection<ProductShortInfoViewModel> GetAllSearchedCategoryProductsInSale(string searchQueryCapitalCase, string categoryName);
+        IQueryable<Product> GetAllSearchedCategoryProductsInSale(string searchQueryCapitalCase, string categoryName, string orderCriteria);
 
         Task<Product> GetByProductIdAsync(string id);
 
-        Task<DetailsProductViewModel> GetDeletedProductByIdAsyncNoTracking(string id);
+        Task<Product> GetDeletedProductByIdAsyncNoTracking(string id);
 
         Task<Product> GetDeletedProductByIdAsync(string id);
 

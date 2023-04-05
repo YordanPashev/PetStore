@@ -2,15 +2,15 @@
 @model PetStore.Web.ViewModels.Pets.ListOfPetsViewModel
 
 @{
-    ViewData["Title"] = "Removed Pets";
+    this.ViewData["Title"] = "Removed Pets";
 }
 
 @if (Model.ListOfPets != null && Model.ListOfPets.Count > 0)
 {
-    <div class="row">
-        <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
-        <div class="col-md-4 justify-content-end" style="float: left">
-            <form method="get" asp-controller="PetsManager" asp-action="DeletedPets">
+    <form method="get" asp-controller="PetsManager" asp-action="DeletedPets">
+        <div class="row">
+            <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+            <div class="col-md-4 justify-content-end" style="float: left">
                 <div class="input-group">
                     @if (Model.SearchQuery == null)
                     {
@@ -26,9 +26,30 @@
                         </button>
                     </div>
                 </div>
-            </form> 
+            </div>
+            <div>
+                <div class="navbar mr-4">
+                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Order by
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
+                                    @foreach (string orderCriteria in GlobalConstants.AllOrderByCriteria)
+                                    {
+                                        <li>
+                                            <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </form> 
     <table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>

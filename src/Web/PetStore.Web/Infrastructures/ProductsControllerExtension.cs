@@ -44,7 +44,7 @@
             return this.View(productsShortInfoModel);
         }
 
-        public ICollection<ProductShortInfoViewModel> GetProductsInSale(string categoryName, string searchQuery)
+        public ICollection<ProductShortInfoViewModel> GetProductsInSale(string categoryName, string searchQuery, string orderCriteria)
         {
             string searchQueryCapitalCase = string.IsNullOrEmpty(searchQuery) ? string.Empty : searchQuery.ToUpper();
 
@@ -52,30 +52,36 @@
             {
                 if (string.IsNullOrEmpty(searchQueryCapitalCase))
                 {
-                    return this.productsService.GetAllProductsInSale().To<ProductShortInfoViewModel>().ToArray();
+                    return this.productsService.GetAllProductsInSale(orderCriteria)
+                                               .To<ProductShortInfoViewModel>().ToArray();
                 }
 
-                return this.productsService.GetAllSearchedProductsInSale(searchQueryCapitalCase);
+                return this.productsService.GetAllSearchedProductsInSale(searchQueryCapitalCase, orderCriteria)
+                                           .To<ProductShortInfoViewModel>().ToArray();
             }
 
             this.ViewBag.CategoryImageURL = this.categoriesService.GetCategoryImageUrl(categoryName);
 
             if (string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.productsService.GetAllCategoryProductsInSale(categoryName).To<ProductShortInfoViewModel>().ToArray();
+                return this.productsService.GetAllCategoryProductsInSale(categoryName, orderCriteria)
+                                           .To<ProductShortInfoViewModel>().ToArray();
             }
 
-            return this.productsService.GetAllSearchedCategoryProductsInSale(searchQueryCapitalCase, categoryName);
+            return this.productsService.GetAllSearchedCategoryProductsInSale(searchQueryCapitalCase, categoryName, orderCriteria)
+                                       .To<ProductShortInfoViewModel>().ToArray();
         }
 
-        public ICollection<ProductShortInfoViewModel> GetDeletedProducts(string searchQueryCapitalCase)
+        public ICollection<ProductShortInfoViewModel> GetAllDeletedProducts(string searchQueryCapitalCase, string orderCriteria)
         {
             if (string.IsNullOrEmpty(searchQueryCapitalCase))
             {
-                return this.productsService.GetAllDeletedProducts().To<ProductShortInfoViewModel>().ToArray();
+                return this.productsService.GetAllDeletedProducts(orderCriteria)
+                                           .To<ProductShortInfoViewModel>().ToArray();
             }
 
-            return this.productsService.GetAllSearchedProductsOutOfStock(searchQueryCapitalCase);
+            return this.productsService.GetAllSearchedProductsOutOfStock(searchQueryCapitalCase, orderCriteria)
+                                       .To<ProductShortInfoViewModel>().ToArray();
         }
 
         public bool IsProductEdited(ProductInfoViewModel model, Product product)

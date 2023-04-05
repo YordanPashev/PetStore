@@ -1,12 +1,11 @@
 ﻿namespace PetStore.Services.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
-
+    using PetStore.Common;
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;
@@ -32,65 +31,80 @@
             await this.productRepo.SaveChangesAsync();
         }
 
-        public IQueryable<Product> GetAllProductsInSale()
-            => this.productRepo.AllAsNoTracking()
-                    .Where(p => p.IsDeleted == false)
-                    .Include(p => p.Category)
-                    .OrderBy(p => p.Name);
+        public IQueryable<Product> GetAllProductsInSale(string orderCriteria)
+        {
+            IQueryable<Product> listOfProducts = this.productRepo.AllAsNoTracking()
+                                                                 .Where(p => p.IsDeleted == false)
+                                                                 .Include(p => p.Category);
+            listOfProducts = this.OrderByCriteria(orderCriteria, listOfProducts);
 
-        public IQueryable<Product> GetAllCategoryProductsInSale(string categoryName)
+            return listOfProducts;
+        }
+
+        public IQueryable<Product> GetAllCategoryProductsInSale(string categoryName, string orderCriteria)
         {
             if (categoryName == null)
             {
                 return Enumerable.Empty<Product>().AsQueryable();
             }
 
-            return this.productRepo.AllAsNoTracking()
-                    .Include(p => p.Category)
-                    .Where(p => p.Category.Name == categoryName)
-                    .OrderBy(p => p.Name);
+            IQueryable<Product> listOfProducts = this.productRepo.AllAsNoTracking()
+                                                                 .Include(p => p.Category)
+                                                                 .Where(p => p.Category.Name == categoryName);
+            listOfProducts = this.OrderByCriteria(orderCriteria, listOfProducts);
+
+            return listOfProducts;
         }
 
-        public IQueryable<Product> GetAllDeletedProducts()
-            => this.productRepo.AllAsNoTrackingWithDeleted()
-                    .Include(p => p.Category)
-                    .Where(p => p.IsDeleted)
-                    .OrderBy(p => p.Name);
+        public IQueryable<Product> GetAllDeletedProducts(string orderCriteria)
+        {
+            IQueryable<Product> listOfProducts = this.productRepo.AllAsNoTrackingWithDeleted()
+                                                                 .Include(p => p.Category)
+                                                                 .Where(p => p.IsDeleted);
+            listOfProducts = this.OrderByCriteria(orderCriteria, listOfProducts);
 
-        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsOutOfStock(string searchQueryCapitalCase)
-        => this.productRepo
-                    .AllAsNoTrackingWithDeleted()
-                    .Where(p => p.IsDeleted)
-                    .Include(p => p.Category)
-                    .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
-                                p.Category.Name.ToUpper().Contains(searchQueryCapitalCase))
-                    .To<ProductShortInfoViewModel>()
-                    .ToList();
+            return listOfProducts;
+        }
 
-        public ICollection<ProductShortInfoViewModel> GetAllSearchedProductsInSale(string searchQueryCapitalCase)
-            => this.productRepo
-                    .AllAsNoTracking()
-                    .Include(p => p.Category)
-                    .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
-                                p.Category.Name.ToUpper().Contains(searchQueryCapitalCase))
-                    .To<ProductShortInfoViewModel>()
-                    .ToList();
+        public IQueryable<Product> GetAllSearchedProductsOutOfStock(string searchQueryCapitalCase, string orderCriteria)
+        {
+            IQueryable<Product> listOfProducts = this.productRepo.AllAsNoTrackingWithDeleted()
+                                                                 .Where(p => p.IsDeleted)
+                                                                 .Include(p => p.Category)
+                                                                 .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
+                                                                             p.Category.Name.ToUpper().Contains(searchQueryCapitalCase));
+            listOfProducts = this.OrderByCriteria(orderCriteria, listOfProducts);
 
-        public ICollection<ProductShortInfoViewModel> GetAllSearchedCategoryProductsInSale(string searchQueryCapitalCase, string categoryName)
+            return listOfProducts;
+        }
+
+        public IQueryable<Product> GetAllSearchedProductsInSale(string searchQueryCapitalCase, string orderCriteria)
+        {
+            IQueryable<Product> listOfProducts = this.productRepo.AllAsNoTracking()
+                                                                 .Include(p => p.Category)
+                                                                 .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
+                                                                                          p.Category.Name.ToUpper().Contains(searchQueryCapitalCase));
+            listOfProducts = this.OrderByCriteria(orderCriteria, listOfProducts);
+
+            return listOfProducts;
+        }
+
+        public IQueryable<Product> GetAllSearchedCategoryProductsInSale(string searchQueryCapitalCase, string categoryName, string orderCriteria)
         {
             if (categoryName == null)
             {
-                return Enumerable.Empty<ProductShortInfoViewModel>().ToList();
+                return Enumerable.Empty<Product>().AsQueryable();
             }
 
-            return this.productRepo.AllAsNoTracking()
-                    .Include(p => p.Category)
-                    .Where(p => p.Category.Name == categoryName)
-                    .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
-                                p.Category.Name.ToUpper().Contains(searchQueryCapitalCase))
-                    .OrderBy(p => p.Name)
-                    .To<ProductShortInfoViewModel>()
-                    .ToList();
+            IQueryable<Product> listOfProducts = this.productRepo.AllAsNoTracking()
+                                                                 .Include(p => p.Category)
+                                                                 .Where(p => p.Category.Name == categoryName)
+                                                                 .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
+                                                                             p.Category.Name.ToUpper().Contains(searchQueryCapitalCase));
+
+            listOfProducts = this.OrderByCriteria(orderCriteria, listOfProducts);
+
+            return listOfProducts;
         }
 
         public async Task<Product> GetByProductIdAsync(string id)
@@ -112,12 +126,11 @@
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<DetailsProductViewModel> GetDeletedProductByIdAsyncNoTracking(string id)
+        public async Task<Product> GetDeletedProductByIdAsyncNoTracking(string id)
             => await this.productRepo
                     .AllAsNoTrackingWithDeleted()
                     .Where(p => p.IsDeleted)
                     .Include(p => p.Category)
-                    .To<DetailsProductViewModel>()
                     .FirstOrDefaultAsync(p => p.Id == id);
 
         public bool IsProductExistingInDb(string productName)
@@ -141,6 +154,32 @@
             product.DeletedOn = null;
             product.IsDeleted = false;
             await this.productRepo.SaveChangesAsync();
+        }
+
+        private IQueryable<Product> OrderByCriteria(string orderCriteria, IQueryable<Product> listOfPets)
+        {
+            if (orderCriteria == GlobalConstants.CriteriaPriceAscending)
+            {
+                return listOfPets.OrderBy(p => p.Price)
+                                 .ThenBy(p => p.Name);
+            }
+            else if (orderCriteria == GlobalConstants.CriteriaPriceDescending)
+            {
+                return listOfPets.OrderByDescending(p => p.Price)
+                                 .ThenBy(p => p.Name);
+            }
+            else if (orderCriteria == GlobalConstants.CriteriaType)
+            {
+                return listOfPets.OrderBy(p => p.Category.Name)
+                                 .ThenBy(p => p.Name);
+            }
+            else if (orderCriteria == GlobalConstants.CriteriaRecent)
+            {
+                return listOfPets.OrderByDescending(p => p.CreatedOn)
+                                 .ThenBy(p => p.Name);
+            }
+
+            return listOfPets.OrderBy(p => p.Name);
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
 
     public static class GlobalConstants
     {
@@ -125,13 +126,14 @@
 
         public const string CriteriaName = "Name";
 
-        public static readonly IList<string> OrderByCriteria = new ReadOnlyCollection<string>(new List<string>
-        {
-            CriteriaPriceAscending,
-            CriteriaPriceDescending,
-            CriteriaType,
-            CriteriaRecent,
-            CriteriaName,
-        });
+        public static readonly string[] AllOrderByCriteria = new ReadOnlyCollection<string>(new List<string>
+                                                             {
+                                                                 CriteriaPriceAscending,
+                                                                 CriteriaPriceDescending,
+                                                                 CriteriaType,
+                                                                 CriteriaRecent,
+                                                                 CriteriaName,
+                                                             })
+                                                             .ToArray();
     }
 }

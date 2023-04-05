@@ -22,13 +22,13 @@
             this.petsControllerExtension = new PetsControllerExtension(petsService);
         }
 
-        public IActionResult Index(SearchAndSortPetViewModel searchModel)
+        public IActionResult Index(SearchAndSortPetViewModel searchAndSortModel)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
-                ListOfPets = this.petsControllerExtension.GetPets(searchModel.PetTypeName, searchModel.SearchQuery, searchModel.OrderCriteria),
-                PetTypeName = searchModel.PetTypeName,
-                SearchQuery = searchModel.SearchQuery,
+                ListOfPets = this.petsControllerExtension.GetPets(searchAndSortModel.PetTypeName, searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
+                PetTypeName = searchAndSortModel.PetTypeName,
+                SearchQuery = searchAndSortModel.SearchQuery,
             };
 
             return this.petsControllerExtension.ViewOrNoPetsFound(model);

@@ -5,28 +5,49 @@
 	ViewData["Title"] = "Deleted Products";
 }
 
-<div class="row">
-	<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
-	<div class="col-md-4 justify-content-end" style="float: left">
-		<form method="get" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">
-			<div class="input-group">
-				@if (Model.SearchQuery == null)
-				{
-					<input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
-				}
-				else
-				{
-					<input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
-				}
-				<div class="input-group-btn">
-					<button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
 @if (Model.ListOfProducts.Count > 0)
 {
+	<form method="get" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">
+		<div class="row">
+			<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+			<div class="col-md-4 justify-content-end" style="float: left">
+				<div class="input-group">
+					@if (Model.SearchQuery == null)
+					{
+						<input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
+					}
+					else
+					{
+						<input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+					}
+					<div class="input-group-btn">
+						<button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="navbar mr-4">
+				<ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+					<li class="nav-item">
+						<div class="dropdown">
+							<button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+								Order by
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
+								@foreach (string orderCriteria in GlobalConstants.AllOrderByCriteria)
+								{
+									<li>
+										<button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
+									</li>
+								}
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</form>
 	<table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
 		<thead>
 			<tr>

@@ -23,16 +23,16 @@
         }
 
         [HttpGet]
-        public IActionResult Index(SearchAndSortProductViewModel searchModel)
+        public IActionResult Index(SearchAndSortProductViewModel searchAndSortModel)
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
-                ListOfProducts = this.productsControllerExtension.GetProductsInSale(searchModel.CategoryName, searchModel.SearchQuery),
-                CategoryName = searchModel.CategoryName,
-                SearchQuery = searchModel.SearchQuery,
+                ListOfProducts = this.productsControllerExtension.GetProductsInSale(searchAndSortModel.CategoryName, searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
+                CategoryName = searchAndSortModel.CategoryName,
+                SearchQuery = searchAndSortModel.SearchQuery,
             };
 
-            return this.productsControllerExtension.ViewOrNoProductsFound(searchModel, productsShortInfoModel);
+            return this.productsControllerExtension.ViewOrNoProductsFound(searchAndSortModel, productsShortInfoModel);
         }
 
         [HttpGet]
