@@ -43,8 +43,8 @@
                 if (!string.IsNullOrEmpty(searchQueryCapitalCase))
                 {
                     return this.petsService.GetAllSearchedPetsInSale(searchQueryCapitalCase, orderCriteria)
-                                               .To<PetDetailsViewModel>()
-                                               .ToArray();
+                                           .To<PetDetailsViewModel>()
+                                           .ToArray();
                 }
 
                 return this.petsService.GetAllPetsInSale(orderCriteria).To<PetDetailsViewModel>().ToArray();
@@ -53,8 +53,8 @@
             if (!string.IsNullOrEmpty(searchQueryCapitalCase))
             {
                 return this.petsService.GetAllSearchedTypePetsInSale(typeName, searchQueryCapitalCase, orderCriteria)
-                                           .To<PetDetailsViewModel>()
-                                           .ToArray();
+                                       .To<PetDetailsViewModel>()
+                                       .ToArray();
             }
 
             return this.petsService.GetAllTypePetsInSale(typeName, orderCriteria).To<PetDetailsViewModel>().ToArray();
@@ -65,8 +65,8 @@
             if (!string.IsNullOrEmpty(searchQueryCapitalCase))
             {
                 return this.petsService.GetAllSearchedRemovedPets(searchQueryCapitalCase, orderCriteria)
-                                           .To<PetDetailsViewModel>()
-                                           .ToArray();
+                                       .To<PetDetailsViewModel>()
+                                       .ToArray();
             }
 
             return this.petsService.GetAllRemovedPets(orderCriteria).To<PetDetailsViewModel>().ToArray();

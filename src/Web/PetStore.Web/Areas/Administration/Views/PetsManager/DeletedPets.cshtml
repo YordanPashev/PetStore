@@ -5,38 +5,44 @@
     this.ViewData["Title"] = "Removed Pets";
 }
 
-@if (Model.ListOfPets != null && Model.ListOfPets.Count > 0)
+<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+
+@if (this.Model.ListOfPets != null && this.Model.ListOfPets.Count > 0)
 {
     <form method="get" asp-controller="PetsManager" asp-action="DeletedPets">
-        <div class="row">
-            <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
-            <div class="col-md-4 justify-content-end" style="float: left">
-                <div class="input-group">
-                    @if (Model.SearchQuery == null)
-                    {
-                        <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Pet name...">
-                    }
-                    else
-                    {
-                        <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
-                    }
-                    <div class="input-group-btn">
-                        <button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">
-                            Search
-                        </button>
+        <div class="container mt-2">
+            <div class="row align-items-start">
+                <div class="col-md-4 justify-content-start">
+                </div>
+                <div class="col-md-4 justify-content-start">
+                    <div class="input-group">
+                        @if (this.Model.SearchQuery == null)
+                        {
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Search for pet">
+                        }
+                        else
+                        {
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                        }
+                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
+                        <div class="input-group-btn">
+                            <button class="btn btn-success m-auto" style="font-size: 15pt" onclick="this.form.submit()">Search</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="navbar mr-4">
-                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+        </div>
+        <div class="row align-items-start">
+            <div class="col-md-5 justify-content-start">
+                <div class="navbar">
+                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt;">
                         <li class="nav-item">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     Order by
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
-                                    @foreach (string orderCriteria in GlobalConstants.AllOrderByCriteria)
+                                    @foreach (string orderCriteria in GlobalConstants.AllOrderCriteria)
                                     {
                                         <li>
                                             <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
@@ -47,6 +53,13 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div class="col-md-4 mt-3 justify-content-start">
+                @if (this.Model.SearchQuery != null)
+                {
+                    string resultType = this.Model.ListOfPets.Count == 1 ? "pet found" : "pets found";
+                    <h3 style="font-style: italic; font-weight: bold">@this.Model.ListOfPets.Count @resultType found</h3>
+                }
             </div>
         </div>
     </form> 
@@ -61,19 +74,19 @@
             </tr>
         </thead>
         <tbody>
-                @foreach (var pet in Model.ListOfPets) 
-                {
-                    <tr name="trData">
-                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManger", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
-                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; text-align: start; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
-                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; color: gray; width: 300px; text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
-                        <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; color: darkorange; width: 320px;  text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
-                        <td style="text-align: end; font-weight: bold;">
-                            <a class="btn btn-info" style="font-size: 15pt" asp-controller="PetsManager" asp-action="DeletedPetDetails" asp-route-id="@pet.Id">Details</a>
-                            <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Return @pet.Name back to the shtop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="UndeletePet" asp-route-id="@pet.Id">Return back to the shop</a>
-                        </td>
-                    </tr>
-                }
+            @foreach (var pet in this.Model.ListOfPets) 
+            {
+                <tr name="trData">
+                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManger", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
+                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; text-align: start; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
+                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; color: gray; width: 300px; text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
+                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; color: darkorange; width: 320px;  text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
+                    <td style="text-align: end; font-weight: bold;">
+                        <a class="btn btn-info" style="font-size: 15pt" asp-controller="PetsManager" asp-action="DeletedPetDetails" asp-route-id="@pet.Id">Details</a>
+                        <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Return @pet.Name back to the shtop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="UndeletePet" asp-route-id="@pet.Id">Return back to the shop</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }
@@ -83,5 +96,5 @@ else
     <br/>
 }
 <div style="text-align:center">
-         <input class="btn btn-dark" value="Back" onclick="history.back()">
+    <input class="btn btn-dark" value="Back" onclick="history.back()">
 </div>

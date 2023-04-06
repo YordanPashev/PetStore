@@ -4,59 +4,54 @@
 @{
     this.ViewData["Title"] = "Products";
 
-    string[] oderCriteria = GlobalConstants.AllOrderByCriteria;
+    string[] oderCriteria = GlobalConstants.AllOrderCriteria;
 
     if (Model.CategoryName != null)
     {
-        oderCriteria = GlobalConstants.AllOrderByCriteria.Where(c => c != "Type").ToArray();
+        oderCriteria = GlobalConstants.AllOrderCriteria.Where(c => c != "Type").ToArray();
     }
 }
 
-<div class="row">
-    @if (ViewBag.CategoryName == null && Model.CategoryName == null)
-    {
-        <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
-    }
-    else
-    {
-        <h1 class="about-product text-left mt-2">
-            <img src="@ViewBag.CategoryImageURL" alt="No image" style="width:120px; height:100px; border:2px solid; border-radius: 5px">
-            @Model.CategoryName
-        </h1>     
-    }
-    @if (Model.ListOfProducts.Count > 0)
-    {
+@if (ViewBag.CategoryName == null && Model.CategoryName == null)
+{
+    <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+}
+else
+{
+    <h1 class="about-product text-left mt-2">
+        <img src="@ViewBag.CategoryImageURL" alt="No image" style="width:120px; height:100px; border:2px solid; border-radius: 5px">
+        @Model.CategoryName
+    </h1>     
+}
+@if (Model.ListOfProducts.Count > 0)
+{
     <form method="get" asp-controller="Products" asp-action="Index">
-        <Row style="width: 1240px;">
-            <Column>
-                <div class="col-md-4 mb-4 justify-content-end" style="float: left"> 
+        <div class="container mt-2">
+            <div class="row align-items-start">
+                <div class="col-md-4 justify-content-start">
+                </div>
+                <div class="col-md-4 justify-content-start">
                     <div class="input-group">
                         @if (Model.SearchQuery == null)
                         {
-                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Product name...">
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Search for product">
                         }
                         else
                         {
                             <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
                         }
-                            <input type="hidden" id="CategoryName" name="CategoryName" value="@Model.CategoryName">
+                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.CategoryName">
                         <div class="input-group-btn">
-                                <button class="btn btn-success m-auto" style="font-size: 15pt" type="submit">Search</button>
+                            <button class="btn btn-success m-auto" style="font-size: 15pt" onclick="this.form.submit()">Search</button>
                         </div>
                     </div>
                 </div>
-            </Column>
-            @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                <Column style="float: right;">
-                        <a class="btn btn-danger" style="font-size: 15pt" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">Deleted Products</a>
-                </Column>
-            }
-        </Row>
-        <Row>
-            <Column>
-                <div class="navbar mr-4">
-                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+            </div>
+        </div>
+        <div class="row align-items-start">
+            <div class="col-md-5 justify-content-start">
+                <div class="navbar">
+                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt;">
                         <li class="nav-item">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,7 +60,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
                                     @foreach (string orderCriteria in oderCriteria)
                                     {
-                                         <li>
+                                        <li>
                                             <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
                                         </li>
                                     }
@@ -74,8 +69,15 @@
                         </li>
                     </ul>
                 </div>
-            </Column>
-        </Row>
+            </div>
+            <div class="col-md-4 mt-3 justify-content-start">
+                @if (this.Model.SearchQuery != null)
+                {
+                string resultType = this.Model.ListOfProducts.Count == 1 ? "product" : "products";
+                <h3 style="font-style: italic; font-weight: bold">@this.Model.ListOfProducts.Count @resultType found</h3>
+                }
+            </div>
+        </div>
     </form>
     <table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
@@ -107,18 +109,18 @@
             }
         </tbody>
     </table>
-    }
-    else
-    {
-        <h1 style="text-align: center">No products found</h1> 
-        <br/>
-    }
-</div>
+}
+else
+{
+    <h1 style="text-align: center">No products found</h1> 
+    <br/>
+}
 
 <p class="d-grid gap-2 col-2 mx-auto">
     <input class="btn btn-dark" value="Back" onclick="history.back()">
     @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
     {
         <a class="btn btn-success" asp-area="Administration" asp-controller="Create" asp-action="CreateProduct">Add New Product</a>
+        <a class="btn btn-danger" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">Deleted Products</a>
     }     
 </p>

@@ -126,7 +126,7 @@
 
         public const string CriteriaName = "Name";
 
-        public static readonly string[] AllOrderByCriteria = new ReadOnlyCollection<string>(new List<string>
+        public static readonly string[] AllOrderCriteria = new ReadOnlyCollection<string>(new List<string>
                                                              {
                                                                  CriteriaPriceAscending,
                                                                  CriteriaPriceDescending,

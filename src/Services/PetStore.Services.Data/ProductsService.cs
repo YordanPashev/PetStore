@@ -83,7 +83,7 @@
             IQueryable<Product> listOfProducts = this.productRepo.AllAsNoTracking()
                                                                  .Include(p => p.Category)
                                                                  .Where(p => p.Name.ToUpper().Contains(searchQueryCapitalCase) ||
-                                                                                          p.Category.Name.ToUpper().Contains(searchQueryCapitalCase));
+                                                                             p.Category.Name.ToUpper().Contains(searchQueryCapitalCase));
             listOfProducts = this.OrderByCriteria(orderCriteria, listOfProducts);
 
             return listOfProducts;
