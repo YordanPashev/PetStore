@@ -94,7 +94,7 @@
             Category category = AutoMapperConfig.MapperInstance.Map<Category>(model);
             await this.categoriesService.AddCategoryAsync(category);
 
-            return this.RedirectToAction("Index", "Categories", new { message = GlobalConstants.SuccessfullyAddedProducCategoryMessage });
+            return this.RedirectToAction("Index", "Categories", new { area = string.Empty, message = GlobalConstants.SuccessfullyAddedProducCategoryMessage });
         }
 
         [HttpGet]
@@ -134,7 +134,7 @@
             product.Id = Guid.NewGuid().ToString();
             await this.productsService.AddProductAsync(product);
 
-            return this.RedirectToAction("Details", "Products", new { id = product.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
+            return this.RedirectToAction("Details", "Products", new { area = string.Empty, id = product.Id, message = GlobalConstants.SuccessfullyAddedProductMessage });
         }
     }
 }

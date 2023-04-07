@@ -12,6 +12,11 @@
     }
 }
 
+@if (this.ViewBag.UserMessage != null)
+{
+    <h1 class="text-center"><strong>@this.ViewBag.UserMessage</strong></h1>
+}
+
 @if (ViewBag.CategoryName == null && Model.CategoryName == null)
 {
     <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
