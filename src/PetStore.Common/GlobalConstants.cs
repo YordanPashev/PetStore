@@ -61,7 +61,6 @@
         // User Messages
 
         // Edit Categories Messages
-
         public const string CantDeleteCateoryWithProductsMessage = "A category with products can't be deleted. You can delete only categories with 0 products.";
 
         public const string CategoryAlreadyExistInDbMessage = "Category already exist.";
@@ -90,7 +89,6 @@
 
         public const string SuccessfullyAddedProductMessage = "A new product has been added to the shop:";
 
-
         public const string SuccessfullyDeleteProductMessage = " has been removed from the Shop.";
 
         public const string SuccessfullyEditProductMessage = "Edited result:";
@@ -98,7 +96,6 @@
         public const string SuccessfullyUndeleteProductMessage = " is now available in the shop.";
 
         // Edit User data Messages
-
         public const string UserNameMinLengthMessage = "The name must be at least 3 characters";
 
         public const string UserNameMaxLengthMessage = "The name must be max 100 characters";
