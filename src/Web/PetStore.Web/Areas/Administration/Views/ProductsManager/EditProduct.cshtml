@@ -3,38 +3,38 @@
 @model PetStore.Web.ViewModels.Products.EditProductViewModel
 
 @{
-    ViewData["Title"] = "Edit Product";
+    this.ViewData["Title"] = "Edit Product";
 }
 
-<h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+<h1 style="text-align:center; color:red">@this.Model.UserMessage</h1>
 
-<h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
+<h1 style="text-align:center"><strong>@this.ViewData["Title"]</strong></h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="EditProduct">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group mt-4">
                 <label for="Name" class="control-label">Name</label>
-                <input id="Name" name="Name" class="form-control" type="text" value="@Model.ProductInfo.Name" minlength="@ProductValidationConstants.NameMinLength" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength" required/>
+                <input id="Name" name="Name" class="form-control" type="text" value="@this.Model.ProductInfo.Name" minlength="@ProductValidationConstants.NameMinLength" minlength="@ProductValidationConstants.NameMinLength" maxlength="@ProductValidationConstants.NameMaxLength" required />
             </div>
             <div class="form-group">
                 <label for="Price" class="control-label">Price</label>
-                <input id="Price" name="Price" class="form-control" value="@Model.ProductInfo.Price" type="number" step="0.01" min="0.01" max="@ProductValidationConstants.PriceMaxValue" required/>
+                <input id="Price" name="Price" class="form-control" value="@this.Model.ProductInfo.Price" type="number" step="0.01" min="0.01" max="@ProductValidationConstants.PriceMaxValue" required/>
             </div>
             <div class="form-group">
                 <label for="ImageURL" class="control-label">Image URL</label>
-                <input id="ImageURL" name="ImageURL" pattern="@ProductValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" value="@Model.ProductInfo.ImageUrl" required/>
+                <input id="ImageURL" name="ImageURL" pattern="@ProductValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" value="@this.Model.ProductInfo.ImageUrl" required />
             </div>
             <div class="form-group">
                 <label for="Description" class="control-label">Description</label>
-                <input id="Description" name="Description" class="form-control" type="text" value="@Model.ProductInfo.Description" minlength="@ProductValidationConstants.DescriptionMinLength" maxlength="@ProductValidationConstants.DescriptionMaxLength" required/>
+                <input id="Description" name="Description" class="form-control" type="text" value="@this.Model.ProductInfo.Description" minlength="@ProductValidationConstants.DescriptionMinLength" maxlength="@ProductValidationConstants.DescriptionMaxLength" required />
             </div>
             <div class="form-group">
                 <label for="CategoryName" class="control-label">Category</label>
                 <select id="CategoryId" name="CategoryName" class="form-control" asp-items="ViewBag.CategoryId">
                     @{
-                        <option value="@Model.ProductInfo.CategoryName">@Model.ProductInfo.CategoryName</option>                  
-                        foreach (var category in Model.Categories.Where(c => c.Name != Model.ProductInfo.CategoryName))
+                        <option value="@this.Model.ProductInfo.CategoryName">@this.Model.ProductInfo.CategoryName</option>
+                        foreach (var category in this.Model.Categories.Where(c => c.Name != this.Model.ProductInfo.CategoryName))
                         {
                             <option value="@category.Name">@category.Name</option>
                         }
@@ -44,7 +44,7 @@
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto ">
                 <input type="submit" value="Edit" class="btn btn-success"/>
-                <a class="btn btn-danger" onclick="return confirm('Remove @Model.ProductInfo.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@Model.ProductInfo.Id">Delete</a>
+                <a class="btn btn-danger" onclick="return confirm('Remove @this.Model.ProductInfo.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@this.Model.ProductInfo.Id">Delete</a>
                 <input class="btn btn-dark mb-4" value="Back" onclick="history.back()">
             </div>
         </form>

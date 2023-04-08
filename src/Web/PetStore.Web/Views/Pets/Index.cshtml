@@ -12,6 +12,12 @@
         oderCriteria = GlobalConstants.AllOrderCriteria.Where(c => c != "Type").ToArray();
     }
 }
+@if (this.Model.UserMessage != null)
+{
+    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen; font-weight: bold; font-style: italic;">
+        @this.Model.UserMessage
+    </h1>
+}
 
 <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 
@@ -24,15 +30,15 @@
                 </div>
                 <div class="col-md-4 justify-content-start">
                     <div class="input-group">
-                        @if (Model.SearchQuery == null)
+                        @if (this.Model.SearchQuery == null)
                         {
                             <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" placeholder="Search for pet">
                         }
                         else
                         {
-                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@this.Model.SearchQuery">
                         }
-                            <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.PetTypeName">
+                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@this.Model.PetTypeName">
                         <div class="input-group-btn">
                             <button class="btn btn-success m-auto" style="font-size: 15pt" onclick="this.form.submit()">Search</button>
                         </div>
@@ -91,7 +97,7 @@
                     <td onclick="location.href='@Url.Action("Details", "Pets", new { pet.Id })'" style="font-size: 16pt; color: darkorange; width: 400px; text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
                     <td style="text-align: end; font-weight: bold;">
                         <a class="btn btn-info" style="font-size: 15pt" asp-controller="Pets" asp-action="Details" asp-route-id="@pet.Id">Details</a>
-                        @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a class="btn btn-dark" style="font-size: 15pt" asp-area="Administration" asp-controller="PetsManager" asp-action="EditPet" asp-route-id="@pet.Id">Edit</a>
                             <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Remove @pet.Name from the shop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@pet.Id">Remove</a>

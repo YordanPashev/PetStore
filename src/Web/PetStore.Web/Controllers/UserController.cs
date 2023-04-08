@@ -103,7 +103,7 @@
 
             if (!this.IsUserEdited(userInputModel, user) || userInputModel.Id != user.Id)
             {
-                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+                return this.RedirectToAction("Edit", new { id = userInputModel.Id, message = GlobalConstants.PleaseMakeYourChangesMessage });
             }
 
             await this.userService.UpdateUserDataAsync(userInputModel, user);

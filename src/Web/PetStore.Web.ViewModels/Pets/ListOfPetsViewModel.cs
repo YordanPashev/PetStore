@@ -15,5 +15,7 @@
         public string PetTypePlural => PetTypesHelper.GetPetTypePlural(this.PetTypeName);
 
         public string SearchQuery { get; set; }
+
+        public string UserMessage { get; set; }
     }
 }

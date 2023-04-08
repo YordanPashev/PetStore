@@ -3,35 +3,35 @@
 @model PetStore.Web.ViewModels.User.EditUserViewModel
 
 @{
-    ViewData["Title"] = "Edit Your Account";
+    this.ViewData["Title"] = "Edit Your Account";
 }
 
-<h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+<h1 style="text-align:center; color:red">@this.Model.UserMessage</h1>
 
-<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group mt-3 mb-3">
                 <label for="FirstName" class="control-label">First Name</label>
-                <input id="FirstName" name="FirstName" class="form-control" type="text" value="@Model.FirstName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
+                <input id="FirstName" name="FirstName" class="form-control" type="text" value="@this.Model.FirstName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
             </div>
             <div class="form-group mb-3">
                 <label for="LastName" class="control-label">Last Name</label>
-                <input id="LastName" name="LastName" class="form-control" type="text" value="@Model.LastName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
+                <input id="LastName" name="LastName" class="form-control" type="text" value="@this.Model.LastName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
             </div>
             <div class="form-group mb-3">
                 <label for="Email" class="control-label">Email</label>
-                <input id="Email" name="Email" class="form-control" type="email" value="@Model.Email" title="@GlobalConstants.UserPhoneNumberErrormessage" required />
+                <input id="Email" name="Email" class="form-control" type="email" value="@this.Model.Email" title="@GlobalConstants.UserPhoneNumberMessage" required />
             </div>
             <div class="form-group mb-3">
                 <label for="PhoneNumber" class="control-label">Phone Number</label>
-                <input id="PhoneNumber" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" pattern="@UserValidationConstants.PhoneNumberRrgex" title="@GlobalConstants.UserPhoneNumberErrormessage" required />
+                <input id="PhoneNumber" name="PhoneNumber" class="form-control" value="@this.Model.PhoneNumber" pattern="@UserValidationConstants.PhoneNumberRrgex" title="@GlobalConstants.UserPhoneNumberMessage" required />
             </div>
             <div class="form-group mb-3">
                 <label for="AddressText" class="control-label">Delivery Address</label>
-                <input id="AddressText" name="AddressText" class="form-control" value="@Model.AddressText" pattern="@UserValidationConstants.DeliveryAddressRrgex" title="@GlobalConstants.UserDeliveryAddressErrormessage" required />
+                <input id="AddressText" name="AddressText" class="form-control" value="@this.Model.AddressText" pattern="@UserValidationConstants.DeliveryAddressRrgex" title="@GlobalConstants.UserDeliveryAddressMessage" required />
             </div>
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto mb-3">

@@ -13,13 +13,13 @@
         public string Id { get; set; }
 
         [Required]
-        [MinLength(UserValidationConstants.NameMinLength, ErrorMessage = GlobalConstants.UserNameMinLengthErrormessage)]
-        [MaxLength(UserValidationConstants.NameMaxLength, ErrorMessage = GlobalConstants.UserNameMaxLengthErrormessage)]
+        [MinLength(UserValidationConstants.NameMinLength, ErrorMessage = GlobalConstants.UserNameMinLengthMessage)]
+        [MaxLength(UserValidationConstants.NameMaxLength, ErrorMessage = GlobalConstants.UserNameMaxLengthMessage)]
         public string FirstName { get; set; }
 
         [Required]
-        [MinLength(UserValidationConstants.NameMinLength, ErrorMessage = GlobalConstants.UserNameMinLengthErrormessage)]
-        [MaxLength(UserValidationConstants.NameMaxLength, ErrorMessage = GlobalConstants.UserNameMaxLengthErrormessage)]
+        [MinLength(UserValidationConstants.NameMinLength, ErrorMessage = GlobalConstants.UserNameMinLengthMessage)]
+        [MaxLength(UserValidationConstants.NameMaxLength, ErrorMessage = GlobalConstants.UserNameMaxLengthMessage)]
         public string LastName { get; set; }
 
         [Required]
@@ -27,11 +27,11 @@
         public string Email { get; set; }
 
         [Required]
-        [RegularExpression(UserValidationConstants.PhoneNumberRrgex, ErrorMessage = GlobalConstants.UserPhoneNumberErrormessage)]
+        [RegularExpression(UserValidationConstants.PhoneNumberRrgex, ErrorMessage = GlobalConstants.UserPhoneNumberMessage)]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [RegularExpression(UserValidationConstants.DeliveryAddressRrgex, ErrorMessage = GlobalConstants.UserDeliveryAddressErrormessage)]
+        [RegularExpression(UserValidationConstants.DeliveryAddressRrgex, ErrorMessage = GlobalConstants.UserDeliveryAddressMessage)]
         public string AddressText { get; set; }
 
         public string UserMessage { get; set; }

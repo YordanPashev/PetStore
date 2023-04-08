@@ -94,7 +94,7 @@
 
             if (!this.productsControllerExtension.IsProductEdited(userInputModel, product))
             {
-                return this.RedirectToAction("EditProduct", "ProductsManager", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+                return this.RedirectToAction("EditProduct", "ProductsManager", new { id = userInputModel.Id, message = GlobalConstants.PleaseMakeYourChangesMessage });
             }
 
             await this.productService.UpdateProductDataAsync(userInputModel, product);

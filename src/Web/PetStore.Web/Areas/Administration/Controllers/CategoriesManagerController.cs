@@ -99,14 +99,14 @@
 
             if (!this.ModelState.IsValid || !this.categoriesService.IsCategoryEdited(category, userInputModel))
             {
-                string message = !this.ModelState.IsValid ? GlobalConstants.InvalidDataErrorMessage : GlobalConstants.EditMessage;
+                string message = !this.ModelState.IsValid ? GlobalConstants.InvalidDataErrorMessage : GlobalConstants.PleaseMakeYourChangesMessage;
 
                 return this.RedirectToAction("EditCategory", "CategoriesManager", new { id = userInputModel.Id, message });
             }
 
             if (!this.IsCategoryEdited(userInputModel, category))
             {
-                return this.RedirectToAction("EditCategory", "CategoriesManager", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+                return this.RedirectToAction("EditCategory", "CategoriesManager", new { id = userInputModel.Id, message = GlobalConstants.PleaseMakeYourChangesMessage });
             }
 
             await this.categoriesService.UpdateCategoryAsync(category, userInputModel);

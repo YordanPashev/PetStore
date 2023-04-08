@@ -88,7 +88,7 @@
 
             if (this.categoriesService.IsCategoryExistingInDb(model.Name))
             {
-                return this.RedirectToAction("CreateCategory", "Create", new { errorMessage = GlobalConstants.ProductCategoryAlreadyExistInDbErrorMessage });
+                return this.RedirectToAction("CreateCategory", "Create", new { errorMessage = GlobalConstants.CategoryAlreadyExistInDbMessage });
             }
 
             Category category = AutoMapperConfig.MapperInstance.Map<Category>(model);

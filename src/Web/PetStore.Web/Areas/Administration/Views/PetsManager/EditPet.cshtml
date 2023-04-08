@@ -3,44 +3,44 @@
 @model PetStore.Web.ViewModels.Products.EditPetViewModel
 
 @{
-    ViewData["Title"] = "Edit Pet";
+    this.ViewData["Title"] = "Edit Pet";
 }
 
-<h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+<h1 style="text-align:center; color:red">@this.Model.UserMessage</h1>     
 
-<h1 style="text-align: center; font-weight: bold">@ViewData["Title"]</h1>
+<h1 style="text-align: center; font-weight: bold">@this.ViewData["Title"]</h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="EditPet" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" style="color: red; background-color: yellow; font-weight: bold; font-style: italic; border-radius: 5px"></div>
             <div class="form-group mt-4">
                 <label for="Name" class="control-label">Name</label>
-                <input id="Name" name="Name" class="form-control" type="text" value="@Model.Name" minlength="@PetValidationConstants.NameMinLength" maxlength="@PetValidationConstants.NameMaxLength" required />
+                <input id="Name" name="Name" class="form-control" type="text" value="@this.Model.Name" minlength="@PetValidationConstants.NameMinLength" maxlength="@PetValidationConstants.NameMaxLength" required />
             </div>
             <div class="form-group">
                 <label for="BirthDate" class="control-label">Date of birth</label>
-                 <input id="BirthDate" name="BirthDate" class="form-control" type="date" value="@Model.BirthDate.ToString("yyyy-MM-dd")"required/>
+                <input id="BirthDate" name="BirthDate" class="form-control" type="date" value="@this.Model.BirthDate.ToString("yyyy-MM-dd")" required />
             </div>
             <div class="form-group">
                 <label for="Description" class="control-label">Breed</label>
-                <input id="Description" name="Breed" class="form-control" type="text" value="@Model.Breed" minlength="@PetValidationConstants.BreedMinLength" maxlength="@PetValidationConstants.BreedMaxLength" required/>
+                <input id="Description" name="Breed" class="form-control" type="text" value="@this.Model.Breed" minlength="@PetValidationConstants.BreedMinLength" maxlength="@PetValidationConstants.BreedMaxLength" required/>
             </div>
             <div class="form-group">
                 <label for="Price" class="control-label">Price</label>
-                <input id="Price" name="Price" class="form-control" value="@Model.Price" type="number" step="0.01" min="0.01" max="@PetValidationConstants.PriceMaxValue" required/>
+                <input id="Price" name="Price" class="form-control" value="@this.Model.Price" type="number" step="0.01" min="0.01" max="@PetValidationConstants.PriceMaxValue" required />
             </div>
             <div class="form-group">
                 <label for="ImageURL" class="control-label">Image URL</label>
-                <input id="ImageURL" name="ImageURL" pattern="@ProductValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" value="@Model.ImageUrl" required/>
+                <input id="ImageURL" name="ImageURL" pattern="@ProductValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" value="@this.Model.ImageUrl" required />
             </div>
             <div class="form-group">
                 <label for="TypeName" class="control-label">Type</label>
                 <select id="TypeName" name="TypeName" class="form-control">>
                     @{
-                        <option value="@Model.TypeName">@Model.TypeName</option>                  
-                        foreach (var petTypeName in Model.PetTypes.Where(c => c != Model.TypeName))
+                        <option value="@this.Model.TypeName">@this.Model.TypeName</option>
+                        foreach (var petTypeName in this.Model.PetTypes.Where(c => c != this.Model.TypeName))
                         {
-                            <option value="@Model.TypeName">@petTypeName</option>
+                            <option value="@this.Model.TypeName">@petTypeName</option>
                         }
                     }
                 </select>
@@ -48,7 +48,7 @@
             <br/>
             <div class="d-grid gap-2 col-6 mx-auto">
                 <input type="submit" value="Edit" class="btn btn-success"/>
-                <a class="btn btn-danger" onclick="return confirm('Remove @Model.Name from the shop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@Model.Id">Delete</a>
+                <a class="btn btn-danger" onclick="return confirm('Remove @this.Model.Name from the shop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletePet" asp-route-id="@this.Model.Id">Delete</a>
                 <input class="btn btn-dark mb-4" value="Back" onclick="history.back()">
             </div>
         </form>

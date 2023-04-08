@@ -3,34 +3,33 @@
 @model PetStore.Web.ViewModels.Products.DetailsProductViewModel
 
 @{
-    ViewData["Title"] = $"{Model.Name}";
+    this.ViewData["Title"] = $"{this.Model.Name}";
 }
 
-<h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
-<h4 style="text-align:center; color: gray"><i>Category: @Model.CategoryName</i></h4>
+<h1 style="text-align:center"><strong>@this.ViewData["Title"]</strong></h1>
+<h4 style="text-align:center; color: gray"><i>Category: @this.Model.CategoryName</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
-        <div class="about-product text-center mt-2"><img src="@Model.ImageUrl" width="600"  alt="No image">
+        <div class="about-product text-center mt-2"><img src="@this.Model.ImageUrl" width="600"  alt="No image">
             
             <div>
                 <h6 style="font-size: 18pt; font-weight:bold; font-style: italic;">Description:</h6>
-                <h6 style="font-size: 16pt;">@Model.Description</h6>
+                <h6 style="font-size: 16pt;">@this.Model.Description</h6>
             </div>
             <br />
-            <div style="color: darkorange; font-size: 18pt; font-weight: bold;">Price: @Math.Round(Model.Price, 2) $</div>
+            <div style="color: darkorange; font-size: 18pt; font-weight: bold;">Price: @Math.Round(this.Model.Price, 2) $</div>
             <br/> 
             <div style="font-size: 18pt; text-align:center">
-                <p style="text-align:center"><i><strong>Created on</strong></i> @Model.CreatedOn.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
-                <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
-                <p style="text-align:center"><i><strong>Deleted on</strong></i> @Model.DeletedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
+                <p style="text-align:center"><i><strong>Created on</strong></i> @this.Model.CreatedOn.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
+                <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @this.Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
+                <p style="text-align:center"><i><strong>Deleted on</strong></i> @this.Model.DeletedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
             </div>
             <div>
                  <div class="d-grid gap-2 col-6 mx-auto">
-                     <a class="btn btn-danger" style="font-size: 18pt;" onclick="return confirm('Return @Model.Name back to the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="UndeleteProduct" asp-route-id="@Model.Id">Undelete</a>
+                    <a class="btn btn-danger" style="font-size: 18pt;" onclick="return confirm('Return @this.Model.Name back to the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="UndeleteProduct" asp-route-id="@this.Model.Id">Undelete</a>
                     <input class="btn btn-dark" style="font-size: 18pt;" value="Back" onclick="history.back()">
                 </div>
             </div>
         </div>
     </div>
 </div>
-

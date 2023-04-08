@@ -6,13 +6,13 @@
 @{
     this.ViewData["Title"] = "Deleted Categories";
 }
-@if(!string.IsNullOrEmpty(ViewBag.Message))
+@if (!string.IsNullOrEmpty(this.ViewBag.Message))
 {
-     <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
-        <i>@ViewBag.Message</i>
+     <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;">
+        <i>@this.ViewBag.Message</i>
     </h1>  
 }
-@if (Model.Count > 0)
+@if (this.Model.Count > 0)
 {
     <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
     <table class="table mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var category in Model)
+            @foreach (var category in this.Model)
             {
                 <tr name="trData">
                     <td class="about-product text-start mt-2" width="180"><img src="@category.ImageURL" width="160" alt="No Image"></td>

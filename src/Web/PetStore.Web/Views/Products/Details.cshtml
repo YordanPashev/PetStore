@@ -3,10 +3,10 @@
 @model PetStore.Web.ViewModels.Products.DetailsProductViewModel
 
 @{
-    ViewData["Title"] = $"{Model.Name}";
+    this.ViewData["Title"] = $"{this.Model.Name}";
 }
 
-@if (Model.UserMessage != null)
+@if (this.Model.UserMessage != null)
 {
     <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
         <i>@Model.UserMessage</i>
@@ -15,14 +15,14 @@
 }
 
 <h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
-<h4 style="text-align:center; color: gray"><i>Category: @Model.CategoryName</i></h4>
+<h4 style="text-align:center; color: gray"><i>Category: @this.Model.CategoryName</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3" style="background-color: #F7F7F7;"><i class="fa fa-apple"></i>
-        <div class="about-product text-center mt-2 mb-2"><img src="@Model.ImageUrl" width="500"  alt="No image"></div>
+        <div class="about-product text-center mt-2 mb-2"><img src="@this.Model.ImageUrl" width="500" alt="No image"></div>
         <div style="text-align:center">
-            <h6 style="font-size: 18pt;">@Model.Description</h6>
+            <h6 style="font-size: 18pt;">@this.Model.Description</h6>
         </div>
-        <div style="color: darkorange; font-size: 24pt; text-align:center; font-weight: bold">Price: @Math.Round(Model.Price, 2) $</div>
+        <div style="color: darkorange; font-size: 24pt; text-align:center; font-weight: bold">Price: @Math.Round(this.Model.Price, 2) $</div>
         @if(User.Identity.IsAuthenticated)
         {
             <div style="text-align:center">
@@ -37,7 +37,7 @@
         }
         <div class="mb-3" style="text-align:center">
             <a class="btn btn-dark" style="width: 200px; font-size: 18pt; float: left" asp-action="Index">All Products</a>
-            <a class="btn btn-info" style="font-size: 18pt; float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@Model.Category.Id">More @Model.CategoryName</a>
+            <a class="btn btn-info" style="font-size: 18pt; float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@this.Model.Category.Id">More @this.Model.CategoryName</a>
         </div>
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
@@ -48,16 +48,16 @@
                 <div class="card p-3 bg-white">
                     <i class="fa fa-apple"></i>
                     <div style="font-size: 18pt; text-align:center">
-                        <p><i><strong>Created on</strong></i> @Model.CreatedOn.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
-                        @if(Model.ModifiedOn != null)
+                        <p><i><strong>Created on</strong></i> @this.Model.CreatedOn.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
+                        @if(this.Model.ModifiedOn != null)
                         {
-                            <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
+                            <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @this.Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
                         }
                         <br/>
                     </div>
                     <p class="d-grid gap-2 col-6 mx-auto">
-                        <a class="btn btn-secondary" style="font-size: 16pt;" asp-area="Administration" asp-area="Administration" asp-controller="ProductsManager" asp-action="EditProduct" asp-route-id="@Model.Id">Edit</a>
-                        <a class="btn btn-danger" style="font-size: 16pt;" onclick="return confirm('Remove @Model.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@Model.Id">Delete product</a>
+                        <a class="btn btn-secondary" style="font-size: 16pt;" asp-area="Administration" asp-area="Administration" asp-controller="ProductsManager" asp-action="EditProduct" asp-route-id="@this.Model.Id">Edit</a>
+                        <a class="btn btn-danger" style="font-size: 16pt;" onclick="return confirm('Remove @this.Model.Name from the shtop?');" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeleteProduct" asp-route-id="@this.Model.Id">Delete product</a>
                         <input class="btn btn-dark" style="font-size: 16pt;" value="Back" onclick="history.back()">
                     </p>
                 </div>
@@ -66,7 +66,3 @@
         }  
     </div>
 </div>
-
-
-
-

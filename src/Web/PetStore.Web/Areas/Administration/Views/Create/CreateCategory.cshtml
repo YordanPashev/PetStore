@@ -3,16 +3,16 @@
 
 @model string
 @{
-    ViewData["Title"] = "Create Category";
+    this.ViewData["Title"] = "Create Category";
 }
 
-@if (@ViewBag.ErrorMessage != null)
+@if (this.ViewBag.ErrorMessage != null)
 {
     <h1 style="text-align:center; color:red"> 
-    @ViewBag.ErrorMessage<br/>
-</h1>
+        @this.ViewBag.ErrorMessage<br />
+    </h1>
 }
-<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="CreateCategory">

@@ -2,7 +2,7 @@
 @model PetStore.Web.ViewModels.User.UserShortInfoViewModel[]
 
 @{
-    ViewData["Title"] = "List of all Users";
+    this.ViewData["Title"] = "List of all Users";
 }
 
 @if (!string.IsNullOrEmpty(this.ViewBag.Message))
@@ -14,7 +14,7 @@
 }
 
 <div class="row">
-    <h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+    <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 </div>
 
 @if (this.Model.Length > 0)

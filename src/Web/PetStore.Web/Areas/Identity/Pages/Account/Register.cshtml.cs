@@ -108,12 +108,12 @@ namespace PetStore.Web.Areas.Identity.Pages.Account
 			public string Email { get; set; }
 
             [Required]
-            [RegularExpression(UserValidationConstants.PhoneNumberRrgex, ErrorMessage = GlobalConstants.UserPhoneNumberErrormessage)]
+            [RegularExpression(UserValidationConstants.PhoneNumberRrgex, ErrorMessage = GlobalConstants.UserPhoneNumberMessage)]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 			
             [Required]
-            [RegularExpression(UserValidationConstants.DeliveryAddressRrgex, ErrorMessage = GlobalConstants.UserDeliveryAddressErrormessage)]
+            [RegularExpression(UserValidationConstants.DeliveryAddressRrgex, ErrorMessage = GlobalConstants.UserDeliveryAddressMessage)]
             [Display(Name = "Delivery address")]
             public string DeliveryAddress { get; set; }
 

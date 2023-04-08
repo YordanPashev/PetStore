@@ -28,6 +28,25 @@
         }
 
         [HttpGet]
+        public async Task<IActionResult> DeletePet(string id)
+        {
+            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
+
+            if (pet != null)
+            {
+                await this.petsService.DeletePetAsync(pet);
+                SearchAndSortPetViewModel model = new SearchAndSortPetViewModel()
+                {
+                    UserMessage = GlobalConstants.SuccessfullyDeletedPetMessage,
+                };
+
+                return this.RedirectToAction("Index", "Pets", new { area = string.Empty, model });
+            }
+
+            return this.RedirectToAction("Index", "Pets", new { area = string.Empty });
+        }
+
+        [HttpGet]
         public IActionResult DeletedPets(SearchAndSortPetViewModel searchAndSortModel)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
@@ -80,28 +99,12 @@
 
             if (!this.petsControllerExtension.IsPetEdited(userInputModel, pet))
             {
-                return this.RedirectToAction("EditPet", "PetsManager", new { id = userInputModel.Id, message = GlobalConstants.EditMessage });
+                return this.RedirectToAction("EditPet", "PetsManager", new { id = userInputModel.Id, message = GlobalConstants.PleaseMakeYourChangesMessage });
             }
 
             await this.petsService.UpdatePetDataAsync(userInputModel, pet, petType);
 
             return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeletePet(string id)
-        {
-            Pet pet = await this.petsService.GetPetByIdForEditAsync(id);
-
-            if (pet != null)
-            {
-                await this.petsService.DeletePetAsync(pet);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyDeletePetMessage;
-
-                return this.View("SuccessfulOperationTextMessage");
-            }
-
-            return this.RedirectToAction("DeletedPets");
         }
 
         [HttpGet]
@@ -112,9 +115,12 @@
             if (pet != null)
             {
                 await this.petsService.UndeletePetAsync(pet);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeletePetMessage;
+                SearchAndSortPetViewModel model = new SearchAndSortPetViewModel()
+                {
+                    UserMessage = GlobalConstants.SuccessfullyDeletedPetMessage,
+                };
 
-                return this.View("SuccessfulOperationTextMessage");
+                return this.RedirectToAction("Index", "Pets", new { area = string.Empty, model });
             }
 
             return this.RedirectToAction("DeletedPets");

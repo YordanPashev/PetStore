@@ -2,15 +2,15 @@
 @model List<PetTypeViewModel>
 
 @{
-   ViewData["Title"] = "Pet Types";
+   this.ViewData["Title"] = "Pet Types";
 }
 
-<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 
-@if (Model.Count() > 0)
+@if (this.Model.Count() > 0)
 {
     <div class="row">
-        @foreach (var petType in Model)
+        @foreach (var petType in this.Model)
         {
             <div class="col-sm-6 mt-4">
                 <div class="card" style="height: 23rem; border: 3px solid; border-radius: 15px; border-color: whitesmoke; background-image: url(@petType.ImageUrl); background-size: 100% 100%;" >

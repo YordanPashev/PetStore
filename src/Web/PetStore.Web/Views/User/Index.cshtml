@@ -5,7 +5,7 @@
 @model PetStore.Web.ViewModels.User.UserDetailsViewModel
 
 @{
-    ViewData["Title"] = $"Client Details";
+    this.ViewData["Title"] = $"Client Details";
 }
 
 @if (this.Model.AddressId == null || this.Model.ClientCard == null)
@@ -14,46 +14,46 @@
 }
 else
 {
-    <h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
+    <h1 style="text-align:center"><strong>@this.ViewData["Title"]</strong></h1>
     <div class="d-flex justify-content-center container mt-3">
         <div class="card p-3" style="background-color: #F7F7F7;">
             <i class="fa fa-apple"></i>
             <table class="table table-striped">
                 <tr name="trData">
                     <td style="font-size:24px;"><strong>Full Name:</strong></td>
-                    <td style="font-size:24px;"><i>@Model.FirstName @Model.LastName</i></td>
+                    <td style="font-size:24px;"><i>@this.Model.FirstName @this.Model.LastName</i></td>
                 </tr>
                 <tr name="trData">
-                    <td style="font-size:24px;"><strong>Email:</strong></td> 
-                    <td style="font-size:24px;"><i>@Model.Email</i></td>
+                    <td style="font-size:24px;"><strong>Email:</strong></td>
+                    <td style="font-size:24px;"><i>@this.Model.Email</i></td>
                 </tr>
                 <tr name="trData">
                     <td style="font-size:24px;"><strong>Phone Number:</strong></td>
-                    <td style="font-size:24px;"><i>@Model.PhoneNumber</i></td>
+                    <td style="font-size:24px;"><i>@this.Model.PhoneNumber</i></td>
                 </tr>
                 <tr name="trData">
                     <td style="font-size:24px;"><strong>Adress:</strong></td>
-                    <td style="font-size:24px;"><i>@Model.Address.AddressText</i></td>
+                    <td style="font-size:24px;"><i>@this.Model.Address.AddressText</i></td>
                 </tr>
                 <tr name="trData">
                     <td style="font-size:24px;"><strong>Date of registration:</strong></td>
-                    <td style="font-size:24px;"><i>@Model.CreatedOn.ToString(GlobalConstants.DefaultDateDateFormat)</i></td>
+                    <td style="font-size:24px;"><i>@this.Model.CreatedOn.ToString(GlobalConstants.DefaultDateDateFormat)</i></td>
                 </tr>
             </table>
             <div class="card mb-4" style="margin: 0 auto; width: 500px; height: 300px; border-radius: 20px; background-image: url('https://cdn.pixabay.com/photo/2018/10/01/09/21/pets-3715733__340.jpg'); background-size: 100% 100%;">
                 <div style="font-size:20px;"><i><strong>PetStore Client Card</strong></i></div>
-                <div style="font-size:20px;"><strong>Number:</strong> <i>@Model.ClientCard.CardNumber</i></div>
-                <div style="font-size:20px;"><strong>Discount:</strong> <i>@Model.ClientCard.Discount%</i></div>
+                <div style="font-size:20px;"><strong>Number:</strong> <i>@this.Model.ClientCard.CardNumber</i></div>
+                <div style="font-size:20px;"><strong>Discount:</strong> <i>@this.Model.ClientCard.Discount%</i></div>
                 <div style="font-size:18px; position: absolute; bottom: 0; right:0%; left:50%;">
-                    <i><strong>Expiration Date:</strong> @Model.ClientCard.ExpirationDate.ToString(GlobalConstants.DefaultDateDateFormat)</i>
+                    <i><strong>Expiration Date:</strong> @this.Model.ClientCard.ExpirationDate.ToString(GlobalConstants.DefaultDateDateFormat)</i>
                 </div>
                 <br />
             </div>
         </div>
     </div>
     <div class="d-grid gap-2 col-2 mx-auto mt-4">
-        <a class="btn btn-primary" style="float:left" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-        <a class="btn btn-danger" style="float:right" onclick="return confirm('Are you sure you want to deactivate your account?');" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@Model.Id">Deactivate</a>
+        <a class="btn btn-primary" style="float:left" asp-controller="User" asp-action="Edit" asp-route-id="@this.Model.Id">Edit</a>
+        <a class="btn btn-danger" style="float:right" onclick="return confirm('Are you sure you want to deactivate your account?');" asp-controller="User" asp-action="DeactivateAcccountResult" asp-route-id="@this.Model.Id">Deactivate</a>
         <input class="btn btn-dark" value="Back" onclick="history.go(-1); return false;">
     </div>
 }

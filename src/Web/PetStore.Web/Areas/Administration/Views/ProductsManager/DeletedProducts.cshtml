@@ -22,9 +22,9 @@
                         }
                         else
                         {
-                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@Model.SearchQuery">
+                            <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@this.Model.SearchQuery">
                         }
-                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@Model.CategoryName">
+                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@this.Model.CategoryName">
                         <div class="input-group-btn">
                             <button class="btn btn-success m-auto" style="font-size: 15pt" onclick="this.form.submit()">Search</button>
                         </div>

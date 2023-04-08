@@ -3,14 +3,14 @@
 @model PetStore.Web.ViewModels.Products.CreateProductViewModel
 
 @{
-    ViewData["Title"] = "Create Product";
+    this.ViewData["Title"] = "Create Product";
 }
 
-@if (@Model.UserMessage != null)
+@if (this.Model.UserMessage != null)
 {
-    <h1 style="text-align:center; color:red">@Model.UserMessage</h1>     
+    <h1 style="text-align:center; color:red">@this.Model.UserMessage</h1>
 }
-<h1 class="text-center"><strong>@ViewData["Title"]</strong></h1>
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
     <div class="col-md-4 mx-auto">
         <form asp-action="CreateProduct">
@@ -34,7 +34,7 @@
                 <div class="form-group mb-3">
                     <label for="CategoryName" class="control-label">Category</label>
                     <select id="CategoryId" name="CategoryName" class="form-control" asp-items="ViewBag.CategoryName">
-                        @foreach (var catInfo in Model.Categories)
+                    @foreach (var catInfo in this.Model.Categories)
                         {
                             <option value="@catInfo.Name">@catInfo.Name</option>
                         }

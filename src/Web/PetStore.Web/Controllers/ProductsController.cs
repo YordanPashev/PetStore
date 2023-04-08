@@ -30,6 +30,7 @@
                 ListOfProducts = this.productsControllerExtension.GetProductsInSale(searchAndSortModel.CategoryName, searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
                 CategoryName = searchAndSortModel.CategoryName,
                 SearchQuery = searchAndSortModel.SearchQuery,
+                UserMessage = searchAndSortModel.UserMessage,
             };
 
             return this.productsControllerExtension.ViewOrNoProductsFound(searchAndSortModel, productsShortInfoModel);
