@@ -22,10 +22,7 @@
 
         [HttpGet]
         public IActionResult CreateRequest()
-        {
-            CreateRequestViewModel model = new CreateRequestViewModel();
-            return this.View(model);
-        }
+            => this.View(new CreateRequestViewModel());
 
         [HttpPost]
         public async Task<IActionResult> CreateRequest(CreateRequestViewModel userRequestModel)

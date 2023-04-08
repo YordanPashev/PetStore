@@ -7,7 +7,5 @@
         public string CategoryName { get; set; }
 
         public string OrderCriteria { get; set; }
-
-        public string UserMessage { get; set; }
     }
 }

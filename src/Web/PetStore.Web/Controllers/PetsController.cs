@@ -22,13 +22,14 @@
             this.petsControllerExtension = new PetsControllerExtension(petsService);
         }
 
-        public IActionResult Index(SearchAndSortPetViewModel searchAndSortModel)
+        public IActionResult Index(SearchAndSortPetViewModel searchAndSortModel, string message = null)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
                 ListOfPets = this.petsControllerExtension.GetPets(searchAndSortModel.PetTypeName, searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
                 PetTypeName = searchAndSortModel.PetTypeName,
                 SearchQuery = searchAndSortModel.SearchQuery,
+                UserMessage = message,
             };
 
             return this.petsControllerExtension.ViewOrNoPetsFound(model);
@@ -45,14 +46,10 @@
 
         [HttpGet]
         public IActionResult PetTypes()
-        {
-            return this.petsControllerExtension.ViewOrNoPetTypesFound();
-        }
+            => this.petsControllerExtension.ViewOrNoPetTypesFound();
 
         [HttpGet]
         public IActionResult TypePets(string name = null, string orderByCriteria = null)
-        {
-            return this.petsControllerExtension.ViewOrNonExistentPetType(name, orderByCriteria);
-        }
+            => this.petsControllerExtension.ViewOrNonExistentPetType(name, orderByCriteria);
     }
 }

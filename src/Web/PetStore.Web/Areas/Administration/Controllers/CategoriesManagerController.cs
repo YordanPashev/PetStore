@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -27,10 +28,7 @@
         public IActionResult DeletedCategories(string message)
         {
             List<DeletedCategoryViewModel> model = this.categoriesService.GetDeletedCategories().ToList();
-            if (string.IsNullOrEmpty(message))
-            {
-                this.ViewBag.Message = message;
-            }
+            this.ViewBag.Message = message;
 
             return this.View(model);
         }
@@ -42,7 +40,9 @@
 
             if (category == null)
             {
-                return this.View("NoCategoryFound");
+                this.ViewBag.Message = "No category found";
+
+                return this.View("NotFound");
             }
 
             if (category.Products.Count > 0)
@@ -51,25 +51,12 @@
             }
 
             await this.categoriesService.DeleteCategoryAsync(category);
-            this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteCategoryMessage;
+            string message = new StringBuilder("Category ")
+                                                .Append(category.Name)
+                                                .Append(GlobalConstants.SuccessfullyDeleteCategoryMessage)
+                                                .ToString();
 
-            return this.View("SuccessfulOperationTextMessage");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> UndeleteCategory(int id)
-        {
-            Category category = await this.categoriesService.GetDeletedCategoryByIdAsync(id);
-
-            if (category != null)
-            {
-                await this.categoriesService.UndeleteCategoryAsync(category);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteCategoryMessage;
-
-                return this.View("SuccessfulOperationTextMessage");
-            }
-
-            return this.View("NoCategoryFound");
+            return this.RedirectToAction("Index", "Categories", new { area = string.Empty, message });
         }
 
         [HttpGet]
@@ -78,7 +65,9 @@
             Category category = await this.categoriesService.GetByIdForEditAsync(id);
             if (category == null)
             {
-                return this.View("NoCategoryFound");
+                this.ViewBag.Message = "No category found";
+
+                return this.View("NotFound");
             }
 
             EditCategoryViewModel model = AutoMapperConfig.MapperInstance.Map<EditCategoryViewModel>(category);
@@ -94,7 +83,8 @@
 
             if (category == null)
             {
-                return this.View("NoCategoryFound");
+                this.ViewBag.Message = "No category found";
+                return this.View("NotFound");
             }
 
             if (!this.ModelState.IsValid || !this.categoriesService.IsCategoryEdited(category, userInputModel))
@@ -110,7 +100,29 @@
             }
 
             await this.categoriesService.UpdateCategoryAsync(category, userInputModel);
-            return this.RedirectToAction("Index", "Categories", new { area = string.Empty, message = GlobalConstants.SuccessfullyEditedProductCategoryMessage });
+
+            return this.RedirectToAction("Index", "Categories", new { area = string.Empty, message = GlobalConstants.SuccessfullyEditedCategoryMessage });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UndeleteCategory(int id)
+        {
+            Category category = await this.categoriesService.GetDeletedCategoryByIdAsync(id);
+
+            if (category != null)
+            {
+                await this.categoriesService.UndeleteCategoryAsync(category);
+                string message = new StringBuilder("Category ")
+                                                .Append(category.Name)
+                                                .Append(GlobalConstants.SuccessfullyUndeleteCategoryMessage)
+                                                .ToString();
+
+                return this.RedirectToAction("DeletedCategories", new { message });
+            }
+
+            this.ViewBag.Message = "No category found";
+
+            return this.View("NotFound");
         }
 
         private bool IsCategoryEdited(EditCategoryViewModel model, Category cateogry)

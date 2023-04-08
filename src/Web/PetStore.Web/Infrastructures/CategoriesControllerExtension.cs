@@ -1,7 +1,6 @@
 ﻿namespace PetStore.Web.Infrastructures
 {
     using System.Linq;
-    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -20,11 +19,12 @@
         public CategoriesControllerExtension(ICategoriesService categoriesService)
             => this.categoriesService = categoriesService;
 
-        public IActionResult RedirectOrNotFound(Category category, string productsStatus)
+        public IActionResult RedirectOrNoCategoryFound(Category category, string productsStatus)
         {
             if (category == null)
             {
-                return this.View("NoCategoryFound");
+                this.ViewBag.Message = "No category found";
+                return this.View("NotFound");
             }
 
             this.ViewBag.CategoryImageURL = category.ImageURL;
@@ -53,22 +53,14 @@
             return this.View("Index", "Products");
         }
 
-        public IActionResult ViewOrNoCategoryFound(IQueryable<Category> allCategories, string message)
+        public IActionResult ViewOrNoCategoriesFound(string message)
         {
-            if (allCategories == null)
-            {
-                return this.View("NoCategoryFound");
-            }
-
             CategoriesViewModel categoriesModel = new CategoriesViewModel()
             {
-                AllCategories = allCategories.To<CategoryProdutsViewModel>().ToList(),
+                AllCategories = this.categoriesService.GetAllCategoriesNoTracking().To<CategoryProdutsViewModel>().ToList(),
             };
 
-            if (message != null)
-            {
-                this.ViewBag.UserMessage = message;
-            }
+            this.ViewBag.UserMessage = message;
 
             return this.View(categoriesModel);
         }

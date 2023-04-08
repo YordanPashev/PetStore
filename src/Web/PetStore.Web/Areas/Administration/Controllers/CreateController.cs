@@ -75,6 +75,7 @@
         public IActionResult CreateCategory(string errorMessage = null)
         {
             this.ViewBag.ErrorMessage = errorMessage;
+
             return this.View("CreateCategory");
         }
 

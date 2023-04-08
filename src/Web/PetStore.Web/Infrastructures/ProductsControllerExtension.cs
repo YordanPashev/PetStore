@@ -26,7 +26,8 @@
         {
             if (model == null)
             {
-                return this.View("NoProductFound");
+                this.ViewBag.Message = "No product found";
+                return this.View("NotFound");
             }
 
             model.UserMessage = message;
@@ -38,7 +39,8 @@
         {
             if (productsShortInfoModel == null && string.IsNullOrEmpty(productsShortInfoModel.SearchQuery))
             {
-                return this.View("NoProductFound");
+                this.ViewBag.Message = "No products found";
+                return this.View("NotFound");
             }
 
             return this.View(productsShortInfoModel);

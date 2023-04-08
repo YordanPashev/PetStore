@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -35,24 +36,27 @@
             if (pet != null)
             {
                 await this.petsService.DeletePetAsync(pet);
-                SearchAndSortPetViewModel model = new SearchAndSortPetViewModel()
-                {
-                    UserMessage = GlobalConstants.SuccessfullyDeletedPetMessage,
-                };
+                string message = new StringBuilder("Pet ")
+                                            .Append(pet.Name)
+                                            .Append(GlobalConstants.SuccessfullyDeletedPetMessage)
+                                            .ToString();
 
-                return this.RedirectToAction("Index", "Pets", new { area = string.Empty, model });
+                return this.RedirectToAction("Index", "/Pets", new { area = string.Empty, message });
             }
 
-            return this.RedirectToAction("Index", "Pets", new { area = string.Empty });
+            this.ViewBag.Message = "No pet found";
+
+            return this.View("NotFound");
         }
 
         [HttpGet]
-        public IActionResult DeletedPets(SearchAndSortPetViewModel searchAndSortModel)
+        public IActionResult DeletedPets(SearchAndSortPetViewModel searchAndSortModel, string message = null)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()
             {
                 ListOfPets = this.petsControllerExtension.GetDeletedPets(searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
                 SearchQuery = searchAndSortModel.SearchQuery,
+                UserMessage = message,
             };
 
             return this.petsControllerExtension.ViewOrNoPetsFound(model);
@@ -74,8 +78,9 @@
 
             if (pet == null)
             {
-                this.ViewBag.Message = "No Pet Found";
-                return this.View("NotFoundMessageForPetsController");
+                this.ViewBag.Message = "No pet found";
+
+                return this.View("NotFound");
             }
 
             EditPetViewModel model = AutoMapperConfig.MapperInstance.Map<EditPetViewModel>(pet);
@@ -115,15 +120,17 @@
             if (pet != null)
             {
                 await this.petsService.UndeletePetAsync(pet);
-                SearchAndSortPetViewModel model = new SearchAndSortPetViewModel()
-                {
-                    UserMessage = GlobalConstants.SuccessfullyDeletedPetMessage,
-                };
+                string message = new StringBuilder("Pet ")
+                                            .Append(pet.Name)
+                                            .Append(GlobalConstants.SuccessfullyUndeletePetMessage)
+                                            .ToString();
 
-                return this.RedirectToAction("Index", "Pets", new { area = string.Empty, model });
+                return this.RedirectToAction("DeletedPets", new { message });
             }
 
-            return this.RedirectToAction("DeletedPets");
+            this.ViewBag.Message = "No pet found";
+
+            return this.View("NotFound");
         }
     }
 }

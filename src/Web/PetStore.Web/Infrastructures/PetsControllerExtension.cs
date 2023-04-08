@@ -77,7 +77,7 @@
             if (!Enum.IsDefined(typeof(PetType), typeName))
             {
                 this.ViewBag.Message = "No Pet Type Found";
-                return this.View("NotFoundMessageForPetsController");
+                return this.View("NotFound");
             }
 
             ListOfPetsViewModel model = new ListOfPetsViewModel()
@@ -94,7 +94,7 @@
             if (model == null && string.IsNullOrEmpty(model.SearchQuery))
             {
                 this.ViewBag.Message = "No Pets Found";
-                return this.View("NotFoundMessageForPetsController");
+                return this.View("NotFound");
             }
 
             return this.View(model);
@@ -105,7 +105,7 @@
             if (model == null)
             {
                 this.ViewBag.Message = "No Pet Found";
-                return this.View("NotFoundMessageForPetsController");
+                return this.View("NotFound");
             }
 
             model.UserMessage = message;
@@ -122,7 +122,7 @@
             if (petTypesNames == null || petTypesNames.Count == 0)
             {
                 this.ViewBag.Message = "There is no Pet Types";
-                return this.View("NotFoundMessageForPetsController");
+                return this.View("NotFound");
             }
 
             Dictionary<string, string> petTypeUrls = new Dictionary<string, string>()

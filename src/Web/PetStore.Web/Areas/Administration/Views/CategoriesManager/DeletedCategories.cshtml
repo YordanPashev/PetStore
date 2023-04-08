@@ -12,9 +12,11 @@
         <i>@this.ViewBag.Message</i>
     </h1>  
 }
+
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
+
 @if (this.Model.Count > 0)
 {
-    <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
     <table class="table mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>

@@ -1,6 +1,8 @@
 ﻿namespace PetStore.Web.Areas.Administration.Controllers
 {
+    using System.Drawing;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -26,12 +28,13 @@
         }
 
         [HttpGet]
-        public IActionResult DeletedProducts(SearchAndSortProductViewModel searchAndSortModel)
+        public IActionResult DeletedProducts(SearchAndSortProductViewModel searchAndSortModel, string message = null)
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
                 ListOfProducts = this.productsControllerExtension.GetAllDeletedProducts(searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
                 SearchQuery = searchAndSortModel.SearchQuery,
+                UserMessage = message,
             };
 
             return this.productsControllerExtension.ViewOrNoProductsFound(searchAndSortModel, productsShortInfoModel);
@@ -45,12 +48,17 @@
             if (product != null)
             {
                 await this.productService.DeleteProductAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyDeleteProductMessage;
+                string message = new StringBuilder("Product ")
+                                               .Append(product.Name)
+                                               .Append(GlobalConstants.SuccessfullyDeletedPetMessage)
+                                               .ToString();
 
-                return this.View("SuccessfulOperationTextMessage");
+                return this.RedirectToAction("Index", "Products", new { area = string.Empty, message });
             }
 
-            return this.View("NoProductFound");
+            this.ViewBag.Message = "No product found";
+
+            return this.View("NotFound");
         }
 
         [HttpGet]
@@ -68,7 +76,9 @@
             Product product = await this.productService.GetProductByIdForEditAsync(id);
             if (product == null)
             {
-                return this.View("NoProductFound");
+                this.ViewBag.Message = "No product found";
+
+                return this.View("NotFound");
             }
 
             EditProductViewModel editPorudctModel = new EditProductViewModel()
@@ -98,6 +108,7 @@
             }
 
             await this.productService.UpdateProductDataAsync(userInputModel, product);
+
             return this.RedirectToAction("Details", "Products", new { area = string.Empty, id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }
 
@@ -109,12 +120,17 @@
             if (product != null)
             {
                 await this.productService.UndeleteProductAsync(product);
-                this.ViewBag.Message = GlobalConstants.SuccessfullyUndeleteProductMessage;
+                string message = new StringBuilder("Product ")
+                                                .Append(product.Name)
+                                                .Append(GlobalConstants.SuccessfullyDeletedPetMessage)
+                                                .ToString();
 
-                return this.View("SuccessfulOperationTextMessage");
+                return this.RedirectToAction("DeletedProducts", new { message });
             }
 
-            return this.View("NoProductFound");
+            this.ViewBag.Message = "No product found";
+
+            return this.View("NotFound");
         }
     }
 }

@@ -56,7 +56,6 @@
             }
 
             string message = this.GetSuccessfullyActivatedAccountMessage(user.Email);
-
             await this.administrationService.ActivateUserAccount(user);
 
             return this.RedirectToAction("Index", "UserManager", new { message });

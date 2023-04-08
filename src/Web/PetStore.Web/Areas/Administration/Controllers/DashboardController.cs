@@ -10,9 +10,7 @@
         private readonly ISettingsService settingsService;
 
         public DashboardController(ISettingsService settingsService)
-        {
-            this.settingsService = settingsService;
-        }
+            => this.settingsService = settingsService;
 
         public IActionResult Index()
         {

@@ -23,14 +23,14 @@
         }
 
         [HttpGet]
-        public IActionResult Index(SearchAndSortProductViewModel searchAndSortModel)
+        public IActionResult Index(SearchAndSortProductViewModel searchAndSortModel, string message = null)
         {
             ListOfProductsViewModel productsShortInfoModel = new ListOfProductsViewModel()
             {
                 ListOfProducts = this.productsControllerExtension.GetProductsInSale(searchAndSortModel.CategoryName, searchAndSortModel.SearchQuery, searchAndSortModel.OrderCriteria),
                 CategoryName = searchAndSortModel.CategoryName,
                 SearchQuery = searchAndSortModel.SearchQuery,
-                UserMessage = searchAndSortModel.UserMessage,
+                UserMessage = message,
             };
 
             return this.productsControllerExtension.ViewOrNoProductsFound(searchAndSortModel, productsShortInfoModel);

@@ -61,42 +61,43 @@
         // User Messages
 
         // Edit Categories Messages
+
         public const string CantDeleteCateoryWithProductsMessage = "A category with products can't be deleted. You can delete only categories with 0 products.";
 
         public const string CategoryAlreadyExistInDbMessage = "Category already exist.";
 
         public const string CategoryNotFoundErrorMessage = "Invalid Category.";
 
-        public const string SuccessfullyDeleteCategoryMessage = "The selected category has been removed from the Shop.";
+        public const string SuccessfullyAddedProducCategoryMessage = "A new category has been added to the shop";
 
-        public const string SuccessfullyEditedProductCategoryMessage = "The category has been edited successfully";
+        public const string SuccessfullyDeleteCategoryMessage = " has been removed from the Shop.";
 
-        public const string SuccessfullyUndeleteCategoryMessage = "The selected category is now available in the shop.";
+        public const string SuccessfullyEditedCategoryMessage = "The category has been edited successfully";
+
+        public const string SuccessfullyUndeleteCategoryMessage = " is now available in the shop.";
 
         // Edit Pets Messages
         public const string PetlreadyExistInDbErrorMessage = "Pet has already been added to the shop.";
 
-        public const string SuccessfullyAddedPetMessage = "A new pet has been add to the shop";
+        public const string SuccessfullyAddedPetMessage = "A new pet has been added to the shop";
 
-        public const string SuccessfullyDeletedPetMessage = "The selected pet has been removed from the Shop.";
+        public const string SuccessfullyDeletedPetMessage = " has been removed from the Shop.";
 
-        public const string SuccessfullyUndeletePetMessage = "The selected pet is now available in the shop.";
+        public const string SuccessfullyUndeletePetMessage = " is now available in the shop.";
 
         // Edit Product messages
         public const string ProductAlreadyExistInDbErrorMessage = "Product with the same name already exist in the shop.";
 
-        public const string SuccessfullyAddedProductMessage = "A new product has been add to the shop:";
+        public const string SuccessfullyAddedProductMessage = "A new product has been added to the shop:";
 
-        public const string SuccessfullyAddedProducCategoryMessage = "A new category has been add to the shop";
 
-        public const string SuccessfullyDeleteProductMessage = "The selected product has been removed from the Shop.";
+        public const string SuccessfullyDeleteProductMessage = " has been removed from the Shop.";
 
         public const string SuccessfullyEditProductMessage = "Edited result:";
 
-        public const string SuccessfullyUndeleteProductMessage = "The selected product is now available in the shop.";
+        public const string SuccessfullyUndeleteProductMessage = " is now available in the shop.";
 
         // Edit User data Messages
-        public const string SuccessfullyUserDeactivateHisAccountMessage = "Your account has been activate. If you would like to reactivate your account, please contact us.";
 
         public const string UserNameMinLengthMessage = "The name must be at least 3 characters";
 
@@ -107,6 +108,8 @@
         public const string UserPhoneNumberMessage = "The phone number must contains only digits and must be min 7 and max 12!";
 
         public const string UserEmailErrorMessage = "The email must be in format  username@domainname.extension";
+
+        public const string SuccessfullyUserDeactivateHisAccountMessage = "Your account has been activate. If you would like to reactivate your account, please contact us.";
 
         // Global Edit Messages
         public const string InvalidDataErrorMessage = "Invalid data.";
