@@ -18,17 +18,21 @@
             var spawnResult = SpawnTimeCalculator.CompareDates(DateTime.Now, birthDate);
             int years = spawnResult.Years;
             int months = spawnResult.Months;
+            string monthsWord = months == 1 ? "month" : "months";
 
             if (years == 0)
             {
-                return $"{months} months";
-            }
-            else if (months == 0)
-            {
-                return $"{years} years";
+                return $"{months} {monthsWord}";
             }
 
-            return $"{years} years and {months} months";
+            string yearsWord = years == 1 ? "year" : "years";
+
+            if (months == 0)
+            {
+                return $"{years} {yearsWord}";
+            }
+
+            return $"{years} {yearsWord} and {months} {monthsWord}";
         }
     }
 }

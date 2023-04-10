@@ -76,18 +76,29 @@
             @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 <div class="navbar mr-4">
-                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit">
+                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit;">
                         <li class="nav-item">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: transparent; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     Administration Options
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic;">
                                     <li>
                                         <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="Index">Factory</a>
+                                    <li class="dropend">
+                                        <a id="dropdownMenuLink" class="dropdown-item" data-bs-toggle="dropdown" aria-expanded="false">Factory ▶</a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 225px; font-size: 14pt; font-style: italic">
+                                            <li>
+                                                <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="CreateProduct">Create new Product</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="CreateCategory">Create new Category</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="AddPet">Add new Pet</a>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
@@ -114,12 +125,26 @@
             &copy; 2022 - @DateTime.Now.Year - @GlobalConstants.SystemName
         </div>
     </footer>
-
+    
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script>
+        @* const lastItem = document.querySelector('#dropdown-last-item');
+        lastItem.addEventListener('mouseover', (e) => {
+            const dropdown = document.querySelector('#sub-dropdown');
+            dropdown.style.display = 'block';
+    });*@
+        let dropdowns = document.querySelectorAll('.dropdown-toggle')
+        dropdowns.forEach((dd) => {
+            dd.addEventListener('click', function (e) {
+                var el = this.nextElementSibling
+                 el.style.display = el.style.display === 'block' ? 'none' : 'block'
+            })
+        })
+    </script>
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
