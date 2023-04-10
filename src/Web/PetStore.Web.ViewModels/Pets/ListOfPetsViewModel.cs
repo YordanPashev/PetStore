@@ -12,7 +12,7 @@
 
         public string PetTypeName { get; set; }
 
-        public string PetTypePlural => PetTypesHelper.GetPetTypePlural(this.PetTypeName);
+        public string PetTypePlural => PetHelper.GetPetTypePlural(this.PetTypeName);
 
         public string SearchQuery { get; set; }
 

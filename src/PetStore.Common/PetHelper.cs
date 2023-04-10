@@ -3,7 +3,7 @@
     using System;
     using System.Text;
 
-    public static class PetTypesHelper
+    public static class PetHelper
     {
         public static string GetPetTypePlural(string petType)
         {

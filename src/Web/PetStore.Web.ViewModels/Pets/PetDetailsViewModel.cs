@@ -16,7 +16,7 @@
 
         public int AgeMonts { get; set; }
 
-        public string AgeInTextFormat => PetTypesHelper.FormatAgeToText(this.BirthDate);
+        public string AgeInTextFormat => PetHelper.FormatAgeToText(this.BirthDate);
 
         public string Breed { get; set; }
 
@@ -30,7 +30,7 @@
 
         public string TypeName => this.Type.ToString();
 
-        public string TypePlural => PetTypesHelper.GetPetTypePlural(this.TypeName);
+        public string TypePlural => PetHelper.GetPetTypePlural(this.TypeName);
 
         public string UserMessage { get; set; }
 
