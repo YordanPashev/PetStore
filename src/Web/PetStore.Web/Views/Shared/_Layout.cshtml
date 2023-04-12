@@ -59,55 +59,53 @@
                                 <li>
                                     <a class="dropdown-item" asp-area="" asp-controller="Pets" asp-action="PetTypes">Pet Types</a>
                                 </li>
-                                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                                {
+                                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    {
                                     <li>
                                         <a class="dropdown-item" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
                                     </li>
-                                }
+                                    }
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item" style="font-size: 16pt; float: right">
+                    <li class="nav-item" style="float: right; font-size: 16pt;">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index" style="font-weight: bold;">Contacts</a>
                     </li>
                 </ul>
-             </div>
+            </div>
             @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                <div class="navbar mr-4">
-                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt; float: inherit;">
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: transparent; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Administration Options
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 285px; font-size: 14pt; font-style: italic;">
-                                    <li>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
-                                    </li>
-                                    <li class="dropend">
-                                        <a id="dropdownMenuLink" class="dropdown-item" data-bs-toggle="dropdown" aria-expanded="false">Factory ▶</a>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 225px; font-size: 14pt; font-style: italic">
-                                            <li>
-                                                <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="CreateProduct">Create new Product</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="CreateCategory">Create new Category</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="AddPet">Add new Pet</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">List of All Clients</a>
-                                    </li>
-                                </ul>
-                            </div>
+                    <ul class="navbar-nav ml-left">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" style="font-size: 16pt; color: black; font-weight: bold;"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin Options
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="font-size: 14pt; font-style: italic;">
+                                <li>
+                                    <a class="dropdown-item" asp-area="Administration" asp-controller="Requests" asp-action="Index">Requests</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Administration" asp-controller="UserManager" asp-action="Index">Clients List</a>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle">
+                                        Factory
+                                    </a>
+                                    <ul class="dropdown-menu" style="font-size: 12pt;">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="AddPet">Add Pet</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="CreateProduct">Create new Product</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Create" asp-action="CreateCategory">Create new Category</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
-                </div>
             }
             <partial name="_LoginPartial"/>
         </nav>
@@ -131,20 +129,6 @@
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script>
-        @* const lastItem = document.querySelector('#dropdown-last-item');
-        lastItem.addEventListener('mouseover', (e) => {
-            const dropdown = document.querySelector('#sub-dropdown');
-            dropdown.style.display = 'block';
-    });*@
-        let dropdowns = document.querySelectorAll('.dropdown-toggle')
-        dropdowns.forEach((dd) => {
-            dd.addEventListener('click', function (e) {
-                var el = this.nextElementSibling
-                 el.style.display = el.style.display === 'block' ? 'none' : 'block'
-            })
-        })
-    </script>
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

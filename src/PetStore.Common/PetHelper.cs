@@ -8,7 +8,7 @@
         public static string GetPetTypePlural(string petType)
         {
             StringBuilder petTypePlural = new StringBuilder(petType);
-            petTypePlural = petTypePlural.ToString() == "Fish" ? petTypePlural : petTypePlural.Append("s");
+            petTypePlural = petTypePlural.ToString() == "Fish" ? petTypePlural : petTypePlural.Append('s');
 
             return petTypePlural.ToString();
         }
@@ -16,23 +16,23 @@
         public static string FormatAgeToText(DateTime birthDate)
         {
             var spawnResult = SpawnTimeCalculator.CompareDates(DateTime.Now, birthDate);
-            int years = spawnResult.Years;
-            int months = spawnResult.Months;
-            string monthsWord = months == 1 ? "month" : "months";
+            int numberOfYears = spawnResult.Years;
+            int numberOfMonths = spawnResult.Months;
+            string monthsForm = numberOfMonths == 1 ? "month" : "months";
 
-            if (years == 0)
+            if (numberOfYears == 0)
             {
-                return $"{months} {monthsWord}";
+                return $"{numberOfMonths} {monthsForm}";
             }
 
-            string yearsWord = years == 1 ? "year" : "years";
+            string yearsForm = numberOfYears == 1 ? "year" : "years";
 
-            if (months == 0)
+            if (numberOfMonths == 0)
             {
-                return $"{years} {yearsWord}";
+                return $"{numberOfYears} {yearsForm}";
             }
 
-            return $"{years} {yearsWord} and {months} {monthsWord}";
+            return $"{numberOfYears} {yearsForm} and {numberOfMonths} {monthsForm}";
         }
     }
 }
