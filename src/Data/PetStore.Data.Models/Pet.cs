@@ -26,6 +26,8 @@ namespace PetStore.Data.Models
         [MaxLength(PetValidationConstants.BreedMaxLength)]
         public string Breed { get; set; }
 
+        public PetGender Gender { get; set; }
+
         [Required]
         public decimal Price { get; set; }
 

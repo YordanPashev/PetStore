@@ -20,6 +20,8 @@
 
         public string Breed { get; set; }
 
+        public PetGender Gender { get; set; }
+
         public DateTime BirthDate { get; set; }
 
         public decimal Price { get; set; }
@@ -29,6 +31,8 @@
         public PetType Type { get; set; }
 
         public string TypeName => this.Type.ToString();
+
+        public string GenderInTextFormat => this.Gender.ToString();
 
         public string TypePlural => PetHelper.GetPetTypePlural(this.TypeName);
 

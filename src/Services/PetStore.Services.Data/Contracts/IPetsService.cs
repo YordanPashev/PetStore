@@ -35,7 +35,7 @@
 
         bool IsPetExistingInDb(Pet pet);
 
-        Task UpdatePetDataAsync(EditPetViewModel userInputModel, Pet pet, PetType petType);
+        Task UpdatePetDataAsync(EditPetViewModel userInputModel, Pet pet);
 
         Task UndeletePetAsync(Pet product);
     }

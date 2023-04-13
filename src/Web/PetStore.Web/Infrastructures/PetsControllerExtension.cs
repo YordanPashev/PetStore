@@ -25,8 +25,9 @@
         public bool IsPetEdited(EditPetViewModel userInputModel, Pet pet)
         {
             if (userInputModel.Name == pet.Name && userInputModel.Breed == pet.Breed &&
-                userInputModel.BirthDate == pet.BirthDate && userInputModel.TypeName == pet.Type.ToString() &&
-                userInputModel.Price == pet.Price && userInputModel.ImageUrl == pet.ImageUrl)
+                userInputModel.BirthDate == pet.BirthDate && userInputModel.Type == pet.Type &&
+                userInputModel.Price == pet.Price && userInputModel.ImageUrl == pet.ImageUrl &&
+                userInputModel.Gender == pet.Gender)
             {
                 return false;
             }

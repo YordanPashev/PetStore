@@ -5,6 +5,7 @@
 
     using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
+    using PetStore.Data.Models.Enums;
     using PetStore.Services.Mapping;
 
     public class CreatePetViewModel : IMapFrom<Pet>, IMapTo<Pet>
@@ -15,12 +16,18 @@
         public string Name { get; set; }
 
         [Required]
+        public PetType Type { get; set; }
+
+        [Required]
         public DateTime BirthDate { get; set; }
 
         [Required]
         [MinLength(PetValidationConstants.BreedMinLength)]
         [MaxLength(PetValidationConstants.BreedMaxLength)]
         public string Breed { get; set; }
+
+        [Required]
+        public PetGender Gender { get; set; }
 
         [Required]
         [Range(PetValidationConstants.PriceMinValue, PetValidationConstants.PriceMaxValue)]
@@ -32,5 +39,8 @@
 
         [Required]
         public string TypeName { get; set; }
+
+        [Required]
+        public string GenderInTextFormat { get; set; }
     }
 }

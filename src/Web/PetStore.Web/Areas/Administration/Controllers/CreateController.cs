@@ -42,6 +42,7 @@
             {
                 CreatePetViewModel = new CreatePetViewModel(),
                 PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList(),
+                PetGenders = Enum.GetNames(typeof(PetGender)).Cast<string>().ToList(),
                 UserMessage = message,
             };
 
@@ -52,14 +53,16 @@
         public async Task<IActionResult> AddPet(CreatePetViewModel userInputModel)
         {
             bool isPetTypeValid = Enum.IsDefined(typeof(PetType), userInputModel.TypeName);
+            bool isPetGenderValid = Enum.IsDefined(typeof(PetGender), userInputModel.GenderInTextFormat);
 
-            if (userInputModel == null || !this.ModelState.IsValid || !isPetTypeValid)
+            if (userInputModel == null || !this.ModelState.IsValid || !isPetTypeValid || !isPetGenderValid)
             {
                 return this.RedirectToAction("AddPet", "Create", new { message = GlobalConstants.InvalidDataErrorMessage });
             }
 
             Pet pet = AutoMapperConfig.MapperInstance.Map<Pet>(userInputModel);
             pet.Type = Enum.Parse<PetType>(userInputModel.TypeName);
+            pet.Gender = Enum.Parse<PetGender>(userInputModel.GenderInTextFormat);
 
             if (this.petsService.IsPetExistingInDb(pet))
             {

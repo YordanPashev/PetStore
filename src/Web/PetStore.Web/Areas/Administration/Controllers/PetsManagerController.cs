@@ -85,7 +85,9 @@
 
             EditPetViewModel model = AutoMapperConfig.MapperInstance.Map<EditPetViewModel>(pet);
             model.TypeName = pet.Type.ToString();
+            model.GenderInTextFormat = pet.Gender.ToString();
             model.PetTypes = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
+            model.PetGenders = Enum.GetNames(typeof(PetGender)).Cast<string>().ToList();
             model.UserMessage = message;
 
             return this.View(model);
@@ -96,18 +98,23 @@
         {
             Pet pet = await this.petsService.GetPetByIdForEditAsync(userInputModel.Id);
             PetType petType;
+            PetGender petGender;
 
-            if (!this.ModelState.IsValid || !Enum.TryParse<PetType>(userInputModel.TypeName, out petType) || pet == null)
+            if (!this.ModelState.IsValid || !Enum.TryParse<PetType>(userInputModel.TypeName, out petType) ||
+                pet == null || !Enum.TryParse<PetGender>(userInputModel.GenderInTextFormat, out petGender))
             {
                 return this.RedirectToAction("EditPet", "PetsManager", new { id = userInputModel.Id, message = GlobalConstants.InvalidDataErrorMessage });
             }
+
+            userInputModel.Type = petType;
+            userInputModel.Gender = petGender;
 
             if (!this.petsControllerExtension.IsPetEdited(userInputModel, pet))
             {
                 return this.RedirectToAction("EditPet", "PetsManager", new { id = userInputModel.Id, message = GlobalConstants.PleaseMakeYourChangesMessage });
             }
 
-            await this.petsService.UpdatePetDataAsync(userInputModel, pet, petType);
+            await this.petsService.UpdatePetDataAsync(userInputModel, pet);
 
             return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id = userInputModel.Id, message = GlobalConstants.SuccessfullyEditProductMessage });
         }

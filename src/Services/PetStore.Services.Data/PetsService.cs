@@ -131,11 +131,12 @@
                    .Any(p => p.Name == pet.Name && p.Type == pet.Type &&
                         p.Breed == pet.Breed && p.BirthDate == pet.BirthDate);
 
-        public async Task UpdatePetDataAsync(EditPetViewModel userInputModel, Pet pet, PetType petType)
+        public async Task UpdatePetDataAsync(EditPetViewModel userInputModel, Pet pet)
         {
             pet.Name = userInputModel.Name;
-            pet.Type = petType;
+            pet.Type = userInputModel.Type;
             pet.Breed = userInputModel.Breed;
+            pet.Gender = userInputModel.Gender;
             pet.BirthDate = userInputModel.BirthDate;
             pet.Price = Math.Round(userInputModel.Price, 2);
             pet.ImageUrl = userInputModel.ImageUrl;

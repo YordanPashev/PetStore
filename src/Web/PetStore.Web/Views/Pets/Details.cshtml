@@ -21,6 +21,7 @@
     <div class="card p-3" style="background-color: #F7F7F7;"><i class="fa fa-apple"></i>
         <div class="about-product text-center mt-2 mb-2"><img src="@this.Model.ImageUrl" width="600" alt="No image"></div>
         <div style="font-size: 18pt; text-align:center"><i><strong>Breed:</strong></i> @this.Model.Breed</div>
+        <div style="font-size: 18pt; text-align:center"><i><strong>Gender:</strong></i> @this.Model.GenderInTextFormat</div>
         <div style="font-size: 18pt; text-align:center"><i><strong>Age:</strong></i> @this.Model.AgeInTextFormat</div>
         <div style="font-size: 18pt; text-align:center"><i><strong>Date of birth:</strong></i> @this.Model.BirthDate.ToString(GlobalConstants.PetBirthDateFormat)</div>
         <div class="mt-2" style="color: darkorange; font-size: 20pt; text-align:center; font-weight: bold">Price: @Math.Round(this.Model.Price, 2) $</div>

@@ -37,6 +37,15 @@
                 <input id="ImageURL" name="ImageURL" placeholder="Image URL..." pattern="@PetValidationConstants.UrlRegexForView" title="@GlobalConstants.InvalidUrlUserMessage" class="form-control" type="text" required />
             </div>
             <div class="form-group mb-3">
+                <label for="GenderInTextFormat" class="control-label">Gender</label>
+                <select id="GenderInTextFormat" name="GenderInTextFormat" class="form-control">
+                    @foreach (var petGender in this.Model.PetGenders)
+                    {
+                        <option value="@petGender">@petGender</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group mb-3">
                 <label for="TypeName" class="control-label">Type</label>
                 <select id="TypeName" name="TypeName" class="form-control">
                     @foreach (var petName in this.Model.PetTypes)

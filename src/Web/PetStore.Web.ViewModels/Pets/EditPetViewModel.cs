@@ -8,11 +8,11 @@
 
     public class EditPetViewModel : CreatePetViewModel, IMapFrom<Pet>, IMapTo<Pet>
     {
-        public EditPetViewModel() => this.PetTypes = new HashSet<string>();
-
         public string Id { get; set; }
 
-        public ICollection<string> PetTypes { get; set; }
+        public ICollection<string> PetTypes { get; set; } = new HashSet<string>();
+
+        public ICollection<string> PetGenders { get; set; } = new HashSet<string>();
 
         public string UserMessage { get; set; }
     }
