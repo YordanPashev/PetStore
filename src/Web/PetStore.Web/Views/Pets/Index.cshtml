@@ -50,23 +50,19 @@
         <div class="row align-items-start">
             <div class="col-md-5 justify-content-start">
                 <div class="navbar">
-                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt;">
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Order by
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
-                                    @foreach (string orderCriteria in oderCriteria)
-                                    {
-                                        <li>
-                                            <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Order by
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
+                            @foreach (string orderCriteria in oderCriteria)
+                            {
+                                <li>
+                                    <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
              </div>
             <div class="col-md-4 mt-3 justify-content-start">
@@ -113,13 +109,24 @@ else
 {
     <h1 style="text-align: center">No pets found</h1> 
     <br/>
+    <div style="text-align:center">
+        <a class="btn btn-primary mb-2" style="font-size: 16pt; width: 270px;" asp-controller="Pets" asp-action="Index">All Pets</a>
+    </div>
+     <div style="text-align:center">
+        <a class="btn btn-secondary mb-2" style="font-size: 16pt; width: 270px;" asp-controller="Pets" asp-action="PetTypes">Pet Types</a>
+    </div>
 }
 
-<p class="d-grid gap-2 col-2 mx-auto">
-    <input class="btn btn-dark" value="Back" onclick="history.back()">
-    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-    {
-        <a class="btn btn-success" asp-area="Administration" asp-controller="Create" asp-action="AddPet">Add New Pet</a>
-        <a class="btn btn-danger" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
-    }     
-</p>
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <div style="text-align:center">
+        <a class="btn btn-success mb-2" style="font-size: 16pt;  width: 270px;" asp-area="Administration" asp-controller="Create" asp-action="AddPet">Add New Pet</a>
+    </div>
+    <div style="text-align:center">
+        <a class="btn btn-danger mb-2" style="font-size: 16pt;  width: 270px;" asp-area="Administration" asp-controller="PetsManager" asp-action="DeletedPets">Removed Pets</a>
+    </div>
+}
+
+<div style="text-align:center">
+    <input class="btn btn-dark" style="font-size: 16pt;" value="Back" onclick="history.back()">
+</div>

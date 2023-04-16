@@ -9,19 +9,15 @@
 
 @if (this.Model.Count() > 0)
 {
-    <div class="row">
+    <div class="row mt-4">
         @foreach (var petType in this.Model)
         {
-            <div class="col-sm-6 mt-4">
-                <div class="card" style="height: 23rem; border: 3px solid; border-radius: 15px; border-color: whitesmoke; background-image: url(@petType.ImageUrl); background-size: 100% 100%;" >
-                    <div class="card-body" onclick="location.href='@Url.Action("TypePets", "Pets", new { petType.Name })'">
-                        <h5 class="card-title text-center" style="color: black;">
-                            <strong style="font-size: 36px; color: black; border: 3px solid; border-radius: 15px; border-color: transparent; backdrop-filter: blur(20px);">
-                                @petType.Name
-                            </strong>
-                        </h5>
-                    </div>
-                </div>
+            string petsWord = @petType.PetsCount == 1 ? "Pet" : "Pets";
+            <div class="card me-4 mb-4" style="width: 39rem; background-color: whitesmoke;">
+                <p class="card-title text-center mb-0 mt-3" style="font-size: 24pt; color: black; border: 3px solid; border-radius: 5px; border-color: transparent; font-weight: bold;">
+                    @petType.Name (@petType.PetsCount @petsWord)
+                </p>
+                <img src="@petType.ImageUrl" onclick="location.href='@Url.Action("TypePets", "Pets", new { petType.Name })'" class="card-img-bottom mb-3" alt="No Image" style="width: 100%; height: 100%; position:center">
             </div>
         }
     </div>

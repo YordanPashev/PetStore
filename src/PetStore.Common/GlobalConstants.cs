@@ -61,7 +61,7 @@
         // User Messages
 
         // Edit Categories Messages
-        public const string CantDeleteCateoryWithProductsMessage = "A category with products can't be deleted. You can delete only categories with 0 products.";
+        public const string CantDeleteCateoryWithProductsMessage = "You can delete only categories with 0 products.";
 
         public const string CategoryAlreadyExistInDbMessage = "Category already exist.";
 
@@ -133,6 +133,7 @@
 
         public const string CriteriaName = "Name";
 
+        // Lists
         public static readonly string[] AllOrderCriteria = new ReadOnlyCollection<string>(new List<string>
                                                              {
                                                                  CriteriaPriceAscending,
@@ -142,5 +143,14 @@
                                                                  CriteriaName,
                                                              })
                                                              .ToArray();
+
+        public static readonly Dictionary<string, string> PetTypesImageUrls = new Dictionary<string, string>(new Dictionary<string, string>
+                                                                                    {
+                                                                                       { "Dog", GlobalConstants.DogTypeImage },
+                                                                                       { "Cat", GlobalConstants.CatTypeImage },
+                                                                                       { "Bird", GlobalConstants.BirdTypeImage },
+                                                                                       { "Fish", GlobalConstants.FishTypeImage },
+                                                                                       { "Rodent", GlobalConstants.RodentTypeImage },
+                                                                                    });
     }
 }

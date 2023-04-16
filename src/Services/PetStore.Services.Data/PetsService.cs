@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Data.Contracts;
+    using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;
 
     public class PetsService : IPetsService
@@ -124,6 +126,27 @@
             => await this.petsRepo
                     .All()
                     .FirstOrDefaultAsync(p => p.Id == id);
+
+        public List<PetTypeViewModel> GetAllTypesInfo()
+        {
+            HashSet<Pet> allPetsInSale = this.GetAllPetsInSale(null).ToHashSet();
+            List<string> petTypesNames = Enum.GetNames(typeof(PetType)).Cast<string>().ToList();
+            List<PetTypeViewModel> petTypesInfo = new List<PetTypeViewModel>();
+
+            foreach (var typeName in petTypesNames)
+            {
+                int currTypeCountOfPets = allPetsInSale.Count(p => p.Type.ToString() == typeName);
+
+                PetTypeViewModel curPetTypeFullInfo = new PetTypeViewModel(
+                                                        typeName,
+                                                        GlobalConstants.PetTypesImageUrls[typeName],
+                                                        currTypeCountOfPets);
+
+                petTypesInfo.Add(curPetTypeFullInfo);
+            }
+
+            return petTypesInfo;
+        }
 
         public bool IsPetExistingInDb(Pet pet)
             => this.petsRepo

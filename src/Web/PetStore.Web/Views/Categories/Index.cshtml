@@ -19,25 +19,20 @@
     <div class="row">
         @foreach (var category in this.Model.AllCategories)
         {
-            <div class="col-sm-6 mt-4">
-                <div class="card" style="height: 30rem; border: 3px solid; border-radius: 15px; border-color: whitesmoke; background-image: url(@category.ImageURL); background-size: 100% 100%;" >
-                    <div class="card-body" onclick="location.href='@Url.Action("CategoryProducts", "Categories", new { category.Id })'">
-                        <p class="card-title text-center" style="color: black;">
-                            <strong style="font-size: 36px; color: black; border: 3px solid; border-radius: 15px; border-color: transparent; backdrop-filter: blur(20px);">
-                                @category.Name
-                            </strong>
-                        </p>
-                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                        {
-                            <div style="position: absolute; bottom: 0; right:25%; left:25%;">
-                                <a class="btn btn-info mb-2" style="float: left; width: 100px" asp-area="Administration" asp-controller="CategoriesManager" asp-action="EditCategory" asp-route-id="@category.Id">Edit</a>
-                                <a class="btn btn-danger mb-2" style="float: right; width: 100px" onclick="return confirm('Remove @category.Name from the shtop?');" asp-area="Administration" asp-controller="CategoriesManager" asp-action="DeleteCategory" asp-route-id="@category.Id">Delete</a>
-                            </div>
-                        }
-                    </div>
-                </div>
+            string productsWord = @category.Products.Count == 1 ? "Product" : "Products";
+            <div class="card me-4 mb-4" style="width: 39rem; background-color: whitesmoke;">
+                <p class="card-title text-center mb-0 mt-3" style="font-size: 24pt; color: black; border: 3px solid; border-radius: 5px; border-color: transparent; font-weight: bold;">
+                    @category.Name (@category.Products.Count @productsWord)
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <div style="position: absolute; bottom: 20px; right:25%; left:25%;">
+                            <a class="btn btn-info mb-2" style="float: left; width: 100px" asp-area="Administration" asp-controller="CategoriesManager" asp-action="EditCategory" asp-route-id="@category.Id">Edit</a>
+                            <a class="btn btn-danger mb-2" style="float: right; width: 100px" onclick="return confirm('Remove @category.Name from the shtop?');" asp-area="Administration" asp-controller="CategoriesManager" asp-action="DeleteCategory" asp-route-id="@category.Id">Delete</a>
+                        </div>
+                    }
+                </p>
+                <img src="@category.ImageURL" onclick="location.href='@Url.Action("CategoryProducts", "Categories", new { category.Id })'"  class="card-img-bottom mb-3" alt="No Image" style="width: 100%; height: 100%; position:center">
             </div>
-
         }
     </div>
 }

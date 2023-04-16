@@ -1,18 +1,11 @@
 ﻿namespace PetStore.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
 
     public static class PetHelper
     {
-        public static string GetPetTypePlural(string petType)
-        {
-            StringBuilder petTypePlural = new StringBuilder(petType);
-            petTypePlural = petTypePlural.ToString() == "Fish" ? petTypePlural : petTypePlural.Append('s');
-
-            return petTypePlural.ToString();
-        }
-
         public static string FormatAgeToText(DateTime birthDate)
         {
             var spawnResult = SpawnTimeCalculator.CompareDates(DateTime.Now, birthDate);
@@ -33,6 +26,14 @@
             }
 
             return $"{numberOfYears} {yearsForm} and {numberOfMonths} {monthsForm}";
+        }
+
+        public static string GetPetTypePlural(string petType)
+        {
+            StringBuilder petTypePlural = new StringBuilder(petType);
+            petTypePlural = petTypePlural.ToString() == "Fish" ? petTypePlural : petTypePlural.Append('s');
+
+            return petTypePlural.ToString();
         }
     }
 }

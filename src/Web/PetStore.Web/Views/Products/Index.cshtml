@@ -48,7 +48,7 @@ else
                         {
                             <input style="font-size: 15pt" type="text" id="SearchQuery" name="SearchQuery" class="form-control" value="@this.Model.SearchQuery">
                         }
-                        <input type="hidden" id="PetTypeName" name="PetTypeName" value="@this.Model.CategoryName">
+                        <input type="hidden" id="CategoryName" name="CategoryName" value="@this.Model.CategoryName">
                         <div class="input-group-btn">
                             <button class="btn btn-success m-auto" style="font-size: 15pt" onclick="this.form.submit()">Search</button>
                         </div>
@@ -59,23 +59,19 @@ else
         <div class="row align-items-start">
             <div class="col-md-5 justify-content-start">
                 <div class="navbar">
-                    <ul class="navbar-nav flex-grow-1" style="font-size: 16pt;">
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Order by
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
-                                    @foreach (string orderCriteria in oderCriteria)
-                                    {
-                                        <li>
-                                            <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" style="font-size: 16pt; background-color: white; color: black; font-weight: bold; border-color: transparent;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Order by
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 200px; font-size: 14pt;">
+                            @foreach (string orderCriteria in oderCriteria)
+                            {
+                                <li>
+                                    <button class="btn m-auto" style="background-color: transparent" onclick="this.form.submit()" id="OrderCriteria" name="OrderCriteria" value="@orderCriteria">@orderCriteria</button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 mt-3 justify-content-start">
@@ -120,15 +116,26 @@ else
 }
 else
 {
-    <h1 style="text-align: center">No products found</h1> 
-    <br/>
+    <h1 style="text-align: center">No products found</h1>
+    <br />
+    <div style="text-align:center">
+        <a class="btn btn-primary mb-2" style="font-size: 16pt; width: 270px;" asp-controller="Products" asp-action="Index">All Products</a>
+    </div>
+    <div style="text-align:center">
+        <a class="btn btn-secondary mb-2" style="font-size: 16pt; width: 270px;" asp-controller="Categories" asp-action="Index">All Categories</a>
+    </div>
 }
 
-<p class="d-grid gap-2 col-2 mx-auto">
-    <input class="btn btn-dark" value="Back" onclick="history.back()">
-    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-    {
-        <a class="btn btn-success" asp-area="Administration" asp-controller="Create" asp-action="CreateProduct">Add New Product</a>
-        <a class="btn btn-danger" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">Deleted Products</a>
-    }     
-</p>
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <div style="text-align:center">
+        <a class="btn btn-success mb-2" style="font-size: 16pt;  width: 270px;" asp-area="Administration" asp-controller="Create" asp-action="CreateProduct">Create New Product</a>
+    </div>
+    <div style="text-align:center">
+        <a class="btn btn-danger mb-2" style="font-size: 16pt;  width: 270px;" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">Deleted Products</a>
+    </div>
+}
+
+<div style="text-align:center">
+    <input class="btn btn-dark" style="font-size: 16pt;" value="Back" onclick="history.back()">
+</div>

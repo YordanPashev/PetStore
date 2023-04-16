@@ -1,10 +1,12 @@
 ﻿namespace PetStore.Services.Data.Contracts
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
+    using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Products;
 
     public interface IPetsService
@@ -32,6 +34,8 @@
         Task<Pet> GetPetByIdAsync(string id);
 
         Task<Pet> GetPetByIdForEditAsync(string id);
+
+        List<PetTypeViewModel> GetAllTypesInfo();
 
         bool IsPetExistingInDb(Pet pet);
 
