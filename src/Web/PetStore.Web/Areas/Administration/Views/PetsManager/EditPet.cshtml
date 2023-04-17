@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label for="GenderInTextFormat" class="control-label">Gender</label>
-                <select id="GenderInTextFormat" name="GenderInTextFormat" class="form-control">
+                <select id="GenderInTextFormat" name="GenderInTextFormat" class="form-select">
                     @{
                         <option value="@this.Model.GenderInTextFormat">@this.Model.GenderInTextFormat</option>
                         foreach (var petGender in this.Model.PetGenders.Where(c => c != this.Model.GenderInTextFormat))
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group">
                 <label for="TypeName" class="control-label">Type</label>
-                <select id="TypeName" name="TypeName" class="form-control">>
+                    <select id="TypeName" name="TypeName" class="form-select">
                     @{
                         <option value="@this.Model.TypeName">@this.Model.TypeName</option>
                         foreach (var petTypeName in this.Model.PetTypes.Where(c => c != this.Model.TypeName))

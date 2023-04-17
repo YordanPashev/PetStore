@@ -12,7 +12,7 @@ namespace PetStore.Data.Migrations
                 table: "Pets",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 1);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
