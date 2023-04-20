@@ -8,7 +8,7 @@
 }
 @if (!string.IsNullOrEmpty(this.ViewBag.Message))
 {
-     <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;">
+     <h1 class="userMessage">
         <i>@this.ViewBag.Message</i>
     </h1>  
 }
@@ -20,18 +20,18 @@
     <table class="table mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
-                <th style="font-size: 18pt; text-align: start;">Category</th>
-                <th style="font-size: 18pt; text-align: start;">Name</th>
-                <th style="font-size: 18pt;color: #0DCAF0; text-align: end; font-weight: bold;">Options</th>
+                <th class="firstTwoLabelCols">Category</th>
+                <th class="firstTwoLabelCols">Name</th>
+                <th class="deletedCategoryOptionsCol">Options</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var category in this.Model)
             {
                 <tr name="trData">
-                    <td class="about-product text-start mt-2" width="180"><img src="@category.ImageURL" width="160" alt="No Image"></td>
-                    <td style="font-size: 16pt; text-align: start; font-weight: bold;">@Html.DisplayFor(modelItem => category.Name)</td>
-                    <td style="text-align: end; font-weight: bold;">
+                    <td class="about-product text-start mt-2"><img src="@category.ImageURL" alt="No Image" style="height: 120px; width: 160px;"></td>
+                    <td class="categoryNameLabelCol">@Html.DisplayFor(modelItem => category.Name)</td>
+                    <td class="optionButtonsCol">
                         <a class="btn btn-success" style="font-size: 15pt" onclick="return confirm('Return @category.Name back to the shtop?');" asp-area="Administration" asp-controller="CategoriesManager" asp-action="UndeleteCategory" asp-route-id="@category.Id">Undelete category</a>
                     </td>
                 </tr>
@@ -43,10 +43,10 @@ else
 {
     <h1 style="text-align: center">No categories found</h1>
     <br />
-    <div style="text-align:center">
-        <a class="btn btn-primary mb-2" style="font-size: 16pt; width: 270px;" asp-area="" asp-controller="Categories" asp-action="Index">All active Categories</a>
+    <div class="bottomPageButtons">
+        <a class="btn btn-primary mb-2" style="font-size: 16pt; width: 20%;" asp-area="" asp-controller="Categories" asp-action="Index">All active Categories</a>
     </div>
 }
-<div style="text-align:center">
-    <input class="btn btn-dark" style="font-size: 16pt;" value="Back" onclick="history.back()">
+<div class="bottomPageButtons">
+    <input class="btn btn-dark" style="font-size: 16pt; width: 20%;" value="Back" onclick="history.back()">
 </div>

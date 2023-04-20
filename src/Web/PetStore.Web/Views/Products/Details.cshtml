@@ -8,31 +8,31 @@
 
 @if (this.Model.UserMessage != null)
 {
-    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen;"> 
+    <h1 class="userMessage">
         <i>@Model.UserMessage</i>
     </h1>   
     <br/>
 }
 
 <h1 style="text-align:center"><strong>@ViewData["Title"]</strong></h1>
-<h4 style="text-align:center; color: gray"><i>Category: @this.Model.CategoryName</i></h4>
+<h4 class="categoryNameHeader"><i>Category: @this.Model.CategoryName</i></h4>
 <div class="d-flex justify-content-center container mt-3">
     <div class="card p-3" style="background-color: #F7F7F7;"><i class="fa fa-apple"></i>
-        <div class="about-product text-center mt-2 mb-2"><img src="@this.Model.ImageUrl" width="500" alt="No image"></div>
+        <div class="about-product text-center mt-2 mb-2"><img src="@this.Model.ImageUrl" alt="No image" width="500"></div>
         <div style="text-align:center">
-            <h6 style="font-size: 18pt;">@this.Model.Description</h6>
+            <h6 class="petDescription">@this.Model.Description</h6>
         </div>
-        <div style="color: darkorange; font-size: 24pt; text-align:center; font-weight: bold">Price: @Math.Round(this.Model.Price, 2) $</div>
+        <div class="productPrice">Price: @Math.Round(this.Model.Price, 2) $</div>
         @if(User.Identity.IsAuthenticated)
         {
             <div style="text-align:center">
-                <a class="btn btn-success mb-5" style="font-size: 22pt;" asp-action="">Add to Card</a>
+                <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-action="">Add to Card</a>
             </div>
         }
         else
         {
             <div style="text-align:center">
-                <a class="btn btn-success mb-5" style="font-size: 22pt;" asp-area="Identity" asp-controller="Account" asp-action="Login">Fast Purchase</a>
+                <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-area="Identity" asp-controller="Account" asp-action="Login">Fast Purchase</a>
             </div>
         }
         <div class="mb-3" style="text-align:center">
@@ -42,16 +42,16 @@
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <p class="d-flex justify-content-center container mt-3">
-                <div style="font-size: 20pt; text-align:center; font-size:25px; padding: 8px; border: 8px solid lightgray; background-color:lightgray; border-radius: 3px">
+                <div class="adminOptionsHeader">
                     <i><strong>Administration settings</strong></i>
                 </div>
                 <div class="card p-3 bg-white">
                     <i class="fa fa-apple"></i>
-                    <div style="font-size: 18pt; text-align:center">
+                    <div class="adminOptionsRow">
                         <p><i><strong>Created on</strong></i> @this.Model.CreatedOn.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
                         @if(this.Model.ModifiedOn != null)
                         {
-                            <p style="text-align:center"><i><strong>Last changes was made on</strong></i> @this.Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
+                            <p class="adminOptionsRow"><i><strong>Last changes was made on</strong></i> @this.Model.ModifiedOn.Value.ToString(GlobalConstants.AdministrationSettingsDateTimeFormat)</p>
                         }
                         <br/>
                     </div>
@@ -62,7 +62,6 @@
                     </p>
                 </div>
             </p>
-
         }  
     </div>
 </div>

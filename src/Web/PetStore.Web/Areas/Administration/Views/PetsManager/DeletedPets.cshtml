@@ -7,7 +7,7 @@
 
 @if (this.Model.UserMessage != null)
 {
-    <h1 style="text-align:center; padding: 8px; border: 8px solid green; background-color:yellowgreen; font-weight: bold; font-style: italic;">
+    <h1 class="userMessage">
         @this.Model.UserMessage
     </h1>
 }
@@ -60,7 +60,7 @@
             <div class="col-md-4 mt-3 justify-content-start">
                 @if (this.Model.SearchQuery != null)
                 {
-                    string resultType = this.Model.ListOfPets.Count == 1 ? "pet found" : "pets found";
+                    string resultType = this.Model.ListOfPets.Count == 1 ? "pet" : "pets";
                     <h3 style="font-style: italic; font-weight: bold">@this.Model.ListOfPets.Count @resultType found</h3>
                 }
             </div>
@@ -69,24 +69,24 @@
     <table class="table table-hover mt-8" style="width: 1240px; border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
-                <th style="font-size: 18pt; text-align: start;">Pet</th>
-                <th style="font-size: 18pt; text-align: start;">Name</th>
-                <th style="font-size: 18pt; color: gray; text-align: end; font-weight: bold;">Type</th>
-                <th style="font-size: 18pt; color: darkorange; text-align: end; font-weight: bold;">Price</th>
-                <th style="font-size: 18pt;color: #0DCAF0; text-align: end; font-weight: bold;">Get Details</th>
+                <th class="firstTwoLabelCols">Pet</th>
+                <th class="firstTwoLabelCols">Name</th>
+                <th class="lastThreeLabelCols" style="color: gray;">Type</th>
+                <th class="lastThreeLabelCols" style="color: darkorange;">Price</th>
+                <th class="lastThreeLabelCols" style="color: #0DCAF0;">Get Details</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var pet in this.Model.ListOfPets) 
             {
                 <tr name="trData">
-                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManger", new { pet.Id })'" class="about-product text-start mt-2" width="180"><img src="@pet.ImageUrl" width="160"alt="No Image"></td>
-                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; text-align: start; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Name)</td>
-                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; color: gray; width: 300px; text-align: end; font-weight: bold; font-style: italic;">@Html.DisplayFor(modelItem => pet.TypeName)</td>
-                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'" style="font-size: 16pt; color: darkorange; width: 320px;  text-align: end; font-weight: bold;">@Html.DisplayFor(modelItem => pet.Price) $</td>
-                    <td style="text-align: end; font-weight: bold;">
+                    <td onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'"><img src="@pet.ImageUrl" alt="No Image" style="height: 120px; width: 160px;"></td>
+                    <td class="petNameCol" onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'">@Html.DisplayFor(modelItem => pet.Name) </td>
+                    <td class="petTypeCol" onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'">@Html.DisplayFor(modelItem => pet.TypeName)</td>
+                    <td class="petPriceCol" onclick="location.href='@Url.Action("DeletedPetDetails", "PetsManager", new { pet.Id })'">@Html.DisplayFor(modelItem => pet.Price) $</td>
+                    <td class="optionButtonsCol">
                         <a class="btn btn-info" style="font-size: 15pt" asp-controller="PetsManager" asp-action="DeletedPetDetails" asp-route-id="@pet.Id">Details</a>
-                        <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Return @pet.Name back to the shtop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="UndeletePet" asp-route-id="@pet.Id">Return back to the shop</a>
+                        <a class="btn btn-danger" style="font-size: 15pt" onclick="return confirm('Return @pet.Name back to the shtop?');" asp-area="Administration" asp-controller="PetsManager" asp-action="UndeletePet" asp-route-id="@pet.Id">Return back</a>
                     </td>
                 </tr>
             }
@@ -97,11 +97,11 @@ else
 {
     <h1 style="text-align: center">No pets found</h1> 
     <br/>
-    <div style="text-align:center">
-        <a class="btn btn-primary mb-2" style="font-size: 16pt; width: 270px;" asp-area="" asp-controller="Pets" asp-action="Index">All Pets in sale</a>
+    <div class="bottomPageButtons">
+        <a class="btn btn-primary mb-2" style="font-size: 16pt; width: 20%;" asp-area="" asp-controller="Pets" asp-action="Index">All Pets in sale</a>
     </div>
 }
 
-<div style="text-align:center">
-    <input class="btn btn-dark" style="font-size: 16pt;" value="Back" onclick="history.back()">
+<div class="bottomPageButtons">
+    <input class="btn btn-dark" style="font-size: 16pt; width: 20%;" value="Back" onclick="history.back()">
 </div>
