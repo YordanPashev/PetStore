@@ -105,13 +105,18 @@ body {
     text-align: center;
 }
 
-.userMessage {
+.userInfoMessage {
     text-align: center;
     padding: 8px;
     border: 8px solid green;
     background-color: yellowgreen;
     font-weight: bold;
     font-style: italic;
+}
+
+.userErrorMessage {
+    text-align: center;
+    color: red
 }
 
 /* Admin Options */

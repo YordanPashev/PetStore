@@ -30,12 +30,6 @@
         }
 
         [HttpGet]
-        public IActionResult Index()
-        {
-            return this.View();
-        }
-
-        [HttpGet]
         public IActionResult AddPet(string message = null)
         {
             PetsWithAllPetTypesViewModel createProductModel = new PetsWithAllPetTypesViewModel()

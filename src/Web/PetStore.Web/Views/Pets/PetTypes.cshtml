@@ -12,10 +12,10 @@
     <div class="row mt-4">
         @foreach (var petType in this.Model)
         {
-            string petsWord = @petType.PetsCount == 1 ? "Pet" : "Pets";
+            string petNoun= @petType.PetsCount == 1 ? "Pet" : "Pets";
             <div class="card me-4 mb-4" style="width: 39rem; background-color: whitesmoke;">
                 <p class="card-title text-center mb-0 mt-3" style="font-size: 24pt; color: black; border: 3px solid; border-radius: 5px; border-color: transparent; font-weight: bold;">
-                    @petType.Name (@petType.PetsCount @petsWord)
+                    @petType.Name (@petType.PetsCount @petNoun)
                 </p>
                 <img src="@petType.ImageUrl" onclick="location.href='@Url.Action("TypePets", "Pets", new { petType.Name })'" class="card-img-bottom mb-3" alt="No Image" style="width: 100%; height: 100%; position:center">
             </div>

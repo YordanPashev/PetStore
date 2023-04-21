@@ -7,7 +7,7 @@
 }
 @if (!string.IsNullOrEmpty(this.ViewBag.UserMessage))
 {
-    <h1 class="userMessage">
+    <h1 class="userInfoMessage">
         <i>@ViewBag.UserMessage</i>
     </h1>  
 }
@@ -19,10 +19,10 @@
     <div class="row">
         @foreach (var category in this.Model.AllCategories)
         {
-            string productsWord = @category.Products.Count == 1 ? "Product" : "Products";
+            string cateoryProductNoun = @category.Products.Count == 1 ? "Product" : "Products";
             <div class="card me-4 mb-4" style="width: 39rem; background-color: whitesmoke;">
                 <p class="card-title text-center mb-0 mt-3" style="font-size: 24pt; color: black; border: 3px solid; border-radius: 5px; border-color: transparent; font-weight: bold;">
-                    @category.Name (@category.Products.Count @productsWord)
+                    @category.Name (@category.Products.Count @cateoryProductNoun)
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <div style="position: absolute; bottom: 20px; right:25%; left:25%;">
@@ -42,7 +42,7 @@ else
 }
 <div>
 
-    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+   @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
    {
        <div class="mt-5" style="text-align:center">
            <a class="btn btn-success" asp-area="Administration" asp-controller="Create" asp-action="CreateCategory">Add New Category</a>

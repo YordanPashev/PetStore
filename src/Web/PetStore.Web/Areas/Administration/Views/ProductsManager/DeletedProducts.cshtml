@@ -7,7 +7,7 @@
 
 @if (this.Model.UserMessage != null)
 {
-    <h1 class="userMessage">
+    <h1 class="userInfoMessage">
         @this.Model.UserMessage
     </h1>
 }
@@ -60,8 +60,8 @@
             <div class="col-md-4 mt-3 justify-content-start">
                 @if (this.Model.SearchQuery != null)
                 {
-                    string resultType = this.Model.ListOfProducts.Count == 1 ? "product" : "products";
-                    <h3 style="font-style: italic; font-weight: bold">@this.Model.ListOfProducts.Count @resultType found</h3>
+                    string serachedTypeNoun = this.Model.ListOfProducts.Count == 1 ? "product" : "products";
+                            <h3 style="font-style: italic; font-weight: bold">@this.Model.ListOfProducts.Count @serachedTypeNoun found</h3>
                 }
             </div>
         </div>

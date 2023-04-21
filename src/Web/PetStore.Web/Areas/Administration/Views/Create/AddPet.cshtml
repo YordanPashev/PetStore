@@ -9,7 +9,7 @@
 
 @if (this.Model.UserMessage != null)
 {
-    <h1 style="text-align:center; color:red">@this.Model.UserMessage</h1>
+    <h1 class="userErrorMessage">@this.Model.UserMessage</h1>
 }
 <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
