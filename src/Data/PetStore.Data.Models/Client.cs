@@ -9,10 +9,7 @@ namespace PetStore.Data.Models
 
     public class Client : ApplicationUser
     {
-        public Client()
-        {
-            this.Pets = new HashSet<Pet>();
-        }
+        public Client() => this.Pets = new HashSet<Pet>();
 
         [Required]
         [MaxLength(ClientValidationConstants.NameMaxLength)]

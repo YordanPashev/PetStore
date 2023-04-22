@@ -1,12 +1,16 @@
 ﻿namespace PetStore.Data.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
+    using PetStore.Data.Common.Models;
     using PetStore.Data.Models.Common;
 
-    public class Order
+    public class Order : BaseDeletableModel<string>
     {
+        public Order() => this.Id = Guid.NewGuid().ToString();
+
         [Key]
         public string Id { get; set; }
 
@@ -30,7 +34,7 @@
         public string Address { get; set; }
 
         [Required]
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [Required]
         public decimal TotalPrice { get; set; }

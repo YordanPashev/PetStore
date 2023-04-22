@@ -8,10 +8,7 @@
 
     public class Request : BaseDeletableModel<string>
     {
-        public Request()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        public Request() => this.Id = Guid.NewGuid().ToString();
 
         [Required]
         [MaxLength(RequestValidationConstants.TitleMaxLength)]

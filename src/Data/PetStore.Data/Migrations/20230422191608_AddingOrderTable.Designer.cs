@@ -12,8 +12,8 @@ using PetStore.Data;
 namespace PetStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230422093859_AddingOrderProductsRelation")]
-    partial class AddingOrderProductsRelation
+    [Migration("20230422191608_AddingOrderTable")]
+    partial class AddingOrderTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -397,7 +397,7 @@ namespace PetStore.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("ClientCardId")
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
@@ -422,28 +422,19 @@ namespace PetStore.Data.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientCardId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.OrderProduct", b =>
-                {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProduct");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Pet", b =>
@@ -534,9 +525,6 @@ namespace PetStore.Data.Migrations
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -545,8 +533,6 @@ namespace PetStore.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
                 });
@@ -708,35 +694,15 @@ namespace PetStore.Data.Migrations
 
             modelBuilder.Entity("PetStore.Data.Models.Order", b =>
                 {
-                    b.HasOne("PetStore.Data.Models.ClientCard", "ClientCard")
+                    b.HasOne("PetStore.Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ClientCardId");
-
-                    b.HasOne("PetStore.Data.Models.Product", "Product")
-                        .WithMany("ProductOrders")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("ClientCard");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.OrderProduct", b =>
-                {
-                    b.HasOne("PetStore.Data.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("PetStore.Data.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
-                    b.Navigation("Order");
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Product");
                 });
@@ -756,14 +722,7 @@ namespace PetStore.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PetStore.Data.Models.Order", "Order")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.Navigation("Category");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Address", b =>
@@ -783,16 +742,6 @@ namespace PetStore.Data.Migrations
             modelBuilder.Entity("PetStore.Data.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.Order", b =>
-                {
-                    b.Navigation("OrderProducts");
-                });
-
-            modelBuilder.Entity("PetStore.Data.Models.Product", b =>
-                {
-                    b.Navigation("ProductOrders");
                 });
 
             modelBuilder.Entity("PetStore.Data.Models.Client", b =>

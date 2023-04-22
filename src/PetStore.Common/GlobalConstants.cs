@@ -116,6 +116,9 @@
 
         public const string SuccessfullyRemovedRequest = "The selected request has been removed from the list.";
 
+        // Order Messages
+        public const string SuccessfullySendedOrder = "You order has been send. We will contact with you today for confirmation.";
+
         // Order Critera
         public const string CriteriaPriceAscending = "Price Ascending";
 

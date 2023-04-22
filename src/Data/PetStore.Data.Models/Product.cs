@@ -11,10 +11,7 @@ namespace PetStore.Data.Models
 
     public class Product : BaseDeletableModel<string>
     {
-        public Product()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        public Product() => this.Id = Guid.NewGuid().ToString();
 
         [Required]
         [MaxLength(ProductValidationConstants.NameMaxLength)]
