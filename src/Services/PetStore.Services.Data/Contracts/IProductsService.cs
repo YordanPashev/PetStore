@@ -24,7 +24,7 @@
 
         IQueryable<Product> GetAllSearchedCategoryProductsInSale(string searchQueryCapitalCase, string categoryName, string orderCriteria);
 
-        Task<Product> GetByProductIdAsync(string id);
+        Task<Product> GetProductByIdAsync(string id);
 
         Task<Product> GetDeletedProductByIdAsyncNoTracking(string id);
 

@@ -23,21 +23,19 @@
             <h6 class="petDescription">@this.Model.Description</h6>
         </div>
         <div class="productPrice">Price: @Math.Round(this.Model.Price, 2) $</div>
-        @if(User.Identity.IsAuthenticated)
-        {
-            <div style="text-align:center">
-                <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-action="">Add to Card</a>
+        <form method="get" asp-area="" asp-controller="Order" asp-action="OrderDetails">
+            <input type="hidden" id="ProductId" name="ProductId" value="@this.Model.Id">
+            <div class="form-group col-md-1 mx-auto mt-2 mb-2" style="font-size: 16pt; text-align: center;">
+                <label for="Quantity" class="control-label">Quantity</label>
+                <input style="text-align: center;" id="Quantity" name="Quantity" value="1" class="form-control" type="number" step="1" min="1" equired />
             </div>
-        }
-        else
-        {
-            <div style="text-align:center">
-                <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-area="Identity" asp-controller="Account" asp-action="Login">Fast Purchase</a>
+            <div class="container mt-4" style="text-align:center">
+                <button class="btn btn-success mb-5" style="font-size: 18pt;" onclick="this.form.submit()">Make an order</button>
             </div>
-        }
+        </form>
         <div class="mb-3" style="text-align:center">
-            <a class="btn btn-dark" style="width: 200px; font-size: 18pt; float: left" asp-action="Index">All Products</a>
-            <a class="btn btn-info" style="font-size: 18pt; float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@this.Model.Category.Id">More @this.Model.CategoryName</a>
+            <a class="btn btn-dark" style="width: 200px; font-size: 16pt; float: left" asp-action="Index">All Products</a>
+            <a class="btn btn-info" style="font-size: 16pt; float: right" asp-controller="Categories" asp-action="CategoryProducts" asp-route-id="@this.Model.Category.Id">More @this.Model.CategoryName</a>
         </div>
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

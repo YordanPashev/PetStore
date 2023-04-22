@@ -107,7 +107,7 @@
             return listOfProducts;
         }
 
-        public async Task<Product> GetByProductIdAsync(string id)
+        public async Task<Product> GetProductByIdAsync(string id)
             => await this.productRepo
                     .AllAsNoTracking()
                     .Include(p => p.Category)

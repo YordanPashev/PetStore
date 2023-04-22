@@ -27,11 +27,11 @@
         public string Email { get; set; }
 
         [Required]
-        [RegularExpression(UserValidationConstants.PhoneNumberRrgex, ErrorMessage = GlobalConstants.UserPhoneNumberMessage)]
+        [RegularExpression(UserValidationConstants.PhoneNumberRegex, ErrorMessage = GlobalConstants.UserPhoneNumberMessage)]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [RegularExpression(UserValidationConstants.DeliveryAddressRrgex, ErrorMessage = GlobalConstants.UserDeliveryAddressMessage)]
+        [RegularExpression(UserValidationConstants.DeliveryAddressRegex, ErrorMessage = GlobalConstants.UserDeliveryAddressMessage)]
         public string AddressText { get; set; }
 
         public string UserMessage { get; set; }

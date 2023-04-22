@@ -43,7 +43,7 @@
         [HttpGet]
         public async Task<IActionResult> DeleteProduct(string id)
         {
-            Product product = await this.productService.GetByProductIdAsync(id);
+            Product product = await this.productService.GetProductByIdAsync(id);
 
             if (product != null)
             {

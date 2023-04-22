@@ -39,7 +39,7 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id, string message = null)
         {
-            Product product = await this.productsService.GetByProductIdAsync(id);
+            Product product = await this.productsService.GetProductByIdAsync(id);
             DetailsProductViewModel model = AutoMapperConfig.MapperInstance.Map<DetailsProductViewModel>(product);
 
             return this.productsControllerExtension.ViewOrNoProductFound(model, message);
