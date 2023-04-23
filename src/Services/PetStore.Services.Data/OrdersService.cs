@@ -1,6 +1,9 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
 
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
@@ -32,5 +35,11 @@
             await this.orderRepo.AddAsync(order);
             await this.orderRepo.SaveChangesAsync();
         }
+
+        public IQueryable<Order> GetAllClientsOrders(string clientId)
+            => this.orderRepo.AllAsNoTracking()
+                             .Where(o => o.ApplicationUserId == clientId)
+                             .Include(o => o.Product)
+                             .OrderByDescending(o => o.CreatedOn);
     }
 }

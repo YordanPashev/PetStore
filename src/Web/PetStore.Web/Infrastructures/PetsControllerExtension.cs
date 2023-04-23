@@ -6,7 +6,6 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Data.Models.Enums;
     using PetStore.Services.Data.Contracts;

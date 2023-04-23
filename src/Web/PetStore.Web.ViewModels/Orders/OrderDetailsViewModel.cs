@@ -4,13 +4,10 @@
     using System.ComponentModel.DataAnnotations;
 
     using PetStore.Common;
-    using PetStore.Data.Models;
     using PetStore.Data.Models.Common;
-    using PetStore.Web.ViewModels.Products;
 
     public class OrderDetailsViewModel
     {
-        [Required]
         public string ClientId { get; set; }
 
         [Required]
@@ -53,7 +50,6 @@
         [Required]
         public decimal ProductPrice { get; set; }
 
-        [Required]
         public int? ClientCardDiscount { get; set; }
 
         public decimal TotalPriceWithoutDiscount => this.ProductPrice * this.Quantity;

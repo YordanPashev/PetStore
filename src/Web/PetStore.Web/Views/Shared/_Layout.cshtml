@@ -68,8 +68,16 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index" style="font-weight: bold;">Contacts</a>
                     </li>
                 </ul>
+                @if (this.User.Identity.IsAuthenticated && !this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                        <ul class="navbar-nav ml-rigth">
+                            <li class="nav-item" style="float: right; font-size: 18pt;">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="ClientOrders" style="font-weight: bold;">My Orders</a>
+                            </li>
+                        </ul>
+                }
             </div>
-            @if (@User.IsInRole(GlobalConstants.AdministratorRoleName))
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 <div class="container-fluid" style="width: 220px">
                     <div class="collapse navbar-collapse" id="navbar1">
@@ -128,4 +136,3 @@
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

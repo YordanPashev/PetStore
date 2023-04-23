@@ -1,11 +1,12 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.CodeAnalysis;
 
     using PetStore.Common;
     using PetStore.Data.Models;
@@ -13,17 +14,16 @@
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Orders;
-    using PetStore.Web.ViewModels.Products;
     using PetStore.Web.ViewModels.User;
 
-    public class OrderController : Controller
+    public class OrdersController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private IUsersService usersService;
         private IProductsService productsService;
         private IOrdersService ordersService;
 
-        public OrderController(UserManager<ApplicationUser> userManager, IUsersService usersService, IProductsService productsService, IOrdersService ordersService)
+        public OrdersController(UserManager<ApplicationUser> userManager, IUsersService usersService, IProductsService productsService, IOrdersService ordersService)
         {
             this.userManager = userManager;
             this.usersService = usersService;
@@ -31,6 +31,7 @@
             this.ordersService = ordersService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> OrderDetails(OrderInfoViewModel orderInfo, string userErrorMessage = null)
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -52,9 +53,10 @@
             return this.View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateNewOrder(OrderDetailsViewModel orderDetails)
         {
-            OrderDetailsViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity);
+            OrderDetailsViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity, orderDetails);
 
             if (model.Quantity <= 0 || model.ProductId == null)
             {
@@ -74,7 +76,23 @@
             return this.RedirectToAction("Index", "Home", new { area = string.Empty, message = GlobalConstants.SuccessfullySendedOrder });
         }
 
-        private async Task<OrderDetailsViewModel> CreateOrderDetailsViewModel(string productId, int quantity)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ClientOrders()
+        {
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                this.ViewBag.Message = "Administrators can't make orders.";
+                return this.View("NotFound");
+            }
+
+            ApplicationUser user = await this.userManager.GetUserAsync(this.User);
+            ClientOrderDetailsViewModel[] model = this.ordersService.GetAllClientsOrders(user.Id).To<ClientOrderDetailsViewModel>().ToArray();
+
+            return this.View(model);
+        }
+
+        private async Task<OrderDetailsViewModel> CreateOrderDetailsViewModel(string productId, int quantity, OrderDetailsViewModel orderDetails = null)
         {
             Product product = await this.productsService.GetProductByIdAsync(productId);
 
@@ -100,6 +118,15 @@
                 model.Address = client.Address.AddressText;
                 model.ClientId = client.Id;
                 model.ClientCardDiscount = client.ClientCard.Discount;
+            }
+            else if (orderDetails != null)
+            {
+                model.FirstName = orderDetails.FirstName;
+                model.LastName = orderDetails.LastName;
+                model.PhoneNumber = orderDetails.PhoneNumber;
+                model.Email = orderDetails.Email;
+                model.Address = orderDetails.Address;
+                model.ClientCardDiscount = orderDetails.ClientCardDiscount;
             }
 
             return model;

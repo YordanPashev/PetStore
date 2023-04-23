@@ -274,3 +274,19 @@ body {
     font-size: 16pt; 
     text-align: start;
 }
+
+/* Orders table styles*/
+
+.discountCol {
+    font-size: 16pt;
+    color: red;
+    text-align: end;
+    font-weight: bold;
+}
+
+.deliveryAddressCol {
+    font-size: 16pt;
+    color: blue;
+    text-align: end;
+    font-weight: bold;
+}

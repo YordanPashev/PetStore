@@ -1,6 +1,6 @@
 ﻿namespace PetStore.Services.Data.Contracts
 {
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using PetStore.Data.Models;
@@ -9,5 +9,7 @@
     public interface IOrdersService
     {
         Task AddOrderAsync(OrderDetailsViewModel orderInfo);
+
+        IQueryable<Order> GetAllClientsOrders(string clientId);
     }
 }

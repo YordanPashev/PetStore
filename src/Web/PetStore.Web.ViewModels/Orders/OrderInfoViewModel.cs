@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PetStore.Web.ViewModels.Orders
+﻿namespace PetStore.Web.ViewModels.Orders
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class OrderInfoViewModel
     {
         [Required]
