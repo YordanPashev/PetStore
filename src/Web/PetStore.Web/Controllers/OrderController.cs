@@ -1,10 +1,12 @@
 ﻿namespace PetStore.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
+
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data;
@@ -37,23 +39,53 @@
                 return this.View("NotFound");
             }
 
-            Product product = await this.productsService.GetProductByIdAsync(orderInfo.ProductId);
+            OrderDetailsViewModel model = await this.CreateOrderDetailsViewModel(orderInfo.ProductId, orderInfo.Quantity);
 
-            if (orderInfo.Quantity <= 0 || orderInfo.ProductId == null)
+            if (model.ProductId == null || model.Quantity <= 0)
             {
                 this.ViewBag.Message = "No Product found or Invalid Quantity!";
                 return this.View("NotFound");
             }
 
+            this.ViewBag.UserErrorMessage = userErrorMessage;
+
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> CreateNewOrder(OrderDetailsViewModel orderDetails)
+        {
+            OrderDetailsViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity);
+
+            if (model.Quantity <= 0 || model.ProductId == null)
+            {
+                this.ViewBag.Message = "No Product found or Invalid Quantity!";
+                return this.View("NotFound");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                this.ViewBag.UserErrorMessage = "Invalid Data!";
+
+                return this.View("OrderDetails", model);
+            }
+
+            await this.ordersService.AddOrderAsync(model);
+
+            return this.RedirectToAction("Index", "Home", new { area = string.Empty, message = GlobalConstants.SuccessfullySendedOrder });
+        }
+
+        private async Task<OrderDetailsViewModel> CreateOrderDetailsViewModel(string productId, int quantity)
+        {
+            Product product = await this.productsService.GetProductByIdAsync(productId);
+
             OrderDetailsViewModel model = new OrderDetailsViewModel()
             {
-                UserErrorMessage = userErrorMessage,
                 ProductId = product.Id,
                 ProductName = product.Name,
                 ProductCategoryName = product.Category.Name,
                 ProductImageUrl = product.ImageUrl,
                 ProductPrice = product.Price,
-                Quantity = orderInfo.Quantity,
+                Quantity = quantity,
             };
 
             if (this.User.Identity.IsAuthenticated)
@@ -70,26 +102,7 @@
                 model.ClientCardDiscount = client.ClientCard.Discount;
             }
 
-            return this.View(model);
-        }
-
-        public async Task<IActionResult> CreateNewOrder(OrderDetailsViewModel oderDetails)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                string userErrorMessage = "Invalid Data!";
-                OrderInfoViewModel orderInfo = new OrderInfoViewModel()
-                {
-                    ProductId = oderDetails.ProductId,
-                    Quantity = oderDetails.Quantity,
-                };
-
-                return this.RedirectToAction("OrderDetails", new { orderInfo, userErrorMessage });
-            }
-
-            await this.ordersService.AddOrderAsync(oderDetails);
-
-            return this.RedirectToAction("Index", "Home", new { area = string.Empty, message = GlobalConstants.SuccessfullySendedOrder });
+            return model;
         }
     }
 }

@@ -5,9 +5,9 @@
 @{
     this.ViewData["Title"] = "Order Details";
 }
-@if (!string.IsNullOrEmpty(this.Model.UserErrorMessage))
+@if (!string.IsNullOrEmpty(this.ViewBag.UserErrorMessage))
 {
-    <h1 class="userErrorMessage">@this.Model.UserErrorMessage</h1>
+    <h1 class="userErrorMessage">@this.ViewBag.UserErrorMessage</h1>
 }
 
 <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>

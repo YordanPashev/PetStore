@@ -60,8 +60,6 @@
 
         public decimal? TotalPriceWithDiscount => this.GetTotalPriceWithDiscount();
 
-        public string UserErrorMessage { get; set; }
-
         private decimal? GetTotalPriceWithDiscount()
         {
             if (this.ClientId == null || this.ClientCardDiscount == null)
