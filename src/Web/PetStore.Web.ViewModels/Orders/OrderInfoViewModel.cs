@@ -2,6 +2,8 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using PetStore.Data.Models.Enums;
+
     public class OrderInfoViewModel
     {
         [Required]

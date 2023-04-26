@@ -54,6 +54,9 @@
 
         // User Messages
 
+        // Adming Messages
+        public const string AdminCantMakeOrdersMessage = "Administrators can't make orders.";
+
         // Edit Categories Messages
         public const string CantDeleteCateoryWithProductsMessage = "You can delete only categories with 0 products.";
 

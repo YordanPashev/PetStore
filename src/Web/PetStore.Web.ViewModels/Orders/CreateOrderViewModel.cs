@@ -5,8 +5,9 @@
 
     using PetStore.Common;
     using PetStore.Data.Models.Common;
+    using PetStore.Data.Models.Enums;
 
-    public class OrderDetailsViewModel
+    public class CreateOrderViewModel
     {
         public string ClientId { get; set; }
 
@@ -55,6 +56,9 @@
         public decimal TotalPriceWithoutDiscount => this.ProductPrice * this.Quantity;
 
         public decimal? TotalPriceWithDiscount => this.GetTotalPriceWithDiscount();
+
+        [Required]
+        public OrderStatus Status => OrderStatus.Pending;
 
         private decimal? GetTotalPriceWithDiscount()
         {

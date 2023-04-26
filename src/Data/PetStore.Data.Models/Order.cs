@@ -6,6 +6,7 @@
 
     using PetStore.Data.Common.Models;
     using PetStore.Data.Models.Common;
+    using PetStore.Data.Models.Enums;
 
     public class Order : BaseDeletableModel<string>
     {
@@ -48,5 +49,8 @@
         public string ProductId { get; set; }
 
         public Product Product { get; set; }
+
+        [Required]
+        public OrderStatus Status { get; set; }
     }
 }

@@ -10,6 +10,7 @@
 
     using PetStore.Common;
     using PetStore.Data.Models;
+    using PetStore.Data.Models.Enums;
     using PetStore.Services.Data;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
@@ -36,11 +37,11 @@
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                this.ViewBag.Message = "Administrators can't make orders.";
+                this.ViewBag.Message = GlobalConstants.AdminCantMakeOrdersMessage;
                 return this.View("NotFound");
             }
 
-            OrderDetailsViewModel model = await this.CreateOrderDetailsViewModel(orderInfo.ProductId, orderInfo.Quantity);
+            CreateOrderViewModel model = await this.CreateOrderDetailsViewModel(orderInfo.ProductId, orderInfo.Quantity);
 
             if (model.ProductId == null || model.Quantity <= 0)
             {
@@ -54,11 +55,11 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNewOrder(OrderDetailsViewModel orderDetails)
+        public async Task<IActionResult> CreateNewOrder(CreateOrderViewModel orderDetails)
         {
-            OrderDetailsViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity, orderDetails);
+            CreateOrderViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity, orderDetails);
 
-            if (model.Quantity <= 0 || model.ProductId == null)
+            if (model.Quantity <= 0 || model.ProductId == null || model.Status != OrderStatus.Pending)
             {
                 this.ViewBag.Message = "No Product found or Invalid Quantity!";
                 return this.View("NotFound");
@@ -82,21 +83,23 @@
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                this.ViewBag.Message = "Administrators can't make orders.";
+                this.ViewBag.Message = GlobalConstants.AdminCantMakeOrdersMessage;
                 return this.View("NotFound");
             }
 
             ApplicationUser user = await this.userManager.GetUserAsync(this.User);
-            ClientOrderDetailsViewModel[] model = this.ordersService.GetAllClientsOrders(user.Id).To<ClientOrderDetailsViewModel>().ToArray();
+            OrderShortInfoViewModel[] model = this.ordersService.GetAllClientsOrders(user.Id)
+                                                                .To<OrderShortInfoViewModel>()
+                                                                .ToArray();
 
             return this.View(model);
         }
 
-        private async Task<OrderDetailsViewModel> CreateOrderDetailsViewModel(string productId, int quantity, OrderDetailsViewModel orderDetails = null)
+        private async Task<CreateOrderViewModel> CreateOrderDetailsViewModel(string productId, int quantity, CreateOrderViewModel orderDetails = null)
         {
             Product product = await this.productsService.GetProductByIdAsync(productId);
 
-            OrderDetailsViewModel model = new OrderDetailsViewModel()
+            CreateOrderViewModel model = new CreateOrderViewModel()
             {
                 ProductId = product.Id,
                 ProductName = product.Name,
@@ -110,12 +113,13 @@
             {
                 ApplicationUser user = await this.userManager.GetUserAsync(this.User);
                 UserDetailsViewModel client = await this.usersService.GetActiveUserByIdAsycn(user.Id);
+                string address = orderDetails == null ? client.Address.AddressText : orderDetails.Address;
 
                 model.FirstName = client.FirstName;
                 model.LastName = client.LastName;
                 model.PhoneNumber = client.PhoneNumber;
                 model.Email = client.Email;
-                model.Address = client.Address.AddressText;
+                model.Address = address;
                 model.ClientId = client.Id;
                 model.ClientCardDiscount = client.ClientCard.Discount;
             }

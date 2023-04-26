@@ -290,3 +290,10 @@ body {
     text-align: end;
     font-weight: bold;
 }
+
+.orderStatusCol {
+    font-size: 16pt;
+    color: red;
+    text-align: end;
+    font-weight: bold;
+}

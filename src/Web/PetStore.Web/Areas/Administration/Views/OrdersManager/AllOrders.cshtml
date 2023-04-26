@@ -4,7 +4,7 @@
 @model OrderShortInfoViewModel[]
 
 @{
-    this.ViewData["Title"] = "My Orders";
+    this.ViewData["Title"] = "All Orders";
 }
 @if (!string.IsNullOrEmpty(this.ViewBag.UserErrorMessage))
 {
@@ -48,7 +48,7 @@
 }
 else
 {
-    <h1 style="text-align: center">You do not have any orders.</h1> 
+    <h1 style="text-align: center">There is no orders yet.</h1> 
     <br />
 }
 
