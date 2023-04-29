@@ -2,8 +2,6 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using PetStore.Data.Models.Enums;
-
     public class CreateOrderInitialInfoViewModel
     {
         [Required]

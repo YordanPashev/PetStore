@@ -3,11 +3,12 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-
+    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.Infrastructures;
+    using PetStore.Web.ViewModels.Appointment;
     using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.Search;
 

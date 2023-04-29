@@ -35,11 +35,12 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateOrder(CreateOrderInitialInfoViewModel orderInfo, string userErrorMessage = null)
+        public async Task<IActionResult> CreateNewOrder(CreateOrderInitialInfoViewModel orderInfo, string userErrorMessage = null)
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 this.ViewBag.Message = GlobalConstants.AdminCantMakeOrdersMessage;
+
                 return this.View("NotFound");
             }
 
@@ -48,6 +49,7 @@
             if (model.ProductId == null || model.Quantity <= 0)
             {
                 this.ViewBag.Message = "No Product found or Invalid Quantity!";
+
                 return this.View("NotFound");
             }
 
@@ -64,6 +66,7 @@
             if (model.Quantity <= 0 || model.ProductId == null || model.Status != OrderStatus.Pending)
             {
                 this.ViewBag.Message = "No Product found or Invalid Quantity!";
+
                 return this.View("NotFound");
             }
 
@@ -86,6 +89,7 @@
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 this.ViewBag.Message = GlobalConstants.AdminCantMakeOrdersMessage;
+
                 return this.View("NotFound");
             }
 
@@ -106,6 +110,7 @@
             if (order == null)
             {
                 this.ViewBag.UserMessage = "No order found.";
+
                 return this.View("NotFound");
             }
 

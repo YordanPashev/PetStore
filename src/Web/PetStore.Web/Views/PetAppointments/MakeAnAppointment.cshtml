@@ -1,0 +1,81 @@
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
+@model PetStore.Web.ViewModels.Appointment.MakeAnPetAppointmentViewModel
+
+@{
+    this.ViewData["Title"] = "Make an appointment";
+}
+
+@if (!string.IsNullOrEmpty(this.ViewBag.UserErrorMessage))
+{
+    <h1 class="userErrorMessage">@this.ViewBag.UserErrorMessage</h1>
+}
+
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
+<div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
+    <div class="col-md-4 mx-auto">
+        <form method="post" asp-action="MakeAnAppointment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="PetId" name="PetId" value="@this.Model.Pet.Id">
+
+            @if (this.Model.ClientId != null && this.User.Identity.IsAuthenticated)
+            {
+                <input type="hidden" id="ClientId" name="ClientId" value="@this.Model.ClientId">
+                <input type="hidden" id="FirstName" name="FirstName" value="@this.Model.FirstName">
+                <input type="hidden" id="LastName" name="LastName" value="@this.Model.LastName">
+                <input type="hidden" id="Email" name="Email" value="@this.Model.Email">
+                <input type="hidden" id="PhoneNumber" name="PhoneNumber" value="@this.Model.PhoneNumber">
+            }
+            else
+            {
+                <div class="form-group mt-3 mb-3">
+                    <label for="FirstName" class="control-label">First Name</label>
+                    <input id="FirstName" name="FirstName" class="form-control" type="text" placeholder="FirstName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="LastName" class="control-label">Last Name</label>
+                    <input id="LastName" name="LastName" class="form-control" type="text" placeholder="LastName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Email" class="control-label">Email</label>
+                    <input id="Email" name="Email" class="form-control" type="email" placeholder="Email" title="@GlobalConstants.UserPhoneNumberMessage" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="PhoneNumber" class="control-label">Phone Number</label>
+                    <input id="PhoneNumber" name="PhoneNumber" class="form-control" placeholder="PhoneNumber" pattern="@UserValidationConstants.PhoneNumberRegex" title="@GlobalConstants.UserPhoneNumberMessage" required />
+                </div>
+                <br />
+            }
+            <div class="form-group mb-3">
+                <label for="Price" class="control-label" style="font-size: 16pt; text-align: center; font-weight:bold;">Please select date and time for the appointment.
+                </label>
+                <label for="Price" class="control-label mb-4" style="font-size: 16pt; color: red; text-align: center; font-weight:bold; font-style: italic;">
+                        @GlobalConstants.ShopsInOpenedFromMessage
+                </label>
+                <input id="Appointment" value="" name="Appointment" class="form-control" type="datetime-local" required />
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto mb-3">
+                <input type="submit" value="Submit" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<h2 style="text-align:center"><strong>@this.Model.Pet.Name</strong></h2>
+<h4 class="petTypeHeader"><i>Type: @this.Model.Pet.Type</i></h4>
+<div class="d-flex justify-content-center container mt-3">
+    <div class="card p-3" style="background-color: #F7F7F7;">
+        <i class="fa fa-apple"></i>
+        <div class="about-product text-center mt-2 mb-2"><img alt="No image" src="@this.Model.Pet.ImageUrl" width="600"></div>
+        <div class="petProperties"><i><strong>Breed:</strong></i> @this.Model.Pet.Breed</div>
+        <div class="petProperties"><i><strong>Gender:</strong></i> @this.Model.Pet.GenderInTextFormat</div>
+        <div class="petProperties"><i><strong>Age:</strong></i> @this.Model.Pet.AgeInTextFormat</div>
+        <div class="petProperties"><i><strong>Date of birth:</strong></i> @this.Model.Pet.BirthDate.ToString(GlobalConstants.PetBirthDateFormat)</div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

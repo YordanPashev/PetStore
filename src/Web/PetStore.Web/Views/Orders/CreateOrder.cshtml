@@ -7,7 +7,7 @@
 }
 @if (!string.IsNullOrEmpty(this.ViewBag.UserErrorMessage))
 {
-    <h1 class="userErrorMessage">@this.ViewBag.UserErrorMessage</h1>
+        <h1 class="userErrorMessage">@this.ViewBag.UserErrorMessage</h1>
 }
 
 <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
@@ -21,10 +21,10 @@
             <input type="hidden" id="ProductCategoryName" name="ProductCategoryName" value="@this.Model.ProductCategoryName">
             <input type="hidden" id="ProductPrice" name="ProductPrice" value="@this.Model.ProductPrice">
             <input type="hidden" id="Quantity" name="Quantity" value="@this.Model.Quantity">
-            <input type="hidden" id="ClientId" name="ClientId" value="@this.Model.ClientId">
 
             @if (this.Model.ClientId != null && this.User.Identity.IsAuthenticated)
             {
+                <input type="hidden" id="ClientId" name="ClientId" value="@this.Model.ClientId">
                 <input type="hidden" id="FirstName" name="FirstName" value="@this.Model.FirstName">
                 <input type="hidden" id="LastName" name="LastName" value="@this.Model.LastName">
                 <input type="hidden" id="Email" name="Email" value="@this.Model.Email">
@@ -77,7 +77,7 @@
             <th class="lastThreeLabelCols" style="color: green;">Quantity</th>
             @if (this.User.Identity.IsAuthenticated)
             {
-                <th class="lastThreeLabelCols" style="color: red;">Discount</th>
+                    <th class="lastThreeLabelCols" style="color: red;">Discount</th>
             }
             <th class="lastThreeLabelCols" style="color: darkorange;">Total Price</th>
         </tr>
@@ -90,12 +90,12 @@
             <td class="quantityCol">@Html.DisplayFor(modelItem => this.Model.Quantity)</td>
             @if (this.User.Identity.IsAuthenticated)
             {
-                <td class="discountCol">@Html.DisplayFor(modelItem => this.Model.ClientCardDiscount) %</td>
-                <td class="productPriceCol"><s>@Model.TotalPriceWithoutDiscount $</s> <br /> @Model.TotalPriceWithDiscount $</td>
+                    <td class="discountCol">@Html.DisplayFor(modelItem => this.Model.ClientCardDiscount) %</td>
+                    <td class="productPriceCol"><s>@Model.TotalPriceWithoutDiscount $</s> <br /> @Model.TotalPriceWithDiscount $</td>
             }
             else
             {
-                <td class="productPriceCol">@Model.TotalPriceWithoutDiscount $</td>
+                    <td class="productPriceCol">@Model.TotalPriceWithoutDiscount $</td>
 
             }
         </tr>

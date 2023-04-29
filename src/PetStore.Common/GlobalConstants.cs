@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using static System.Formats.Asn1.AsnWriter;
 
     public static class GlobalConstants
     {
@@ -10,6 +11,10 @@
         public const string SystemName = "PetStore";
 
         public const string AdministratorRoleName = "Administrator";
+
+        // Shop Info
+        public const string ShopsInOpenedFromMessage = $"Shops is opened from {ShopWrokingDays} {ShopWrokingHours}.";
+
 
         // Account Statuses
         public const string AccountStatusActive = "Active";
@@ -56,6 +61,8 @@
 
         // Adming Messages
         public const string AdminCantMakeOrdersMessage = "Administrators can't make orders.";
+
+        public const string AdminCantMakepetAppointmentsMessage = "Administrators can't make pet appointments.";
 
         // Edit Categories Messages
         public const string CantDeleteCateoryWithProductsMessage = "You can delete only categories with 0 products.";

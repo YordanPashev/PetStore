@@ -34,6 +34,8 @@
 
         public DbSet<Pet> Pets { get; set; }
 
+        public DbSet<PetApppointment> PetApppointments { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Request> Requests { get; set; }
