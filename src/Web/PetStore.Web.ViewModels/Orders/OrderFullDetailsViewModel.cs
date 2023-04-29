@@ -1,5 +1,8 @@
 ﻿namespace PetStore.Web.ViewModels.Orders
 {
+    using System;
+    using System.Collections.Generic;
+
     using AutoMapper;
 
     using PetStore.Data.Models;
@@ -30,6 +33,8 @@
         public Product Product { get; set; }
 
         public string Status { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

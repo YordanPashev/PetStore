@@ -1,7 +1,7 @@
 ﻿namespace PetStore.Web.ViewModels.Orders
 {
     using AutoMapper;
-
+    using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Mapping;
 
@@ -23,10 +23,26 @@
 
         public string Status { get; set; }
 
+        public string StatusColor => this.GetStatusColor();
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Order, OrderShortInfoViewModel>()
                 .ForMember(od => od.Status, o => o.MapFrom(o => o.Status.ToString()));
+        }
+
+        private string GetStatusColor()
+        {
+            if (this.Status == GlobalConstants.OrderStatuses.Dispatched)
+            {
+                return "darkgoldenrod";
+            }
+            else if (this.Status == GlobalConstants.OrderStatuses.Delivered)
+            {
+                return "green";
+            }
+
+            return "red";
         }
     }
 }

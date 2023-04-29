@@ -8,10 +8,16 @@
 
     public interface IOrdersService
     {
-        Task AddOrderAsync(CreateOrderViewModel orderInfo);
+        Task AddOrderAsync(CreateOrderFullInfoViewModel orderInfo);
+
+        Task ChangeOrderStatus(Order order, string status);
 
         IQueryable<Order> GetAllClientsOrders(string clientId);
 
         IQueryable<Order> GetAllOrders();
+
+        Task<Order> GetOrderByIdAsync(string id);
+
+        Task<Order> GetOrderByIdForEditAsync(string id);
     }
 }

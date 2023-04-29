@@ -1,0 +1,109 @@
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
+@model PetStore.Web.ViewModels.Orders.CreateOrderFullInfoViewModel
+
+@{
+    this.ViewData["Title"] = "Create New Order";
+}
+@if (!string.IsNullOrEmpty(this.ViewBag.UserErrorMessage))
+{
+    <h1 class="userErrorMessage">@this.ViewBag.UserErrorMessage</h1>
+}
+
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
+<div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
+    <div class="col-md-4 mx-auto">
+        <form method="post" asp-action="CreateNewOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="ProductId" name="ProductId" value="@this.Model.ProductId">
+            <input type="hidden" id="ProductName" name="ProductName" value="@this.Model.ProductName">
+            <input type="hidden" id="ProductImageUrl" name="ProductImageUrl" value="@this.Model.ProductImageUrl">
+            <input type="hidden" id="ProductCategoryName" name="ProductCategoryName" value="@this.Model.ProductCategoryName">
+            <input type="hidden" id="ProductPrice" name="ProductPrice" value="@this.Model.ProductPrice">
+            <input type="hidden" id="Quantity" name="Quantity" value="@this.Model.Quantity">
+            <input type="hidden" id="ClientId" name="ClientId" value="@this.Model.ClientId">
+
+            @if (this.Model.ClientId != null && this.User.Identity.IsAuthenticated)
+            {
+                <input type="hidden" id="FirstName" name="FirstName" value="@this.Model.FirstName">
+                <input type="hidden" id="LastName" name="LastName" value="@this.Model.LastName">
+                <input type="hidden" id="Email" name="Email" value="@this.Model.Email">
+                <input type="hidden" id="PhoneNumber" name="PhoneNumber" value="@this.Model.PhoneNumber">
+                <input type="hidden" id="TotalPriceWithDiscount" name="TotalPriceWithDiscount" value="@this.Model.TotalPriceWithDiscount">
+                <input type="hidden" id="ClientCardDiscount" name="ClientCardDiscount" value="@this.Model.ClientCardDiscount">
+
+                <div class="form-group mb-3">
+                    <label for="Address" class="control-label">Delivery Address</label>
+                    <input id="Address" name="Address" class="form-control" value="@this.Model.Address" pattern="@UserValidationConstants.DeliveryAddressRegex" title="@GlobalConstants.UserDeliveryAddressMessage" required />
+                </div>
+            }
+            else
+            {
+                <div class="form-group mt-3 mb-3">
+                    <label for="FirstName" class="control-label">First Name</label>
+                    <input id="FirstName" name="FirstName" class="form-control" type="text" placeholder="FirstName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="LastName" class="control-label">Last Name</label>
+                    <input id="LastName" name="LastName" class="form-control" type="text" placeholder="LastName" minlength="@UserValidationConstants.NameMinLength" maxlength="@UserValidationConstants.NameMaxLength" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Email" class="control-label">Email</label>
+                    <input id="Email" name="Email" class="form-control" type="email" placeholder="Email" title="@GlobalConstants.UserPhoneNumberMessage" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="PhoneNumber" class="control-label">Phone Number</label>
+                    <input id="PhoneNumber" name="PhoneNumber" class="form-control" placeholder="PhoneNumber" pattern="@UserValidationConstants.PhoneNumberRegex" title="@GlobalConstants.UserPhoneNumberMessage" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Address" class="control-label">Delivery Address</label>
+                    <input id="Address" name="Address" class="form-control" placeholder="Address" pattern="@UserValidationConstants.DeliveryAddressRegex" title="@GlobalConstants.UserDeliveryAddressMessage" required />
+                </div>
+                <br />
+            }
+            <div class="d-grid gap-2 col-6 mx-auto mb-3">
+                <input type="submit" value="Submit" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table mt-8" style="border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
+    <thead>
+        <tr>
+            <th class="firstTwoLabelCols">Product</th>
+            <th class="firstTwoLabelCols">Name</th>
+            <th class="lastThreeLabelCols" style="color: gray;">Category</th>
+            <th class="lastThreeLabelCols" style="color: green;">Quantity</th>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <th class="lastThreeLabelCols" style="color: red;">Discount</th>
+            }
+            <th class="lastThreeLabelCols" style="color: darkorange;">Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr name="trData">
+            <td><img src="@this.Model.ProductImageUrl" alt="No Image" style="height: 120px; width: 160px;"></td>
+            <td class="productNameCol">@Html.DisplayFor(modelItem => this.Model.ProductName)</td>
+            <td class="categoryNameCol">@Html.DisplayFor(modelItem => this.Model.ProductCategoryName)</td>
+            <td class="quantityCol">@Html.DisplayFor(modelItem => this.Model.Quantity)</td>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <td class="discountCol">@Html.DisplayFor(modelItem => this.Model.ClientCardDiscount) %</td>
+                <td class="productPriceCol"><s>@Model.TotalPriceWithoutDiscount $</s> <br /> @Model.TotalPriceWithDiscount $</td>
+            }
+            else
+            {
+                <td class="productPriceCol">@Model.TotalPriceWithoutDiscount $</td>
+
+            }
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

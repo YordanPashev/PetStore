@@ -6,7 +6,10 @@
     this.ViewData["Title"] = "Edit Category";
 }
 
-<h1 style="text-align:center; color:red">@ViewBag.UserMessage</h1>
+@if (!string.IsNullOrEmpty(this.ViewBag.UserMessage))
+{
+    <h1 style="text-align:center; color:red">@ViewBag.UserMessage</h1>
+}
 
 <h1 style="text-align: center; font-weight: bold">@this.ViewData["Title"]</h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">

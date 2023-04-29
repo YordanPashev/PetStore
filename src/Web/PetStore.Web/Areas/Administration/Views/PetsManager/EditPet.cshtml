@@ -6,7 +6,10 @@
     this.ViewData["Title"] = "Edit Pet";
 }
 
-<h1 class="userErrorMessage">@this.Model.UserMessage</h1>
+@if (!string.IsNullOrEmpty(this.Model.UserMessage))
+{
+    <h1 class="userErrorMessage">@this.Model.UserMessage</h1>
+}
 
 <h1 style="text-align: center; font-weight: bold">@this.ViewData["Title"]</h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
@@ -36,25 +39,23 @@
             <div class="form-group">
                 <label for="GenderInTextFormat" class="control-label">Gender</label>
                 <select id="GenderInTextFormat" name="GenderInTextFormat" class="form-select">
-                    @{
-                        <option value="@this.Model.GenderInTextFormat">@this.Model.GenderInTextFormat</option>
-                        foreach (var petGender in this.Model.PetGenders.Where(c => c != this.Model.GenderInTextFormat))
-                        {
-                            <option value="@petGender">@petGender</option>
-                        }
+                    <option value="@this.Model.GenderInTextFormat">@this.Model.GenderInTextFormat</option>
+                    @foreach (var petGender in this.Model.PetGenders.Where(c => c != this.Model.GenderInTextFormat))
+                    {
+                        <option value="@petGender">@petGender</option>
                     }
                 </select>
             </div>
             <div class="form-group">
                 <label for="TypeName" class="control-label">Type</label>
-                    <select id="TypeName" name="TypeName" class="form-select">
-                    @{
-                        <option value="@this.Model.TypeName">@this.Model.TypeName</option>
-                        foreach (var petTypeName in this.Model.PetTypes.Where(c => c != this.Model.TypeName))
-                        {
-                            <option value="@petTypeName">@petTypeName</option>
-                        }
+                <select id="TypeName" name="TypeName" class="form-select">
+                    
+                    <option value="@this.Model.TypeName">@this.Model.TypeName</option>
+                    @foreach (var petTypeName in this.Model.PetTypes.Where(c => c != this.Model.TypeName))
+                    {
+                        <option value="@petTypeName">@petTypeName</option>
                     }
+                    
                 </select>
             </div>
             <br/>

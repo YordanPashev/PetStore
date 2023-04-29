@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Web.Controllers
 {
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Orders;
+    using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.User;
 
     public class OrdersController : Controller
@@ -33,7 +35,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> OrderDetails(OrderInfoViewModel orderInfo, string userErrorMessage = null)
+        public async Task<IActionResult> CreateOrder(CreateOrderInitialInfoViewModel orderInfo, string userErrorMessage = null)
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
@@ -41,7 +43,7 @@
                 return this.View("NotFound");
             }
 
-            CreateOrderViewModel model = await this.CreateOrderDetailsViewModel(orderInfo.ProductId, orderInfo.Quantity);
+            CreateOrderFullInfoViewModel model = await this.CreateOrderDetailsViewModel(orderInfo.ProductId, orderInfo.Quantity);
 
             if (model.ProductId == null || model.Quantity <= 0)
             {
@@ -55,9 +57,9 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNewOrder(CreateOrderViewModel orderDetails)
+        public async Task<IActionResult> CreateNewOrder(CreateOrderFullInfoViewModel orderDetails)
         {
-            CreateOrderViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity, orderDetails);
+            CreateOrderFullInfoViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity, orderDetails);
 
             if (model.Quantity <= 0 || model.ProductId == null || model.Status != OrderStatus.Pending)
             {
@@ -67,9 +69,9 @@
 
             if (!this.ModelState.IsValid)
             {
-                this.ViewBag.UserErrorMessage = "Invalid Data!";
+                this.ViewBag.UserErrorMessage = GlobalConstants.InvalidDataErrorMessage;
 
-                return this.View("OrderDetails", model);
+                return this.View("CreateOrder", model);
             }
 
             await this.ordersService.AddOrderAsync(model);
@@ -95,11 +97,29 @@
             return this.View(model);
         }
 
-        private async Task<CreateOrderViewModel> CreateOrderDetailsViewModel(string productId, int quantity, CreateOrderViewModel orderDetails = null)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> OrderDetails(string id, string userMessage)
+        {
+            Order order = await this.ordersService.GetOrderByIdAsync(id);
+
+            if (order == null)
+            {
+                this.ViewBag.UserMessage = "No order found.";
+                return this.View("NotFound");
+            }
+
+            OrderFullDetailsViewModel model = AutoMapperConfig.MapperInstance.Map<OrderFullDetailsViewModel>(order);
+            this.ViewBag.UserMessage = userMessage;
+
+            return this.View(model);
+        }
+
+        private async Task<CreateOrderFullInfoViewModel> CreateOrderDetailsViewModel(string productId, int quantity, CreateOrderFullInfoViewModel orderDetails = null)
         {
             Product product = await this.productsService.GetProductByIdAsync(productId);
 
-            CreateOrderViewModel model = new CreateOrderViewModel()
+            CreateOrderFullInfoViewModel model = new CreateOrderFullInfoViewModel()
             {
                 ProductId = product.Id,
                 ProductName = product.Name,

@@ -176,22 +176,22 @@
 
         private IQueryable<Pet> OrderByCriteria(string orderCriteria, IQueryable<Pet> listOfPets)
         {
-            if (orderCriteria == GlobalConstants.CriteriaPriceAscending)
+            if (orderCriteria == GlobalConstants.OrderCriteria.PriceAscending)
             {
                 return listOfPets.OrderBy(p => p.Price)
                                  .ThenBy(p => p.Name);
             }
-            else if (orderCriteria == GlobalConstants.CriteriaPriceDescending)
+            else if (orderCriteria == GlobalConstants.OrderCriteria.PriceDescending)
             {
                 return listOfPets.OrderByDescending(p => p.Price)
                                  .ThenBy(p => p.Name);
             }
-            else if (orderCriteria == GlobalConstants.CriteriaType)
+            else if (orderCriteria == GlobalConstants.OrderCriteria.Type)
             {
                 return listOfPets.OrderBy(p => p.Type)
                                  .ThenBy(p => p.Name);
             }
-            else if (orderCriteria == GlobalConstants.CriteriaRecent)
+            else if (orderCriteria == GlobalConstants.OrderCriteria.Recent)
             {
                 return listOfPets.OrderByDescending(p => p.CreatedOn)
                                  .ThenBy(p => p.Name);

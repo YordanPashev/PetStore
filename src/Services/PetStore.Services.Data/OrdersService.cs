@@ -1,5 +1,6 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,7 +20,7 @@
         public OrdersService(IDeletableEntityRepository<Order> orderRepo)
             => this.orderRepo = orderRepo;
 
-        public async Task AddOrderAsync(CreateOrderViewModel orderInfo)
+        public async Task AddOrderAsync(CreateOrderFullInfoViewModel orderInfo)
         {
             Order order = new Order()
             {
@@ -39,6 +40,13 @@
             await this.orderRepo.SaveChangesAsync();
         }
 
+        public async Task ChangeOrderStatus(Order order, string status)
+        {
+            order.Status = Enum.Parse<OrderStatus>(status);
+
+            await this.orderRepo.SaveChangesAsync();
+        }
+
         public IQueryable<Order> GetAllClientsOrders(string clientId)
             => this.orderRepo.AllAsNoTracking()
                              .Where(o => o.ApplicationUserId == clientId)
@@ -50,5 +58,19 @@
             => this.orderRepo.AllAsNoTracking()
                              .Include(o => o.Product)
                              .ThenInclude(p => p.Category);
+
+        public async Task<Order> GetOrderByIdAsync(string id)
+            => await this.orderRepo.AllAsNoTracking()
+                             .Where(o => o.Id == id)
+                             .Include(o => o.Product)
+                             .ThenInclude(p => p.Category)
+                             .FirstOrDefaultAsync();
+
+        public async Task<Order> GetOrderByIdForEditAsync(string id)
+            => await this.orderRepo.All()
+                             .Where(o => o.Id == id)
+                             .Include(o => o.Product)
+                             .ThenInclude(p => p.Category)
+                             .FirstOrDefaultAsync();
     }
 }

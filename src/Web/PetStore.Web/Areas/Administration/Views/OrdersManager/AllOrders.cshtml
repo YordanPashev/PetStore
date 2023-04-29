@@ -12,34 +12,33 @@
 }
 @if (this.Model.Length > 0)
 {
-
     <h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
     <table class="table mt-8" style="border-bottom: 2px solid; border-radius: 15px; border-color: black; backdrop-filter: blur(20px);">
         <thead>
             <tr>
                 <th class="firstTwoLabelCols">Product</th>
                 <th class="firstTwoLabelCols">Name</th>
-                <th class="lastThreeLabelCols" style="color: gray;">Category</th>
-                <th class="lastThreeLabelCols" style="color: green;">Quantity</th>
-                <th class="lastThreeLabelCols" style="color: blue; width: 300px">Delivery Adress</th>
-                <th class="lastThreeLabelCols" style="color: darkorange;">Total Price</th>
-                <th class="lastThreeLabelCols" style="color: red;">Status</th>
-                <th class="lastThreeLabelCols" style="color: #0DCAF0;">Details</th>
+                <th class="lastThreeLabelCols">Category</th>
+                <th class="lastThreeLabelCols">Quantity</th>
+                <th class="lastThreeLabelCols" style="width: 300px">Delivery Adress</th>
+                <th class="lastThreeLabelCols">Total Price</th>
+                <th class="lastThreeLabelCols">Status</th>
+                <th class="lastThreeLabelCols">Details</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var order in this.Model)
             {
                 <tr name="trData">
-                    <td><img src="@order.Product.ImageUrl" alt="No Image" style="height: 120px; width: 160px;"></td>
-                    <td class="productNameCol">@Html.DisplayFor(modelItem => order.Product.Name)</td>
-                    <td class="categoryNameCol">@Html.DisplayFor(modelItem => order.Product.Category.Name)</td>
-                    <td class="quantityCol">@Html.DisplayFor(modelItem => order.Quantity)</td>
-                    <td class="deliveryAddressCol" style="width: 300px">@Html.DisplayFor(modelItem => order.Address)</td>
-                    <td class="productPriceCol">@order.TotalPrice $</td>
-                    <td class="orderStatusCol">@order.Status</td>
-                    <td class="optionButtonsCol">
-                        <a class="btn btn-info" style="font-size: 15pt" asp-area="" asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id">Details</a>
+                    <td onclick="location.href='@Url.Action("OrderDetails", "Orders", new { area = string.Empty, order.Id })'"><img src="@order.Product.ImageUrl" alt="No Image" style="height: 120px; width: 160px;"></td>
+                    <td class="productNameCol"onclick="location.href='@Url.Action("OrderDetails", "Orders", new { area = string.Empty, order.Id })'">@Html.DisplayFor(modelItem => order.Product.Name)</td>
+                    <td class="categoryNameCol" style="color: black;" onclick="location.href='@Url.Action("OrderDetails", "Orders", new { area = string.Empty, order.Id })'">@Html.DisplayFor(modelItem => order.Product.Category.Name)</td>
+                    <td class="quantityCol" style="color: black;" onclick="location.href='@Url.Action("OrderDetails", "Orders", new { area = string.Empty, order.Id })'">@Html.DisplayFor(modelItem => order.Quantity)</td>
+                    <td class="deliveryAddressCol" style="color: black; width: 300px" onclick="location.href='@Url.Action("OrderDetails", "Orders", new { area = string.Empty, order.Id })'">@Html.DisplayFor(modelItem => order.Address)</td>
+                    <td class="productPriceCol" onclick="location.href='@Url.Action("OrderDetails", "Orders", new { area = string.Empty, order.Id })'">@order.TotalPrice $</td>
+                    <td class="orderStatusCol" style="color: @order.StatusColor;" onclick="location.href='@Url.Action("OrderDetails", "Orders", new { area = string.Empty, order.Id })'">@order.Status</td>
+                    <td class="optionButtonsCol" style="color: black;">
+                        <a class="btn btn-info" style="font-size: 15pt" asp-area="" asp-controller="Orders" asp-action="OrderDetails" asp-route-id="@order.Id">Details</a>
                     </td>
                 </tr>
             }
@@ -51,7 +50,6 @@ else
     <h1 style="text-align: center">There is no orders yet.</h1> 
     <br />
 }
-
 
 <div class="bottomPageButtons">
     <input class="btn btn-dark" style="font-size: 16pt; width: 20%;" value="Back" onclick="history.back()">

@@ -6,7 +6,10 @@
     this.ViewData["Title"] = "Edit Product";
 }
 
-<h1 class="userErrorMessage">@this.Model.UserMessage</h1>
+@if (!string.IsNullOrEmpty(this.Model.UserMessage))
+{
+    <h1 class="userErrorMessage">@this.Model.UserMessage</h1>
+}
 
 <h1 style="text-align:center"><strong>@this.ViewData["Title"]</strong></h1>
 <div class="row" style="backdrop-filter: blur(10px); border: 2px solid; border-color: white; border-radius: 15px">
@@ -32,12 +35,10 @@
             <div class="form-group">
                 <label for="CategoryName" class="control-label">Category</label>
                 <select id="CategoryId" name="CategoryName" class="form-select">
-                    @{
-                        <option value="@this.Model.ProductInfo.CategoryName">@this.Model.ProductInfo.CategoryName</option>
-                        foreach (var category in this.Model.Categories.Where(c => c.Name != this.Model.ProductInfo.CategoryName))
-                        {
-                            <option value="@category.Name">@category.Name</option>
-                        }
+                    <option value="@this.Model.ProductInfo.CategoryName">@this.Model.ProductInfo.CategoryName</option>
+                    @foreach (var category in this.Model.Categories.Where(c => c.Name != this.Model.ProductInfo.CategoryName))
+                    {
+                        <option value="@category.Name">@category.Name</option>
                     }
                 </select>
             </div>

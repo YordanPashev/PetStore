@@ -92,7 +92,7 @@
 
         public const string SuccessfullyUndeleteProductMessage = " is now available in the shop.";
 
-        // Edit User data Messages
+        // Edit User Data Messages
         public const string UserNameMinLengthMessage = "The name must be at least 3 characters";
 
         public const string UserNameMaxLengthMessage = "The name must be max 100 characters";
@@ -122,25 +122,16 @@
         // Order Messages
         public const string SuccessfullySendedOrder = "You order has been send. We will contact with you today for confirmation.";
 
-        // Order Critera
-        public const string CriteriaPriceAscending = "Price Ascending";
-
-        public const string CriteriaPriceDescending = "Price Descending";
-
-        public const string CriteriaType = "Type";
-
-        public const string CriteriaRecent = "Recent";
-
-        public const string CriteriaName = "Name";
+        public const string SuccessfullyChangedOrderStatus = "The status of the order has been changed to ";
 
         // Lists
         public static readonly string[] AllOrderCriteria = new ReadOnlyCollection<string>(new List<string>
                                                              {
-                                                                 CriteriaPriceAscending,
-                                                                 CriteriaPriceDescending,
-                                                                 CriteriaType,
-                                                                 CriteriaRecent,
-                                                                 CriteriaName,
+                                                                 OrderCriteria.PriceAscending,
+                                                                 OrderCriteria.PriceDescending,
+                                                                 OrderCriteria.Type,
+                                                                 OrderCriteria.Recent,
+                                                                 OrderCriteria.Name,
                                                              })
                                                              .ToArray();
 
@@ -152,5 +143,37 @@
                                                                                        { "Fish", GlobalConstants.FishTypeImage },
                                                                                        { "Rodent", GlobalConstants.RodentTypeImage },
                                                                                     });
+
+        public static readonly string[] AllOrderStatuses = new ReadOnlyCollection<string>(new List<string>
+                                                             {
+                                                                 OrderStatuses.Pending,
+                                                                 OrderStatuses.Dispatched,
+                                                                 OrderStatuses.Delivered,
+                                                             })
+                                                             .ToArray();
+
+        // Order Critera
+        public class OrderCriteria
+        {
+            public const string PriceAscending = "Price Ascending";
+
+            public const string PriceDescending = "Price Descending";
+
+            public const string Type = "Type";
+
+            public const string Recent = "Recent";
+
+            public const string Name = "Name";
+        }
+
+        // Order Messages
+        public class OrderStatuses
+        {
+            public const string Pending = "Pending";
+
+            public const string Dispatched = "Dispatched";
+
+            public const string Delivered = "Delivered";
+        }
     }
 }

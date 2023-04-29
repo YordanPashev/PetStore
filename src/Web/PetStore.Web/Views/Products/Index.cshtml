@@ -14,9 +14,7 @@
 
 @if (this.Model.UserMessage != null)
 {
-            <h1 class="userInfoMessage">
-        @this.Model.UserMessage
-    </h1>
+    <h1 class="userInfoMessage">@this.Model.UserMessage</h1>
 }
 
 @if (this.ViewBag.CategoryName == null && this.Model.CategoryName == null)

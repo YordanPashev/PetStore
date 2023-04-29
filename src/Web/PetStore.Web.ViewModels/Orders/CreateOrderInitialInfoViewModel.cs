@@ -4,7 +4,7 @@
 
     using PetStore.Data.Models.Enums;
 
-    public class OrderInfoViewModel
+    public class CreateOrderInitialInfoViewModel
     {
         [Required]
         public int Quantity { get; set; }

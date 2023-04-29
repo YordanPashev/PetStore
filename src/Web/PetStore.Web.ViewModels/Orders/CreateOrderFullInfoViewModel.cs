@@ -7,7 +7,7 @@
     using PetStore.Data.Models.Common;
     using PetStore.Data.Models.Enums;
 
-    public class CreateOrderViewModel
+    public class CreateOrderFullInfoViewModel
     {
         public string ClientId { get; set; }
 
