@@ -26,7 +26,7 @@
         <div class="petProperties"><i><strong>Date of birth:</strong></i> @this.Model.BirthDate.ToString(GlobalConstants.PetBirthDateFormat)</div>
         <div class="petPrice mt-2">Price: @Math.Round(this.Model.Price, 2) $</div>
         <div class="centerButton">
-            <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-area="" asp-controller="PetAppointments" asp-action="MakeAnAppointment" asp-route-id="@this.Model.Id">Makе an appointment</a>
+            <a class="btn btn-success mb-5" style="font-size: 18pt;" asp-area="" asp-controller="PetAppointments" asp-action="MakeAnAppointment" asp-route-id="@this.Model.Id">Schedule meeting</a>
         </div>
         <div class="mb-3" style="text-align:center"> 
             <a class="btn btn-dark" style="font-size: 16pt; float: left" asp-controller="Pets" asp-action="Index">All Pets</a>

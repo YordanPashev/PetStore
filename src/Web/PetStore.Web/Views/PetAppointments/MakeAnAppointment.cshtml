@@ -4,6 +4,7 @@
 
 @{
     this.ViewData["Title"] = "Make an appointment";
+    string appoitmentDefaultDate = DateTime.Now.ToString("s").Substring(0, 16);
 }
 
 @if (!string.IsNullOrEmpty(this.ViewBag.UserErrorMessage))
@@ -46,15 +47,11 @@
                 </div>
                 <br />
             }
-            <div class="form-group mb-3">
-                <label for="Price" class="control-label" style="font-size: 16pt; text-align: center; font-weight:bold;">Please select date and time for the appointment.
-                </label>
-                <label for="Price" class="control-label mb-4" style="font-size: 16pt; color: red; text-align: center; font-weight:bold; font-style: italic;">
-                        @GlobalConstants.ShopsInOpenedFromMessage
-                </label>
-                <input id="Appointment" value="" name="Appointment" class="form-control" type="datetime-local" required />
+            <div class="form-group mt-3 mb-3">
+                <label for="Appointment" class="control-label mb-4" style="font-size: 16pt; color: red; text-align: center; font-weight:bold; font-style: italic;">@GlobalConstants.ShopsInOpenedFromMessage</label>
+                <input id="Appointment" value="@appoitmentDefaultDate" name="Appointment" class="form-control" type="datetime-local" min="@appoitmentDefaultDate" required />
             </div>
-            <div class="d-grid gap-2 col-6 mx-auto mb-3">
+            <div class="d-grid gap-2 col-6 mb-3 mx-auto">
                 <input type="submit" value="Submit" class="btn btn-success" />
             </div>
         </form>

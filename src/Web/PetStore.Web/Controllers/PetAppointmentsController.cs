@@ -1,8 +1,6 @@
 ﻿namespace PetStore.Web.Controllers
 {
     using System;
-    using System.Drawing;
-    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -74,9 +72,11 @@
                 return this.RedirectToAction("MakeAnAppointment", "PetAppointments", new { area = string.Empty, pet.Id, userErrorMessage });
             }
 
-            if (!this.CheckIfAppointmentDateIsInWorkingDays(model.Appointment))
+            if (!this.CheckIfAppointmentValid(model.Appointment))
             {
-                string userErrorMessage = GlobalConstants.ShopsInOpenedFromMessage;
+                string userErrorMessage = new StringBuilder("Invalid date and time.")
+                                                .Append(GlobalConstants.ShopsInOpenedFromMessage)
+                                                .ToString();
 
                 return this.RedirectToAction("MakeAnAppointment", "PetAppointments", new { area = string.Empty, pet.Id, userErrorMessage });
             }
@@ -93,9 +93,10 @@
             return this.RedirectToAction("Details", "Pets", new { area = string.Empty, pet.Id, message });
         }
 
-        private bool CheckIfAppointmentDateIsInWorkingDays(DateTime appointment)
+        private bool CheckIfAppointmentValid(DateTime appointment)
         {
-            if (appointment.DayOfWeek == DayOfWeek.Sunday || appointment.Hour < 9 || appointment.Hour > 18)
+            if (appointment.DayOfWeek == DayOfWeek.Sunday || appointment.Date < DateTime.Now.Date ||
+                appointment.Hour < 9 || appointment.Hour > 18)
             {
                 return false;
             }
