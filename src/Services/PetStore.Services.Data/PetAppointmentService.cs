@@ -1,12 +1,16 @@
 ﻿namespace PetStore.Services.Data
 {
+    using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
 
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Appointment;
+    using PetStore.Web.ViewModels.PetAppointment;
 
     public class PetAppointmentService : IPetAppointmentService
     {
@@ -23,5 +27,27 @@
 
             await this.petAppointmentRepo.SaveChangesAsync();
         }
+
+        public async Task<bool> DoesClientHasAppointmenForSelectedPet(string clietnId, string petId)
+        {
+            PetApppointment appointment = await this.petAppointmentRepo.AllAsNoTracking()
+                                   .Include(ap => ap.Pet)
+                                   .Where(ap => ap.ClientId == clietnId &&
+                                                ap.Pet.Id == petId)
+                                   .FirstOrDefaultAsync();
+
+            if (appointment == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public IQueryable<PetApppointment> GetAllClientsAppointments(string clietnId)
+            => this.petAppointmentRepo.AllAsNoTracking()
+                             .Where(ap => ap.ClientId == clietnId)
+                             .Include(ap => ap.Pet)
+                             .OrderByDescending(ap => ap.CreatedOn);
     }
 }

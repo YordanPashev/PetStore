@@ -88,9 +88,9 @@
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                this.ViewBag.Message = GlobalConstants.AdminCantMakeOrdersMessage;
+                string message = GlobalConstants.AdminCantMakeOrdersMessage;
 
-                return this.View("NotFound");
+                return this.RedirectToAction("Index", "Home", new { area = string.Empty, message });
             }
 
             ApplicationUser user = await this.userManager.GetUserAsync(this.User);

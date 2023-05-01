@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using static System.Formats.Asn1.AsnWriter;
 
     public static class GlobalConstants
     {
@@ -14,7 +13,6 @@
 
         // Shop Info
         public const string ShopsInOpenedFromMessage = $"Shops is opened from {ShopWrokingDays} {ShopWrokingHours}.";
-
 
         // Account Statuses
         public const string AccountStatusActive = "Active";
@@ -130,6 +128,9 @@
         public const string SuccessfullySendedOrder = "You order has been send. We will contact with you today for confirmation.";
 
         public const string SuccessfullyChangedOrderStatus = "The status of the order has been changed to ";
+
+        // Pet Appointments
+        public const string UserAlreadyHasAnAppointmenForSelectedPet = "You already has an appoitnment for this pet. Go to Pet Appoitnments and check your pet meetings.";
 
         // Lists
         public static readonly string[] AllOrderCriteria = new ReadOnlyCollection<string>(new List<string>

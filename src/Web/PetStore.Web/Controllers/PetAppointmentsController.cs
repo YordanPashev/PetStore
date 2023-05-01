@@ -7,12 +7,13 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.EntityFrameworkCore;
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Appointment;
+    using PetStore.Web.ViewModels.PetAppointment;
     using PetStore.Web.ViewModels.Pets;
 
     public class PetAppointmentsController : Controller
@@ -35,12 +36,21 @@
 
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                this.ViewBag.Message = GlobalConstants.AdminCantMakepetAppointmentsMessage;
+                string message = GlobalConstants.AdminCantMakepetAppointmentsMessage;
 
-                return this.View("NotFound");
+                return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id, message });
             }
 
-            MakeAnPetAppointmentViewModel model = await this.GreateMakeAnPetAppointmentViewModel(petId);
+            ApplicationUser user = await this.userManager.GetUserAsync(this.User);
+
+            if (await this.CheckIfCleintAlreadyHasAnAppointmenForSelectedPet(user.Id, petId))
+            {
+                string message = GlobalConstants.UserAlreadyHasAnAppointmenForSelectedPet;
+
+                return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id, message });
+            }
+
+            MakeAnPetAppointmentViewModel model = await this.GreateMakeAnPetAppointmentViewModel(petId, user);
 
             if (model.Pet == null)
             {
@@ -84,9 +94,37 @@
 
             await this.petAppointmentService.AddPetAppointmentToDb(model);
 
-            string message = this.GetSuccessfulyRegistratedAppointmentMessage(model.Pet.Name, model.Appointment);
+            string message = this.GetSuccessfulyRegistratedAppointmentMessage(pet.Name, model.Appointment);
 
             return this.RedirectToAction("Details", "Pets", new { area = string.Empty, pet.Id, message });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ClientPetAppointments(string id, string userErrorMessage = null)
+        {
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                string message = GlobalConstants.AdminCantMakepetAppointmentsMessage;
+
+                return this.RedirectToAction("Index", "Home", new { area = string.Empty, message });
+            }
+
+            ApplicationUser user = await this.userManager.GetUserAsync(this.User);
+            ClientAppointmentInfoViewModel[] model = await this.petAppointmentService.GetAllClientsAppointments(user.Id)
+                                                                .To<ClientAppointmentInfoViewModel>()
+                                                                .ToArrayAsync();
+
+            return this.View(model);
+        }
+
+        private async Task<bool> CheckIfCleintAlreadyHasAnAppointmenForSelectedPet(string clientId, string petId)
+        {
+            if (await this.petAppointmentService.DoesClientHasAppointmenForSelectedPet(clientId, petId))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private string GetSuccessfulyRegistratedAppointmentMessage(string petName, DateTime appointment)
@@ -108,7 +146,7 @@
             return true;
         }
 
-        private async Task<MakeAnPetAppointmentViewModel> GreateMakeAnPetAppointmentViewModel(string petId)
+        private async Task<MakeAnPetAppointmentViewModel> GreateMakeAnPetAppointmentViewModel(string petId, ApplicationUser user)
         {
             Pet pet = await this.petService.GetPetByIdAsync(petId);
 
@@ -121,8 +159,6 @@
 
             if (this.User.Identity.IsAuthenticated)
             {
-                ApplicationUser user = await this.userManager.GetUserAsync(this.User);
-
                 model.ClientId = user.Id;
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;

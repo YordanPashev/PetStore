@@ -11,6 +11,7 @@
         public IActionResult Index(string message = null)
         {
             this.ViewBag.Message = message;
+
             return this.View();
         }
 
