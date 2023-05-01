@@ -1,6 +1,7 @@
 ﻿namespace PetStore.Web.Controllers
 {
     using System;
+    using System.Drawing;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -83,15 +84,18 @@
 
             await this.petAppointmentService.AddPetAppointmentToDb(model);
 
-            string message = new StringBuilder("You made an appointment to meet ")
-                                    .Append(pet.Name)
-                                    .Append(" on ")
-                                    .Append(model.Appointment.ToString("dddd, dd MMMM yyyy h:mm tt"))
-                                    .Append('.')
-                                    .ToString();
+            string message = this.GetSuccessfulyRegistratedAppointmentMessage(model.Pet.Name, model.Appointment);
 
             return this.RedirectToAction("Details", "Pets", new { area = string.Empty, pet.Id, message });
         }
+
+        private string GetSuccessfulyRegistratedAppointmentMessage(string petName, DateTime appointment)
+            => new StringBuilder("You made an appointment to meet ")
+                                    .Append(petName)
+                                    .Append(" on ")
+                                    .Append(appointment.ToString("dddd, dd MMMM yyyy h:mm tt"))
+                                    .Append('.')
+                                    .ToString();
 
         private bool CheckIfAppointmentValid(DateTime appointment)
         {

@@ -35,8 +35,25 @@
         public DateTime Appointment { get; set; }
 
         [Required]
+        public string FistAvailableForAppointment => this.GetFistAvailableForAppointment();
+
+        [Required]
         public string PetId { get; set; }
 
         public PetDetailsViewModel Pet { get; set; }
+
+        private string GetFistAvailableForAppointment()
+        {
+            DateTime dateTimeNowPlusOneDay = DateTime.Now.AddDays(1);
+            DateTime firstavailableDate = dateTimeNowPlusOneDay.DayOfWeek == DayOfWeek.Sunday
+                                            ? dateTimeNowPlusOneDay.AddDays(1)
+                                            : dateTimeNowPlusOneDay;
+
+            DateTime result = new DateTime(firstavailableDate.Year, firstavailableDate.Month,
+                                           firstavailableDate.Day, 9, 00, 00, 00,
+                                           firstavailableDate.Kind);
+
+            return result.ToString("s").Substring(0, 16);
+        }
     }
 }

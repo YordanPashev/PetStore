@@ -4,7 +4,6 @@
 
 @{
     this.ViewData["Title"] = "Make an appointment";
-    string appoitmentDefaultDate = DateTime.Now.ToString("s").Substring(0, 16);
 }
 
 @if (!string.IsNullOrEmpty(this.ViewBag.UserErrorMessage))
@@ -49,7 +48,7 @@
             }
             <div class="form-group mt-3 mb-3">
                 <label for="Appointment" class="control-label mb-4" style="font-size: 16pt; color: red; text-align: center; font-weight:bold; font-style: italic;">@GlobalConstants.ShopsInOpenedFromMessage</label>
-                <input id="Appointment" value="@appoitmentDefaultDate" name="Appointment" class="form-control" type="datetime-local" min="@appoitmentDefaultDate" required />
+                <input id="Appointment" value="@this.Model.FistAvailableForAppointment" name="Appointment" class="form-control" type="datetime-local" min="@this.Model.FistAvailableForAppointment" required />
             </div>
             <div class="d-grid gap-2 col-6 mb-3 mx-auto">
                 <input type="submit" value="Submit" class="btn btn-success" />
