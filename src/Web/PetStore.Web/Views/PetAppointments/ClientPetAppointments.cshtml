@@ -4,7 +4,7 @@
 @model ClientAppointmentInfoViewModel[]
 
 @{
-    this.ViewData["Title"] = "My Appoitnments";
+    this.ViewData["Title"] = "My Pet Appoitnments";
 }
 
 @if (this.Model.Length > 0)
@@ -16,9 +16,9 @@
             <tr>
                 <th class="firstTwoLabelCols">Pet</th>
                 <th class="firstTwoLabelCols">Name</th>
-                <th class="lastThreeLabelCols">Type</th>
-                <th class="lastThreeLabelCols">Breed</th>
-                <th class="lastThreeLabelCols">Age</th>
+                <th class="firstTwoLabelCols">Type</th>
+                <th class="firstTwoLabelCols">Breed</th>
+                <th class="firstTwoLabelCols">Age</th>
                 <th class="lastThreeLabelCols">Appointment</th>
             </tr>
         </thead>
@@ -28,10 +28,10 @@
                 <tr name="trData">
                     <td><img src="@appointmentInfo.Pet.ImageUrl" alt="No Image" style="height: 120px; width: 160px;"></td>
                     <td class="productNameCol">@Html.DisplayFor(modelItem => appointmentInfo.Pet.Name)</td>
-                    <td class="categoryNameCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.TypeName)</td>
-                    <td class="quantityCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.Breed)</td>
-                    <td class="deliveryAddressCol" style="color: black; width: 300px">@Html.DisplayFor(modelItem => appointmentInfo.Pet.AgeInTextFormat)</td>
-                    <td class="deliveryAddressCol" style="color: black; width: 300px">@appointmentInfo.Appointment.ToString("dd, MM , yyyy h:mm tt")</td>
+                    <td class="productNameCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.TypeName)</td>
+                    <td class="productNameCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.Breed)</td>
+                    <td class="productNameCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.AgeInTextFormat)</td>
+                    <td class="deliveryAddressCol" style="color: black; width: 350px">@appointmentInfo.Appointment.ToString("dd/MM/yyyy h:mm tt")</td>
                 </tr>
             }
         </tbody>
