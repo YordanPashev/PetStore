@@ -16,7 +16,6 @@
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Orders;
-    using PetStore.Web.ViewModels.Pets;
     using PetStore.Web.ViewModels.User;
 
     public class OrdersController : Controller
@@ -37,21 +36,22 @@
         [HttpGet]
         public async Task<IActionResult> CreateNewOrder(CreateOrderInitialInfoViewModel orderInfo, string userErrorMessage = null)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                this.ViewBag.Message = GlobalConstants.AdminCantMakeOrdersMessage;
-
-                return this.View("NotFound");
-            }
-
-            CreateOrderFullInfoViewModel model = await this.CreateOrderDetailsViewModel(orderInfo.ProductId, orderInfo.Quantity);
-
-            if (model.ProductId == null || model.Quantity <= 0)
+            if (orderInfo.ProductId == null || orderInfo.Quantity <= 0)
             {
                 this.ViewBag.Message = "No Product found or Invalid Quantity!";
 
                 return this.View("NotFound");
             }
+
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                string message = GlobalConstants.AdminCantMakeOrdersMessage;
+                string id = orderInfo.ProductId;
+
+                return this.RedirectToAction("Details", "Products", new { area = string.Empty, id, message });
+            }
+
+            CreateOrderFullInfoViewModel model = await this.CreateOrderDetailsViewModel(orderInfo.ProductId, orderInfo.Quantity);
 
             this.ViewBag.UserErrorMessage = userErrorMessage;
 
@@ -61,14 +61,22 @@
         [HttpPost]
         public async Task<IActionResult> CreateNewOrder(CreateOrderFullInfoViewModel orderDetails)
         {
-            CreateOrderFullInfoViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity, orderDetails);
-
-            if (model.Quantity <= 0 || model.ProductId == null || model.Status != OrderStatus.Pending)
+            if (orderDetails.Quantity <= 0 || orderDetails.ProductId == null || orderDetails.Status != OrderStatus.Pending)
             {
                 this.ViewBag.Message = "No Product found or Invalid Quantity!";
 
                 return this.View("NotFound");
             }
+
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                string message = GlobalConstants.AdminCantMakeOrdersMessage;
+                string id = orderDetails.ProductId;
+
+                return this.RedirectToAction("Details", "Products", new { area = string.Empty, id, message });
+            }
+
+            CreateOrderFullInfoViewModel model = await this.CreateOrderDetailsViewModel(orderDetails.ProductId, orderDetails.Quantity, orderDetails);
 
             if (!this.ModelState.IsValid)
             {

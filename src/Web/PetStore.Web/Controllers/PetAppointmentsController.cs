@@ -34,21 +34,7 @@
         {
             string petId = id;
 
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                string message = GlobalConstants.AdminCantMakepetAppointmentsMessage;
-
-                return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id, message });
-            }
-
             ApplicationUser user = await this.userManager.GetUserAsync(this.User);
-
-            if (await this.CheckIfCleintAlreadyHasAnAppointmenForSelectedPet(user.Id, petId))
-            {
-                string message = GlobalConstants.UserAlreadyHasAnAppointmenForSelectedPet;
-
-                return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id, message });
-            }
 
             MakeAnPetAppointmentViewModel model = await this.GreateMakeAnPetAppointmentViewModel(petId, user);
 
@@ -57,6 +43,23 @@
                 this.ViewBag.Message = "No Pet found!";
 
                 return this.View("NotFound");
+            }
+
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                string message = GlobalConstants.AdminCantMakepetAppointmentsMessage;
+
+                return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id, message });
+            }
+
+            if (user != null)
+            {
+                if (await this.CheckIfCleintAlreadyHasAnAppointmenForSelectedPet(user.Id, petId))
+                {
+                    string message = GlobalConstants.UserAlreadyHasAnAppointmenForSelectedPet;
+
+                    return this.RedirectToAction("Details", "Pets", new { area = string.Empty, id, message });
+                }
             }
 
             this.ViewBag.UserErrorMessage = userErrorMessage;
