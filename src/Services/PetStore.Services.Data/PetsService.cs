@@ -117,10 +117,11 @@
                     .Where(p => p.IsDeleted)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<Pet> GetPetByIdAsync(string id)
+        public async Task<Pet> GetPetByIdAsync(string petId, string userId)
             => await this.petsRepo
                     .AllAsNoTracking()
-                    .FirstOrDefaultAsync(p => p.Id == id);
+                    .Include(p => p.PetApppointments.Where(pa => pa.ClientId == userId))
+                    .FirstOrDefaultAsync(p => p.Id == petId);
 
         public async Task<Pet> GetPetByIdForEditAsync(string id)
             => await this.petsRepo

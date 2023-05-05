@@ -1,7 +1,6 @@
 ﻿namespace PetStore.Web.ViewModels.Pets
 {
     using System;
-    using System.Text;
 
     using PetStore.Common;
     using PetStore.Data.Models;
@@ -43,5 +42,7 @@
         public DateTime? ModifiedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public string UserHasAppointmentForThisPetMessage { get; set; }
     }
 }

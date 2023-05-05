@@ -70,7 +70,7 @@
         [HttpPost]
         public async Task<IActionResult> MakeAnAppointment(MakeAnPetAppointmentViewModel model)
         {
-            Pet pet = await this.petService.GetPetByIdAsync(model.PetId);
+            Pet pet = await this.petService.GetPetByIdAsync(model.PetId, string.Empty);
 
             if (pet == null)
             {
@@ -113,8 +113,8 @@
             }
 
             ApplicationUser user = await this.userManager.GetUserAsync(this.User);
-            ClientAppointmentInfoViewModel[] model = await this.petAppointmentService.GetAllClientsAppointments(user.Id)
-                                                                .To<ClientAppointmentInfoViewModel>()
+            PetAppointmentShortInfoViewModel[] model = await this.petAppointmentService.GetAllClientsAppointments(user.Id)
+                                                                .To<PetAppointmentShortInfoViewModel>()
                                                                 .ToArrayAsync();
 
             return this.View(model);
@@ -151,7 +151,7 @@
 
         private async Task<MakeAnPetAppointmentViewModel> GreateMakeAnPetAppointmentViewModel(string petId, ApplicationUser user)
         {
-            Pet pet = await this.petService.GetPetByIdAsync(petId);
+            Pet pet = await this.petService.GetPetByIdAsync(petId, string.Empty);
 
             MakeAnPetAppointmentViewModel model = new MakeAnPetAppointmentViewModel();
 

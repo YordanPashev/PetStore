@@ -2,6 +2,7 @@
 namespace PetStore.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using PetStore.Data.Common.Models;
@@ -34,5 +35,7 @@ namespace PetStore.Data.Models
 
         [Required]
         public PetType Type { get; set; }
+
+        public virtual ICollection<PetApppointment> PetApppointments { get; set; }
     }
 }

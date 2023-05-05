@@ -5,6 +5,7 @@
 
     using PetStore.Data.Models;
     using PetStore.Web.ViewModels.Appointment;
+    using PetStore.Web.ViewModels.PetAppointment;
 
     public interface IPetAppointmentService
     {
@@ -13,5 +14,9 @@
         Task<bool> DoesClientHasAppointmenForSelectedPet(string clientId, string petId);
 
         IQueryable<PetApppointment> GetAllClientsAppointments(string clietnId);
+
+        IQueryable<PetApppointment> GetAllAppointments();
+
+        Task<PetApppointment> GetPetAppointmentByIdAsync(string id);
     }
 }

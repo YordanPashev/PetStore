@@ -1,0 +1,55 @@
+﻿@using PetStore.Common
+@using PetStore.Data.Models.Common
+@model PetStore.Web.ViewModels.PetAppointment.PetAppointmentDetailsViewModel
+
+@{
+    this.ViewData["Title"] = "Pet Appointment Details";
+}
+
+<h1 class="text-center"><strong>@this.ViewData["Title"]</strong></h1>
+
+<table class="table table-striped">
+    <tr name="trData">
+        <td style="width: 450px"></td>
+        <td style="font-size:24px; width: 200px"><strong>Full Name:</strong></td>
+        <td style="font-size:24px;"><i>@this.Model.FirstName @this.Model.LastName</i></td>
+    </tr>
+    <tr name="trData">
+        <td></td>
+        <td style="font-size:24px;"><strong>Email:</strong></td>
+        <td style="font-size:24px;"><i>@this.Model.Email</i></td>
+    </tr>
+    <tr name="trData">
+        <td></td>
+        <td style="font-size:24px;"><strong>Phone Number:</strong></td>
+        <td style="font-size:24px;"><i>@this.Model.PhoneNumber</i></td>
+    </tr>
+    <tr name="trData">
+        <td></td>
+        <td style="font-size:24px;"><strong>Appointment:</strong></td>
+        <td style="font-size:24px;"><i>@this.Model.Appointment.ToString(GlobalConstants.PetAppointmentDateFormat)</i></td>
+    </tr>
+    <tr name="trData">
+        <td></td>   
+        <td style="font-size:24px;"><strong>Created on:</strong></td>
+        <td style="font-size:24px;"><i>@this.Model.CreatedOn.ToString(GlobalConstants.DefaultDateDateFormat)</i></td>
+    </tr>
+</table>
+
+<h2 style="text-align: center; font-weight: bold; font-style:italic">Pet:</h2>
+<table class="table table-striped">
+    <tr>
+        <th class="firstTwoLabelCols">Pet</th>
+        <th class="firstTwoLabelCols">Name</th>
+        <th class="lastThreeLabelCols" style="color: gray;">Pet Ttpe</th>
+        <th class="lastThreeLabelCols">Details</th>
+    </tr>
+    <tr name="trData">
+        <td><img src="@Model.Pet.ImageUrl" alt="No Image" style="height: 120px; width: 160px;"></td>
+        <td class="productNameCol">@Html.DisplayFor(modelItem => Model.Pet.Name)</td>
+        <td class="categoryNameCol">@Html.DisplayFor(modelItem => Model.Pet.TypeName)</td>
+        <td class="optionButtonsCol">
+            <a class="btn btn-info" style="font-size: 15pt" asp-area="" asp-controller="Pets" asp-action="Details" asp-route-id="@Model.Pet.Id">Details</a>
+        </td>
+    </tr>
+</table>

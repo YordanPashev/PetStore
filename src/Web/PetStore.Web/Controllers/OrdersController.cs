@@ -1,7 +1,5 @@
 ﻿namespace PetStore.Web.Controllers
 {
-    using System.Collections.Generic;
-    using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
 

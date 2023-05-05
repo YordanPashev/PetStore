@@ -10,7 +10,6 @@
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Appointment;
-    using PetStore.Web.ViewModels.PetAppointment;
 
     public class PetAppointmentService : IPetAppointmentService
     {
@@ -44,10 +43,21 @@
             return true;
         }
 
+        public IQueryable<PetApppointment> GetAllAppointments()
+                    => this.petAppointmentRepo.AllAsNoTracking()
+                             .Include(ap => ap.Pet)
+                             .OrderByDescending(ap => ap.CreatedOn);
+
         public IQueryable<PetApppointment> GetAllClientsAppointments(string clietnId)
             => this.petAppointmentRepo.AllAsNoTracking()
                              .Where(ap => ap.ClientId == clietnId)
                              .Include(ap => ap.Pet)
                              .OrderByDescending(ap => ap.CreatedOn);
+
+        public async Task<PetApppointment> GetPetAppointmentByIdAsync(string id)
+            => await this.petAppointmentRepo.AllAsNoTracking()
+                             .Where(ap => ap.Id == id)
+                             .Include(ap => ap.Pet)
+                             .FirstOrDefaultAsync();
     }
 }

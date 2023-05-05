@@ -15,6 +15,14 @@
     <br/>
 }
 
+@if (this.Model.UserHasAppointmentForThisPetMessage != null)
+{
+    <h1 class="userInfoMessage">
+        <i>@this.Model.UserHasAppointmentForThisPetMessage</i>
+    </h1>
+    <br />
+}
+
 <h1 style="text-align:center"><strong>@this.ViewData["Title"]</strong></h1>
 <h4 class="petTypeHeader"><i>Type: @this.Model.Type</i></h4>
 <div class="d-flex justify-content-center container mt-3">

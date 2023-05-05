@@ -31,7 +31,7 @@
 
         Task<Pet> GetDeletedPetByIdAsyncNoTracking(string id);
 
-        Task<Pet> GetPetByIdAsync(string id);
+        Task<Pet> GetPetByIdAsync(string petId, string userId);
 
         Task<Pet> GetPetByIdForEditAsync(string id);
 

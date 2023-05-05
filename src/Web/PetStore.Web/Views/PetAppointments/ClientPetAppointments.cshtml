@@ -1,7 +1,7 @@
 ﻿@using PetStore.Common
 @using PetStore.Data.Models.Common
 @using PetStore.Web.ViewModels.PetAppointment
-@model ClientAppointmentInfoViewModel[]
+@model PetAppointmentShortInfoViewModel[]
 
 @{
     this.ViewData["Title"] = "My Pet Appoitnments";
@@ -31,7 +31,7 @@
                     <td class="productNameCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.TypeName)</td>
                     <td class="productNameCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.Breed)</td>
                     <td class="productNameCol" style="color: black;">@Html.DisplayFor(modelItem => appointmentInfo.Pet.AgeInTextFormat)</td>
-                    <td class="deliveryAddressCol" style="color: black; width: 350px">@appointmentInfo.Appointment.ToString("dd/MM/yyyy h:mm tt")</td>
+                    <td class="deliveryAddressCol" style="color: black; width: 350px">@appointmentInfo.Appointment.ToString(GlobalConstants.PetAppointmentDateFormat)</td>
                 </tr>
             }
         </tbody>
@@ -43,13 +43,6 @@ else
     <br />
 }
 
-
 <div class="bottomPageButtons">
     <input class="btn btn-dark" style="font-size: 16pt; width: 20%;" value="Back" onclick="history.back()">
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

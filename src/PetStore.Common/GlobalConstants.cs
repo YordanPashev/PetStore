@@ -132,6 +132,10 @@
         // Pet Appointments
         public const string UserAlreadyHasAnAppointmenForSelectedPet = "You already has an appoitnment for this pet. Go to Pet Appoitnments and check your pet meetings.";
 
+        public const string PetAppointmentDateFormat = "dd/MM/yyyy h:mm tt";
+
+        public const string UserHasAppointmentForThisPetMessage = "You have an appointment to meet this pet on ";
+
         // Lists
         public static readonly string[] AllOrderCriteria = new ReadOnlyCollection<string>(new List<string>
                                                              {

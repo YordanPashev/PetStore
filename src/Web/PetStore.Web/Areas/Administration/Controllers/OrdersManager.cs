@@ -37,6 +37,7 @@
             if (order == null || !Enum.IsDefined(typeof(OrderStatus), model.Status))
             {
                 this.ViewBag.Message = "Invalid Data. No order found.";
+
                 return this.View("NotFound");
             }
 
@@ -45,19 +46,19 @@
             if (model.Status == order.Status.ToString())
             {
                 userMessage = new StringBuilder("The status of the order is ")
-                                                            .Append(model.Status)
-                                                            .Append('.')
-                                                            .Append(" If you want to change the status please choose a different one.")
-                                                            .ToString();
+                                    .Append(model.Status)
+                                    .Append('.')
+                                    .Append(" If you want to change the status please choose a different one.")
+                                    .ToString();
             }
             else
             {
                 await this.ordersService.ChangeOrderStatus(order, model.Status);
 
                 userMessage = new StringBuilder(GlobalConstants.SuccessfullyChangedOrderStatus)
-                                                            .Append(model.Status)
-                                                            .Append('.')
-                                                            .ToString();
+                                    .Append(model.Status)
+                                    .Append('.')
+                                    .ToString();
             }
 
             return this.RedirectToAction("OrderDetails", "Orders", new { area = string.Empty, id = model.Id, userMessage });
