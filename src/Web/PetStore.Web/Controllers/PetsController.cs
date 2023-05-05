@@ -43,11 +43,18 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id, string message = null)
         {
-            ApplicationUser user = await this.userManager.GetUserAsync(this.User);
-            Pet pet = await this.petsService.GetPetByIdAsync(id, user.Id);
+            string userId = string.Empty;
+
+            if (this.User.Identity.IsAuthenticated && !this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                ApplicationUser user = await this.userManager.GetUserAsync(this.User);
+                userId = user.Id;
+            }
+
+            Pet pet = await this.petsService.GetPetByIdAsync(id, userId);
             PetDetailsViewModel model = AutoMapperConfig.MapperInstance.Map<PetDetailsViewModel>(pet);
 
-            if (pet.PetApppointments != null)
+            if (pet.PetApppointments != null && pet.PetApppointments.Count > 0)
             {
                 string userPetAppointmentDateTime = pet.PetApppointments.FirstOrDefault().Appointment.ToString(GlobalConstants.PetAppointmentDateFormat);
                 model.UserHasAppointmentForThisPetMessage = new StringBuilder(GlobalConstants.UserHasAppointmentForThisPetMessage)
