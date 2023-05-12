@@ -22,6 +22,7 @@
             this.repository = repository;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var settings = this.settingsService.GetAll<SettingViewModel>();
@@ -29,6 +30,7 @@
             return this.View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> InsertSetting()
         {
             var random = new Random();

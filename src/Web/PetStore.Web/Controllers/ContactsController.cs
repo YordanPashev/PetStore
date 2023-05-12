@@ -17,6 +17,7 @@
         public ContactsController(IRequestsService requestsService)
             => this.requestsService = requestsService;
 
+        [HttpGet]
         public IActionResult Index()
             => this.View();
 

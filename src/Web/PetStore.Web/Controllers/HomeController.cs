@@ -8,6 +8,7 @@
 
     public class HomeController : BaseController
     {
+        [HttpGet]
         public IActionResult Index(string message = null)
         {
             this.ViewBag.Message = message;
@@ -15,9 +16,11 @@
             return this.View();
         }
 
+        [HttpGet]
         public IActionResult Privacy()
             => this.View();
 
+        [HttpGet]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

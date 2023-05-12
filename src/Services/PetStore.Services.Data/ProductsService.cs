@@ -8,7 +8,6 @@
     using PetStore.Common;
     using PetStore.Data.Common.Repositories;
     using PetStore.Data.Models;
-    using PetStore.Services.Mapping;
     using PetStore.Web.ViewModels.Products;
 
     public class ProductsService : IProductsService

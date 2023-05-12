@@ -21,6 +21,7 @@
         public OrdersManager(IOrdersService ordersService)
             => this.ordersService = ordersService;
 
+        [HttpGet]
         public async Task<IActionResult> AllOrders()
         {
             OrderShortInfoViewModel[] model = await this.ordersService.GetAllOrders()
@@ -30,6 +31,7 @@
             return this.View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> ChangeOrderStatus(OrderFullDetailsViewModel model)
         {
             Order order = await this.ordersService.GetOrderByIdForEditAsync(model.Id);

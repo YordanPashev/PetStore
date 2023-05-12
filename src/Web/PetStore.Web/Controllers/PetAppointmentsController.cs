@@ -1,13 +1,13 @@
 ﻿namespace PetStore.Web.Controllers
 {
     using System;
-    using System.Drawing;
     using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;

@@ -1,6 +1,5 @@
 ﻿namespace PetStore.Web.Areas.Administration.Controllers
 {
-    using System.Threading;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,6 @@
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
     using PetStore.Services.Mapping;
-    using PetStore.Web.ViewModels.Orders;
     using PetStore.Web.ViewModels.PetAppointment;
 
     public class PetAppointmentsManagerController : AdministrationController
@@ -18,6 +16,7 @@
         public PetAppointmentsManagerController(IPetAppointmentService petAppointmentService)
             => this.petAppointmentService = petAppointmentService;
 
+        [HttpGet]
         public async Task<IActionResult> AllPetAppointmnets()
         {
             PetAppointmentShortInfoViewModel[] model = await this.petAppointmentService.GetAllAppointments()
@@ -27,6 +26,7 @@
             return this.View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> PetAppointmentDetails(string id)
         {
             PetApppointment petAppointment = await this.petAppointmentService.GetPetAppointmentByIdAsync(id);

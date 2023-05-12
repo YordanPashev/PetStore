@@ -5,7 +5,6 @@
 
     using PetStore.Data.Models;
     using PetStore.Web.ViewModels.Appointment;
-    using PetStore.Web.ViewModels.PetAppointment;
 
     public interface IPetAppointmentService
     {

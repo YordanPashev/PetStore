@@ -6,6 +6,7 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+
     using PetStore.Common;
     using PetStore.Data.Models;
     using PetStore.Services.Data.Contracts;
@@ -27,6 +28,7 @@
             this.userManager = userManager;
         }
 
+        [HttpGet]
         public IActionResult Index(SearchAndSortPetViewModel searchAndSortModel, string message = null)
         {
             ListOfPetsViewModel model = new ListOfPetsViewModel()

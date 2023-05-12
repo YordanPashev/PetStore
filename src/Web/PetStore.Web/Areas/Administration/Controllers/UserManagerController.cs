@@ -22,6 +22,7 @@
             this.userService = userService;
         }
 
+        [HttpGet]
         public IActionResult Index(string message = null)
         {
             UserShortInfoViewModel[] model = this.administrationService.GetAllUsersWithDeleted().To<UserShortInfoViewModel>().ToArray();
@@ -34,6 +35,7 @@
             return this.View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> AccountDetails(string id)
         {
             UserDetailsViewModel model = await this.userService.GetUserByIdWtihDeactivatedAsycn(id);
@@ -46,6 +48,7 @@
             return this.View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> ActivateAcccountResult(string id)
         {
             ApplicationUser user = await this.administrationService.GetInctiveUserByIdForEditAsync(id);

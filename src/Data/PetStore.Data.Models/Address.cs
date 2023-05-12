@@ -10,8 +10,7 @@ namespace PetStore.Data.Models
 
     public class Address : BaseDeletableModel<string>
     {
-        public Address()
-            => this.Clients = new HashSet<ApplicationUser>();
+        public Address() => this.Clients = new HashSet<ApplicationUser>();
 
         [Key]
         public string Id { get; set; }
