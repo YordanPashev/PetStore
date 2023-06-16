@@ -16,7 +16,7 @@
 
 @if (this.Model.ListOfPets != null && this.Model.ListOfPets.Count > 0)
 {
-    <form method="get" asp-controller="PetsManager" asp-action="DeletedPets">
+    <form method="get" asp-controller="PetsManager" asp-action="DeletedPets" autocomplete="off">
         <div class="container mt-2">
             <div class="row align-items-start">
                 <div class="col-md-4 justify-content-start">

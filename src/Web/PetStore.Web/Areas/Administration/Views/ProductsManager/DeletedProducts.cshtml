@@ -16,7 +16,7 @@
 
 @if (this.Model.ListOfProducts == null || this.Model.ListOfProducts.Count > 0)
 {
-	<form method="get" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts">
+    <form method="get" asp-area="Administration" asp-controller="ProductsManager" asp-action="DeletedProducts" autocomplete="off">
         <div class="container mt-2">
             <div class="row align-items-start">
                 <div class="col-md-4 justify-content-start">
