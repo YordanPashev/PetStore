@@ -19,9 +19,9 @@
 
         public async Task AddProductAsync(Product product)
         {
-           product.Price = Math.Round(product.Price, 2);
-           await this.productRepo.AddAsync(product);
-           await this.productRepo.SaveChangesAsync();
+            product.Price = Math.Round(product.Price, 2);
+            await this.productRepo.AddAsync(product);
+            await this.productRepo.SaveChangesAsync();
         }
 
         public async Task DeleteProductAsync(Product product)
